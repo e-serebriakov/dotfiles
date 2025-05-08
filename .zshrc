@@ -58,3 +58,7 @@ if command -v starship > /dev/null 2>&1; then
 elif [ -f ~/.local/bin/starship ]; then
   eval "$(~/.local/bin/starship init zsh)"
 fi
+
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
