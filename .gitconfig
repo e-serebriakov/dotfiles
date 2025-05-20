@@ -1,0 +1,60 @@
+[user]
+  name = Evgenii Serebriakov
+  email = 14977072+e-serebriakov@users.noreply.github.com
+    
+[core]
+  autocrlf = input
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+
+[credential]
+  helper = store
+
+[color]
+  diff   = auto
+  status = auto
+  branch = auto
+
+[branch]
+  autosetuprebase = always
+
+[init]
+  defaultBranch = main
+
+[gpg]
+  format = ssh
+
+[commit]
+  gpgsign = true
+
+[push]
+  autosetupremote = true
+  default = current
+  followtags = true
+
+[pull]
+  default = current
+
+[rebase]
+  autoStash = true
+
+[rerere]
+  enabled = true
+
+[diff]
+  external = difft
+  algorithm = histogram
+  colorMoved = true
+  indentHeuristic = true
+
+[help]
+  autocorrect = 5
+
+[gpg "ssh"]
+  defaultKeyCommand = ssh-add -L | grep 'sign'
+  allowedSignersFile = ~/.ssh/allowed_signers
+
+[tag]
+  gpgSign = true
+
