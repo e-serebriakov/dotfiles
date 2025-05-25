@@ -1,6 +1,7 @@
 [user]
   name = Evgenii Serebriakov
   email = 14977072+e-serebriakov@users.noreply.github.com
+  signingkey = ~/.ssh/sign.pub
     
 [core]
   autocrlf = input
@@ -52,7 +53,6 @@
   autocorrect = 5
 
 [gpg "ssh"]
-  defaultKeyCommand = ssh-add -L | grep 'sign'
   allowedSignersFile = ~/.ssh/allowed_signers
 
 [tag]
