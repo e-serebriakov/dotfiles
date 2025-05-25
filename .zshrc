@@ -52,6 +52,32 @@ alias gsp='git show'
 alias gt='git tag'
 alias grh='git reset'
 
+# ===== ssh-agent autostart with multiple keys (robust) =====
+if [ -z "$SSH_AUTH_SOCK" ] || ! [ -S "$SSH_AUTH_SOCK" ]; then
+  echo "[ssh-init] ssh-agent not running, starting new one..."
+  eval "$(ssh-agent -s)" > /dev/null
+fi
+
+if [ -S "$SSH_AUTH_SOCK" ]; then
+  SSH_KEYS=(
+    "$HOME/.ssh/auth"
+    "$HOME/.ssh/gh_auth"
+    "$HOME/.ssh/sign"
+  )
+
+  for key in "${SSH_KEYS[@]}"; do
+    if [ -f "$key" ]; then
+      if ! ssh-add -l 2>/dev/null | grep -q "$(ssh-keygen -lf "$key" | awk '{print $2}')" ; then
+        ssh-add "$key" > /dev/null && echo "[ssh-init] Added: $key"
+      fi
+    else
+      echo "[ssh-init] A key was not found: $key" >&2
+    fi
+  done
+else
+  echo "[ssh-init] ssh-agent socket not found or invalid: $SSH_AUTH_SOCK" >&2
+fi
+
 # Prompt
 if command -v starship > /dev/null 2>&1; then
   eval "$(starship init zsh)"
@@ -62,3 +88,5 @@ fi
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
+
+
