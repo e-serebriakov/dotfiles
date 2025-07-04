@@ -33,6 +33,10 @@ return {
       lua = { 'stylua' },
       clojure = { 'cljfmt' },
       json = { 'jq' },
+      javascript = { 'biome' },
+      javascriptreact = { 'biome' },
+      typescript = { 'biome' },
+      typescriptreact = { 'biome' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --
