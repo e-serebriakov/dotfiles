@@ -1,6 +1,7 @@
 return {
   'windwp/nvim-autopairs',
-  event = 'InsertEnter',
+  ft = { 'clojure', 'clojurescript' },
+  -- event = 'InsertEnter',
   config = true,
   -- use opts = {} for passing setup options
   -- this is equivalent to setup({}) function
