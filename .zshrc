@@ -89,4 +89,7 @@ if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
 
+if command -v devbox >/dev/null 2>&1; then
+  eval "$(devbox global shellenv --init-hook)"
+fi
 
