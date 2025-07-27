@@ -23,6 +23,10 @@ fi
 
 export PATH="~/.local/bin/:$PATH"
 
+if command -v devbox >/dev/null 2>&1; then
+  eval "$(devbox global shellenv)"
+fi
+
 alias g='git'
 alias gst='git status'
 alias ga='git add'
@@ -51,6 +55,7 @@ alias gstp='git stash pop'
 alias gsp='git show'
 alias gt='git tag'
 alias grh='git reset'
+
 
 # ===== ssh-agent autostart with multiple keys (robust) =====
 if [ -z "$SSH_AUTH_SOCK" ] || ! [ -S "$SSH_AUTH_SOCK" ]; then
@@ -89,7 +94,4 @@ if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
 
-if command -v devbox >/dev/null 2>&1; then
-  eval "$(devbox global shellenv --init-hook)"
-fi
 
