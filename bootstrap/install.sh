@@ -9,16 +9,15 @@ cd "$DOTFILES_DIR"
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
-# Always stow common
-stow git zsh nvim starship tmux
-
 # Platform-specific
 if [[ "$PLATFORM" == "darwin" ]]; then
-  stow aerospace
   bash bootstrap/macos.sh
+  stow aerospace
 elif [[ "$PLATFORM" == "linux" ]]; then
   bash bootstrap/linux.sh
 fi
+
+stow git zsh nvim starship tmux
 
 echo "✅ Done"
 
