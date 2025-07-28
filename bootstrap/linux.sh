@@ -19,7 +19,6 @@ install_apt_packages() {
 
   sudo apt install -y \
     git \
-    lazygit \
     stow \
     curl \
     unzip \
