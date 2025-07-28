@@ -1,0 +1,11 @@
+brew "fzf"
+brew "ripgrep"
+brew "stow"
+brew "tmux"
+brew "neovim"
+brew "starship"
+
+cask "raycast"
+cask "ghostty"
+cask "aerospace"
+
