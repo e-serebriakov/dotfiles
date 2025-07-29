@@ -6,6 +6,6 @@ brew "neovim"
 brew "starship"
 
 cask "raycast"
-cask "ghostty"
+cask "wezterm"
 cask "aerospace"
 

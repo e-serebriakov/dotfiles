@@ -204,7 +204,7 @@ automatically-unhide-macos-hidden-apps = false
     shift-down = ['volume set 0', 'mode main']
 
 [[on-window-detected]]
-    if.app-id = 'com.mitchellh.ghostty'
+    if.app-id = 'com.github.wez.wezterm'
     run = 'move-node-to-workspace T' # mnemonics T - Terminal
 
 [[on-window-detected]]
