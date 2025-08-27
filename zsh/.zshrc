@@ -95,3 +95,4 @@ if (( $+commands[direnv] )); then
 fi
 
 
+export PATH="$HOME/.local/bin:$PATH"
