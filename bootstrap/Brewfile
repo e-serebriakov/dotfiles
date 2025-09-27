@@ -4,6 +4,7 @@ brew "stow"
 brew "tmux"
 brew "neovim"
 brew "starship"
+brew "helix"
 
 cask "raycast"
 cask "wezterm"
