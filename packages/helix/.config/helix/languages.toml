@@ -6,7 +6,6 @@ command = "clojure-lsp"
 # --- Clojure language hookup ---
 [[language]]
 name = "clojure"
-scope = "source.clojure"
 file-types = ["clj", "cljs", "cljc", "edn", "bb"]
 language-servers = ["clojure-lsp"]
 auto-format = true            # format on save via clojure-lsp (cljfmt under the hood)
