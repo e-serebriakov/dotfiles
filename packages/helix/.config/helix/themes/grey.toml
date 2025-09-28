@@ -29,13 +29,13 @@
 "ui.bufferline.background" = { fg = "black", bg = "light_grey" }     # TabLineFill
 
 "ui.cursor"                = { fg = "background", bg = "black" }     # Cursor
-"ui.cursor.match"          = { modifiers = ["bold"] }                # MatchParen → bold
+"ui.cursor.match"          = { bg="light_grey", modifiers = ["bold"] }                # MatchParen → bold
 
 "ui.cursorline.primary"    = { bg = "grey_bg_light" }                # soft line highlight
 "ui.cursorline.secondary"  = { bg = "grey_bg_light" }
 
 "ui.selection"             = { bg = "light_grey" }                   # Visual
-"ui.selection.primary"     = { bg = "light_grey" }
+"ui.selection.primary"     = { bg = "medium_grey" }
 
 "ui.virtual.whitespace"    = { fg = "border" }                       # Whitespace
 "ui.virtual.indent-guide"  = { fg = "border" }
@@ -47,7 +47,8 @@
 
 "ui.menu"                  = { fg = "black", bg = "grey_bg_light" }  # Pmenu
 "ui.menu.selected"         = { fg = "black", bg = "light_grey", modifiers = ["bold"] } # PmenuSel
-"ui.menu.scroll"           = { fg = "light_grey", bg = "grey_bg_light" }               # thumb/track
+"ui.menu.scroll"           = { fg = "grey", bg = "grey_bg_light" }
+
 
 "ui.popup"                 = { fg = "black", bg = "background" }     # NormalFloat
 "ui.popup.info"            = { fg = "black", bg = "background" }     # prompts
@@ -73,7 +74,7 @@
 "diff.plus.gutter"          = { fg = "border" }
 "diff.delta"                = { bg = "highlight_col", fg = "dark_yellow" } # DiffChange
 "diff.delta.gutter"         = { fg = "border" }
-"diff.minus"                = { fg = "light_grey", bg = "light_red" }      # DiffDelete
+"diff.minus"                = { fg = "black", bg = "light_red" }      # DiffDelete
 "diff.minus.gutter"         = { fg = "border" }
 
 #####################
@@ -150,6 +151,7 @@ light_green    = "#dfeacc"
 light_red      = "#f2d3cd"
 red            = "#c4331d"
 grey           = "#5e5e5e"
+medium_grey    = "#b0b0b0"
 light_grey     = "#e6e6e6"
 border         = "#cccccc"
 highlight_col  = "#eeeeee"
