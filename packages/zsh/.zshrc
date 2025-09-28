@@ -94,5 +94,6 @@ if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
 
+export COLORTERM=truecolor
 
 export PATH="$HOME/.local/bin:$PATH"
