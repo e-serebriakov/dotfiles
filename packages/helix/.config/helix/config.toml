@@ -3,6 +3,7 @@ theme = "ergo_light"
 [editor]
 line-number = "relative"
 mouse = false
+auto-format = true
 
 [editor.cursor-shape]
 insert = "bar"

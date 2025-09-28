@@ -1,0 +1,12 @@
+# --- language server definition ---
+[language-server.clojure-lsp]
+command = "clojure-lsp"
+# args = []  # usually not needed
+
+# --- Clojure language hookup ---
+[[language]]
+name = "clojure"
+scope = "source.clojure"
+file-types = ["clj", "cljs", "cljc", "edn", "bb"]
+language-servers = ["clojure-lsp"]
+auto-format = true            # format on save via clojure-lsp (cljfmt under the hood)
