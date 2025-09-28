@@ -27,7 +27,17 @@ install_apt_packages() {
     ripgrep \
     build-essential \
     software-properties-common \
-    neovim
+    neovim 
+}
+
+install_helix() {
+  if is_installed hx; then
+    info "✓ helix already installed"
+  else
+    info "Adding Helix PPA and installing helix..."
+    sudo add-apt-repository -y ppa:maveonair/helix-editor
+    sudo apt install -y helix
+  fi
 }
 
 install_starship() {
@@ -44,6 +54,7 @@ main() {
   update_apt
   install_apt_packages
   install_starship
+  install_helix
   info "✅ Ubuntu setup complete"
 }
 
