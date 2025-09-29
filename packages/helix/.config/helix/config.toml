@@ -4,6 +4,7 @@ theme = "ergo_light"
 line-number = "relative"
 mouse = false
 auto-format = true
+popup-border = "popup"
 
 [editor.cursor-shape]
 insert = "bar"
