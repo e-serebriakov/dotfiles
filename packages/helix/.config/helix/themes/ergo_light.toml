@@ -54,8 +54,9 @@
 "ui.menu.selected"                 = { fg = "text", bg = "sel_secondary", modifiers = ["bold"] }
 "ui.menu.scroll"                   = { fg = "comment_fg", bg = "panel" }
 
-"ui.popup"                         = { fg = "text", bg = "paper" }
-"ui.popup.info"                    = { fg = "text", bg = "paper" }
+"ui.popup"      = { fg = "text", bg = "popup_bg", border = { fg = "popup_border" } }
+"ui.popup.info" = { fg = "text", bg = "popup_bg", border = { fg = "popup_border" } }
+"ui.popup.header" = { fg = "text", bg = "popup_header_bg", modifiers = ["bold"] }
 
 "ui.picker.header"                 = { fg = "text", bg = "paper", modifiers = ["bold"] }
 "ui.picker.header.column"          = { fg = "text_soft", bg = "paper", modifiers = ["bold"] }
@@ -308,3 +309,8 @@ diff_change_bg   = "#F6F2E4"
 diff_del_bg      = "#F6E9E8"
 diff_move_bg     = "#EDF1F6"
 diff_conflict_bg = "#F5EAEA"
+
+# Popup
+popup_bg       = "#F8F8F6"   # slightly warmer than paper
+popup_border   = "#DDDDDA"   # subtle gray border
+popup_header_bg= "#F0F0EE"   # a hair darker for section headers
