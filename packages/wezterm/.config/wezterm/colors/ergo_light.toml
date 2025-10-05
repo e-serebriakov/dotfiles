@@ -1,0 +1,70 @@
+[metadata]
+name = "Ergo Light"
+wezterm_version = "*"
+
+[colors]
+foreground = "#121212"
+background = "#FAFAF8"
+
+cursor_bg = "#121212"
+cursor_fg = "#FAFAF8"
+cursor_border = "#121212"
+
+selection_bg = "#C8D0D8"
+selection_fg = "#121212"
+
+scrollbar_thumb = "#DDDDDA"
+split = "#DDDDDA"
+
+ansi = [
+  "#101010", "#B2473F", "#2F6B3A", "#8A6A1F",
+  "#3A6B90", "#7B4B86", "#356E95", "#D0D0CC",
+]
+brights = [
+  "#3A3A3A", "#C35C52", "#3A7D47", "#9D7C2A",
+  "#467AA4", "#8D5E92", "#3F7FA3", "#F0F0EB",
+]
+
+[colors.tab_bar]
+background = "#F3F3F1"
+inactive_tab_edge = "#DDDDDA"
+
+[colors.tab_bar.active_tab]
+bg_color = "#F3F3F1"
+fg_color = "#121212"
+intensity = "Bold"
+italic = false
+underline = "None"
+strikethrough = false
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#F3F3F1"
+fg_color = "#6B7076"
+intensity = "Normal"
+italic = false
+underline = "None"
+strikethrough = false
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#EFEFEF"
+fg_color = "#121212"
+intensity = "Normal"
+italic = true
+underline = "None"
+strikethrough = false
+
+[colors.tab_bar.new_tab]
+bg_color = "#F3F3F1"
+fg_color = "#4A4F55"
+intensity = "Normal"
+italic = false
+underline = "None"
+strikethrough = false
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#FAFAF8"
+fg_color = "#3A6B90"
+intensity = "Normal"
+italic = true
+underline = "None"
+strikethrough = false

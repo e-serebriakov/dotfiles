@@ -25,7 +25,7 @@
 "ui.cursor.primary.insert"         = { fg = "paper", bg = "cursor_fg" }
 "ui.cursor.primary.select"         = { fg = "paper", bg = "cursor_fg" }
 
-"ui.cursorline.primary"            = { bg = "line" }
+"ui.cursorline.primary"            = { bg = "line_primary" }
 "ui.cursorline.secondary"          = { bg = "line" }
 "ui.cursorcolumn.primary"          = { bg = "line_column" }
 "ui.cursorcolumn.secondary"        = { bg = "line_column" }
@@ -265,6 +265,7 @@
 # Surfaces
 paper            = "#FAFAF8"   # soft off-white
 panel            = "#F3F3F1"   # panels/status
+line_primary     = "#E8EEF4"
 line             = "#EFEFEF"   # cursor line
 line_column      = "#F2F2F2"   # cursor column (optional)
 ruler_bg         = "#F1F1EE"   # virtual ruler
@@ -290,7 +291,7 @@ match_bg         = "#E6EDF3"
 
 # Selection
 sel_secondary    = "#E6E6E6"
-sel_primary      = "#D6DADF"
+sel_primary      = "#C8D0D8"
 
 # Search highlight
 search_soft      = "#F2EFD9"
