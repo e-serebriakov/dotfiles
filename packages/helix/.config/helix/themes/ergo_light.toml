@@ -14,16 +14,16 @@
 "ui.background"                    = { fg = "text", bg = "paper" }
 "ui.background.separator"          = { fg = "divider" }
 
-"ui.cursor"                        = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.normal"                 = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.insert"                 = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.select"                 = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.match"                  = { bg = "match_bg", modifiers = ["bold"] }
+# --- Cursors: darker primary, softer secondary ---
+"ui.cursor"            = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.normal"     = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.insert"     = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.select"     = { fg = "paper", bg = "cursor_secondary" }
 
-"ui.cursor.primary"                = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.primary.normal"         = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.primary.insert"         = { fg = "paper", bg = "cursor_fg" }
-"ui.cursor.primary.select"         = { fg = "paper", bg = "cursor_fg" }
+"ui.cursor.primary"            = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.normal"     = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.insert"     = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.select"     = { fg = "paper", bg = "cursor_primary" }
 
 "ui.cursorline.primary"            = { bg = "line_primary" }
 "ui.cursorline.secondary"          = { bg = "line" }
@@ -286,8 +286,9 @@ doc_heading      = "#222426"   # denser head text
 link_fg          = "#3A6B90"   # reserved for URLs/links
 
 # Cursor & matches
-cursor_fg        = "#121212"
 match_bg         = "#E6EDF3"
+cursor_primary   = "#0E0E0E"   # main selection cursor (darker than text)
+cursor_secondary = "#707070"   # other cursors (softer, still visible)
 
 # Selection
 sel_secondary    = "#E6E6E6"
