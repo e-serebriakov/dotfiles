@@ -18,7 +18,7 @@ config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
 -- Make sure cursor colors aren’t overridden by reverse video
-config.force_reverse_video_cursor = false
+config.force_reverse_video_cursor = true
 
 -- Nice subtle dim on inactive panes
 config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.92 }
