@@ -8,7 +8,11 @@ setopt hist_ignore_all_dups
 setopt share_history 
 setopt extended_history
 setopt hist_expire_dups_first 
-setopt hist_ignore_space 
+setopt hist_ignore_space
+
+# ensure target exists (safe no-op if already exists)
+[[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
+[[ -e $HISTFILE ]] || : >| $HISTFILE
 
 # Plugins
 if [[ -d ~/.local/share/zsh/zsh-syntax-highlighting/ ]]; then
