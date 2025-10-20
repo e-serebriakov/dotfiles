@@ -44,7 +44,6 @@
   enabled = true
 
 [diff]
-  external = difft
   algorithm = histogram
   colorMoved = true
   indentHeuristic = true
