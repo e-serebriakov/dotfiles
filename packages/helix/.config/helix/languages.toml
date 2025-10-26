@@ -1,11 +1,21 @@
 # --- language server definition ---
 [language-server.clojure-lsp]
 command = "clojure-lsp"
-# args = []  # usually not needed
 
-# --- Clojure language hookup ---
+[language-server.svelte]
+command = "svelteserver"
+args = ["--stdio"]
+
+# --- Language hookup ---
 [[language]]
 name = "clojure"
 file-types = ["clj", "cljs", "cljc", "edn", "bb"]
+roots = ["deps.edn", "project.clj", "bb.edn"]
 language-servers = ["clojure-lsp"]
-auto-format = true            # format on save via clojure-lsp (cljfmt under the hood)
+auto-format = true
+
+[[language]]
+name = "svelte"
+file-types = ["svelte"]
+language-servers = ["svelte"]
+
