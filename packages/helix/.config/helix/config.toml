@@ -5,6 +5,7 @@ line-number = "relative"
 mouse = false
 auto-format = true
 popup-border = "popup"
+bufferline = "multiple"
 
 [editor.cursor-shape]
 insert = "bar"
