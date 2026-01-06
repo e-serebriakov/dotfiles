@@ -1,317 +1,259 @@
-# Text First Minimal — all-scopes Helix theme (light)
-# -----------------------------------------------------------------------------
-# Philosophy:
-# - Monochrome-first: structure via weight/italics/underline instead of color.
-# - Paper-like background; high text contrast; quiet UI.
-# - Color reserved for diagnostics, search, links, and very soft diff washes.
-# Coverage:
-# - Implements (and safely defaults) every scope & UI key commonly used in Helix.
-# -----------------------------------------------------------------------------
+# Text First Minimal (light)
 
-################################
-# Interface / UI
-################################
-"ui.background"                    = { fg = "text", bg = "paper" }
-"ui.background.separator"          = { fg = "divider" }
+# UI
+"ui.background" = { fg = "text", bg = "paper" }
+"ui.background.separator" = { fg = "divider" }
 
-# --- Cursors: darker primary, softer secondary ---
-"ui.cursor"            = { fg = "paper", bg = "cursor_secondary" }
-"ui.cursor.normal"     = { fg = "paper", bg = "cursor_secondary" }
-"ui.cursor.insert"     = { fg = "paper", bg = "cursor_secondary" }
-"ui.cursor.select"     = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor" = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.normal" = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.insert" = { fg = "paper", bg = "cursor_secondary" }
+"ui.cursor.select" = { fg = "paper", bg = "cursor_secondary" }
 
-"ui.cursor.primary"            = { fg = "paper", bg = "cursor_primary" }
-"ui.cursor.primary.normal"     = { fg = "paper", bg = "cursor_primary" }
-"ui.cursor.primary.insert"     = { fg = "paper", bg = "cursor_primary" }
-"ui.cursor.primary.select"     = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary" = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.normal" = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.insert" = { fg = "paper", bg = "cursor_primary" }
+"ui.cursor.primary.select" = { fg = "paper", bg = "cursor_primary" }
 
-"ui.cursorline.primary"            = { bg = "line_primary" }
-"ui.cursorline.secondary"          = { bg = "line" }
-"ui.cursorcolumn.primary"          = { bg = "line_column" }
-"ui.cursorcolumn.secondary"        = { bg = "line_column" }
+"ui.cursorline.primary" = { bg = "line_primary" }
+"ui.cursorline.secondary" = { bg = "line" }
+"ui.cursorcolumn.primary" = { bg = "line_column" }
+"ui.cursorcolumn.secondary" = { bg = "line_column" }
 
-"ui.window"                        = { fg = "divider", bg = "paper" }
-"ui.help"                          = { fg = "text", bg = "paper" }
+"ui.window" = { fg = "divider", bg = "paper" }
+"ui.help" = { fg = "text", bg = "paper" }
 
-"ui.gutter"                        = { fg = "comment_fg", bg = "paper" }
-"ui.gutter.selected"               = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"ui.gutter" = { fg = "comment_fg", bg = "paper" }
+"ui.gutter.selected" = { fg = "text", bg = "paper", modifiers = ["bold"] }
 
-"ui.linenr"                        = { fg = "comment_fg" }
-"ui.linenr.selected"               = { fg = "text", modifiers = ["bold"] }
+"ui.linenr" = { fg = "comment_fg" }
+"ui.linenr.selected" = { fg = "text", modifiers = ["bold"] }
 
-"ui.statusline"                    = { fg = "text", bg = "panel" }
-"ui.statusline.inactive"           = { fg = "text_soft", bg = "panel" }
-"ui.statusline.normal"             = { fg = "text", bg = "panel", modifiers = ["bold"] }
-"ui.statusline.insert"             = { fg = "text", bg = "panel", modifiers = ["bold"] }
-"ui.statusline.select"             = { fg = "text", bg = "panel", modifiers = ["bold"] }
-"ui.statusline.separator"          = { fg = "divider", bg = "panel" }
+"ui.statusline" = { fg = "text", bg = "panel" }
+"ui.statusline.inactive" = { fg = "text_soft", bg = "panel" }
+"ui.statusline.normal" = { fg = "text", bg = "panel", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "text", bg = "panel", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "text", bg = "panel", modifiers = ["bold"] }
+"ui.statusline.separator" = { fg = "divider", bg = "panel" }
 
-"ui.bufferline"                    = { fg = "text", bg = "panel" }
-"ui.bufferline.active"             = { fg = "text", bg = "paper", modifiers = ["bold"] }
-"ui.bufferline.background"         = { fg = "text", bg = "panel" }
+"ui.bufferline" = { fg = "text", bg = "panel" }
+"ui.bufferline.active" = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"ui.bufferline.background" = { fg = "text", bg = "panel" }
 
-"ui.menu"                          = { fg = "text", bg = "panel" }
-"ui.menu.selected"                 = { fg = "text", bg = "sel_secondary", modifiers = ["bold"] }
-"ui.menu.scroll"                   = { fg = "comment_fg", bg = "panel" }
+"ui.menu" = { fg = "text", bg = "panel" }
+"ui.menu.selected" = { fg = "text", bg = "sel_secondary", modifiers = ["bold"] }
+"ui.menu.scroll" = { fg = "comment_fg", bg = "panel" }
 
-"ui.popup"                         = { fg = "text", bg = "popup_bg" }
-"ui.popup.info"                    = { fg = "text", bg = "popup_bg" }
-"ui.popup.header"                  = { fg = "text", bg = "popup_header_bg", modifiers = ["bold"] }
+"ui.popup" = { fg = "text", bg = "popup_bg" }
+"ui.popup.info" = { fg = "text", bg = "popup_bg" }
+"ui.popup.header" = { fg = "text", bg = "popup_header_bg", modifiers = ["bold"] }
 
-"ui.picker.header"                 = { fg = "text", bg = "paper", modifiers = ["bold"] }
-"ui.picker.header.column"          = { fg = "text_soft", bg = "paper", modifiers = ["bold"] }
-"ui.picker.header.column.active"   = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"ui.picker.header" = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"ui.picker.header.column" = { fg = "text_soft", bg = "paper", modifiers = ["bold"] }
+"ui.picker.header.column.active" = { fg = "text", bg = "paper", modifiers = ["bold"] }
 
-"ui.text"                          = { fg = "text", bg = "paper" }
-"ui.text.focus"                    = { fg = "text", bg = "sel_secondary" }
-"ui.text.inactive"                 = { fg = "text_soft", bg = "panel" }
-"ui.text.info"                     = { fg = "text_soft", bg = "paper" }
-"ui.text.directory"                = { fg = "text" }
+"ui.text" = { fg = "text", bg = "paper" }
+"ui.text.focus" = { fg = "text", bg = "sel_secondary" }
+"ui.text.inactive" = { fg = "text_soft", bg = "panel" }
+"ui.text.info" = { fg = "text_soft", bg = "paper" }
+"ui.text.directory" = { fg = "text" }
 
-"ui.virtual.ruler"                 = { bg = "ruler_bg" }
-"ui.virtual.whitespace"            = { fg = "divider" }
-"ui.virtual.indent-guide"          = { fg = "divider" }
-"ui.virtual.wrap"                  = { fg = "divider" }
-"ui.virtual.inlay-hint"            = { fg = "comment_fg", bg = "paper" }
-"ui.virtual.inlay-hint.parameter"  = { fg = "comment_fg", bg = "paper", modifiers = ["italic"] }
-"ui.virtual.inlay-hint.type"       = { fg = "comment_fg", bg = "paper" }
+"ui.virtual.ruler" = { bg = "ruler_bg" }
+"ui.virtual.whitespace" = { fg = "divider" }
+"ui.virtual.indent-guide" = { fg = "divider" }
+"ui.virtual.wrap" = { fg = "divider" }
+"ui.virtual.inlay-hint" = { fg = "comment_fg", bg = "paper" }
+"ui.virtual.inlay-hint.parameter" = { fg = "comment_fg", bg = "paper", modifiers = ["italic"] }
+"ui.virtual.inlay-hint.type" = { fg = "comment_fg", bg = "paper" }
 
-"ui.virtual.jump-label"            = { fg = "text", bg = "search_mid", modifiers = ["bold"] }
+"ui.virtual.jump-label" = { fg = "text", bg = "search_mid", modifiers = ["bold"] }
 
-# Selections (required)
-"ui.selection"                     = { fg = "text", bg = "sel_secondary" }
-"ui.selection.primary"             = { fg = "text", bg = "sel_primary" }
+"ui.selection" = { fg = "text", bg = "sel_secondary" }
+"ui.selection.primary" = { fg = "text", bg = "sel_primary" }
 
-"ui.highlight"                     = { bg = "search_soft", modifiers = ["bold"] }
-"ui.highlight.frameline"           = { fg = "text", bg = "panel" }
+"ui.highlight" = { bg = "search_soft", modifiers = ["bold"] }
+"ui.highlight.frameline" = { fg = "text", bg = "panel" }
 
-# Debug gutter indicators
-"ui.debug.breakpoint"              = { fg = "warn_fg" }
-"ui.debug.active"                  = { fg = "info_fg" }
+"ui.debug.breakpoint" = { fg = "warn_fg" }
+"ui.debug.active" = { fg = "info_fg" }
 
-# Gutter diagnostic signs
-"warning"                          = { fg = "warn_fg" }
-"error"                            = { fg = "err_fg" }
-"info"                             = { fg = "info_fg" }
-"hint"                             = { fg = "hint_fg" }
+"warning" = { fg = "warn_fg" }
+"error" = { fg = "err_fg" }
+"info" = { fg = "info_fg" }
+"hint" = { fg = "hint_fg" }
 
-################################
 # Diagnostics
-################################
-"diagnostic"                       = { fg = "text" }
-"diagnostic.hint"                  = { fg = "hint_fg", underline = { color = "hint_fg", style = "dotted" } }
-"diagnostic.info"                  = { fg = "info_fg", underline = { color = "info_fg", style = "curl" } }
-"diagnostic.warning"               = { fg = "warn_fg", underline = { color = "warn_fg", style = "dashed" } }
-"diagnostic.error"                 = { fg = "err_fg",  underline = { color = "err_fg",  style = "curl" } }
-"diagnostic.unnecessary"           = { fg = "comment_fg", modifiers = ["dim","italic"] }
-"diagnostic.deprecated"            = { underline = { color = "comment_fg", style = "double_line" } }
+"diagnostic" = { fg = "text" }
+"diagnostic.hint" = { fg = "hint_fg", underline = { color = "hint_fg", style = "dotted" } }
+"diagnostic.info" = { fg = "info_fg", underline = { color = "info_fg", style = "curl" } }
+"diagnostic.warning" = { fg = "warn_fg", underline = { color = "warn_fg", style = "dashed" } }
+"diagnostic.error" = { fg = "err_fg", underline = { color = "err_fg", style = "curl" } }
+"diagnostic.unnecessary" = { fg = "comment_fg", modifiers = ["dim", "italic"] }
+"diagnostic.deprecated" = { underline = { color = "comment_fg", style = "double_line" } }
 
-# Optional subtle inline fills
-"diagnostic.error.inline"          = { fg = "err_fg",  bg = "diag_bg" }
-"diagnostic.warning.inline"        = { fg = "warn_fg", bg = "diag_bg" }
-"diagnostic.info.inline"           = { fg = "info_fg", bg = "diag_bg" }
-"diagnostic.hint.inline"           = { fg = "hint_fg", bg = "diag_bg" }
+"diagnostic.error.inline" = { fg = "err_fg", bg = "diag_bg" }
+"diagnostic.warning.inline" = { fg = "warn_fg", bg = "diag_bg" }
+"diagnostic.info.inline" = { fg = "info_fg", bg = "diag_bg" }
+"diagnostic.hint.inline" = { fg = "hint_fg", bg = "diag_bg" }
 
-########
 # Diff
-########
-"diff.plus"                        = { bg = "diff_add_bg",    fg = "text" }
-"diff.plus.gutter"                 = { fg = "text_soft" }
-"diff.minus"                       = { bg = "diff_del_bg",    fg = "text" }
-"diff.minus.gutter"                = { fg = "text_soft" }
-"diff.delta"                       = { bg = "diff_change_bg", fg = "text" }
-"diff.delta.gutter"                = { fg = "text_soft" }
-"diff.delta.moved"                 = { bg = "diff_move_bg",   fg = "text" }
-"diff.delta.conflict"              = { bg = "diff_conflict_bg", fg = "text" }
+"diff.plus" = { bg = "diff_add_bg", fg = "text" }
+"diff.plus.gutter" = { fg = "text_soft" }
+"diff.minus" = { bg = "diff_del_bg", fg = "text" }
+"diff.minus.gutter" = { fg = "text_soft" }
+"diff.delta" = { bg = "diff_change_bg", fg = "text" }
+"diff.delta.gutter" = { fg = "text_soft" }
+"diff.delta.moved" = { bg = "diff_move_bg", fg = "text" }
+"diff.delta.conflict" = { bg = "diff_conflict_bg", fg = "text" }
 
-############################
-# Syntax (Tree-sitter)
-############################
-# Comments
-"comment"                          = { fg = "comment_fg", bg = "comment_bg", modifiers = ["italic"] }
-"comment.line"                     = { fg = "comment_fg", modifiers = ["italic"] }
-"comment.block"                    = { fg = "comment_fg", bg = "comment_bg", modifiers = ["italic"] }
+# Syntax
+"comment" = { fg = "comment_fg", bg = "comment_bg" }
+"comment.line" = { fg = "comment_fg" }
+"comment.block" = { fg = "comment_fg" }
 
-# >>> Docstrings / documentation (generic + specific) <<<
-"comment.documentation"            = { fg = "doc_fg", bg = "doc_bg", modifiers = ["italic"] }
-"comment.block.documentation"      = { fg = "doc_fg", bg = "doc_bg", modifiers = ["italic"] }
-"comment.line.documentation"       = { fg = "doc_fg", bg = "doc_bg", modifiers = ["italic"] }
-"string.documentation"             = { fg = "doc_fg", bg = "doc_bg" }
+"comment.documentation" = { fg = "doc_fg" }
+"comment.block.documentation" = { fg = "doc_fg" }
+"comment.line.documentation" = { fg = "doc_fg" }
 
-"comment.unused"                   = { fg = "comment_fg", modifiers = ["dim","italic"] }
+"comment.unused" = { fg = "comment_fg", modifiers = ["dim", "italic"] }
 
-# Strings & specials
-"string"                           = { fg = "text" }
-"string.regexp"                    = { fg = "text", modifiers = ["underline"] }
-"string.special"                   = { fg = "text" }
-"string.special.path"              = { fg = "text_soft", modifiers = ["underline"] }
-"string.special.url"               = { fg = "link_fg",  modifiers = ["underline"] }
-"string.special.symbol"            = { fg = "text_soft" }
+# Strings (pale green)
+"string" = { fg = "string_fg" }
+"string.regexp" = { fg = "string_fg", underline = { style = "line" } }
+"string.special" = { fg = "string_fg" }
+"string.special.path" = { fg = "string_fg", underline = { style = "line" } }
+"string.special.url" = { fg = "link_fg", underline = { style = "line" } }
+"string.special.symbol" = { fg = "string_fg" }
 
-# Constants
-"constant"                         = { fg = "text" }
-"constant.builtin"                 = { fg = "text", modifiers = ["bold"] }
-"constant.boolean"                 = { fg = "text", modifiers = ["bold"] }
-"constant.character"               = { fg = "text" }
-"constant.character.escape"        = { fg = "text_soft", modifiers = ["underline"] }
-"constant.numeric"                 = { fg = "text" }
-"constant.numeric.integer"         = { fg = "text" }
-"constant.numeric.float"           = { fg = "text" }
+# Constants (pale violet)
+"constant" = { fg = "const_fg" }
+"constant.builtin" = { fg = "const_fg", modifiers = ["bold"] }
+"constant.boolean" = { fg = "const_fg" }
+"constant.character" = { fg = "const_fg" }
+"constant.character.escape" = { fg = "const_fg", underline = { style = "line" } }
+"constant.numeric" = { fg = "const_fg" }
 
-# Types
-"type"                             = { fg = "text", modifiers = ["bold"] }
-"type.builtin"                     = { fg = "text", modifiers = ["bold"] }
-"type.parameter"                   = { fg = "text", modifiers = ["italic"] }
-"type.enum"                        = { fg = "text", modifiers = ["bold"] }
-"type.enum.variant"                = { fg = "text" }
+"type" = { fg = "text" }
+"constructor" = { fg = "text", modifiers = ["bold"] }
 
-# Constructors
-"constructor"                      = { fg = "text", modifiers = ["bold"] }
+"label" = { fg = "text_soft", underline = { style = "line" } }
+"tag" = { fg = "text" }
+"tag.builtin" = { fg = "text" }
+"attribute" = { fg = "text" }
 
-# Labels / tags / attributes
-"label"                            = { fg = "text_soft", modifiers = ["underline"] }
-"tag"                              = { fg = "text", modifiers = ["bold"] }
-"tag.builtin"                      = { fg = "text", modifiers = ["bold"] }
-"attribute"                        = { fg = "text" }
+"variable" = { fg = "text" }
+"variable.builtin" = { fg = "text" }
+"variable.parameter" = { fg = "text" }
+"variable.other.member" = { fg = "text_soft" }
+"variable.other.member.private" = { fg = "text_soft" }
 
-# Variables
-"variable"                         = { fg = "text" }
-"variable.builtin"                 = { fg = "text", modifiers = ["bold"] }
-"variable.parameter"               = { fg = "text", modifiers = ["italic"] }
-"variable.other.member"            = { fg = "text_soft" }
-"variable.other.member.private"    = { fg = "text_soft", modifiers = ["italic"] }
+"keyword" = { fg = "text" }
+"keyword.storage" = { fg = "text_soft" }
+"keyword.storage.type" = { fg = "text_soft", modifiers = ["bold"] }
+"keyword.storage.modifier" = { fg = "text_soft", modifiers = ["italic"] }
 
-# Keywords & operators
-"keyword"                          = { fg = "text", modifiers = ["bold"] }
-"keyword.control"                  = { fg = "text", modifiers = ["bold"] }
-"keyword.control.conditional"      = { fg = "text", modifiers = ["bold"] }
-"keyword.control.repeat"           = { fg = "text", modifiers = ["bold"] }
-"keyword.control.import"           = { fg = "text", modifiers = ["bold"] }
-"keyword.control.return"           = { fg = "text", modifiers = ["bold"] }
-"keyword.control.exception"        = { fg = "text", modifiers = ["bold"] }
-"keyword.operator"                 = { fg = "text" }
-"keyword.directive"                = { fg = "text", modifiers = ["bold"] }
-"keyword.function"                 = { fg = "text", modifiers = ["bold"] }
+"operator" = { fg = "text" }
 
-"keyword.storage"                  = { fg = "text_soft" }
-"keyword.storage.type"             = { fg = "text_soft", modifiers = ["bold"] }
-"keyword.storage.modifier"         = { fg = "text_soft", modifiers = ["italic"] }
+"function" = { fg = "text" }
+"function.builtin" = { fg = "text", modifiers = ["bold"] }
+"function.method" = { fg = "text" }
+"function.method.private" = { fg = "text_soft" }
+"function.macro" = { fg = "text", underline = { style = "line" } }
+"function.special" = { fg = "text" }
 
-"operator"                         = { fg = "text" }
+"namespace" = { fg = "text_soft" }
+"module" = { fg = "text_soft" }
+"special" = { fg = "text_soft" }
 
-# Functions
-"function"                         = { fg = "text" }
-"function.builtin"                 = { fg = "text", modifiers = ["bold"] }
-"function.method"                  = { fg = "text" }
-"function.method.private"          = { fg = "text_soft" }
-"function.macro"                   = { fg = "text", modifiers = ["underline"] }
-"function.special"                 = { fg = "text" }
+"punctuation" = { fg = "text_soft" }
+"punctuation.delimiter" = { fg = "text_soft" }
+"punctuation.bracket" = { fg = "text_soft" }
+"punctuation.special" = { fg = "text_soft" }
 
-# Namespaces / modules / specials
-"namespace"                        = { fg = "text_soft" }
-"module"                           = { fg = "text_soft" }
-"special"                          = { fg = "text_soft" }
+"markup.heading" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.marker" = { fg = "doc_fg", modifiers = ["bold"] }
+"markup.heading.1" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.5" = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.heading.6" = { fg = "doc_heading", modifiers = ["bold"] }
 
-# Punctuation
-"punctuation"                      = { fg = "text_soft" }
-"punctuation.delimiter"            = { fg = "text_soft" }
-"punctuation.bracket"              = { fg = "text_soft" }
-"punctuation.special"              = { fg = "text_soft" }
+"markup.list" = { fg = "doc_fg" }
+"markup.list.unnumbered" = { fg = "doc_fg" }
+"markup.list.numbered" = { fg = "doc_fg" }
+"markup.list.checked" = { fg = "doc_fg" }
+"markup.list.unchecked" = { fg = "doc_fg" }
 
-# Markup (Markdown & docs)
-"markup.heading"                   = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.marker"            = { fg = "doc_fg", modifiers = ["bold"] }
-"markup.heading.1"                 = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.2"                 = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.3"                 = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.4"                 = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.5"                 = { fg = "doc_heading", modifiers = ["bold"] }
-"markup.heading.6"                 = { fg = "doc_heading", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
 
-"markup.list"                      = { fg = "doc_fg" }
-"markup.list.unnumbered"           = { fg = "doc_fg" }
-"markup.list.numbered"             = { fg = "doc_fg" }
-"markup.list.checked"              = { fg = "doc_fg" }
-"markup.list.unchecked"            = { fg = "doc_fg" }
+"markup.link" = { fg = "doc_fg" }
+"markup.link.url" = { fg = "link_fg", underline = { style = "line" } }
+"markup.link.label" = { fg = "doc_fg", underline = { style = "line" } }
+"markup.link.text" = { fg = "text", modifiers = ["bold"] }
 
-"markup.bold"                      = { modifiers = ["bold"] }
-"markup.italic"                    = { modifiers = ["italic"] }
-"markup.strikethrough"             = { modifiers = ["crossed_out"] }
+"markup.quote" = { fg = "doc_fg", bg = "doc_quote_bg" }
+"markup.raw.inline" = { fg = "text", bg = "code_bg" }
+"markup.raw.block" = { bg = "code_bg" }
 
-"markup.link"                      = { fg = "doc_fg" }
-"markup.link.url"                  = { fg = "link_fg", modifiers = ["underline"] }
-"markup.link.label"                = { fg = "doc_fg", modifiers = ["underline"] }
-"markup.link.text"                 = { fg = "text", modifiers = ["bold"] }
+"markup.normal.completion" = { fg = "text", bg = "paper" }
+"markup.normal.hover" = { fg = "text", bg = "paper" }
+"markup.heading.completion" = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"markup.heading.hover" = { fg = "text", bg = "paper", modifiers = ["bold"] }
+"markup.raw.inline.completion" = { fg = "text", bg = "code_bg" }
+"markup.raw.inline.hover" = { fg = "text", bg = "code_bg" }
 
-"markup.quote"                     = { fg = "doc_fg", bg = "doc_quote_bg" }
-"markup.raw.inline"                = { fg = "text", bg = "code_bg" }
-"markup.raw.block"                 = { bg = "code_bg" }
+"tabstop" = { fg = "text", bg = "sel_secondary" }
 
-# Interface markup regions (completion/hover popups)
-"markup.normal.completion"         = { fg = "text", bg = "paper" }
-"markup.normal.hover"              = { fg = "text", bg = "paper" }
-"markup.heading.completion"        = { fg = "text", bg = "paper", modifiers = ["bold"] }
-"markup.heading.hover"             = { fg = "text", bg = "paper", modifiers = ["bold"] }
-"markup.raw.inline.completion"     = { fg = "text", bg = "code_bg" }
-"markup.raw.inline.hover"          = { fg = "text", bg = "code_bg" }
-
-# Snippet tabstops
-"tabstop"                          = { fg = "text", bg = "sel_secondary" }
-
-########################
-# Palette (light, calm)
-########################
+# Palette
 [palette]
-# Surfaces
-paper            = "#FAFAF8"   # soft off-white
-panel            = "#F3F3F1"   # panels/status
-line_primary     = "#E8EEF4"
-line             = "#EFEFEF"   # cursor line
-line_column      = "#F2F2F2"   # cursor column (optional)
-ruler_bg         = "#F1F1EE"   # virtual ruler
-divider          = "#DDDDDA"   # splits/guides
-code_bg          = "#F6F6F6"   # code fences in docs
+paper = "#FAFAF8"
+panel = "#F3F3F1"
+line_primary = "#E8EEF4"
+line = "#EFEFEF"
+line_column = "#F2F2F2"
+ruler_bg = "#F1F1EE"
+divider = "#DDDDDA"
+code_bg = "#F6F6F6"
 
-# Text hierarchy
-text             = "#121212"   # primary ink
-text_soft        = "#4A4F55"   # secondary ink
-comment_fg       = "#6B7076"   # calm comments
-comment_bg       = "#F7F8F9"   # faint comment wash
+text = "#121212"
+text_soft = "#4A4F55"
+comment_fg = "#6B7076"
+comment_bg = "#FFFACD"
 
-# Documentation
-doc_fg           = "#3E444A"   # a touch darker for long-form text
-doc_bg           = "#F4F5F7"   # subtle card background
-doc_quote_bg     = "#F0F1F3"
-doc_heading      = "#222426"   # denser head text
-link_fg          = "#3A6B90"   # reserved for URLs/links
+doc_fg = "#3E444A"
+doc_bg = "#F4F5F7"
+doc_quote_bg = "#F0F1F3"
+doc_heading = "#222426"
+link_fg = "#3A6B90"
 
-# Cursor & matches
-match_bg         = "#E6EDF3"
-cursor_primary   = "#0E0E0E"   # main selection cursor (darker than text)
-cursor_secondary = "#707070"   # other cursors (softer, still visible)
+# Accents
+string_fg = "#4F9A5A"
+const_fg  = "#6F63C6"
 
-# Selection
-sel_secondary    = "#E6E6E6"
-sel_primary      = "#C8D0D8"
+match_bg = "#E6EDF3"
+cursor_primary = "#0E0E0E"
+cursor_secondary = "#707070"
 
-# Search highlight
-search_soft      = "#F2EFD9"
-search_mid       = "#E7E1B0"
+sel_secondary = "#E6E6E6"
+sel_primary = "#C8D0D8"
 
-# Diagnostics (foregrounds + optional inline bg)
-diag_bg          = "#FAFAF6"
-err_fg           = "#B2473F"
-warn_fg          = "#8A6A1F"
-info_fg          = "#3A6B90"
-hint_fg          = "#6F6F6F"
+search_soft = "#F2EFD9"
+search_mid = "#E7E1B0"
 
-# Diff (very pale, text-first)
-diff_add_bg      = "#E9F2EA"
-diff_change_bg   = "#F6F2E4"
-diff_del_bg      = "#F6E9E8"
-diff_move_bg     = "#EDF1F6"
+diag_bg = "#FAFAF6"
+err_fg = "#B2473F"
+warn_fg = "#8A6A1F"
+info_fg = "#3A6B90"
+hint_fg = "#6F6F6F"
+
+diff_add_bg = "#E9F2EA"
+diff_change_bg = "#F6F2E4"
+diff_del_bg = "#F6E9E8"
+diff_move_bg = "#EDF1F6"
 diff_conflict_bg = "#F5EAEA"
 
-# Popup
-popup_bg       = "#F8F8F6"   # slightly warmer than paper
-popup_header_bg= "#F0F0EE"   # a hair darker for section headers
+popup_bg = "#F8F8F6"
+popup_header_bg = "#F0F0EE"
+
