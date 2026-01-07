@@ -153,12 +153,9 @@
 
 "operator" = { fg = "text" }
 
-"function" = { fg = "text" }
-"function.builtin" = { fg = "text", modifiers = ["bold"] }
-"function.method" = { fg = "text" }
+"function" = { fg = "function_fg" }
 "function.method.private" = { fg = "text_soft" }
-"function.macro" = { fg = "text", underline = { style = "line" } }
-"function.special" = { fg = "text" }
+"function.macro" = { fg = "function_fg", underline = { style = "line" } }
 
 "namespace" = { fg = "text_soft" }
 "module" = { fg = "text_soft" }
@@ -231,6 +228,7 @@ link_fg = "#3A6B90"
 # Accents
 string_fg = "#4F9A5A"
 const_fg  = "#6F63C6"
+function_fg = "#4F78A8"
 
 match_bg = "#E6EDF3"
 cursor_primary = "#0E0E0E"
