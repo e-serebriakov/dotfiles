@@ -133,7 +133,7 @@
 "constant.numeric" = { fg = "const_fg" }
 
 "type" = { fg = "text" }
-"constructor" = { fg = "text", modifiers = ["bold"] }
+"constructor" = { fg = "function_fg" }
 
 "label" = { fg = "text_soft", underline = { style = "line" } }
 "tag" = { fg = "text" }
