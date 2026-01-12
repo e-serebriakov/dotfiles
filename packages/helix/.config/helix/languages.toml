@@ -6,6 +6,14 @@ command = "clojure-lsp"
 command = "svelteserver"
 args = ["--stdio"]
 
+[language-server.tailwindcss]
+command = "tailwindcss-language-server"
+args = ["--stdio"]
+
+[language-server.typescript-language-server]
+command = "typescript-language-server"
+args = ["--stdio"]
+
 # --- Language hookup ---
 [[language]]
 name = "clojure"
@@ -18,4 +26,24 @@ auto-format = true
 name = "svelte"
 file-types = ["svelte"]
 language-servers = ["svelte"]
+
+[[language]]
+name = "typescript"
+language-servers = ["typescript-language-server"]
+
+[[language]]
+name = "tsx"
+language-servers = ["typescript-language-server", "tailwindcss"]
+
+[[language]]
+name = "javascript"
+language-servers = ["typescript-language-server"]
+
+[[language]]
+name = "jsx"
+language-servers = ["typescript-language-server", "tailwindcss"]
+
+[[language]]
+name = "html"
+language-servers = ["tailwindcss"]
 
