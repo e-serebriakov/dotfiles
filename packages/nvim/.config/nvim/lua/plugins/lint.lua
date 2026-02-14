@@ -4,13 +4,17 @@ return {
   config = function()
     local lint = require 'lint'
     lint.linters_by_ft = {
-      markdown = { 'markdownlint' },
-      clojure = { 'clj-kondo' },
-      json = { 'jq' },
+      -- biome-first (JS/TS/JSON/CSS)
       javascript = { 'biomejs' },
       javascriptreact = { 'biomejs' },
       typescript = { 'biomejs' },
       typescriptreact = { 'biomejs' },
+      json = { 'biomejs' },
+      jsonc = { 'biomejs' },
+      css = { 'biomejs' },
+      -- other
+      markdown = { 'markdownlint' },
+      clojure = { 'clj-kondo' },
       python = { 'ruff' },
     }
 
