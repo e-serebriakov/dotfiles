@@ -27,6 +27,9 @@ return {
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
+
+      -- JSON schema support
+      'b0o/SchemaStore.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -204,6 +207,16 @@ return {
         pyright = {},
         cssls = {},
         html = {},
+        emmet_language_server = {},
+
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
 
         lua_ls = {
           settings = {
