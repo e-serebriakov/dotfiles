@@ -82,20 +82,14 @@ return {
         --  completions whenever it has completion options available.
         ['<C-Space>'] = cmp.mapping.complete {},
 
-        -- Think of <c-l> as moving to the right of your snippet expansion.
-        --  So if you have a snippet that's like:
-        --  function $name($args)
-        --    $body
-        --  end
-        --
-        -- <c-l> will move you to the right of each of the expansion locations.
-        -- <c-h> is similar, except moving you backwards.
-        ['<C-l>'] = cmp.mapping(function()
+        -- Snippet jump forward/backward (using C-j/C-k to avoid
+        -- conflicting with C-h/C-l used by vim-tmux-navigator)
+        ['<C-j>'] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           end
         end, { 'i', 's' }),
-        ['<C-h>'] = cmp.mapping(function()
+        ['<C-k>'] = cmp.mapping(function()
           if luasnip.locally_jumpable(-1) then
             luasnip.jump(-1)
           end

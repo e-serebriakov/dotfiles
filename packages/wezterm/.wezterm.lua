@@ -4,6 +4,7 @@ local config = wezterm.config_builder()
 -- Window / font
 config.initial_cols = 120
 config.initial_rows = 28
+config.font = wezterm.font("JetBrainsMono Nerd Font")
 config.font_size = 14
 config.window_decorations = "RESIZE"
 config.window_padding = { left = 6, right = 6, top = 4, bottom = 4 }

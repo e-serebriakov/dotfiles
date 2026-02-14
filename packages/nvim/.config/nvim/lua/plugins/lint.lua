@@ -9,6 +9,11 @@ return {
         markdown = { 'markdownlint' },
         clojure = { 'clj-kondo' },
         json = { 'jq' },
+        javascript = { 'biomejs' },
+        javascriptreact = { 'biomejs' },
+        typescript = { 'biomejs' },
+        typescriptreact = { 'biomejs' },
+        python = { 'ruff' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
