@@ -1,3 +1,4 @@
 return {
-  { 'Olical/conjure' },
+  'Olical/conjure',
+  ft = { 'clojure' },
 }

@@ -23,6 +23,8 @@ if [[ -d ~/.local/share/zsh/zsh-syntax-highlighting/ ]]; then
 fi
 if [[ -d ~/.local/share/zsh/zsh-history-substring-search/ ]]; then
   source ~/.local/share/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
 fi
 if [[ -d ~/.local/share/zsh/zsh-autosuggestions/ ]]; then
   source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
