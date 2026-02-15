@@ -208,6 +208,7 @@ return {
         cssls = {},
         html = {},
         emmet_language_server = {},
+        tailwindcss = {},
 
         jsonls = {
           settings = {
