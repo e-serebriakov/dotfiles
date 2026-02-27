@@ -42,7 +42,7 @@ fi
 
 # fzf integration (Ctrl+R history, Ctrl+T files, Alt+C cd)
 if command -v fzf >/dev/null 2>&1; then
-  eval "$(fzf --zsh 2>/dev/null)" || [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  eval "$(fzf --zsh 2>/dev/null)" || { [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; }
 fi
 
 # Git aliases
