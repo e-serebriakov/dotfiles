@@ -1,3 +1,10 @@
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/Users/eserebriakov/.oh-my-zsh/custom/completions" $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END
+
 # History
 HISTSIZE=10000
 SAVEHIST=10000
@@ -35,10 +42,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 export VISUAL=nvim
 export COLORTERM=truecolor
-
-if command -v devbox >/dev/null 2>&1; then
-  eval "$(devbox global shellenv)"
-fi
 
 # fzf integration (Ctrl+R history, Ctrl+T files, Alt+C cd)
 if command -v fzf >/dev/null 2>&1; then
@@ -109,3 +112,7 @@ fi
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
+eval "$(mise activate zsh)"
+
+alias rootpls='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --add'
+alias gg='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --remove'
