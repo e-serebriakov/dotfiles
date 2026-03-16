@@ -111,16 +111,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Refresh diffview when files change externally (e.g. Claude Code writes)
-vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
-  callback = function()
-    local ok, lib = pcall(require, 'diffview.lib')
-    if ok and next(lib.views) ~= nil then
-      require('diffview.actions').refresh_files()
-    end
-  end,
-})
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
