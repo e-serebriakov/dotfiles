@@ -22,7 +22,6 @@ install_apt_packages() {
     stow \
     curl \
     unzip \
-    tmux \
     fzf \
     ripgrep \
     build-essential \

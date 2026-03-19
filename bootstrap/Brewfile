@@ -1,8 +1,6 @@
 brew "fzf"
 brew "ripgrep"
 brew "stow"
-brew "tmux"
-brew "tmuxinator"
 brew "neovim"
 brew "starship"
 brew "helix"
