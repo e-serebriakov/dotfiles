@@ -1,0 +1,15 @@
+name: monorepo-root
+root: ~/code
+
+windows:
+  - work:
+      layout: main-vertical
+      panes:
+        - nvim
+        -   # Claude Code — start manually: claude
+
+  - run:
+      layout: even-vertical
+      panes:
+        -   # tests
+        -   # logs

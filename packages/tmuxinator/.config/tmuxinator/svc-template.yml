@@ -1,0 +1,22 @@
+# Template for per-service sessions.
+# Usage:
+#   1. Copy this file: cp svc-template.yml svc-<name>.yml
+#   2. Replace PLACEHOLDER_NAME with your service name (e.g., auth, api, worker)
+#   3. Replace PLACEHOLDER_PATH with the service root (e.g., ~/code/services/auth)
+#   4. Optionally set startup commands in each pane (e.g., nvim ., go run .)
+
+name: svc-PLACEHOLDER_NAME
+root: PLACEHOLDER_PATH
+
+windows:
+  - work:
+      layout: main-vertical
+      panes:
+        - nvim
+        -   # Claude Code — start manually: claude
+
+  - run:
+      layout: even-vertical
+      panes:
+        -   # tests (e.g., go test ./... or npm test)
+        -   # logs  (e.g., tail -f logs/app.log)
