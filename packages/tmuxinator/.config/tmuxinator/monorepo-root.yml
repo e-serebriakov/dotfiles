@@ -1,5 +1,5 @@
 name: monorepo-root
-root: ~/code
+root: <%= ENV["PWD"] %>
 
 windows:
   - work:
