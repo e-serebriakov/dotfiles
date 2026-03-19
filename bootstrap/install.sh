@@ -32,11 +32,11 @@ done
 if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
-  # If you want to adopt existing real files into the repo, uncomment:
-  # stow --adopt -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
-
-  # Idempotent linking
-  stow -R -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
+  # --adopt moves conflicting real files into packages/, then we restore
+  # only packages/ so uncommitted changes elsewhere (Brewfile etc.) are safe.
+  stow --adopt -R -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
+  git -C "$DOTFILES_DIR" diff --name-only packages/ | \
+    xargs -I{} git -C "$DOTFILES_DIR" checkout -- {}
 fi
 
 echo "✅ Done"
