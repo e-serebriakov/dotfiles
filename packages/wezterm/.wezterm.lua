@@ -24,6 +24,9 @@ config.force_reverse_video_cursor = true
 -- Nice subtle dim on inactive panes
 config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.92 }
 
+-- Enable Kitty keyboard protocol so Ctrl+Alt+letter combos reach Zellij correctly
+config.enable_kitty_keyboard = true
+
 -- Helpful when spawning local tools
 config.set_environment_variables = { COLORTERM = "truecolor" }
 
