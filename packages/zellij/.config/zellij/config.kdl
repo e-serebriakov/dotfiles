@@ -135,13 +135,10 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "locked" {
-        // Arrow key navigation (safe Ctrl Alt combos)
-        bind "Ctrl Alt left" { MoveFocusOrTab "left"; }
-        bind "Ctrl Alt down" { MoveFocus "down"; }
-        bind "Ctrl Alt up" { MoveFocus "up"; }
-        bind "Ctrl Alt right" { MoveFocusOrTab "right"; }
-        // h/j/k/l variants dropped — Ctrl Alt + letter conflicts with terminal encoding
-        // Use Ctrl+Space -> pane mode -> h/j/k/l instead
+        bind "Ctrl Alt h" { MoveFocusOrTab "left"; }
+        bind "Ctrl Alt j" { MoveFocus "down"; }
+        bind "Ctrl Alt k" { MoveFocus "up"; }
+        bind "Ctrl Alt l" { MoveFocusOrTab "right"; }
         bind "Ctrl Alt +" { Resize "Increase"; }
         bind "Ctrl Alt -" { Resize "Decrease"; }
         bind "Ctrl Alt =" { Resize "Increase"; }
