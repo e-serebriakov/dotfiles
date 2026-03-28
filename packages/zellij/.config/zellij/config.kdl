@@ -137,17 +137,17 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "locked" {
-        bind "Ctrl Alt h" { MoveFocusOrTab "left"; }
-        bind "Ctrl Alt j" { MoveFocus "down"; }
-        bind "Ctrl Alt k" { MoveFocus "up"; }
-        bind "Ctrl Alt l" { MoveFocusOrTab "right"; }
-        bind "Ctrl Alt +" { Resize "Increase"; }
-        bind "Ctrl Alt -" { Resize "Decrease"; }
-        bind "Ctrl Alt =" { Resize "Increase"; }
-        bind "Ctrl Alt [" { PreviousSwapLayout; }
-        bind "Ctrl Alt ]" { NextSwapLayout; }
-        bind "Ctrl Alt f" { ToggleFloatingPanes; }
-        bind "Ctrl Alt n" { NewPane; }
+        bind "Alt h" { MoveFocusOrTab "left"; }
+        bind "Alt j" { MoveFocus "down"; }
+        bind "Alt k" { MoveFocus "up"; }
+        bind "Alt l" { MoveFocusOrTab "right"; }
+        bind "Alt +" { Resize "Increase"; }
+        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt =" { Resize "Increase"; }
+        bind "Alt [" { PreviousSwapLayout; }
+        bind "Alt ]" { NextSwapLayout; }
+        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Alt n" { NewPane; }
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
     }
@@ -165,7 +165,6 @@ keybinds clear-defaults=true {
     }
     shared_except "locked" "pane" {
         bind "Ctrl p" { SwitchToMode "pane"; }
-        bind "Ctrl Space" { SwitchToMode "pane"; }
     }
     shared_except "locked" "resize" {
         bind "Ctrl n" { SwitchToMode "resize"; }

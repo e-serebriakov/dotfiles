@@ -27,6 +27,10 @@ config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.92 }
 -- Enable Kitty keyboard protocol so Ctrl+Alt+letter combos reach Zellij correctly
 config.enable_kitty_keyboard = true
 
+-- Send Alt as modifier, not as macOS special characters
+config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = false
+
 -- Helpful when spawning local tools
 config.set_environment_variables = { COLORTERM = "truecolor" }
 
