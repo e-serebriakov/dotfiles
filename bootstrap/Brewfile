@@ -5,9 +5,11 @@ brew "neovim"
 brew "starship"
 brew "helix"
 brew "zellij"
+brew "git-town"
 
 cask "raycast"
 cask "wezterm"
 cask "aerospace"
 cask "claude-code"
+cask "karabiner-elements"
 
