@@ -1,23 +1,26 @@
 // Main agentic coding layout
-// Top section (75%):  nvim (left 70%) | Claude Code (right 30%)
-// Bottom section (25%): tests (left) | logs (right)
+// Tab 1 "work":     editor + claude stacked (full width each)
+// Tab 2 "feedback": tests + logs split side by side
 //
 // Start with: zellij --layout ~/.config/zellij/layouts/work.kdl
 
 layout {
-    // Top: editor + claude side by side
-    pane split_direction="vertical" size="75%" {
-        pane size="60%" name="editor"    // nvim
-        pane size="40%" name="claude"    // Claude Code
+    tab name="work" focus=true {
+        pane stacked=true {
+            pane name="editor" focus=true
+            pane name="claude"
+        }
+    }
+    tab name="feedback" {
+        pane split_direction="vertical" {
+            pane name="tests"
+            pane name="logs"
+        }
     }
 
-    // Bottom: feedback layer
-    pane split_direction="vertical" size="25%" {
-        pane name="tests"
-        pane name="logs"
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
     }
-
-    // Navigation hint bar
     pane size=2 borderless=true {
         plugin location="zellij:status-bar"
     }
