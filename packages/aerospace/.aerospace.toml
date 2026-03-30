@@ -87,62 +87,64 @@ automatically-unhide-macos-hidden-apps = false
     #     activate
     # end tell'
     # '''
+    # Disable cmd+m minimize
+    cmd-m = 'exec-and-forget true'
 
     # Layout
-    cmd-ctrl-alt-slash = 'layout tiles horizontal vertical'
-    cmd-ctrl-alt-comma = 'layout accordion horizontal vertical'
+    cmd-ctrl-alt-shift-slash = 'layout tiles horizontal vertical'
+    cmd-ctrl-alt-shift-comma = 'layout accordion horizontal vertical'
 
     # Focus
-    cmd-ctrl-alt-h = 'focus left'
-    cmd-ctrl-alt-j = 'focus down'
-    cmd-ctrl-alt-k = 'focus up'
-    cmd-ctrl-alt-l = 'focus right'
+    cmd-ctrl-alt-shift-h = 'focus left'
+    cmd-ctrl-alt-shift-j = 'focus down'
+    cmd-ctrl-alt-shift-k = 'focus up'
+    cmd-ctrl-alt-shift-l = 'focus right'
 
     # Resize
-    cmd-ctrl-alt-minus = 'resize smart -50'
-    cmd-ctrl-alt-equal = 'resize smart +50'
+    cmd-ctrl-alt-shift-minus = 'resize smart -50'
+    cmd-ctrl-alt-shift-equal = 'resize smart +50'
 
     # Workspaces
-    cmd-ctrl-alt-1 = 'workspace 1'
-    cmd-ctrl-alt-2 = 'workspace 2'
-    cmd-ctrl-alt-3 = 'workspace 3'
-    cmd-ctrl-alt-4 = 'workspace 4'
-    cmd-ctrl-alt-5 = 'workspace 5'
-    cmd-ctrl-alt-6 = 'workspace 6'
-    cmd-ctrl-alt-7 = 'workspace 7'
-    cmd-ctrl-alt-8 = 'workspace 8'
-    cmd-ctrl-alt-9 = 'workspace 9'
-    cmd-ctrl-alt-a = 'workspace A'
-    cmd-ctrl-alt-b = 'workspace B'
-    cmd-ctrl-alt-c = 'workspace C'
-    cmd-ctrl-alt-d = 'workspace D'
-    cmd-ctrl-alt-e = 'workspace E'
-    cmd-ctrl-alt-f = 'workspace F'
-    cmd-ctrl-alt-g = 'workspace G'
-    cmd-ctrl-alt-i = 'workspace I'
-    cmd-ctrl-alt-m = 'workspace M'
-    cmd-ctrl-alt-n = 'workspace N'
-    cmd-ctrl-alt-o = 'workspace O'
-    cmd-ctrl-alt-p = 'workspace P'
-    cmd-ctrl-alt-q = 'workspace Q'
-    cmd-ctrl-alt-r = 'workspace R'
-    cmd-ctrl-alt-s = 'workspace S'
-    cmd-ctrl-alt-t = 'workspace T'
-    cmd-ctrl-alt-u = 'workspace U'
-    cmd-ctrl-alt-v = 'workspace V'
-    cmd-ctrl-alt-w = 'workspace W'
-    cmd-ctrl-alt-x = 'workspace X'
-    cmd-ctrl-alt-y = 'workspace Y'
-    cmd-ctrl-alt-z = 'workspace Z'
+    cmd-ctrl-alt-shift-1 = 'workspace 1'
+    cmd-ctrl-alt-shift-2 = 'workspace 2'
+    cmd-ctrl-alt-shift-3 = 'workspace 3'
+    cmd-ctrl-alt-shift-4 = 'workspace 4'
+    cmd-ctrl-alt-shift-5 = 'workspace 5'
+    cmd-ctrl-alt-shift-6 = 'workspace 6'
+    cmd-ctrl-alt-shift-7 = 'workspace 7'
+    cmd-ctrl-alt-shift-8 = 'workspace 8'
+    cmd-ctrl-alt-shift-9 = 'workspace 9'
+    cmd-ctrl-alt-shift-a = 'workspace A'
+    cmd-ctrl-alt-shift-b = 'workspace B'
+    cmd-ctrl-alt-shift-c = 'workspace C'
+    cmd-ctrl-alt-shift-d = 'workspace D'
+    cmd-ctrl-alt-shift-e = 'workspace E'
+    cmd-ctrl-alt-shift-f = 'workspace F'
+    cmd-ctrl-alt-shift-g = 'workspace G'
+    cmd-ctrl-alt-shift-i = 'workspace I'
+    cmd-ctrl-alt-shift-m = 'workspace M'
+    cmd-ctrl-alt-shift-n = 'workspace N'
+    cmd-ctrl-alt-shift-o = 'workspace O'
+    cmd-ctrl-alt-shift-p = 'workspace P'
+    cmd-ctrl-alt-shift-q = 'workspace Q'
+    cmd-ctrl-alt-shift-r = 'workspace R'
+    cmd-ctrl-alt-shift-s = 'workspace S'
+    cmd-ctrl-alt-shift-t = 'workspace T'
+    cmd-ctrl-alt-shift-u = 'workspace U'
+    cmd-ctrl-alt-shift-v = 'workspace V'
+    cmd-ctrl-alt-shift-w = 'workspace W'
+    cmd-ctrl-alt-shift-x = 'workspace X'
+    cmd-ctrl-alt-shift-y = 'workspace Y'
+    cmd-ctrl-alt-shift-z = 'workspace Z'
 
     # Workspace back-and-forth
-    cmd-ctrl-alt-tab = 'workspace-back-and-forth'
+    cmd-ctrl-alt-shift-tab = 'workspace-back-and-forth'
 
-    # Enter move mode (hyper+space)
-    cmd-ctrl-alt-space = 'mode move'
+    # Enter move mode
+    cmd-ctrl-alt-shift-space = 'mode move'
 
     # Service mode
-    cmd-ctrl-alt-semicolon = 'mode service'
+    cmd-ctrl-alt-shift-semicolon = 'mode service'
 
 # 'move' binding mode — entered via hyper+space
 [mode.move.binding]
