@@ -12,4 +12,5 @@ cask "wezterm"
 cask "aerospace"
 cask "claude-code"
 cask "karabiner-elements"
+cask "font-jetbrains-mono-nerd-font"
 
