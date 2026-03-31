@@ -97,6 +97,11 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Window navigation is handled by zellij-nav.nvim plugin
 -- for seamless navigation between nvim splits and zellij panes
 
+-- Buffer navigation
+vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
