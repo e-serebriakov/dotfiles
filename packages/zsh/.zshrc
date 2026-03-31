@@ -40,6 +40,17 @@ export COLORTERM=truecolor
 if command -v fzf >/dev/null 2>&1; then
   eval "$(fzf --zsh 2>/dev/null)" || { [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; }
 fi
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS='--height 40% --border'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 {}'"
+
+# CLI aliases
+alias cat='bat'
+alias ls='eza'
+alias ll='eza -la --git'
+alias tree='eza --tree'
 
 # Git aliases
 alias g='git'
@@ -70,6 +81,13 @@ alias gstp='git stash pop'
 alias gsp='git show'
 alias gt='git tag'
 alias grh='git reset'
+
+# Git Town aliases
+alias gts='git town sync'
+alias gta='git town append'
+alias gtp='git town propose'
+alias gtsh='git town ship'
+alias gtdp='git town diff-parent'
 
 # ===== ssh-agent autostart with multiple keys =====
 _ssh_quiet_init() {
