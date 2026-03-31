@@ -1,13 +1,14 @@
 # History
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=~/.local/share/history/histfile
 setopt appendhistory
 setopt inc_append_history
 setopt hist_ignore_all_dups   
 setopt share_history 
 setopt extended_history
-setopt hist_expire_dups_first 
+setopt hist_expire_dups_first
+setopt hist_save_no_dups
 setopt hist_ignore_space
 
 # ensure target exists (safe no-op if already exists)
@@ -18,6 +19,9 @@ setopt hist_ignore_space
 autoload -Uz compinit && compinit
 
 # Plugins
+if [[ -d ~/.local/share/zsh/fzf-tab/ ]]; then
+  source ~/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
+fi
 if [[ -d ~/.local/share/zsh/zsh-syntax-highlighting/ ]]; then
   source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
@@ -65,7 +69,6 @@ alias gl='git pull'
 alias ggl='git pull origin HEAD'
 alias gco='git checkout'
 alias gcb='git checkout -b'
-alias gm='git merge'
 alias gr='git remote'
 alias grv='git remote -v'
 alias gcl='git clone'
@@ -81,6 +84,9 @@ alias gstp='git stash pop'
 alias gsp='git show'
 alias gt='git tag'
 alias grh='git reset'
+alias glp='git log --patch'
+alias gwip='git commit -am "wip" --no-verify'
+alias gunwip='git log -1 --format="%s" | grep -q "^wip$" && git reset HEAD~1'
 
 # Git Town aliases
 alias gts='git town sync'
@@ -88,6 +94,16 @@ alias gta='git town append'
 alias gtp='git town propose'
 alias gtsh='git town ship'
 alias gtdp='git town diff-parent'
+alias gtl='git town status'
+alias gth='git town hack'
+
+# PR review from terminal — `pr` for own PRs, `pr 123` for specific PR
+pr() {
+  local num=${1:-$(gh pr list --author @me --state open --json number,title \
+    | jq -r '.[] | "\(.number)\t\(.title)"' | fzf --prompt="PR> " | cut -f1)}
+  [[ -z "$num" ]] && return 1
+  gh pr view "$num" && gh pr diff "$num" | delta
+}
 
 # ===== ssh-agent autostart with multiple keys =====
 _ssh_quiet_init() {
@@ -154,6 +170,13 @@ dev() {
     (cd "$dir" && zellij -s "$project" -n work)
   fi
 }
+_dev() {
+  local -a sessions dirs
+  sessions=(${(f)"$(zellij list-sessions 2>/dev/null | awk '{print $1}')"})
+  dirs=(${(f)"$(zoxide query -l 2>/dev/null | while read -r d; do echo "${d:t}"; done)"})
+  _alternative "sessions:sessions:(${sessions})" "dirs:directories:(${dirs})"
+}
+compdef _dev dev
 
 alias rootpls='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --add'
 alias gg='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --remove'
