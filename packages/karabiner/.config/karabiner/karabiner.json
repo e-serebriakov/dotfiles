@@ -6,7 +6,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change caps_lock to command+control+option (Meh).",
+                                "description": "Change caps_lock to command+control+option+shift (Hyper).",
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": {
