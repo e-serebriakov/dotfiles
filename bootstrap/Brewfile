@@ -6,6 +6,7 @@ brew "starship"
 brew "helix"
 brew "zellij"
 brew "git-town"
+brew "zoxide"
 
 cask "raycast"
 cask "wezterm"

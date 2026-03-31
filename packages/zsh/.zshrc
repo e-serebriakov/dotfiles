@@ -106,6 +106,36 @@ if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
 eval "$(mise activate zsh)"
+eval "$(zoxide init zsh)"
+
+# Zellij project launcher — attach if session exists, create with work layout if not
+# Usage: dev              (use current dir as project)
+#        dev <project>    (resolve dir via zoxide)
+dev() {
+  if [[ -n "$ZELLIJ" ]]; then
+    echo "dev: already inside zellij — use Ctrl+o w (session manager) to switch" >&2
+    return 1
+  fi
+
+  local project dir
+
+  if [[ -z "$1" ]]; then
+    project="${PWD:t}"
+    dir="$PWD"
+  else
+    project="$1"
+    dir="$(zoxide query "$project" 2>/dev/null)" || {
+      echo "dev: could not resolve '$project' — cd there once so zoxide learns it" >&2
+      return 1
+    }
+  fi
+
+  if zellij list-sessions 2>/dev/null | grep -q "^${project} "; then
+    zellij attach "$project"
+  else
+    (cd "$dir" && zellij -s "$project" -n work)
+  fi
+}
 
 alias rootpls='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --add'
 alias gg='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --remove'

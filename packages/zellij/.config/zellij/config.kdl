@@ -1,6 +1,11 @@
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
+        // Keep pane/tab navigation working while locked (autolock locks when nvim is focused)
+        bind "Alt h" { MoveFocusOrTab "left"; }
+        bind "Alt j" { MoveFocus "down"; }
+        bind "Alt k" { MoveFocus "up"; }
+        bind "Alt l" { MoveFocusOrTab "right"; }
     }
     normal {
         // Override global Ctrl+g lock binding — open lazygit floating pane instead
@@ -32,6 +37,7 @@ keybinds clear-defaults=true {
         bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
         bind "x" { CloseFocus; SwitchToMode "normal"; }
         bind "z" { TogglePaneFrames; SwitchToMode "normal"; }
+        bind "m" { SwitchToMode "move"; }
     }
     tab {
         bind "left" { GoToPreviousTab; }
@@ -85,7 +91,7 @@ keybinds clear-defaults=true {
         bind "up" { MovePane "up"; }
         bind "right" { MovePane "right"; }
         bind "h" { MovePane "left"; }
-        bind "Ctrl h" { SwitchToMode "normal"; }
+        bind "Ctrl p" { SwitchToMode "normal"; }
         bind "j" { MovePane "down"; }
         bind "k" { MovePane "up"; }
         bind "l" { MovePane "right"; }
@@ -151,9 +157,8 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
     }
-    shared_except "locked" "move" {
-        bind "Ctrl h" { SwitchToMode "move"; }
-    }
+    // Ctrl+h removed — reserved for zellij-nav.nvim (Neovim ↔ Zellij pane navigation)
+    // Use Alt+hjkl for pane navigation, or Ctrl+p → h/j/k/l for move mode
     shared_except "locked" "session" {
         bind "Ctrl o" { SwitchToMode "session"; }
     }
@@ -232,6 +237,12 @@ plugins {
 // eg. "file:/path/to/my-plugin.wasm"
 // eg. "https://example.com/my-plugin.wasm"
 load_plugins {
+    // Auto-lock zellij when nvim/vim is focused so Ctrl+hjkl pass through to zellij-nav.nvim
+    "https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+        triggers "nvim|vim"
+        watch_triggers "fzf|zoxide"
+        watch_interval "1.0"
+    }
 }
  
 // Use a simplified UI without special fonts (arrow glyphs)

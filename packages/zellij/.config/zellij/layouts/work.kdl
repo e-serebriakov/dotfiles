@@ -1,8 +1,10 @@
-// Main agentic coding layout
+// Standard project layout — inherits cwd from the shell
 // Tab 1 "work":     editor + claude stacked (full width each)
-// Tab 2 "feedback": tests + logs split side by side
+// Tab 2 "feedback": shell + logs side by side
 //
-// Start with: zellij --layout ~/.config/zellij/layouts/work.kdl
+// For quick commands without leaving the work tab: Alt+f (floating pane)
+//
+// Launch via: dev <project>
 
 layout {
     default_tab_template {
@@ -17,13 +19,13 @@ layout {
 
     tab name="work" focus=true {
         pane stacked=true {
-            pane name="editor" focus=true
+            pane name="editor" focus=true command="nvim" args="."
             pane name="claude"
         }
     }
     tab name="feedback" {
         pane split_direction="vertical" {
-            pane name="tests"
+            pane name="shell"
             pane name="logs"
         }
     }

@@ -1,46 +1,29 @@
-# Zellij (Experimental)
+# Zellij
 
-> tmux remains the primary setup. This is a parallel config for future experimentation.
-
-## Install
+## Setup
 
 ```sh
 brew install zellij
+cd ~/dotfiles/packages && stow zellij
 ```
 
-## Apply config via stow
+## Usage
+
+Launch a project session (attaches if already running):
 
 ```sh
-cd ~/dotfiles/packages
-stow zellij
+dev deltia
 ```
 
-## Start a session with the work layout
+The `dev` function (in `.zshrc`) resolves project names via zoxide, `cd`s there,
+and launches Zellij with the standard `work` layout. All panes inherit the project root as cwd.
 
-```sh
-zellij --layout ~/.config/zellij/layouts/work.kdl
-```
+Just `cd` into a project directory once so zoxide learns it.
 
-## Layout
+## Navigation
 
-- **Top 75%**: nvim (left 60%) | Claude Code (right 40%)
-- **Bottom 25%**: tests (left) | logs (right)
-
-## Per-service sessions
-
-Copy the template layout and adapt the `cwd` and startup commands:
-
-```sh
-cp ~/.config/zellij/layouts/svc-template.kdl ~/.config/zellij/layouts/svc-myservice.kdl
-# Edit cwd and commands inside the file, then:
-zellij --layout ~/.config/zellij/layouts/svc-myservice.kdl
-```
-
-## Keybindings
-
-| Key | Action |
-|-----|--------|
-| `Ctrl+Space` | Enter Pane mode (prefix) |
-| `Ctrl+Space` (in Pane mode) | Return to Normal |
-| `h/j/k/l` (in Pane mode) | Navigate panes |
-| `Ctrl+g` | Open lazygit floating pane |
+- `Ctrl+hjkl` — seamless Neovim ↔ Zellij pane navigation (via zellij-nav.nvim + autolock)
+- `Alt+hjkl` — pane/tab navigation (works in all modes)
+- `Ctrl+p` — pane mode, `Ctrl+t` — tab mode, `Ctrl+n` — resize mode
+- `Ctrl+p m` — move mode (move panes around)
+- `Ctrl+g` — lazygit (normal mode) / lock toggle (other modes)
