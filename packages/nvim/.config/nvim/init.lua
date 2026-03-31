@@ -94,11 +94,20 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- Exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- Window navigation is handled by vim-tmux-navigator plugin
--- for seamless navigation between nvim splits and tmux panes
+-- Window navigation is handled by zellij-nav.nvim plugin
+-- for seamless navigation between nvim splits and zellij panes
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+
+-- Unlock zellij when leaving nvim (zellij-autolock locks it when nvim starts)
+if vim.env.ZELLIJ then
+  vim.api.nvim_create_autocmd('VimLeave', {
+    group = vim.api.nvim_create_augroup('zellij-unlock', { clear = true }),
+    pattern = '*',
+    command = 'silent !zellij action switch-mode normal',
+  })
+end
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

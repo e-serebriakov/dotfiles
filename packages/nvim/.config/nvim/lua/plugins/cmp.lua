@@ -82,8 +82,8 @@ return {
         --  completions whenever it has completion options available.
         ['<C-Space>'] = cmp.mapping.complete {},
 
-        -- Snippet jump forward/backward (using C-j/C-k to avoid
-        -- conflicting with C-h/C-l used by vim-tmux-navigator)
+        -- Snippet jump forward/backward (C-j/C-k avoids
+        -- conflicting with C-h/C-l used by zellij-nav.nvim)
         ['<C-j>'] = cmp.mapping(function()
           if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
