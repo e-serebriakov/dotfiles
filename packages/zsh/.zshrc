@@ -164,11 +164,7 @@ dev() {
     }
   fi
 
-  if zellij list-sessions 2>/dev/null | grep -q "^${project} "; then
-    zellij attach "$project"
-  else
-    (cd "$dir" && zellij -s "$project" -n work)
-  fi
+  zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n work)
 }
 _dev() {
   local -a sessions dirs
