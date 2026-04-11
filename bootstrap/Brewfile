@@ -13,6 +13,7 @@ brew "bat"
 brew "eza"
 brew "fd"
 brew "jq"
+brew "mise"
 
 cask "raycast"
 cask "wezterm"
