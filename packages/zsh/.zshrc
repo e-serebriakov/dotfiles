@@ -15,8 +15,13 @@ setopt hist_ignore_space
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
-# Completion
-autoload -Uz compinit && compinit
+# Completion — rebuild dump at most once a day for faster startup
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 # Plugins
 if [[ -d ~/.local/share/zsh/fzf-tab/ ]]; then
@@ -51,7 +56,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-ran
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 {}'"
 
 # CLI aliases
-alias cat='bat'
+alias cat='bat --paging=never'
 alias ls='eza'
 alias ll='eza -la --git'
 alias tree='eza --tree'
@@ -130,17 +135,16 @@ _ssh_quiet_init
 unset -f _ssh_quiet_init
 
 # Prompt
-if command -v starship > /dev/null 2>&1; then
+if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
-elif [ -f ~/.local/bin/starship ]; then
-  eval "$(~/.local/bin/starship init zsh)"
 fi
 
-if (( $+commands[direnv] )); then
-  eval "$(direnv hook zsh)"
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
 fi
-eval "$(mise activate zsh)"
-eval "$(zoxide init zsh)"
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi
 
 # Zellij project launcher — attach if session exists, create with work layout if not
 # Usage: dev              (use current dir as project)
