@@ -19,6 +19,21 @@ elif [[ "$PLATFORM" == "linux" ]]; then
   bash bootstrap/linux.sh
 fi
 
+# Zsh plugins
+ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
+mkdir -p "$ZSH_PLUGIN_DIR"
+while IFS='=' read -r name url; do
+  if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
+    echo "  Installing zsh plugin: $name"
+    git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
+  fi
+done <<'PLUGINS'
+fzf-tab=https://github.com/Aloxaf/fzf-tab
+zsh-syntax-highlighting=https://github.com/zsh-users/zsh-syntax-highlighting
+zsh-history-substring-search=https://github.com/zsh-users/zsh-history-substring-search
+zsh-autosuggestions=https://github.com/zsh-users/zsh-autosuggestions
+PLUGINS
+
 # Build package list using shell globbing (portable on macOS)
 PKGS=()
 for dir in "$STOW_DIR"/*/ ; do
