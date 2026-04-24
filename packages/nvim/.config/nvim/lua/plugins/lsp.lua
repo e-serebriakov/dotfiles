@@ -204,7 +204,19 @@ return {
       local servers = {
         clojure_lsp = {},
         ts_ls = {},
-        pyright = {},
+        ruff = {},
+        pyright = {
+          settings = {
+            pyright = {
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                ignore = { '*' },
+              },
+            },
+          },
+        },
         cssls = {},
         html = {},
         emmet_language_server = {},

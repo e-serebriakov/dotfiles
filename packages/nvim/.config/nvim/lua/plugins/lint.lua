@@ -15,7 +15,7 @@ return {
       -- other
       markdown = { 'markdownlint' },
       clojure = { 'clj-kondo' },
-      python = { 'ruff' },
+      python = {},
     }
 
     local function is_linter_available(name)

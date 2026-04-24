@@ -45,7 +45,7 @@ return {
       -- other
       lua = { 'stylua' },
       clojure = { 'cljfmt' },
-      python = { 'ruff' },
+      python = {},
     },
   },
 }
