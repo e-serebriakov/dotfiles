@@ -41,7 +41,7 @@ return {
       -- prettier-only (biome doesn't support these)
       html = { 'prettierd', 'prettier', stop_after_first = true },
       yaml = { 'prettierd', 'prettier', stop_after_first = true },
-      markdown = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'markdownlint-cli2' },
       -- other
       lua = { 'stylua' },
       clojure = { 'cljfmt' },

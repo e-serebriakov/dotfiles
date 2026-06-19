@@ -3,6 +3,7 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     local lint = require 'lint'
+
     lint.linters_by_ft = {
       -- biome-first (JS/TS/JSON/CSS)
       javascript = { 'biomejs' },
@@ -13,7 +14,7 @@ return {
       jsonc = { 'biomejs' },
       css = { 'biomejs' },
       -- other
-      markdown = { 'markdownlint' },
+      markdown = { 'markdownlint-cli2' },
       clojure = { 'clj-kondo' },
       python = {},
     }

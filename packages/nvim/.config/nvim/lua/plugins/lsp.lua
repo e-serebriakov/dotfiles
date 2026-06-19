@@ -259,7 +259,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'markdownlint', -- Used to lint Markdown files
+        -- markdownlint-cli2, vale, prettierd are managed by mise (see packages/mise)
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

@@ -54,5 +54,11 @@ else
     xargs -I{} git -C "$DOTFILES_DIR" checkout -- {}
 fi
 
+# Install tools declared in packages/mise/.config/mise/config.toml
+if command -v mise &> /dev/null; then
+  echo "▶ Installing mise tools..."
+  mise install
+fi
+
 echo "✅ Done"
 
