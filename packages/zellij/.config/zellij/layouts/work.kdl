@@ -18,9 +18,18 @@ layout {
     }
 
     tab name="work" focus=true {
-        pane stacked=true {
-            pane name="editor" focus=true command="nvim" args="."
-            pane name="claude"
+        // Centered, width-capped work column with inert blank margins.
+        // On big/ultrawide monitors this keeps lines readable and the active
+        // content near the middle instead of the bottom-left corner.
+        // Tweak the width via `size=180`; the `command="cat"` panes are inert
+        // margins (cat blocks on stdin, draws nothing).
+        pane split_direction="vertical" {
+            pane borderless=true command="cat"        // left margin (inert)
+            pane size=180 stacked=true {              // centered work column, capped at 180 cols
+                pane name="editor" focus=true command="nvim" args="."
+                pane name="claude"
+            }
+            pane borderless=true command="cat"        // right margin (inert)
         }
     }
     tab name="feedback" {
