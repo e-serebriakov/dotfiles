@@ -34,8 +34,8 @@ layout {
     }
     tab name="feedback" {
         pane split_direction="vertical" {
-            pane name="shell"
             pane name="logs"
+            pane name="shell"
         }
     }
 }
