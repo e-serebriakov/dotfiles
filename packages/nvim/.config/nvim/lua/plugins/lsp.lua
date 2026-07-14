@@ -282,10 +282,15 @@ return {
       require('lspconfig').biome.setup {
         capabilities = capabilities,
         cmd = function(dispatchers)
-          local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
-          local nm = vim.fs.find('node_modules', { upward = true, type = 'directory', path = dir })[1]
-          local bin = nm and nm .. '/.bin/biome'
-          local exe = bin and vim.fn.executable(bin) == 1 and bin or 'biome'
+          local file = vim.api.nvim_buf_get_name(0)
+          local exe = 'biome'
+          for dir in vim.fs.parents(file) do
+            local cand = dir .. '/node_modules/.bin/biome'
+            if vim.fn.executable(cand) == 1 then
+              exe = cand
+              break
+            end
+          end
           return vim.lsp.rpc.start({ exe, 'lsp-proxy' }, dispatchers)
         end,
         on_attach = function(client)
