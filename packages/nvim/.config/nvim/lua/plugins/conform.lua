@@ -1,3 +1,13 @@
+local function biome_or(bufnr, biome_fmts, fallback)
+  local cfg = vim.fs.find({ 'biome.json', 'biome.jsonc' }, {
+    upward = true,
+    path = vim.api.nvim_buf_get_name(bufnr),
+  })[1]
+  return cfg and biome_fmts or fallback
+end
+
+local prettier = { 'prettierd', 'prettier', stop_after_first = true }
+
 return {
   -- Autoformat
   'stevearc/conform.nvim',
@@ -30,19 +40,15 @@ return {
       end
     end,
     formatters_by_ft = {
-      -- biome-first (JS/TS/JSON/CSS)
-      javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      typescript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      jsonc = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      -- prettier-only (biome doesn't support these)
-      html = { 'prettierd', 'prettier', stop_after_first = true },
-      yaml = { 'prettierd', 'prettier', stop_after_first = true },
-      markdown = { 'markdownlint-cli2' },
-      -- other
+      javascript = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
+      javascriptreact = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
+      typescript = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
+      typescriptreact = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
+      json = function(b) return biome_or(b, { 'biome' }, prettier) end,
+      jsonc = function(b) return biome_or(b, { 'biome' }, prettier) end,
+      css = function(b) return biome_or(b, { 'biome' }, prettier) end,
+      html = prettier,
+      yaml = prettier,
       lua = { 'stylua' },
       clojure = { 'cljfmt' },
       python = {},
