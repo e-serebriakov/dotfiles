@@ -277,6 +277,22 @@ return {
           end,
         },
       }
+
+      -- biome runs from the project's node_modules, so it's configured outside mason
+      require('lspconfig').biome.setup {
+        capabilities = capabilities,
+        cmd = function(dispatchers)
+          local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
+          local nm = vim.fs.find('node_modules', { upward = true, type = 'directory', path = dir })[1]
+          local bin = nm and nm .. '/.bin/biome'
+          local exe = bin and vim.fn.executable(bin) == 1 and bin or 'biome'
+          return vim.lsp.rpc.start({ exe, 'lsp-proxy' }, dispatchers)
+        end,
+        on_attach = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
+      }
     end,
   },
 }

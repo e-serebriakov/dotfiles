@@ -4,16 +4,8 @@ return {
   config = function()
     local lint = require 'lint'
 
+    -- JS/TS/JSON/CSS diagnostics come from the biome LSP (see lsp.lua)
     lint.linters_by_ft = {
-      -- biome-first (JS/TS/JSON/CSS)
-      javascript = { 'biomejs' },
-      javascriptreact = { 'biomejs' },
-      typescript = { 'biomejs' },
-      typescriptreact = { 'biomejs' },
-      json = { 'biomejs' },
-      jsonc = { 'biomejs' },
-      css = { 'biomejs' },
-      -- other
       markdown = { 'markdownlint-cli2' },
       clojure = { 'clj-kondo' },
       python = {},
@@ -29,7 +21,7 @@ return {
     end
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+    vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
       group = lint_augroup,
       callback = function()
         if not vim.opt_local.modifiable:get() or vim.bo.buftype ~= '' then
