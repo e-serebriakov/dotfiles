@@ -22,6 +22,8 @@ cd ~/dotfiles
 
 That's it. Open a new shell and the environment is restored.
 
+> **SSH keys** need two manual touches on a fresh machine — see [SSH setup](#ssh-setup). Your private `~/.ssh/config` is intentionally **not** tracked here.
+
 ## What `install.sh` does
 
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
@@ -50,6 +52,27 @@ git diff --name-only packages/ | xargs -I{} git checkout -- {}
 
 So the repo's tracked version always wins, and any pre-existing config on the machine is replaced by these dotfiles. Uncommitted changes elsewhere (e.g. `Brewfile`) are left untouched.
 
+## SSH setup
+
+Your `~/.ssh/config` is **not** tracked — it holds private hosts, tailnet addresses, and tool-managed blocks (OrbStack, DevPod). Only a generic, portable defaults block is versioned, at `packages/ssh/.ssh/config.d/defaults.conf`, which stow links to `~/.ssh/config.d/defaults.conf`. It sets `AddKeysToAgent`, `UseKeychain` (ignored on Linux via `IgnoreUnknown`), and the default identity files.
+
+On a fresh machine, two manual steps wire it up:
+
+1. **Include the tracked defaults** from your real config. Add this line to `~/.ssh/config` (anywhere in global scope, or under a `Host *`):
+
+   ```sshconfig
+   Host *
+   Include ~/.ssh/config.d/*.conf
+   ```
+
+   > Note: an `Include` inherits the surrounding `Host`/`Match` context. Place it in global scope (or under an explicit `Host *`) so it applies to every connection — not accidentally nested inside another host's block.
+
+2. **Load your keys into the agent:**
+   - **macOS** — `bootstrap/macos.sh` runs `ssh-add --apple-use-keychain` automatically (prompts for each passphrase once, then Keychain unlocks them). To do it by hand: `ssh-add --apple-use-keychain ~/.ssh/auth ~/.ssh/sign`.
+   - **Linux** — `.zshrc` starts an `ssh-agent` and adds `~/.ssh/{auth,sign}` on shell startup (guarded to `linux*` only; macOS uses the native Keychain agent instead).
+
+The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in this repo — copy them over securely out of band.
+
 ## Repo layout
 
 ```
@@ -70,10 +93,11 @@ dotfiles/
     ├── markdown/       # markdown lint config
     ├── mise/           # runtime/tool versions
     ├── nvim/           # neovim config
+    ├── ssh/            # generic SSH defaults (~/.ssh/config.d) — see SSH setup
     ├── starship/       # prompt
     ├── wezterm/        # terminal
     ├── zellij/         # terminal multiplexer
-    └── zsh/            # .zshrc + shell setup
+    └── zsh/            # .zshrc + .zshenv + shell setup
 ```
 
 Each folder under `packages/` mirrors the layout of `$HOME`. For example, `packages/nvim/.config/nvim/` stows to `~/.config/nvim/`.
