@@ -10,6 +10,7 @@ setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_save_no_dups
 setopt hist_ignore_space
+setopt interactive_comments
 
 # ensure target exists (safe no-op if already exists)
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
@@ -23,9 +24,13 @@ else
   compinit -C
 fi
 
-# Plugins
+# Plugins — order matters: fzf-tab first; syntax-highlighting after
+# widget-defining plugins; history-substring-search last.
 if [[ -d ~/.local/share/zsh/fzf-tab/ ]]; then
   source ~/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
+fi
+if [[ -d ~/.local/share/zsh/zsh-autosuggestions/ ]]; then
+  source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 if [[ -d ~/.local/share/zsh/zsh-syntax-highlighting/ ]]; then
   source ~/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -35,15 +40,6 @@ if [[ -d ~/.local/share/zsh/zsh-history-substring-search/ ]]; then
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
 fi
-if [[ -d ~/.local/share/zsh/zsh-autosuggestions/ ]]; then
-  source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-# Environment
-export PATH="$HOME/.local/bin:$PATH"
-export EDITOR=nvim
-export VISUAL=nvim
-export COLORTERM=truecolor
 
 # fzf integration (Ctrl+R history, Ctrl+T files, Alt+C cd)
 if command -v fzf >/dev/null 2>&1; then
@@ -110,29 +106,33 @@ pr() {
   gh pr view "$num" && gh pr diff "$num" | delta
 }
 
-# ===== ssh-agent autostart with multiple keys =====
-_ssh_quiet_init() {
-  if [ -z "$SSH_AUTH_SOCK" ] || ! [ -S "$SSH_AUTH_SOCK" ]; then
-    eval "$(ssh-agent -s)" > /dev/null
-  fi
+# ssh-agent autostart with multiple keys.
+# macOS uses the native Keychain agent (~/.ssh/config.d/defaults.conf), so this
+# only runs on Linux where there's no launchd-managed agent.
+if [[ "$OSTYPE" == linux* ]]; then
+  _ssh_quiet_init() {
+    if [ -z "$SSH_AUTH_SOCK" ] || ! [ -S "$SSH_AUTH_SOCK" ]; then
+      eval "$(ssh-agent -s)" > /dev/null
+    fi
 
-  if [ -S "$SSH_AUTH_SOCK" ]; then
-    local SSH_KEYS=(
-      "$HOME/.ssh/auth"
-      "$HOME/.ssh/gh_auth"
-      "$HOME/.ssh/sign"
-    )
+    if [ -S "$SSH_AUTH_SOCK" ]; then
+      local SSH_KEYS=(
+        "$HOME/.ssh/auth"
+        "$HOME/.ssh/gh_auth"
+        "$HOME/.ssh/sign"
+      )
 
-    for key in "${SSH_KEYS[@]}"; do
-      if [ -f "$key" ]; then
-        ssh-add -l 2>/dev/null | grep -q "$(ssh-keygen -lf "$key" | awk '{print $2}')" || \
-          ssh-add "$key" 2>/dev/null
-      fi
-    done
-  fi
-}
-_ssh_quiet_init
-unset -f _ssh_quiet_init
+      for key in "${SSH_KEYS[@]}"; do
+        if [ -f "$key" ]; then
+          ssh-add -l 2>/dev/null | grep -q "$(ssh-keygen -lf "$key" | awk '{print $2}')" || \
+            ssh-add "$key" 2>/dev/null
+        fi
+      done
+    fi
+  }
+  _ssh_quiet_init
+  unset -f _ssh_quiet_init
+fi
 
 # Prompt
 if (( $+commands[starship] )); then
