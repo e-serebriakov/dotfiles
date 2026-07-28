@@ -1,3 +1,5 @@
+tap "nikitabobko/tap"  # aerospace (third-party tap — trusted in macos.sh)
+
 brew "fzf"
 brew "ripgrep"
 brew "stow"

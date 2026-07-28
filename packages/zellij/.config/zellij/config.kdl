@@ -437,21 +437,5 @@ default_layout "work"
 // 
 show_release_notes false
 
-// Ergo Light theme — matches nvim ergo_light + wezterm color scheme
-themes {
-    ergo-light {
-        fg      "#121212"  // text — bar foreground, pane fg
-        bg      "#F3F3F1"  // panel — pane background
-        // black drives both bar bg and tile bg — use a shade close to bg
-        // so tiles are subtly visible without the bar going gray
-        black   "#DEDEDD"
-        red     "#B2473F"  // err_fg
-        green   "#4F9A5A"  // string_fg / git add — NORMAL mode label
-        yellow  "#8A6A1F"  // warn_fg
-        blue    "#3A6B90"  // info_fg — TAB / SCROLL mode label
-        magenta "#7B4B86"  // const purple
-        cyan    "#356E95"  // function blue — RESIZE mode label
-        white   "#4A4F55"  // text_soft — secondary bar text
-        orange  "#C35C52"  // PANE mode label
-    }
-}
+// Theme "ergo-light" is defined in themes/ergo-light.kdl, generated from
+// theme/ergo-light.tokens.json (see theme/generate.py).

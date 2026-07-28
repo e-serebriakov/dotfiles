@@ -22,8 +22,15 @@ install_brewfile() {
     exit 1
   fi
 
+  if brew trust --help &> /dev/null; then
+    info "Trusting third-party taps..."
+    # Non-fatal: the Brewfile also declares this tap, so `brew bundle` still
+    # resolves it if the trust step can't reach/verify the tap.
+    brew trust nikitabobko/tap || info "⚠ could not trust nikitabobko/tap; Brewfile tap will handle it"  # aerospace
+  fi
+
   info "Installing packages from Brewfile..."
-  brew bundle install --file="$brewfile"
+  HOMEBREW_NO_INSTALL_CLEANUP=1 brew bundle install --file="$brewfile"
 }
 
 # Load SSH keys into the login Keychain so the native agent unlocks them

@@ -2,3 +2,14 @@
 .claude
 
 .lsp
+
+.nvimlog
+
+__pycache__/
+
+# Generated theme files — build artifacts of theme/generate.py.
+# Edit theme/ergo-light.tokens.json instead; these are regenerated on install.
+packages/wezterm/.config/wezterm/colors/ergo_light.toml
+packages/zellij/.config/zellij/themes/ergo-light.kdl
+packages/nvim/.config/nvim/lua/colorschemes/ergo_light_palette.lua
+packages/git/.config/delta/ergo-light.gitconfig
