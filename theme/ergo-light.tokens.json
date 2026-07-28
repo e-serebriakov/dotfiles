@@ -143,9 +143,9 @@
     "accent": {
       "$type": "color",
       "string": { "$value": "{primitive.green.600}", "$description": "string literals / git add" },
-      "constant": { "$value": "{primitive.violet.600}", "$description": "constants, numbers, booleans" },
+      "constant": { "$value": "{primitive.violet.700}", "$description": "constants, numbers, booleans — dropped one step from violet.600 so a lightness cue survives the blue↔violet hue collapse under deuteranopia/protanopia (function stays at blue.600; without the offset the two are indistinguishable for red-green CVD)" },
       "function": { "$value": "{primitive.blue.600}", "$description": "function names" },
-      "link": { "$value": "{primitive.blue.700}", "$description": "links / urls" },
+      "link": { "$value": "{primitive.blue.800}", "$description": "links / urls — dropped to blue.800 so constant can stay vivid at violet.700 without the two colliding under CVD (link and constant share a hue axis but never the same buffer)" },
       "warm": { "$value": "{primitive.red.500}", "$description": "warm mode-accent (e.g. zellij PANE)" }
     },
     "status": {
