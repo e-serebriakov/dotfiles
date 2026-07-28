@@ -14,20 +14,12 @@
   navigate = true
   side-by-side = true
   line-numbers = true
-  ; Ergo Light — matches nvim ergo_light diff colors
   light = true
-  syntax-theme = GitHub
-  plus-style = "syntax #E9F2EA"
-  plus-emph-style = "syntax #D3E7D6"
-  minus-style = "syntax #F6E9E8"
-  minus-emph-style = "syntax #EED4D2"
-  hunk-header-style = "#6B7076"
-  hunk-header-decoration-style = "#DDDDDA" ul
-  file-style = "#121212" bold
-  file-decoration-style = "#DDDDDA" ul
-  line-numbers-minus-style = "#B2473F"
-  line-numbers-plus-style = "#4F9A5A"
-  line-numbers-zero-style = "#6B7076"
+
+; Ergo Light delta colors — GENERATED from theme/ergo-light.tokens.json (gitignored).
+; Edit the tokens + run theme/generate.py, not this include.
+[include]
+  path = ~/.config/delta/ergo-light.gitconfig
 
 [url "git@github.com:"]
   insteadOf = https://github.com/
