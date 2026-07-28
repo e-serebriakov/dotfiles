@@ -1,65 +1,14 @@
 local M = {}
 
-local colors = {
-  -- Base colors
-  paper = '#FAFAF8',
-  panel = '#F3F3F1',
-  line_primary = '#E8EEF4',
-  line = '#EFEFEF',
-  line_column = '#F2F2F2',
-  ruler_bg = '#F1F1EE',
-  divider = '#DDDDDA',
-  code_bg = '#F6F6F6',
-
-  -- Text colors
-  text = '#121212',
-  text_soft = '#4A4F55',
-  comment_fg = '#6B7076',
-  comment_bg = '#FFFACD',
-
-  -- Documentation colors
-  doc_fg = '#3E444A',
-  doc_bg = '#F4F5F7',
-  doc_quote_bg = '#F0F1F3',
-  doc_heading = '#222426',
-  link_fg = '#3A6B90',
-
-  -- Accent colors
-  string_fg = '#4F9A5A',
-  const_fg = '#6F63C6',
-  function_fg = '#4F78A8',
-
-  -- Cursor and selection
-  match_bg = '#E6EDF3',
-  cursor_primary = '#0E0E0E',
-  cursor_secondary = '#707070',
-  sel_secondary = '#E6E6E6',
-  sel_primary = '#C8D0D8',
-
-  -- Search colors
-  search_soft = '#F2EFD9',
-  search_mid = '#E7E1B0',
-
-  -- Diagnostic colors
-  diag_bg = '#FAFAF6',
-  err_fg = '#B2473F',
-  warn_fg = '#8A6A1F',
-  info_fg = '#3A6B90',
-  hint_fg = '#6F6F6F',
-
-  -- Diff colors
-  diff_add_bg = '#E9F2EA',
-  diff_change_bg = '#F6F2E4',
-  diff_del_bg = '#F6E9E8',
-  diff_move_bg = '#EDF1F6',
-  diff_conflict_bg = '#F5EAEA',
-
-  -- Popup colors
-  popup_bg = '#F8F8F6',
-  popup_header_bg = '#F0F0EE',
-}
+-- Palette is generated from theme/ergo-light.tokens.json (see theme/generate.py).
+-- Edit colors there and regenerate; do not hand-edit the palette values here.
+local ok, colors = pcall(require, 'colorschemes.ergo_light_palette')
 
 function M.setup()
+  if not ok then
+    vim.notify('ergo_light: generated palette missing — run theme/generate.py', vim.log.levels.WARN)
+    return
+  end
   local hi = vim.api.nvim_set_hl
 
   -- Clear existing highlights
@@ -117,6 +66,15 @@ function M.setup()
   -- Syntax highlighting
   hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg })
   hi(0, 'String', { fg = colors.string_fg })
+  -- Docstrings / doc-comments are documentation, not plain strings: readable dark
+  -- ink on the same warm band as comments, so prose reads as one important layer.
+  hi(0, '@string.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
+  hi(0, '@comment.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
+  -- High-priority comment markers (TODO/FIXME/WARNING/NOTE): the deeper 'attention'
+  -- amber + bold, so must-see notes out-shout the ordinary comment band.
+  for _, g in ipairs({ '@comment.todo', '@comment.note', '@comment.warning', '@comment.error', 'Todo' }) do
+    hi(0, g, { fg = colors.text, bg = colors.comment_high_bg, bold = true })
+  end
   hi(0, 'Constant', { fg = colors.const_fg })
   hi(0, 'Number', { fg = colors.const_fg })
   hi(0, 'Boolean', { fg = colors.const_fg })
@@ -169,10 +127,12 @@ function M.setup()
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
 
   -- Diagnostic virtual text
-  hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bg = colors.diag_bg })
-  hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bg = colors.diag_bg })
-  hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg, bg = colors.diag_bg })
-  hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg, bg = colors.diag_bg })
+  -- fg-only: inline diagnostics float on the paper, no background bar to mismatch.
+  -- Errors/warnings are signal — bold so they stay very visible against calm code.
+  hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
+  hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bold = true })
+  hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
+  hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
   -- Diagnostic signs
   hi(0, 'DiagnosticSignError', { fg = colors.err_fg })
@@ -184,7 +144,7 @@ function M.setup()
   hi(0, 'DiffAdd', { fg = colors.text, bg = colors.diff_add_bg })
   hi(0, 'DiffChange', { fg = colors.text, bg = colors.diff_change_bg })
   hi(0, 'DiffDelete', { fg = colors.text, bg = colors.diff_del_bg })
-  hi(0, 'DiffText', { fg = colors.text, bg = colors.diff_move_bg })
+  hi(0, 'DiffText', { fg = colors.text, bg = colors.diff_change_text_bg })
   hi(0, 'DiffAdded', { fg = colors.text_soft })
   hi(0, 'DiffRemoved', { fg = colors.text_soft })
   hi(0, 'DiffFile', { fg = colors.text_soft })
@@ -287,6 +247,31 @@ function M.setup()
   hi(0, 'OilHidden', { fg = colors.text, bg = 'NONE' })
   hi(0, 'OilCursorLine', { bg = colors.line })
   hi(0, 'OilSelected', { fg = colors.text, bg = colors.line })
+
+  -- Diff windows drop the comment band so comments there take the diff colour
+  -- (deleted -> rose, added -> mint) instead of punching a yellow hole in the
+  -- red/green. Done with a window-local highlight namespace where the comment
+  -- groups have no background; applied to any window in diff mode (vimdiff +
+  -- diffview both set 'diff'). Rebuilt here so it tracks the current palette.
+  local ns = vim.api.nvim_create_namespace('ergo_diff_nobg')
+  for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation' }) do
+    local h = vim.api.nvim_get_hl(0, { name = g, link = false })
+    h.bg, h.ctermbg = nil, nil
+    vim.api.nvim_set_hl(ns, g, h)
+  end
+  local aug = vim.api.nvim_create_augroup('ErgoDiffNoBg', { clear = true })
+  vim.api.nvim_create_autocmd('OptionSet', {
+    group = aug,
+    pattern = 'diff',
+    callback = function()
+      local win = vim.api.nvim_get_current_win()
+      vim.api.nvim_win_set_hl_ns(win, vim.wo[win].diff and ns or 0)
+    end,
+  })
+  -- Catch windows already in diff mode when the theme (re)loads.
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
+  end
 end
 
 return M

@@ -9,7 +9,6 @@ config.font_size = 14
 config.window_decorations = "RESIZE"
 config.window_padding = { left = 6, right = 6, top = 4, bottom = 4 }
 
--- Use our TOML scheme (WezTerm searches ~/.config/wezterm/colors by default)
 config.color_scheme = "Ergo Light"
 
 -- Behaviors (non-color)
