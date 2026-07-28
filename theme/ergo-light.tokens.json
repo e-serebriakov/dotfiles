@@ -1,14 +1,14 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "Ergo Light — tool-agnostic design tokens. Layer 1 (primitive ramps) + Layer 2 (semantic roles). Adapters in theme/generate.py translate semantic tokens into per-tool files; no tool reads this file directly. Ramps rebuilt in OKLCH: even perceptual L* ladder, a single locked hue per ramp, and one shared chroma ceiling so every accent carries equal weight. Direction: calm neutral paper (one shared bg), soft ink ~10:1, muted 'dusty' accents (uniform low chroma, ~4.7:1 at the .600 step), very soft background tints.",
+  "$description": "Ergo Light — tool-agnostic design tokens. Layer 1 (primitive ramps) + Layer 2 (semantic roles). Adapters in theme/generate.py translate semantic tokens into per-tool files; no tool reads this file directly. Ramps rebuilt in OKLCH: an eased perceptual L* ladder (steps compress toward the light end so background tints get more resolution), a single locked hue per ramp, and one shared chroma ceiling (~0.061 across the ink steps 300-700) so every accent carries equal weight. Light-end steps 100/200 sit on a three-tier tint scale — whisper ~1.13:1, standard ~1.30:1, strong ~1.55:1 vs paper — so state washes read across displays, not just calibrated ones; those wash steps are additionally desaturated (C≈0.026) so they read as quiet tinted paper rather than colour blocks (see primitive.$description for the two-regime chroma model and the amber exception). Direction: calm neutral paper (one shared bg), soft ink ~10:1, muted 'dusty' accents (uniform low chroma, ~4.9:1 at the .600 step), very soft near-neutral background tints.",
   "primitive": {
-    "$description": "Layer 1 — raw color ramps, hue + lightness (50 lightest, 900 darkest). Even in perceptual L* with a single locked hue; light steps (50-200) are pastel background tints, .600-.800 are AA-readable foregrounds. Meaningless on their own; semantic tokens give them roles.",
+    "$description": "Layer 1 — raw color ramps, hue + lightness (50 lightest, 900 darkest). Eased in perceptual L* (steps compress toward the light end) with a single locked hue. TWO CHROMA REGIMES by design: light steps (50-200) are near-neutral background tints (C≈0.008-0.026 — softened so state washes read as quiet tinted paper, not colour blocks), then chroma steps up to a normal 'ink' plateau (C≈0.06) across 300-700 for AA-readable foregrounds and the diff word-emph / active-search 'pop' tier. The 200→300 chroma jump (~+0.034) is intentional, not a break — backgrounds stay quiet, foregrounds carry hue; the seam lands exactly on the wash→pop boundary. Amber's light end is the deliberate exception (~2x the other tints' chroma) because a desaturated ~90° yellow greys to dirty olive. Meaningless on their own; semantic tokens give them roles.",
     "gray": {
       "$type": "color",
       "$description": "Neutral grey (hue stripped, C*≈0) — every surface, border, and ink tone. Was 'barely-warm' but the warm hue put a yellow film over the whole editor; neutralised at identical lightness so all contrasts hold. base (50) is the single shared environment background for nvim, terminal and zellij; a soft off-white (not stark) so it reads calm, not glary.",
       "50": { "$value": "#F3F3F3" },
-      "100": { "$value": "#E9E9E9" },
-      "200": { "$value": "#DCDCDC" },
+      "100": { "$value": "#E6E6E6" },
+      "200": { "$value": "#D6D6D6" },
       "300": { "$value": "#C4C4C4" },
       "400": { "$value": "#A1A1A1" },
       "500": { "$value": "#838383" },
@@ -20,100 +20,100 @@
     "red": {
       "$type": "color",
       "$description": "Errors, deletions, and the warm mode-accent.",
-      "50": { "$value": "#FFEFED" },
-      "100": { "$value": "#FFE2DD" },
-      "200": { "$value": "#FED0C8" },
-      "300": { "$value": "#F3B2A7" },
-      "400": { "$value": "#CE8F85" },
-      "500": { "$value": "#AD7167" },
-      "600": { "$value": "#8F564D" },
-      "700": { "$value": "#713E36" },
-      "800": { "$value": "#502A25" },
-      "900": { "$value": "#321814" }
+      "50": { "$value": "#F8F1F0" },
+      "100": { "$value": "#F2E4E1" },
+      "200": { "$value": "#EAD3D0" },
+      "300": { "$value": "#E9B6AE" },
+      "400": { "$value": "#C5938B" },
+      "500": { "$value": "#A5756D" },
+      "600": { "$value": "#875A53" },
+      "700": { "$value": "#6A423C" },
+      "800": { "$value": "#4B2D29" },
+      "900": { "$value": "#2F1A17" }
     },
     "green": {
       "$type": "color",
       "$description": "Strings, additions, success.",
-      "50": { "$value": "#EDF7ED" },
-      "100": { "$value": "#DDF0DD" },
-      "200": { "$value": "#C7E6C8" },
-      "300": { "$value": "#A4D2A6" },
-      "400": { "$value": "#82AF84" },
-      "500": { "$value": "#649067" },
-      "600": { "$value": "#49744C" },
-      "700": { "$value": "#325935" },
-      "800": { "$value": "#223F24" },
-      "900": { "$value": "#122614" }
+      "50": { "$value": "#F0F5F0" },
+      "100": { "$value": "#DDE7DD" },
+      "200": { "$value": "#CBDACB" },
+      "300": { "$value": "#ACCFAD" },
+      "400": { "$value": "#8AAC8B" },
+      "500": { "$value": "#6C8D6D" },
+      "600": { "$value": "#517253" },
+      "700": { "$value": "#39573B" },
+      "800": { "$value": "#273D29" },
+      "900": { "$value": "#162517" }
     },
     "amber": {
       "$type": "color",
-      "$description": "Warm yellow→gold ramp. Light steps (50-300) read yellow — comment/search/diff-change washes; dark steps read gold — warnings. Pure yellow can't darken without turning olive, so the hue eases from ~93° (light) to ~72° (dark).",
-      "50": { "$value": "#F8F3E5" },
-      "100": { "$value": "#F2E9CD" },
-      "200": { "$value": "#F0E2BE" },
-      "300": { "$value": "#D8C28C" },
-      "400": { "$value": "#B99E66" },
-      "500": { "$value": "#9C7E49" },
-      "600": { "$value": "#81612E" },
-      "700": { "$value": "#664818" },
-      "800": { "$value": "#483210" },
-      "900": { "$value": "#2D1D07" }
+      "$description": "Warm gold ramp — comment/search/diff-change washes (light) and warnings (dark). Light steps are pinned to ~78° (warm gold), NOT pure yellow ~90°: a desaturated 90° yellow greys toward dirty olive/khaki, so the softened light-end tints are rotated warmer to read as clean wheat/cream. Light-end also carries ~2x the chroma of the other ramps' tints — yellow needs more chroma than green/blue/red to read as a clean hue rather than muddy grey at the same lightness. Dark steps ease to ~72° gold.",
+      "50": { "$value": "#F8F2E9" },
+      "100": { "$value": "#EFE4D3" },
+      "200": { "$value": "#E8D2B1" },
+      "300": { "$value": "#D4C399" },
+      "400": { "$value": "#B49F75" },
+      "500": { "$value": "#977F58" },
+      "600": { "$value": "#7C633D" },
+      "700": { "$value": "#614A28" },
+      "800": { "$value": "#44331B" },
+      "900": { "$value": "#2A1E0E" }
     },
     "blue": {
       "$type": "color",
       "$description": "Info, links, functions, cool-tinted surfaces.",
-      "50": { "$value": "#EBF5FF" },
-      "100": { "$value": "#DAECFF" },
-      "200": { "$value": "#C3E0FF" },
-      "300": { "$value": "#9EC9F5" },
-      "400": { "$value": "#7CA6D1" },
-      "500": { "$value": "#5F87B1" },
-      "600": { "$value": "#446B93" },
-      "700": { "$value": "#2D5175" },
-      "800": { "$value": "#1E3853" },
-      "900": { "$value": "#102234" }
+      "50": { "$value": "#F0F4F8" },
+      "100": { "$value": "#DDE6F0" },
+      "200": { "$value": "#CAD8E7" },
+      "300": { "$value": "#A7C8EA" },
+      "400": { "$value": "#85A5C7" },
+      "500": { "$value": "#6887A7" },
+      "600": { "$value": "#4D6B8A" },
+      "700": { "$value": "#36516D" },
+      "800": { "$value": "#24384D" },
+      "900": { "$value": "#142230" }
     },
     "cyan": {
       "$type": "color",
       "$description": "Cyan accent ramp (terminal cyan channel).",
-      "50": { "$value": "#E7F7FA" },
-      "100": { "$value": "#D2F0F5" },
-      "200": { "$value": "#B4E7EF" },
-      "300": { "$value": "#85D3DF" },
-      "400": { "$value": "#62AFBB" },
-      "500": { "$value": "#42909C" },
-      "600": { "$value": "#21747F" },
-      "700": { "$value": "#005964" },
-      "800": { "$value": "#003F46" },
-      "900": { "$value": "#00262B" }
+      "50": { "$value": "#EEF5F6" },
+      "100": { "$value": "#D9E7EA" },
+      "200": { "$value": "#C2DADE" },
+      "300": { "$value": "#95D0D9" },
+      "400": { "$value": "#73ACB5" },
+      "500": { "$value": "#558D97" },
+      "600": { "$value": "#39727A" },
+      "700": { "$value": "#22575F" },
+      "800": { "$value": "#163D43" },
+      "900": { "$value": "#0A2529" }
     },
     "violet": {
       "$type": "color",
       "$description": "Blue-violet — constants.",
-      "50": { "$value": "#F3F2FF" },
-      "100": { "$value": "#E9E6FE" },
-      "200": { "$value": "#DBD7FE" },
-      "300": { "$value": "#C3BCF4" },
-      "400": { "$value": "#A199CF" },
-      "500": { "$value": "#827BAF" },
-      "600": { "$value": "#676091" },
-      "700": { "$value": "#4E4774" },
-      "800": { "$value": "#363152" },
-      "900": { "$value": "#201D33" }
+      "50": { "$value": "#F3F3F8" },
+      "100": { "$value": "#E5E4F1" },
+      "200": { "$value": "#D7D5E9" },
+      "300": { "$value": "#C3BEEA" },
+      "400": { "$value": "#A19BC5" },
+      "500": { "$value": "#827DA6" },
+      "600": { "$value": "#676288" },
+      "700": { "$value": "#4E496C" },
+      "800": { "$value": "#36324C" },
+      "900": { "$value": "#201E2F" }
     },
     "plum": {
       "$type": "color",
       "$description": "Red-violet — terminal magenta channel.",
-      "50": { "$value": "#F9F0FB" },
-      "100": { "$value": "#F4E3F7" },
-      "200": { "$value": "#EDD1F2" },
-      "300": { "$value": "#DCB4E3" },
-      "400": { "$value": "#B992BF" },
-      "500": { "$value": "#9974A0" },
-      "600": { "$value": "#7C5883" },
-      "700": { "$value": "#614067" },
-      "800": { "$value": "#442C49" },
-      "900": { "$value": "#2A192D" }
+      "50": { "$value": "#F6F2F7" },
+      "100": { "$value": "#ECE4EE" },
+      "200": { "$value": "#E1D3E3" },
+      "300": { "$value": "#D7B8DC" },
+      "400": { "$value": "#B496B9" },
+      "500": { "$value": "#94789A" },
+      "600": { "$value": "#785C7D" },
+      "700": { "$value": "#5D4462" },
+      "800": { "$value": "#412F45" },
+      "900": { "$value": "#281B2A" }
     }
   },
   "semantic": {
@@ -158,7 +158,7 @@
     },
     "selection": {
       "$type": "color",
-      "primary": { "$value": "{primitive.blue.200}", "$description": "active selection" },
+      "primary": { "$value": "{primitive.blue.300}", "$description": "active selection — stepped to blue.300 (strong tier, ~1.56:1) so it separates from the neutral current-line highlight (cursorline = gray.200 sits at the same lightness; at blue.200 the two collided at ΔE 0.026). A selection is a transient interactive state meant to be seen, so it carries ink-tier chroma, not the quiet wash chroma." },
       "secondary": { "$value": "{primitive.gray.200}", "$description": "inactive / menu selection" },
       "match": { "$value": "{primitive.blue.100}", "$description": "matched pair / reference" }
     },
@@ -182,12 +182,12 @@
     },
     "diff": {
       "$type": "color",
-      "add": { "$value": "{primitive.green.100}", "$description": "added lines — pastel tint, visible on paper" },
-      "addText": { "$value": "{primitive.green.200}", "$description": "word-level emphasis inside an added line (delta plus-emph / nvim DiffText) — one gentle step above the line tint, not a hot block" },
+      "add": { "$value": "{primitive.green.200}", "$description": "added lines — standard-tier tint (~1.30:1 on paper) so the wash reads across displays, not just calibrated ones" },
+      "addText": { "$value": "{primitive.green.300}", "$description": "word-level emphasis inside an added line (delta plus-emph / nvim DiffText) — one step above the line tint (strong tier) so the changed word out-reads the line" },
       "change": { "$value": "{primitive.amber.200}", "$description": "changed/modified lines (nvim DiffChange) — the 'attention' amber (deeper than the normal comment band). Add/delete stay rose/mint (git-standard red/green); changed is amber. The comment band is suppressed inside diffs so this never nests with comment yellow." },
       "changeText": { "$value": "{primitive.amber.200}", "$description": "uniform with the changed line — no darker word-patch." },
-      "delete": { "$value": "{primitive.red.100}", "$description": "deleted lines" },
-      "deleteText": { "$value": "{primitive.red.200}", "$description": "word-level emphasis inside a deleted line (delta minus-emph)" },
+      "delete": { "$value": "{primitive.red.200}", "$description": "deleted lines — standard-tier tint (~1.30:1), mirrors diff.add" },
+      "deleteText": { "$value": "{primitive.red.300}", "$description": "word-level emphasis inside a deleted line (delta minus-emph) — strong tier, mirrors diff.addText" },
       "conflict": { "$value": "{primitive.red.100}", "$description": "conflict markers" }
     },
     "cursor": {
@@ -196,7 +196,7 @@
       "secondary": { "$value": "{primitive.gray.500}", "$description": "secondary cursor" }
     },
     "terminal": {
-      "$description": "The ANSI palette is a role a terminal plays, not a tool. Muted on purpose vs the editor accents. On a light theme the 'white' channels are inherently low-contrast (meant for fills, not readable text): white=gray.500 stays legible, bright.white=gray.400 is a soft fill.",
+      "$description": "The ANSI palette is a role a terminal plays, not a tool. Muted on purpose vs the editor accents. On a light theme the 'white' channels are the awkward ones — a light 'white' can't also be legible as text on light paper, so both are pulled dark enough to survive as text: white=gray.600 (5.1:1, AA) and bright.white=gray.500 (3.4:1, AA-large, still one step lighter than white to keep 15-brighter-than-7 ordering).",
       "ansi": {
         "$type": "color",
         "black": { "$value": "{primitive.gray.900}" },
@@ -206,7 +206,7 @@
         "blue": { "$value": "{primitive.blue.600}" },
         "magenta": { "$value": "{primitive.plum.600}" },
         "cyan": { "$value": "{primitive.cyan.600}" },
-        "white": { "$value": "{primitive.gray.500}" }
+        "white": { "$value": "{primitive.gray.600}" }
       },
       "bright": {
         "$type": "color",
@@ -217,7 +217,7 @@
         "blue": { "$value": "{primitive.blue.500}" },
         "magenta": { "$value": "{primitive.plum.500}" },
         "cyan": { "$value": "{primitive.cyan.500}" },
-        "white": { "$value": "{primitive.gray.400}" }
+        "white": { "$value": "{primitive.gray.500}" }
       }
     }
   }
