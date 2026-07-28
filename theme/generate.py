@@ -11,6 +11,7 @@ Usage:
 Stdlib only (no deps): a plain JSON parse of the tokens file; a single regex
 detects the {alias} reference form. No external TOML/JSON-schema libs.
 """
+
 import json
 import re
 from dataclasses import dataclass
@@ -103,20 +104,45 @@ class Theme:
 def gen_nvim(sem):
     # nvim key -> semantic token. Keys match the existing colorscheme table.
     m = {
-        "paper": "surface.base", "panel": "surface.raised", "line_primary": "selection.match",
-        "line": "surface.cursorline", "line_column": "surface.column", "ruler_bg": "surface.ruler",
-        "divider": "border.default", "code_bg": "surface.code",
-        "text": "text.primary", "text_soft": "text.secondary", "comment_fg": "comment.fg", "comment_bg": "comment.bg", "comment_high_bg": "comment.high",
-        "doc_fg": "doc.fg", "doc_bg": "doc.bg", "doc_quote_bg": "doc.quote", "doc_heading": "doc.heading",
-        "link_fg": "accent.link", "string_fg": "accent.string", "const_fg": "accent.constant", "function_fg": "accent.function",
-        "match_bg": "selection.match", "cursor_primary": "cursor.primary", "cursor_secondary": "cursor.secondary",
-        "sel_secondary": "selection.secondary", "sel_primary": "selection.primary",
-        "search_soft": "search.soft", "search_mid": "search.active",
-        "err_fg": "status.error", "warn_fg": "status.warning",
-        "info_fg": "status.info", "hint_fg": "status.hint",
-        "diff_add_bg": "diff.add", "diff_change_bg": "diff.change", "diff_del_bg": "diff.delete",
-        "diff_change_text_bg": "diff.changeText", "diff_conflict_bg": "diff.conflict",
-        "popup_bg": "surface.popup", "popup_header_bg": "surface.popupHeader",
+        "paper": "surface.base",
+        "panel": "surface.raised",
+        "line_primary": "selection.match",
+        "line": "surface.cursorline",
+        "line_column": "surface.column",
+        "ruler_bg": "surface.ruler",
+        "divider": "border.default",
+        "code_bg": "surface.code",
+        "text": "text.primary",
+        "text_soft": "text.secondary",
+        "comment_fg": "comment.fg",
+        "comment_bg": "comment.bg",
+        "comment_high_bg": "comment.high",
+        "doc_fg": "doc.fg",
+        "doc_bg": "doc.bg",
+        "doc_quote_bg": "doc.quote",
+        "doc_heading": "doc.heading",
+        "link_fg": "accent.link",
+        "string_fg": "accent.string",
+        "const_fg": "accent.constant",
+        "function_fg": "accent.function",
+        "match_bg": "selection.match",
+        "cursor_primary": "cursor.primary",
+        "cursor_secondary": "cursor.secondary",
+        "sel_secondary": "selection.secondary",
+        "sel_primary": "selection.primary",
+        "search_soft": "search.soft",
+        "search_mid": "search.active",
+        "err_fg": "status.error",
+        "warn_fg": "status.warning",
+        "info_fg": "status.info",
+        "hint_fg": "status.hint",
+        "diff_add_bg": "diff.add",
+        "diff_change_bg": "diff.change",
+        "diff_del_bg": "diff.delete",
+        "diff_change_text_bg": "diff.changeText",
+        "diff_conflict_bg": "diff.conflict",
+        "popup_bg": "surface.popup",
+        "popup_header_bg": "surface.popupHeader",
     }
     lines = [f"-- {GENERATED_BANNER}", "return {"]
     for k, tok in m.items():
@@ -126,14 +152,32 @@ def gen_nvim(sem):
 
 
 def gen_wezterm(sem):
-    ansi = sem.many("terminal.ansi.black", "terminal.ansi.red", "terminal.ansi.green", "terminal.ansi.yellow",
-                    "terminal.ansi.blue", "terminal.ansi.magenta", "terminal.ansi.cyan", "terminal.ansi.white")
-    bright = sem.many("terminal.bright.black", "terminal.bright.red", "terminal.bright.green", "terminal.bright.yellow",
-                      "terminal.bright.blue", "terminal.bright.magenta", "terminal.bright.cyan", "terminal.bright.white")
+    ansi = sem.many(
+        "terminal.ansi.black",
+        "terminal.ansi.red",
+        "terminal.ansi.green",
+        "terminal.ansi.yellow",
+        "terminal.ansi.blue",
+        "terminal.ansi.magenta",
+        "terminal.ansi.cyan",
+        "terminal.ansi.white",
+    )
+    bright = sem.many(
+        "terminal.bright.black",
+        "terminal.bright.red",
+        "terminal.bright.green",
+        "terminal.bright.yellow",
+        "terminal.bright.blue",
+        "terminal.bright.magenta",
+        "terminal.bright.cyan",
+        "terminal.bright.white",
+    )
 
     def tab(bg, fg, *, italic="false", intensity="Normal"):
-        return (f'bg_color = "{bg}"\nfg_color = "{fg}"\nintensity = "{intensity}"\n'
-                f'italic = {italic}\nunderline = "None"\nstrikethrough = false')
+        return (
+            f'bg_color = "{bg}"\nfg_color = "{fg}"\nintensity = "{intensity}"\n'
+            f'italic = {italic}\nunderline = "None"\nstrikethrough = false'
+        )
 
     return f"""# {GENERATED_BANNER}
 [metadata]
@@ -141,18 +185,18 @@ name = "Ergo Light"
 wezterm_version = "*"
 
 [colors]
-foreground = "{sem('text.primary')}"
-background = "{sem('surface.base')}"
+foreground = "{sem("text.primary")}"
+background = "{sem("surface.base")}"
 
-cursor_bg = "{sem('cursor.primary')}"
-cursor_fg = "{sem('surface.base')}"
-cursor_border = "{sem('cursor.primary')}"
+cursor_bg = "{sem("cursor.primary")}"
+cursor_fg = "{sem("surface.base")}"
+cursor_border = "{sem("cursor.primary")}"
 
-selection_bg = "{sem('selection.primary')}"
-selection_fg = "{sem('text.primary')}"
+selection_bg = "{sem("selection.primary")}"
+selection_fg = "{sem("text.primary")}"
 
-scrollbar_thumb = "{sem('border.default')}"
-split = "{sem('border.default')}"
+scrollbar_thumb = "{sem("border.default")}"
+split = "{sem("border.default")}"
 
 ansi = [
   "{ansi[0]}", "{ansi[1]}", "{ansi[2]}", "{ansi[3]}",
@@ -164,23 +208,23 @@ brights = [
 ]
 
 [colors.tab_bar]
-background = "{sem('surface.raised')}"
-inactive_tab_edge = "{sem('border.default')}"
+background = "{sem("surface.raised")}"
+inactive_tab_edge = "{sem("border.default")}"
 
 [colors.tab_bar.active_tab]
-{tab(sem('surface.raised'), sem('text.primary'), intensity="Bold")}
+{tab(sem("surface.raised"), sem("text.primary"), intensity="Bold")}
 
 [colors.tab_bar.inactive_tab]
-{tab(sem('surface.raised'), sem('comment.fg'))}
+{tab(sem("surface.raised"), sem("comment.fg"))}
 
 [colors.tab_bar.inactive_tab_hover]
-{tab(sem('surface.cursorline'), sem('text.primary'), italic="true")}
+{tab(sem("surface.cursorline"), sem("text.primary"), italic="true")}
 
 [colors.tab_bar.new_tab]
-{tab(sem('surface.raised'), sem('text.secondary'))}
+{tab(sem("surface.raised"), sem("text.secondary"))}
 
 [colors.tab_bar.new_tab_hover]
-{tab(sem('surface.base'), sem('status.info'), italic="true")}
+{tab(sem("surface.base"), sem("status.info"), italic="true")}
 """
 
 
@@ -188,17 +232,17 @@ def gen_zellij(sem):
     return f"""// {GENERATED_BANNER}
 themes {{
     ergo-light {{
-        fg      "{sem('text.primary')}"
-        bg      "{sem('surface.base')}"
-        black   "{sem('surface.tile')}"
-        red     "{sem('status.error')}"
-        green   "{sem('accent.string')}"
-        yellow  "{sem('status.warning')}"
-        blue    "{sem('status.info')}"
-        magenta "{sem('terminal.ansi.magenta')}"
-        cyan    "{sem('terminal.ansi.cyan')}"
-        white   "{sem('text.secondary')}"
-        orange  "{sem('accent.warm')}"
+        fg      "{sem("text.primary")}"
+        bg      "{sem("surface.base")}"
+        black   "{sem("surface.tile")}"
+        red     "{sem("status.error")}"
+        green   "{sem("accent.string")}"
+        yellow  "{sem("status.warning")}"
+        blue    "{sem("status.info")}"
+        magenta "{sem("terminal.ansi.magenta")}"
+        cyan    "{sem("terminal.ansi.cyan")}"
+        white   "{sem("text.secondary")}"
+        orange  "{sem("accent.warm")}"
     }}
 }}
 """
@@ -212,17 +256,17 @@ def gen_delta(sem):
 ; Color styles only; behavioural delta settings live in the committed .gitconfig.
 [delta]
     syntax-theme = ansi
-    plus-style = "syntax {sem('diff.add')}"
-    plus-emph-style = "syntax {sem('diff.addText')}"
-    minus-style = "syntax {sem('diff.delete')}"
-    minus-emph-style = "syntax {sem('diff.deleteText')}"
-    hunk-header-style = "{sem('text.secondary')}"
-    hunk-header-decoration-style = "{sem('border.default')} ul"
-    file-style = "{sem('text.primary')} bold"
-    file-decoration-style = "{sem('border.default')} ul"
-    line-numbers-minus-style = "{sem('status.error')}"
-    line-numbers-plus-style = "{sem('status.success')}"
-    line-numbers-zero-style = "{sem('text.muted')}"
+    plus-style = "syntax {sem("diff.add")}"
+    plus-emph-style = "syntax {sem("diff.addText")}"
+    minus-style = "syntax {sem("diff.delete")}"
+    minus-emph-style = "syntax {sem("diff.deleteText")}"
+    hunk-header-style = "{sem("text.secondary")}"
+    hunk-header-decoration-style = "{sem("border.default")} ul"
+    file-style = "{sem("text.primary")} bold"
+    file-decoration-style = "{sem("border.default")} ul"
+    line-numbers-minus-style = "{sem("status.error")}"
+    line-numbers-plus-style = "{sem("status.success")}"
+    line-numbers-zero-style = "{sem("text.muted")}"
 """
 
 
