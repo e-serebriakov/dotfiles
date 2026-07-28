@@ -47,11 +47,53 @@ done
 if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
-  # --adopt moves conflicting real files into packages/, then we restore
-  # only packages/ so uncommitted changes elsewhere (Brewfile etc.) are safe.
-  stow --adopt -R -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
-  git -C "$DOTFILES_DIR" diff --name-only packages/ | \
-    xargs -I{} git -C "$DOTFILES_DIR" checkout -- {}
+  # Theme artifacts are gitignored build outputs, regenerated here before stowing.
+  if ! command -v python3 &> /dev/null; then
+    echo "❌ python3 is required to generate theme files (theme/generate.py)." >&2
+    exit 1
+  fi
+  echo "▶ Generating theme files from design tokens..."
+  # A token typo must not block re-stowing every other package.
+  if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
+    echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+  fi
+
+  # Without this, a ~/.config symlinked into a foreign repo would make $tgt resolve
+  # into that repo, and the backup loop would relocate that repo's file.
+  foreign_ancestor() {
+    local dir; dir="$(dirname "$1")"
+    while [[ "$dir" != "$TARGET" && "$dir" != "/" && "$dir" != "." ]]; do
+      if [[ -L "$dir" ]]; then
+        local real; real="$(cd "$dir" 2>/dev/null && pwd -P)" || return 0
+        [[ "$real" == "$STOW_DIR"/* ]] || return 0
+      fi
+      dir="$(dirname "$dir")"
+    done
+    return 1
+  }
+
+  # Replaces `stow --adopt` + `git checkout -- packages/`, which reverted ALL
+  # uncommitted changes under packages/, not just the adopted conflicts.
+  BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+  for pkg in "${PKGS[@]}"; do
+    while IFS= read -r -d '' src; do
+      rel="${src#"$STOW_DIR/$pkg/"}"
+      tgt="$TARGET/$rel"
+      # The `-ef` guard skips our own stow symlinks (they resolve back to $src),
+      # so only genuine conflicts get backed up and `stow -R` won't abort.
+      if [[ -e "$tgt" || -L "$tgt" ]] && ! [[ "$tgt" -ef "$src" ]]; then
+        if foreign_ancestor "$tgt"; then
+          echo "  ⚠ skipping $rel (target path crosses a foreign symlinked dir)" >&2
+          continue
+        fi
+        echo "  backing up existing $rel"
+        mkdir -p "$BACKUP/$(dirname "$rel")"
+        mv "$tgt" "$BACKUP/$rel"
+      fi
+    done < <(find "$STOW_DIR/$pkg" -type f -print0)
+  done
+  [[ -d "$BACKUP" ]] && echo "  (pre-existing files backed up to $BACKUP)"
+  stow -R -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml

@@ -194,5 +194,16 @@ require('lazy').setup({
 -- Load ergo_light colorscheme after plugins are set up
 require('colorschemes.ergo_light').setup()
 
+-- :ErgoReload — re-read the generated palette + colorscheme after tuning tokens
+-- (theme/generate.py). Busts the Lua module cache so require() re-reads from disk.
+vim.api.nvim_create_user_command('ErgoReload', function()
+  for _, m in ipairs { 'colorschemes.ergo_light_palette', 'colorschemes.ergo_light' } do
+    package.loaded[m] = nil
+  end
+  require('colorschemes.ergo_light').setup()
+  vim.cmd.redraw { bang = true }
+  vim.notify('Ergo Light reloaded')
+end, { desc = 'Reload the generated Ergo Light theme' })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
