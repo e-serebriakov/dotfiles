@@ -32,8 +32,9 @@ That's it. Open a new shell and the environment is restored.
    - macOS: installs [Homebrew](https://brew.sh) if missing, then `brew bundle` from `bootstrap/Brewfile`.
    - Linux: installs packages via `apt` and vendor repos.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
-3. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
-4. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev).
+3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
+4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
+5. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev).
 
 ### Flags & env vars
 
@@ -82,6 +83,9 @@ dotfiles/
 │   ├── macos.sh        # Homebrew + brew bundle
 │   ├── linux.sh        # apt + vendor installs
 │   └── Brewfile        # macOS packages (brews + casks + fonts)
+├── theme/              # design tokens + generator (see Theme)
+│   ├── ergo-light.tokens.json  # the single source of colour
+│   └── generate.py             # tokens → per-tool theme files
 └── packages/           # one stow package per tool
     ├── aerospace/      # tiling WM (macOS)
     ├── ccstatusline/   # Claude Code statusline
@@ -113,6 +117,37 @@ stow -D -d packages -t "$HOME" nvim
 
 To track a **new** config: create `packages/<name>/` mirroring its path under `$HOME`, move the file in, then re-run `./bootstrap/install.sh`.
 
+## Theme
+
+All colour comes from **one file** — `theme/ergo-light.tokens.json` — tool-agnostic [design tokens](https://tr.designtokens.org/) in two layers: raw OKLCH ramps (*primitives*) aliased into named roles (*semantic*: `accent.string`, `diff.add`, `status.error`, …). No tool reads it directly.
+
+`theme/generate.py` translates the semantic tokens into each tool's own format via small *adapters*, emitting five files:
+
+| Tool | Generated file |
+| --- | --- |
+| Neovim | `colorschemes/ergo_light_palette.lua` |
+| WezTerm | `colors/ergo_light.toml` |
+| Zellij | `themes/ergo-light.kdl` |
+| delta (git diffs) | `delta/ergo-light.gitconfig` |
+| Helix | `themes/ergo_light.toml` |
+
+Those outputs are **gitignored build artifacts** — never hand-edit them; they're regenerated on every `install.sh`.
+
+```sh
+# Change the theme: edit theme/ergo-light.tokens.json, then
+python3 theme/generate.py          # rewrites the five files (install.sh also does this)
+```
+
+Reload the tool and the whole environment re-tunes together.
+
+**Add a tool:** append an adapter to `ADAPTERS` in `generate.py` and gitignore its output. A contract test guards that adapters only reference tokens that exist:
+
+```sh
+python3 -m unittest theme.test_generate
+```
+
+Tools that aren't generated (ccstatusline, starship, git's own output) use **named ANSI colours**, so they follow the terminal palette — itself themed from these tokens — automatically.
+
 ## What gets installed
 
 - **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `git-delta`, `zoxide`, `stow`, `gh`, `git-town`
@@ -126,5 +161,6 @@ See `bootstrap/Brewfile` and `packages/mise/.config/mise/config.toml` for the au
 ## Requirements
 
 - `git` and a working `curl` (both scripts fetch installers)
+- `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
 - macOS: nothing else — Homebrew is installed automatically
 - Linux: `sudo` access (apt + vendor repos)
