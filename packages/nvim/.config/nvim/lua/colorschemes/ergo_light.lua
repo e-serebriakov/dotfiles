@@ -272,6 +272,14 @@ function M.setup()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
   end
+
+  -- We apply the theme via nvim_set_hl rather than `:colorscheme`, so nothing
+  -- fires ColorScheme for us. Plugins that cache derived colours on that event
+  -- (render-markdown bakes its code-block border/fill glyphs into a concrete
+  -- highlight and only refreshes it on ColorScheme) would otherwise keep colours
+  -- computed against the pre-theme state — after :ErgoReload's `highlight clear`
+  -- that means dark code-block bands. Fire it so those caches rebuild.
+  vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'ergo_light', modeline = false })
 end
 
 return M
