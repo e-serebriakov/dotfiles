@@ -86,7 +86,6 @@ dotfiles/
     ├── aerospace/      # tiling WM (macOS)
     ├── ccstatusline/   # Claude Code statusline
     ├── claude/         # Claude Code config
-    ├── gh-dash/        # gh dashboard
     ├── git/            # git config
     ├── helix/          # helix editor
     ├── karabiner/      # keyboard remapping (macOS)
