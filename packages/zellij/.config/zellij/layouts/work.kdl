@@ -1,6 +1,4 @@
 // Standard project layout — inherits cwd from the shell
-// Tab 1 "work":     editor + claude stacked (full width each)
-// Tab 2 "feedback": shell + logs side by side
 //
 // For quick commands without leaving the work tab: Alt+f (floating pane)
 //

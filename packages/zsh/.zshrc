@@ -12,7 +12,6 @@ setopt hist_save_no_dups
 setopt hist_ignore_space
 setopt interactive_comments
 
-# ensure target exists (safe no-op if already exists)
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
@@ -106,7 +105,6 @@ pr() {
   gh pr view "$num" && gh pr diff "$num" | delta
 }
 
-# ssh-agent autostart with multiple keys.
 # macOS uses the native Keychain agent (~/.ssh/config.d/defaults.conf), so this
 # only runs on Linux where there's no launchd-managed agent.
 if [[ "$OSTYPE" == linux* ]]; then

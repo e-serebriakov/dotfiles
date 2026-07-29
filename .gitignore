@@ -13,3 +13,4 @@ packages/wezterm/.config/wezterm/colors/ergo_light.toml
 packages/zellij/.config/zellij/themes/ergo-light.kdl
 packages/nvim/.config/nvim/lua/colorschemes/ergo_light_palette.lua
 packages/git/.config/delta/ergo-light.gitconfig
+packages/helix/.config/helix/themes/ergo_light.toml

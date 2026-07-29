@@ -3,6 +3,7 @@
 
 Run from the repo root:  python3 -m unittest theme.test_generate
 """
+
 import json
 import unittest
 
@@ -12,22 +13,32 @@ from theme.generate import Theme, ThemeError, build, check
 
 class TestResolution(unittest.TestCase):
     def test_single_and_chained_alias(self):
-        t = Theme.from_tokens({
-            "primitive": {"gray": {"50": {"$value": "#fafafa"}}},
-            "semantic": {"surface": {
-                "raised": {"$value": "{primitive.gray.50}"},
-                "base": {"$value": "{semantic.surface.raised}"},  # alias -> alias
-            }},
-        })
+        t = Theme.from_tokens(
+            {
+                "primitive": {"gray": {"50": {"$value": "#fafafa"}}},
+                "semantic": {
+                    "surface": {
+                        "raised": {"$value": "{primitive.gray.50}"},
+                        "base": {
+                            "$value": "{semantic.surface.raised}"
+                        },  # alias -> alias
+                    }
+                },
+            }
+        )
         self.assertEqual(t("surface.raised"), "#fafafa")
         self.assertEqual(t("surface.base"), "#fafafa")
 
     def test_cycle_is_fatal(self):
         with self.assertRaisesRegex(ThemeError, "alias cycle"):
-            Theme.from_tokens({"semantic": {
-                "a": {"$value": "{semantic.b}"},
-                "b": {"$value": "{semantic.a}"},
-            }})
+            Theme.from_tokens(
+                {
+                    "semantic": {
+                        "a": {"$value": "{semantic.b}"},
+                        "b": {"$value": "{semantic.a}"},
+                    }
+                }
+            )
 
     def test_unknown_alias_is_fatal(self):
         with self.assertRaisesRegex(ThemeError, "unknown token"):
@@ -37,15 +48,18 @@ class TestResolution(unittest.TestCase):
 class TestAccessor(unittest.TestCase):
     def setUp(self):
         # constructed from a pre-resolved dict — no file, no I/O
-        self.t = Theme({
-            "semantic.surface.base": "#EEEEEE",
-            "semantic.text.primary": "#353535",
-        })
+        self.t = Theme(
+            {
+                "semantic.surface.base": "#EEEEEE",
+                "semantic.text.primary": "#353535",
+            }
+        )
 
     def test_call_and_many_preserve_order(self):
         self.assertEqual(self.t("surface.base"), "#EEEEEE")
-        self.assertEqual(self.t.many("text.primary", "surface.base"),
-                         ["#353535", "#EEEEEE"])
+        self.assertEqual(
+            self.t.many("text.primary", "surface.base"), ["#353535", "#EEEEEE"]
+        )
 
     def test_missing_token_is_fatal(self):
         with self.assertRaisesRegex(ThemeError, "unknown semantic token"):
@@ -58,10 +72,12 @@ class TestGoldenOutput(unittest.TestCase):
 
     def test_build_matches_disk(self):
         outputs = build(Theme.from_file())
-        self.assertEqual(len(outputs), 4)
+        self.assertEqual(len(outputs), len(generate.ADAPTERS))
         for path, content in outputs.items():
             with self.subTest(path=path.name):
-                self.assertTrue(path.exists(), f"{path} not generated yet — run generate.py")
+                self.assertTrue(
+                    path.exists(), f"{path} not generated yet — run generate.py"
+                )
                 self.assertEqual(path.read_text(), content)
                 self.assertIn(generate.GENERATED_BANNER, content)
 
@@ -76,7 +92,7 @@ class TestContract(unittest.TestCase):
         tokens = json.loads(generate.TOKENS.read_text())
         contract = check(tokens)
         self.assertEqual(contract.missing, frozenset())  # no dangling sem()
-        self.assertEqual(contract.unused, frozenset())   # no rotting token
+        self.assertEqual(contract.unused, frozenset())  # no rotting token
         self.assertTrue(contract.ok)
 
     def test_missing_is_referenced_but_undefined(self):
