@@ -119,10 +119,11 @@ function M.setup()
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
   -- Diagnostics
-  -- Error alone rides alert_fg — the colour that breaks the muted chroma ceiling so
-  -- it pops pre-attentively (full rationale: alert.fg in the tokens). The rest stay
-  -- on the muted ramp, so the alert axis reads as ordered rather than flat.
-  hi(0, 'DiagnosticError', { fg = colors.alert_fg, undercurl = true, sp = colors.alert_fg })
+  -- Marks-only alert: the loud alert_fg rides just the error MARKS — the undercurl
+  -- (sp) and the gutter sign — where it pops pre-attentively (rationale: alert.fg in
+  -- the tokens). The error TEXT (base fg, virtual text) stays on muted err_fg so a
+  -- whole line of message isn't a slab of saturated red. Rest on the muted ramp.
+  hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
@@ -137,8 +138,9 @@ function M.setup()
 
   -- Diagnostic virtual text
   -- fg-only: inline diagnostics float on the paper, no background bar to mismatch.
-  -- Errors/warnings are signal — bold so they stay very visible against calm code.
-  hi(0, 'DiagnosticVirtualTextError', { fg = colors.alert_fg, bold = true })
+  -- Error message text rides muted err_fg (bold) — not the loud alert_fg — so the
+  -- inline message reads as the theme's own red; the undercurl/sign carry the alarm.
+  hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
