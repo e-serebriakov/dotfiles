@@ -119,23 +119,34 @@ function M.setup()
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
   -- Diagnostics
-  hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true })
+  -- Errors alone break the palette's chroma ceiling: alert_fg is ~3.4x the accent
+  -- chroma, so in an otherwise uniformly-muted field an error is the only saturated
+  -- thing on screen and pops pre-attentively. Warn/info/hint stay on the muted ramp,
+  -- one tier down, so the alert axis is ordered (error shouts, warning speaks).
+  hi(0, 'DiagnosticError', { fg = colors.alert_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
   hi(0, 'DiagnosticUnnecessary', { fg = colors.comment_fg, italic = true })
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
+  -- Some LSP setups paint the squiggle via DiagnosticUnderline* rather than the base
+  -- group; mirror the tier there so the error curl stays the loud one.
+  hi(0, 'DiagnosticUnderlineError', { undercurl = true, sp = colors.alert_fg })
+  hi(0, 'DiagnosticUnderlineWarn', { underdashed = true, sp = colors.warn_fg })
+  hi(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = colors.info_fg })
+  hi(0, 'DiagnosticUnderlineHint', { underdotted = true, sp = colors.hint_fg })
 
   -- Diagnostic virtual text
   -- fg-only: inline diagnostics float on the paper, no background bar to mismatch.
   -- Errors/warnings are signal — bold so they stay very visible against calm code.
-  hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
+  hi(0, 'DiagnosticVirtualTextError', { fg = colors.alert_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
-  -- Diagnostic signs
-  hi(0, 'DiagnosticSignError', { fg = colors.err_fg })
+  -- Diagnostic signs — error glyph in the loud alert red (bold) so only the error
+  -- carries the saturated treatment; no fill, the glyph itself is the gutter signal.
+  hi(0, 'DiagnosticSignError', { fg = colors.alert_fg, bold = true })
   hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg })
   hi(0, 'DiagnosticSignInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticSignHint', { fg = colors.hint_fg })
@@ -203,7 +214,7 @@ function M.setup()
   hi(0, 'Underlined', { underline = true })
 
   -- Error messages
-  hi(0, 'ErrorMsg', { fg = colors.err_fg })
+  hi(0, 'ErrorMsg', { fg = colors.alert_fg, bold = true })
   hi(0, 'WarningMsg', { fg = colors.warn_fg })
   hi(0, 'ModeMsg', { fg = colors.text })
   hi(0, 'MoreMsg', { fg = colors.info_fg })

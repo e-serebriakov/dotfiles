@@ -133,6 +133,7 @@ def gen_nvim(sem):
         "search_soft": "search.soft",
         "search_mid": "search.active",
         "err_fg": "status.error",
+        "alert_fg": "alert.fg",
         "warn_fg": "status.warning",
         "info_fg": "status.info",
         "hint_fg": "status.hint",
