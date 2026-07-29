@@ -7,9 +7,13 @@ return {
     { '<leader>gB', '<cmd>GitBlameOpenCommitURL<cr>', desc = 'Git blame open commit' },
   },
   config = function()
-    -- Ergo Light — faint italic gray, no background (ergo's Comment has a cream bg)
+    local ok, p = pcall(require, 'colorschemes.ergo_light_palette')
     local function ergo_blame_hl()
-      vim.api.nvim_set_hl(0, 'GitBlameVirtualText', { fg = '#6B7076', italic = true }) -- comment_fg
+      if ok then
+        vim.api.nvim_set_hl(0, 'GitBlameVirtualText', { fg = p.hint_fg, italic = true })
+      else
+        vim.api.nvim_set_hl(0, 'GitBlameVirtualText', { link = 'Comment' })
+      end
     end
     ergo_blame_hl()
     vim.api.nvim_create_autocmd('ColorScheme', { callback = ergo_blame_hl })
