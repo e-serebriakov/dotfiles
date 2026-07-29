@@ -14,39 +14,40 @@ return {
     { '<leader>gr', '<cmd>Octo review<cr>', desc = 'Octo review PR' },
   },
   config = function()
-    require('octo').setup {
-      picker = 'telescope',
-      enable_builtin = true,
-      -- Ergo Light — matches colorschemes/ergo_light.lua
-      colors = {
-        white = '#FAFAF8', -- paper: text on colored bubbles
-        grey = '#4A4F55', -- text_soft
-        black = '#121212', -- text
-        red = '#F6E9E8', -- diff_del_bg
-        dark_red = '#B2473F', -- err_fg
-        green = '#E9F2EA', -- diff_add_bg
-        dark_green = '#4F9A5A', -- string_fg
-        yellow = '#C9AE56', -- mid amber, readable both as fg and bubble bg
-        dark_yellow = '#8A6A1F', -- warn_fg
-        blue = '#3A6B90', -- info/link blue
-        dark_blue = '#4F78A8', -- function_fg
-        purple = '#6F63C6', -- const_fg
-      },
-    }
+    -- Colours from the generated Ergo Light palette, so octo re-tunes with the theme.
+    local ok, p = pcall(require, 'colorschemes.ergo_light_palette')
 
-    -- Markdown highlighting in octo buffers
+    local opts = { picker = 'telescope', enable_builtin = true }
+    if ok then
+      opts.colors = {
+        white = p.paper,
+        grey = p.text_soft,
+        black = p.text,
+        red = p.diff_del_bg,
+        dark_red = p.err_fg,
+        green = p.diff_add_bg,
+        dark_green = p.string_fg,
+        yellow = p.comment_high_bg,
+        dark_yellow = p.warn_fg,
+        blue = p.link_fg,
+        dark_blue = p.function_fg,
+        purple = p.const_fg,
+      }
+    end
+    require('octo').setup(opts)
+
     vim.treesitter.language.register('markdown', 'octo')
 
-    -- Make comments easier to tell apart:
-    --  * each comment body gets a soft-blue "card" background (OctoEditable)
-    --    instead of ergo's near-invisible panel tint
-    --  * comment headers become a deliberate gray line instead of inheriting
-    --    ergo's cream Comment background
+    -- octo's own defaults are near-invisible on this theme: give comment bodies a
+    -- soft-blue card and headers/dates a deliberate muted line.
     local function ergo_octo_highlights()
-      vim.api.nvim_set_hl(0, 'OctoEditable', { bg = '#EAF1F7' })
-      vim.api.nvim_set_hl(0, 'OctoTimelineItemHeading', { fg = '#4A4F55', bold = true })
-      vim.api.nvim_set_hl(0, 'OctoDate', { fg = '#6B7076' })
-      vim.api.nvim_set_hl(0, 'OctoSymbol', { fg = '#6B7076' })
+      if not ok then
+        return
+      end
+      vim.api.nvim_set_hl(0, 'OctoEditable', { bg = p.doc_bg })
+      vim.api.nvim_set_hl(0, 'OctoTimelineItemHeading', { fg = p.text_soft, bold = true })
+      vim.api.nvim_set_hl(0, 'OctoDate', { fg = p.hint_fg })
+      vim.api.nvim_set_hl(0, 'OctoSymbol', { fg = p.hint_fg })
     end
     ergo_octo_highlights()
     vim.api.nvim_create_autocmd('ColorScheme', { callback = ergo_octo_highlights })
