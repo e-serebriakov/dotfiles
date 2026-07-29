@@ -116,7 +116,6 @@
 
 "comment.unused" = { fg = "comment_fg", modifiers = ["dim", "italic"] }
 
-# Strings (pale green)
 "string" = { fg = "string_fg" }
 "string.regexp" = { fg = "string_fg", underline = { style = "line" } }
 "string.special" = { fg = "string_fg" }
@@ -124,7 +123,6 @@
 "string.special.url" = { fg = "link_fg", underline = { style = "line" } }
 "string.special.symbol" = { fg = "string_fg" }
 
-# Constants (pale violet)
 "constant" = { fg = "const_fg" }
 "constant.builtin" = { fg = "const_fg", modifiers = ["bold"] }
 "constant.boolean" = { fg = "const_fg" }

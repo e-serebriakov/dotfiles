@@ -6,5 +6,5 @@ python = "3.12"
 just = "latest"
 uv = "latest"
 
-"npm:markdownlint-cli2" = "latest" # markdown lint + format
+"npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
