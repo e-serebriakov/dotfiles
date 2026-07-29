@@ -114,6 +114,11 @@
       "700": { "$value": "#5D4462" },
       "800": { "$value": "#412F45" },
       "900": { "$value": "#281B2A" }
+    },
+    "alert": {
+      "$type": "color",
+      "$description": "OFF-RAMP alarm red — the ONE place the two-regime chroma model is broken on purpose. Every other ink step is pinned to the ~0.061 ceiling so 'every accent carries equal weight'; that uniformity is exactly what lets a single high-chroma element pop pre-attentively (a saturation feature-singleton). alert.fg sits at C≈0.207 — ~3.4x the ceiling — so an error is the only saturated thing on screen and the eye finds it before it consciously looks. NOT on the eased L* ladder and NOT a ramp (a single named fg, not numeric steps) precisely so nobody mistakes it for a tunable accent: it is the reserved 'demands action' dimension, used by error diagnostics only. #CE1F1F (L≈0.55, h≈28 clean alarm red not the ramp's 18° wine) is AA on paper (4.93:1) so the sign glyph and bold virtual text read; the high chroma + the undercurl SHAPE make it CVD-robust (chroma magnitude and shape survive red-green deficiency where hue alone would not). Applied as foreground only — undercurl, bold sign glyph, bold virtual text, :messages errors — no fill: the saturation IS the singleton, a background block just read as a clunky box. Warnings deliberately stay on the muted amber ceiling, one tier down, so the alert axis is ordered: error shouts, warning speaks, info/hint whisper.",
+      "fg": { "$value": "#CE1F1F" }
     }
   },
   "semantic": {
@@ -155,6 +160,11 @@
       "info": { "$value": "{primitive.blue.600}", "$description": "info" },
       "hint": { "$value": "{semantic.text.muted}", "$description": "hints" },
       "success": { "$value": "{primitive.green.600}", "$description": "success" }
+    },
+    "alert": {
+      "$type": "color",
+      "$description": "The 'demands action' tier — error only, kept separate from status.error so terminal/delta/zellij red stays muted (status.error = red.700, the calm ANSI-side red) while the editor's error MARK shouts. This is the chroma-singleton fix for a uniform-chroma palette: because nothing else is saturated, error needs only to break the ceiling to pop, not to be loud everywhere. One lever, error-scoped: the saturated undercurl / sign glyph / bold virtual-text colour (foreground only — no fill). Warnings stay on amber one tier down — the axis is ordered, not flattened.",
+      "fg": { "$value": "{primitive.alert.fg}", "$description": "loud error foreground — undercurl, bold sign glyph, inline virtual text, :messages errors" }
     },
     "selection": {
       "$type": "color",
