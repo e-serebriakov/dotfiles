@@ -1,8 +1,8 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "Ergo Light — tool-agnostic design tokens. Layer 1 (primitive ramps) + Layer 2 (semantic roles). Adapters in theme/generate.py translate semantic tokens into per-tool files; no tool reads this file directly. Ramps rebuilt in OKLCH: an eased perceptual L* ladder (steps compress toward the light end so background tints get more resolution), a single locked hue per ramp, and one shared chroma ceiling (~0.061 across the ink steps 300-700) so every accent carries equal weight. Light-end steps 100/200 sit on a three-tier tint scale — whisper ~1.13:1, standard ~1.30:1, strong ~1.55:1 vs paper — so state washes read across displays, not just calibrated ones; those wash steps are additionally desaturated (C≈0.026) so they read as quiet tinted paper rather than colour blocks (see primitive.$description for the two-regime chroma model and the amber exception). Direction: calm neutral paper (one shared bg), soft ink ~10:1, muted 'dusty' accents (uniform low chroma, ~4.9:1 at the .600 step), very soft near-neutral background tints.",
+  "$description": "Ergo Light — tool-agnostic design tokens. Layer 1 (primitive ramps) + Layer 2 (semantic roles). Adapters in theme/generate.py translate semantic tokens into per-tool files; no tool reads this file directly. Ramps rebuilt in OKLCH: an eased perceptual L* ladder (steps compress toward the light end so background tints get more resolution), a single locked hue per ramp, and one shared chroma ceiling (~0.061 across the ink steps 300-700) so every accent carries equal weight. Light-end steps 100/200 sit on a three-tier tint scale — whisper ~1.13:1, standard ~1.30:1, strong ~1.55:1 vs paper — so state washes read across displays, not just calibrated ones; those wash steps are additionally desaturated (C≈0.026, amber's slightly higher at ~0.022-0.040 so warm wheat stays clean not olive) so they read as quiet tinted paper rather than colour blocks (see primitive.$description for the two-regime chroma model). Direction: calm neutral paper (one shared bg), soft ink ~10:1, muted 'dusty' accents (uniform low chroma, ~4.9:1 at the .600 step), very soft near-neutral background tints.",
   "primitive": {
-    "$description": "Layer 1 — raw color ramps, hue + lightness (50 lightest, 900 darkest). Eased in perceptual L* (steps compress toward the light end) with a single locked hue. TWO CHROMA REGIMES by design: light steps (50-200) are near-neutral background tints (C≈0.008-0.026 — softened so state washes read as quiet tinted paper, not colour blocks), then chroma steps up to a normal 'ink' plateau (C≈0.06) across 300-700 for AA-readable foregrounds and the diff word-emph / active-search 'pop' tier. The 200→300 chroma jump (~+0.034) is intentional, not a break — backgrounds stay quiet, foregrounds carry hue; the seam lands exactly on the wash→pop boundary. Amber's light end is the deliberate exception (~2x the other tints' chroma) because a desaturated ~90° yellow greys to dirty olive. Meaningless on their own; semantic tokens give them roles.",
+    "$description": "Layer 1 — raw color ramps, hue + lightness (50 lightest, 900 darkest). Eased in perceptual L* (steps compress toward the light end) with a single locked hue. TWO CHROMA REGIMES by design: light steps (50-200) are near-neutral background tints (C≈0.008-0.026 — softened so state washes read as quiet tinted paper, not colour blocks), then chroma steps up to a normal 'ink' plateau (C≈0.06) across 300-700 for AA-readable foregrounds and the diff word-emph / active-search 'pop' tier. The 200→300 chroma jump (~+0.034) is intentional, not a break — backgrounds stay quiet, foregrounds carry hue; the seam lands exactly on the wash→pop boundary. Amber's light end sits slightly above the other tints' chroma (~0.022-0.040, not the former ~2x) and is rotated warmer to ~74-78° because a desaturated ~90° yellow greys to dirty olive — enough to read as clean warm wheat without shouting. Meaningless on their own; semantic tokens give them roles.",
     "gray": {
       "$type": "color",
       "$description": "Neutral grey (hue stripped, C*≈0) — every surface, border, and ink tone. Was 'barely-warm' but the warm hue put a yellow film over the whole editor; neutralised at identical lightness so all contrasts hold. base (50) is the single shared environment background for nvim, terminal and zellij; a soft off-white (not stark) so it reads calm, not glary.",
@@ -47,16 +47,16 @@
     },
     "amber": {
       "$type": "color",
-      "$description": "Warm gold ramp — comment/search/diff-change washes (light) and warnings (dark). Light steps are pinned to ~78° (warm gold), NOT pure yellow ~90°: a desaturated 90° yellow greys toward dirty olive/khaki, so the softened light-end tints are rotated warmer to read as clean wheat/cream. Light-end also carries ~2x the chroma of the other ramps' tints — yellow needs more chroma than green/blue/red to read as a clean hue rather than muddy grey at the same lightness. Dark steps ease to ~72° gold.",
+      "$description": "Warm gold ramp — comment/search/diff-change washes (light) and warnings (dark). Light steps are pinned to ~74-78° (warm wheat), NOT pure yellow ~90°: a desaturated 90° yellow greys toward dirty olive/khaki, so the softened light-end tints are rotated warmer to read as clean wheat/cream. The wash steps (100-300) were de-chroma'd toward the other ramps' tint budget (C≈0.022-0.040, down from a former ~2x) so amber reads as quiet warm paper rather than a saturated gold block on the highest-traffic surfaces (comment band, diff-change, search). It still sits a touch above the neutral ~0.026 tint chroma — warm wheat needs slightly more chroma than green/blue/red to stay clean rather than muddy grey — but no longer overpowers them. The whole ramp runs a single monotonic wheat->gold hue path (~78° light to ~72° gold dark, ~6° total spread); dark steps (400-900) carry the gold end for warning/terminal foregrounds. Hue was corrected to this smooth ease from a prior hand-authored state where step 400 drifted to ~84° (a yellow spike mid-ramp); the fix rotated hue only, holding each step's L* and chroma so no contrast or accent-weight changed.",
       "50": { "$value": "#F8F2E9" },
-      "100": { "$value": "#EFE4D3" },
-      "200": { "$value": "#E8D2B1" },
-      "300": { "$value": "#D4C399" },
-      "400": { "$value": "#B49F75" },
-      "500": { "$value": "#977F58" },
-      "600": { "$value": "#7C633D" },
-      "700": { "$value": "#614A28" },
-      "800": { "$value": "#44331B" },
+      "100": { "$value": "#EEE4D6" },
+      "200": { "$value": "#E3D3BE" },
+      "300": { "$value": "#D4C1A8" },
+      "400": { "$value": "#B99D76" },
+      "500": { "$value": "#997E59" },
+      "600": { "$value": "#7E623E" },
+      "700": { "$value": "#624929" },
+      "800": { "$value": "#45331B" },
       "900": { "$value": "#2A1E0E" }
     },
     "blue": {
