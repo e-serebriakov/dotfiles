@@ -119,10 +119,9 @@ function M.setup()
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
   -- Diagnostics
-  -- Errors alone break the palette's chroma ceiling: alert_fg is ~3.4x the accent
-  -- chroma, so in an otherwise uniformly-muted field an error is the only saturated
-  -- thing on screen and pops pre-attentively. Warn/info/hint stay on the muted ramp,
-  -- one tier down, so the alert axis is ordered (error shouts, warning speaks).
+  -- Error alone rides alert_fg — the colour that breaks the muted chroma ceiling so
+  -- it pops pre-attentively (full rationale: alert.fg in the tokens). The rest stay
+  -- on the muted ramp, so the alert axis reads as ordered rather than flat.
   hi(0, 'DiagnosticError', { fg = colors.alert_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
@@ -144,8 +143,8 @@ function M.setup()
   hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
-  -- Diagnostic signs — error glyph in the loud alert red (bold) so only the error
-  -- carries the saturated treatment; no fill, the glyph itself is the gutter signal.
+  -- Error sign on alert red too; no fill — the glyph is the signal, a background
+  -- block would just read as a clunky box.
   hi(0, 'DiagnosticSignError', { fg = colors.alert_fg, bold = true })
   hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg })
   hi(0, 'DiagnosticSignInfo', { fg = colors.info_fg })
@@ -284,12 +283,11 @@ function M.setup()
     if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
   end
 
-  -- We apply the theme via nvim_set_hl rather than `:colorscheme`, so nothing
-  -- fires ColorScheme for us. Plugins that cache derived colours on that event
-  -- (render-markdown bakes its code-block border/fill glyphs into a concrete
-  -- highlight and only refreshes it on ColorScheme) would otherwise keep colours
-  -- computed against the pre-theme state — after :ErgoReload's `highlight clear`
-  -- that means dark code-block bands. Fire it so those caches rebuild.
+  -- We apply the theme with nvim_set_hl, not `:colorscheme`, so nothing fires the
+  -- ColorScheme event. Plugins that cache derived colours on it (render-markdown
+  -- bakes its code-block border glyphs into a concrete highlight, refreshed only on
+  -- ColorScheme) would otherwise keep pre-theme colours — dark code-block bands
+  -- after :ErgoReload's `highlight clear`. Fire it so those caches rebuild.
   vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'ergo_light', modeline = false })
 end
 
