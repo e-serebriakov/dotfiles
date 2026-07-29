@@ -57,8 +57,8 @@ function M.setup()
   hi(0, 'WildMenu', { fg = colors.text, bg = colors.sel_secondary, bold = true })
 
   -- Selection
-  hi(0, 'Visual', { fg = colors.text, bg = colors.sel_secondary })
-  hi(0, 'VisualNOS', { fg = colors.text, bg = colors.sel_secondary })
+  hi(0, 'Visual', { fg = colors.text, bg = colors.sel_primary })
+  hi(0, 'VisualNOS', { fg = colors.text, bg = colors.sel_primary })
   hi(0, 'Search', { fg = colors.text, bg = colors.search_soft, bold = true })
   hi(0, 'IncSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
   hi(0, 'CurSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
