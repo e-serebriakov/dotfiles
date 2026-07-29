@@ -1,7 +1,6 @@
 # Grey — a low-contrast light theme for Helix
 # Ported from Yorick Peterse’s Neovim “Grey”.
 # Notes:
-# - Uses light background (#f2f2f2).
 # - Diagnostics use colored, single-line underlines (like Vim’s sp+underline).
 # - Selection/search-like emphasis uses soft light greys / yellows.
 # - CSS/JSON/markup hints mapped to Helix Tree-sitter scopes.
@@ -31,7 +30,7 @@
 "ui.cursor"                = { fg = "background", bg = "black" }     # Cursor
 "ui.cursor.match"          = { bg="light_grey", modifiers = ["bold"] }                # MatchParen → bold
 
-"ui.cursorline.primary"    = { bg = "grey_bg_light" }                # soft line highlight
+"ui.cursorline.primary"    = { bg = "grey_bg_light" }
 "ui.cursorline.secondary"  = { bg = "grey_bg_light" }
 
 "ui.selection"             = { bg = "light_grey" }                   # Visual
@@ -110,7 +109,7 @@
 "variable"                  = { fg = "black" }                                  # Identifier
 "variable.builtin"          = { fg = "black", modifiers = ["bold"] }            # @variable.builtin
 "variable.parameter"        = { fg = "orange" }                                  # @variable.parameter.reference
-"variable.other.member"     = { fg = "black" }                                  # InstanceVariable→purple
+"variable.other.member"     = { fg = "black" }                                  # InstanceVariable
 
 "namespace"                 = { fg = "purple" }
 "property"                  = { fg = "black" }

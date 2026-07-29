@@ -43,7 +43,7 @@ return {
     --  * comment headers become a deliberate gray line instead of inheriting
     --    ergo's cream Comment background
     local function ergo_octo_highlights()
-      vim.api.nvim_set_hl(0, 'OctoEditable', { bg = '#EAF1F7' }) -- comment body card
+      vim.api.nvim_set_hl(0, 'OctoEditable', { bg = '#EAF1F7' })
       vim.api.nvim_set_hl(0, 'OctoTimelineItemHeading', { fg = '#4A4F55', bold = true })
       vim.api.nvim_set_hl(0, 'OctoDate', { fg = '#6B7076' })
       vim.api.nvim_set_hl(0, 'OctoSymbol', { fg = '#6B7076' })

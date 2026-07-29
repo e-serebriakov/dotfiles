@@ -24,12 +24,12 @@ layout {
         // The `command="cat"` panes are inert margins (cat blocks on stdin,
         // draws nothing). Tweak the column width via `size=180`.
         pane split_direction="vertical" {
-            pane borderless=true command="cat"        // left margin (inert)
-            pane size=180 stacked=true {              // centered work column, capped at 180 cols
+            pane borderless=true command="cat"
+            pane size=180 stacked=true {
                 pane name="editor" focus=true command="nvim" args="."
                 pane name="claude"
             }
-            pane borderless=true command="cat"        // right margin (inert)
+            pane borderless=true command="cat"
         }
     }
     tab name="feedback" {

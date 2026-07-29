@@ -102,7 +102,7 @@ class Theme:
 
 # --- adapters --------------------------------------------------------------
 def gen_nvim(sem):
-    # nvim key -> semantic token. Keys match the existing colorscheme table.
+    # Keys must match the colorscheme's palette table.
     m = {
         "paper": "surface.base",
         "panel": "surface.raised",
