@@ -272,11 +272,8 @@ def gen_delta(sem):
 """
 
 
-# Helix wants palette + scopes in ONE .toml. The scope map is fixed helix
-# structure that only references palette names; the [palette] is generated from
-# tokens. Deliberate deviations from a plain colour swap: marks-only alert — only
-# the error UNDERCURL rides alert_fg (loud singleton); the message/inline text uses
-# muted err_fg (mirroring nvim); "moved" diff reuses the change tint (no dedicated role).
+# Helix keeps palette + scopes in ONE .toml, so the whole file is generated: a
+# fixed scope map (over palette names) + a [palette] resolved from tokens.
 HELIX_SCOPES = '''\
 "ui.background" = { fg = "text", bg = "paper" }
 "ui.background.separator" = { fg = "divider" }

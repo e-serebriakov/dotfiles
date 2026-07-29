@@ -118,35 +118,25 @@ function M.setup()
   hi(0, 'markdownItalic', { italic = true })
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
-  -- Diagnostics
-  -- Marks-only alert: the loud alert_fg rides just the error MARKS — the undercurl
-  -- (sp) and the gutter sign — where it pops pre-attentively (rationale: alert.fg in
-  -- the tokens). The error TEXT (base fg, virtual text) stays on muted err_fg so a
-  -- whole line of message isn't a slab of saturated red. Rest on the muted ramp.
+  -- Diagnostics. Marks-only alert: alert_fg on the mark (undercurl sp, sign), muted
+  -- err_fg on the text. Why: alert.fg tokens.
   hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
   hi(0, 'DiagnosticUnnecessary', { fg = colors.comment_fg, italic = true })
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
-  -- Some LSP setups paint the squiggle via DiagnosticUnderline* rather than the base
-  -- group; mirror the tier there so the error curl stays the loud one.
+  -- Some LSP setups paint the squiggle via DiagnosticUnderline*, not the base group.
   hi(0, 'DiagnosticUnderlineError', { undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticUnderlineWarn', { underdashed = true, sp = colors.warn_fg })
   hi(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = colors.info_fg })
   hi(0, 'DiagnosticUnderlineHint', { underdotted = true, sp = colors.hint_fg })
 
-  -- Diagnostic virtual text
-  -- fg-only: inline diagnostics float on the paper, no background bar to mismatch.
-  -- Error message text rides muted err_fg (bold) — not the loud alert_fg — so the
-  -- inline message reads as the theme's own red; the undercurl/sign carry the alarm.
   hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
-  -- Error sign on alert red too; no fill — the glyph is the signal, a background
-  -- block would just read as a clunky box.
   hi(0, 'DiagnosticSignError', { fg = colors.alert_fg, bold = true })
   hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg })
   hi(0, 'DiagnosticSignInfo', { fg = colors.info_fg })
