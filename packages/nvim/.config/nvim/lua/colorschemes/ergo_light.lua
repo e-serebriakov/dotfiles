@@ -57,8 +57,8 @@ function M.setup()
   hi(0, 'WildMenu', { fg = colors.text, bg = colors.sel_secondary, bold = true })
 
   -- Selection
-  hi(0, 'Visual', { fg = colors.text, bg = colors.sel_secondary })
-  hi(0, 'VisualNOS', { fg = colors.text, bg = colors.sel_secondary })
+  hi(0, 'Visual', { fg = colors.text, bg = colors.sel_primary })
+  hi(0, 'VisualNOS', { fg = colors.text, bg = colors.sel_primary })
   hi(0, 'Search', { fg = colors.text, bg = colors.search_soft, bold = true })
   hi(0, 'IncSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
   hi(0, 'CurSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
@@ -118,24 +118,26 @@ function M.setup()
   hi(0, 'markdownItalic', { italic = true })
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
-  -- Diagnostics
-  hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true })
+  -- Diagnostics. Marks-only alert: alert_fg on the mark (undercurl sp, sign), muted
+  -- err_fg on the text. Why: alert.fg tokens.
+  hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
   hi(0, 'DiagnosticUnnecessary', { fg = colors.comment_fg, italic = true })
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
+  -- Some LSP setups paint the squiggle via DiagnosticUnderline*, not the base group.
+  hi(0, 'DiagnosticUnderlineError', { undercurl = true, sp = colors.alert_fg })
+  hi(0, 'DiagnosticUnderlineWarn', { underdashed = true, sp = colors.warn_fg })
+  hi(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = colors.info_fg })
+  hi(0, 'DiagnosticUnderlineHint', { underdotted = true, sp = colors.hint_fg })
 
-  -- Diagnostic virtual text
-  -- fg-only: inline diagnostics float on the paper, no background bar to mismatch.
-  -- Errors/warnings are signal — bold so they stay very visible against calm code.
   hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextWarn', { fg = colors.warn_fg, bold = true })
   hi(0, 'DiagnosticVirtualTextInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
-  -- Diagnostic signs
-  hi(0, 'DiagnosticSignError', { fg = colors.err_fg })
+  hi(0, 'DiagnosticSignError', { fg = colors.alert_fg, bold = true })
   hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg })
   hi(0, 'DiagnosticSignInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticSignHint', { fg = colors.hint_fg })
@@ -203,7 +205,7 @@ function M.setup()
   hi(0, 'Underlined', { underline = true })
 
   -- Error messages
-  hi(0, 'ErrorMsg', { fg = colors.err_fg })
+  hi(0, 'ErrorMsg', { fg = colors.alert_fg, bold = true })
   hi(0, 'WarningMsg', { fg = colors.warn_fg })
   hi(0, 'ModeMsg', { fg = colors.text })
   hi(0, 'MoreMsg', { fg = colors.info_fg })
@@ -272,6 +274,13 @@ function M.setup()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
   end
+
+  -- We apply the theme with nvim_set_hl, not `:colorscheme`, so nothing fires the
+  -- ColorScheme event. Plugins that cache derived colours on it (render-markdown
+  -- bakes its code-block border glyphs into a concrete highlight, refreshed only on
+  -- ColorScheme) would otherwise keep pre-theme colours — dark code-block bands
+  -- after :ErgoReload's `highlight clear`. Fire it so those caches rebuild.
+  vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'ergo_light', modeline = false })
 end
 
 return M

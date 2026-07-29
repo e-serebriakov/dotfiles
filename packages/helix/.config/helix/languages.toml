@@ -1,4 +1,3 @@
-# --- language server definition ---
 [language-server.clojure-lsp]
 command = "clojure-lsp"
 
@@ -14,7 +13,6 @@ args = ["--stdio"]
 command = "typescript-language-server"
 args = ["--stdio"]
 
-# --- Language hookup ---
 [[language]]
 name = "clojure"
 file-types = ["clj", "cljs", "cljc", "edn", "bb"]

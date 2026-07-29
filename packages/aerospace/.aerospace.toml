@@ -90,17 +90,14 @@ automatically-unhide-macos-hidden-apps = false
     # Disable cmd+m minimize
     cmd-m = 'exec-and-forget true'
 
-    # Layout
     cmd-ctrl-alt-shift-slash = 'layout tiles horizontal vertical'
     cmd-ctrl-alt-shift-comma = 'layout accordion horizontal vertical'
 
-    # Focus
     cmd-ctrl-alt-shift-h = 'focus left'
     cmd-ctrl-alt-shift-j = 'focus down'
     cmd-ctrl-alt-shift-k = 'focus up'
     cmd-ctrl-alt-shift-l = 'focus right'
 
-    # Resize
     cmd-ctrl-alt-shift-minus = 'resize smart -50'
     cmd-ctrl-alt-shift-equal = 'resize smart +50'
 
@@ -137,20 +134,16 @@ automatically-unhide-macos-hidden-apps = false
     cmd-ctrl-alt-shift-y = 'workspace Y'
     cmd-ctrl-alt-shift-z = 'workspace Z'
 
-    # Workspace back-and-forth
     cmd-ctrl-alt-shift-tab = 'workspace-back-and-forth'
 
-    # Enter move mode
     cmd-ctrl-alt-shift-space = 'mode move'
 
-    # Service mode
     cmd-ctrl-alt-shift-semicolon = 'mode service'
 
 # 'move' binding mode — entered via hyper+space
 [mode.move.binding]
     esc = 'mode main'
 
-    # Move window
     h = ['move left', 'mode main']
     j = ['move down', 'mode main']
     k = ['move up', 'mode main']
@@ -198,8 +191,8 @@ automatically-unhide-macos-hidden-apps = false
     r = ['flatten-workspace-tree', 'mode main'] # reset layout
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
     backspace = ['close-all-windows-but-current', 'mode main']
-    s = ['layout accordion horizontal vertical', 'mode main'] # stack (accordion) toggle
-    t = ['layout tiles horizontal vertical', 'mode main'] # tiles toggle
+    s = ['layout accordion horizontal vertical', 'mode main']
+    t = ['layout tiles horizontal vertical', 'mode main']
     cmd-w = ['close --quit-if-last-window', 'mode main']
 
     alt-shift-h = ['join-with left', 'mode main']
