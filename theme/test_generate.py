@@ -81,6 +81,36 @@ class TestGoldenOutput(unittest.TestCase):
                 self.assertEqual(path.read_text(), content)
                 self.assertIn(generate.GENERATED_BANNER, content)
 
+    def test_preview_matches_disk(self):
+        """The committed README image is the one generated artifact that is
+        tracked (not gitignored + regenerated on install), so a stale copy would
+        ship to GitHub. Guard it against token drift like the adapter outputs."""
+        content = generate.gen_preview(Theme.from_file())
+        self.assertTrue(
+            generate.PREVIEW.exists(),
+            f"{generate.PREVIEW} not generated yet — run generate.py",
+        )
+        self.assertEqual(generate.PREVIEW.read_text(), content)
+        self.assertIn(generate.GENERATED_BANNER, content)
+
+    def test_preview_ansi_emits_every_row_colour(self):
+        """The terminal preview must render the whole shared palette, not a
+        subset — proving preview_ansi consumes the same _preview_rows the SVG
+        does. Every hex named in a row appears as a truecolor (`2;r;g;b`) run."""
+        theme = Theme.from_file()
+        ansi = generate.preview_ansi(theme)
+        self.assertTrue(ansi.startswith("\x1b["), "expected an opening SGR escape")
+        _, _, _, rows = generate._preview_rows(theme)
+        hexes = set()
+        for _gutter, gcol, band, segs, _gap in rows:
+            hexes.update(c for c in (gcol, band) if c)
+            for _text, fg, opts in segs:
+                hexes.update(c for c in (fg, opts.get("hl")) if c)
+        for hx in hexes:
+            h = hx.lstrip("#")
+            triple = f"2;{int(h[0:2], 16)};{int(h[2:4], 16)};{int(h[4:6], 16)}"
+            self.assertIn(triple, ansi, f"{hx} missing from ANSI preview")
+
 
 class TestContract(unittest.TestCase):
     """Boundary tests for the tokens<->adapters contract. `check` takes plain
