@@ -8,3 +8,4 @@ uv = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
+"npm:@earendil-works/pi-coding-agent" = "latest"
