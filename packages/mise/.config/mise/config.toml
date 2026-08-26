@@ -4,6 +4,7 @@ lazydocker = "latest"
 node = "24"
 python = "3.12"
 just = "latest"
+tree-sitter = "latest"
 uv = "latest"
 
 "npm:markdownlint-cli2" = "latest"

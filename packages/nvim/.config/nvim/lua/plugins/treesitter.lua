@@ -1,44 +1,45 @@
 -- Highlight, edit, and navigate code
+-- The `main` branch only installs parsers and queries; highlighting
+-- comes from Neovim itself (`:help treesitter`).
+local ensure_installed = {
+  'bash',
+  'c',
+  'clojure',
+  'css',
+  'diff',
+  'html',
+  'javascript',
+  'json',
+  'lua',
+  'luadoc',
+  'markdown',
+  'markdown_inline',
+  'python',
+  'query',
+  'toml',
+  'tsx',
+  'typescript',
+  'vim',
+  'vimdoc',
+  'yaml',
+}
+
 return {
   'nvim-treesitter/nvim-treesitter',
   branch = 'main',
+  lazy = false,
   build = ':TSUpdate',
-  -- main branch no longer uses nvim-treesitter.configs
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  opts = {
-    ensure_installed = {
-      'bash',
-      'c',
-      'clojure',
-      'css',
-      'diff',
-      'html',
-      'javascript',
-      'json',
-      'lua',
-      'luadoc',
-      'markdown',
-      'markdown_inline',
-      'python',
-      'query',
-      'toml',
-      'tsx',
-      'typescript',
-      'vim',
-      'vimdoc',
-      'yaml',
-    },
-    -- Autoinstall languages that are not installed
-    auto_install = true,
-    highlight = {
-      enable = true,
-    },
-    indent = { enable = true },
-  },
-  -- There are additional nvim-treesitter modules that you can use to interact
-  -- with nvim-treesitter. You should go explore a few and see what interests you:
-  --
-  --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  config = function()
+    require('nvim-treesitter').install(ensure_installed)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('treesitter-start', {}),
+      callback = function(ev)
+        if not pcall(vim.treesitter.start, ev.buf) then
+          return
+        end
+        vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
+    })
+  end,
 }
