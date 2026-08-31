@@ -34,11 +34,17 @@ fi
 
 # Zsh plugins
 ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
+[[ -n "$DRY_RUN" ]] && echo "  (dry run: skipping zsh plugins)"
 mkdir -p "$ZSH_PLUGIN_DIR"
 while IFS='=' read -r name url; do
+  [[ -n "$DRY_RUN" ]] && continue
   if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
     echo "  Installing zsh plugin: $name"
     git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
+  else
+    # Without this the plugins stay pinned to whenever they were first cloned.
+    git -C "$ZSH_PLUGIN_DIR/$name" pull --ff-only --quiet || \
+      echo "  ⚠ could not update $name" >&2
   fi
 done <<'PLUGINS'
 fzf-tab=https://github.com/Aloxaf/fzf-tab
@@ -61,14 +67,15 @@ if [[ -n "$DRY_RUN" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
+  # Neither a missing python3 nor a bad token file should block re-stowing every
+  # other package; both just mean the tools fall back to their default colours.
   if ! command -v python3 &> /dev/null; then
-    echo "❌ python3 is required to generate theme files (theme/generate.py)." >&2
-    exit 1
-  fi
-  echo "▶ Generating theme files from design tokens..."
-  # A token typo must not block re-stowing every other package.
-  if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
-    echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+    echo "⚠ python3 not found — skipping theme generation" >&2
+  else
+    echo "▶ Generating theme files from design tokens..."
+    if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
+      echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+    fi
   fi
 
   # Without this, a ~/.config symlinked into a foreign repo would make $tgt resolve
