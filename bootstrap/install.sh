@@ -45,25 +45,27 @@ else
 fi
 
 # Zsh plugins
-ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
-[[ -n "$DRY_RUN" ]] && echo "  (dry run: skipping zsh plugins)"
-mkdir -p "$ZSH_PLUGIN_DIR"
-while IFS='=' read -r name url; do
-  [[ -n "$DRY_RUN" ]] && continue
-  if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
-    echo "  Installing zsh plugin: $name"
-    git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
-  else
-    # Without this the plugins stay pinned to whenever they were first cloned.
-    git -C "$ZSH_PLUGIN_DIR/$name" pull --ff-only --quiet || \
-      echo "  ⚠ could not update $name" >&2
-  fi
-done <<'PLUGINS'
+if [[ -n "$DRY_RUN" ]]; then
+  echo "  (dry run: skipping zsh plugins)"
+else
+  ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
+  mkdir -p "$ZSH_PLUGIN_DIR"
+  while IFS='=' read -r name url; do
+    if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
+      echo "  Installing zsh plugin: $name"
+      git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
+    else
+      # Without this the plugins stay pinned to whenever they were first cloned.
+      git -C "$ZSH_PLUGIN_DIR/$name" pull --ff-only --quiet || \
+        echo "  ⚠ could not update $name" >&2
+    fi
+  done <<'PLUGINS'
 fzf-tab=https://github.com/Aloxaf/fzf-tab
 zsh-syntax-highlighting=https://github.com/zsh-users/zsh-syntax-highlighting
 zsh-history-substring-search=https://github.com/zsh-users/zsh-history-substring-search
 zsh-autosuggestions=https://github.com/zsh-users/zsh-autosuggestions
 PLUGINS
+fi
 
 # Build package list using shell globbing (portable on macOS)
 PKGS=()
@@ -129,7 +131,9 @@ else
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml
-if command -v mise &> /dev/null; then
+if [[ -n "$DRY_RUN" ]]; then
+  echo "  (dry run: skipping mise tools)"
+elif command -v mise &> /dev/null; then
   echo "▶ Installing mise tools..."
   # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
   # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
