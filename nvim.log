@@ -1,0 +1,4 @@
+ERR 2026-08-31T14:20:33.439 ?.7870     vim_mktempdir:3355: tempdir root not owned by current user (eserebriakov): /tmp/nvim.eserebriakov
+ERR 2026-08-31T14:20:33.439 ?.7870     vim_mktempdir:3361: tempdir root has invalid permissions (37777777776): /tmp/nvim.eserebriakov
+WRN 2026-08-31T14:20:33.439 ?.7870     vim_mktempdir:3377: tempdir create failed: operation not permitted: /tmp/nvim.XXXXXX
+WRN 2026-08-31T14:20:33.440 ?.7870     server_start:197: Failed to start server: operation not permitted: /Users/eserebriakov/dotfiles/nvim.eserebriakov/hcIWZq/nvim.7870.0
