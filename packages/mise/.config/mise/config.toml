@@ -1,10 +1,28 @@
 [tools]
-neovim = "latest"
-lazydocker = "latest"
 node = "24"
 python = "3.12"
-just = "latest"
 uv = "latest"
+
+neovim = "latest"
+helix = "latest"
+zellij = "latest"
+starship = "latest"
+
+fzf = "latest"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+eza = "latest"
+jq = "latest"
+zoxide = "latest"
+
+gh = "latest"
+git-town = "latest"
+delta = "latest"
+
+just = "latest"
+lazydocker = "latest"
+claude-code = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
