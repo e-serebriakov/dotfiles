@@ -1,36 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+STOW_VERSION=2.4.1
+
 info() {
   echo -e "\033[1;34m[macos]\033[0m $*"
 }
 
-install_homebrew() {
-  if ! command -v brew &> /dev/null; then
-    info "Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
-    info "✓ Homebrew already installed"
-  fi
+install_mise() {
+  command -v mise &> /dev/null && { info "✓ mise already installed"; return; }
+  info "Installing mise..."
+  curl -fsSL https://mise.run | sh
 }
 
-install_brewfile() {
-  local brewfile="$(dirname "$0")/Brewfile"
-
-  if [ ! -f "$brewfile" ]; then
-    echo "[ERROR] Brewfile not found: $brewfile"
-    exit 1
-  fi
-
-  if brew trust --help &> /dev/null; then
-    info "Trusting third-party taps..."
-    # Non-fatal: the Brewfile also declares this tap, so `brew bundle` still
-    # resolves it if the trust step can't reach/verify the tap.
-    brew trust nikitabobko/tap || info "⚠ could not trust nikitabobko/tap; Brewfile tap will handle it"  # aerospace
-  fi
-
-  info "Installing packages from Brewfile..."
-  HOMEBREW_NO_INSTALL_CLEANUP=1 brew bundle install --file="$brewfile"
+# Stow is a Perl program, so this only substitutes paths — no compiler involved.
+# It is the one CLI tool with no mise registry entry.
+install_stow() {
+  command -v stow &> /dev/null && { info "✓ stow already installed"; return; }
+  info "Installing GNU Stow $STOW_VERSION..."
+  local tmp; tmp="$(mktemp -d)"
+  curl -fsSL "https://ftp.gnu.org/gnu/stow/stow-$STOW_VERSION.tar.gz" | tar xz -C "$tmp"
+  (
+    cd "$tmp/stow-$STOW_VERSION"
+    ./configure --prefix="$HOME/.local" > /dev/null
+    make install > /dev/null
+  )
+  rm -rf "$tmp"
 }
 
 # Load SSH keys into the login Keychain so the native agent unlocks them
@@ -53,11 +48,11 @@ setup_ssh_keychain() {
 
 main() {
   info "🔧 Starting macOS bootstrap"
-  install_homebrew
-  install_brewfile
+  install_mise
+  install_stow
+  bash "$(dirname "$0")/casks.sh"
   setup_ssh_keychain
   info "✅ macOS setup complete"
 }
 
 main "$@"
-
