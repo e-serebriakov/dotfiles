@@ -13,15 +13,30 @@ mkdir -p "$HOME/.local/bin"
 
 # Some repos (AeroSpace) ship only pre-releases, so /releases/latest is empty.
 # Reading the releases list and filtering keeps both cases on one code path.
+# The six calls share GitHub's 60/hr unauthenticated budget; GITHUB_TOKEN raises
+# it to 5000 and is optional.
 gh_asset() { # $1=owner/repo  $2=asset regex
-  curl -fsSL "https://api.github.com/repos/$1/releases?per_page=5" \
-    | grep -o '"browser_download_url": "[^"]*"' | cut -d'"' -f4 \
-    | grep -E "$2" | head -1
+  local json url
+  json="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+    "https://api.github.com/repos/$1/releases?per_page=5")" || :
+  # One awk, not a pipeline: a filter that stops at the first match SIGPIPEs
+  # whatever is upstream, and pipefail reports that as failure even though the
+  # URL was found — wezterm and nerd-fonts have JSON large enough to hit it.
+  url="$(awk -v re="$2" '/"browser_download_url":/ {
+    split($0, a, "\""); if (a[4] ~ re) { print a[4]; exit }
+  }' <<< "$json")"
+  # Covers both a failed request and a release with no matching asset; without
+  # it the caller curls an empty URL and reports only that the URL is malformed.
+  [ -n "$url" ] || { info "❌ no asset matching $2 in $1 (rate limited? set GITHUB_TOKEN)"; return 1; }
+  printf '%s\n' "$url"
 }
 
+# Captured for the same reason, and so a failed attach cannot pass an empty
+# mount point to the caller's `cp`.
 mount_dmg() { # $1=dmg path -> echoes mount point
-  hdiutil attach -nobrowse -readonly "$1" \
-    | awk '/\/Volumes\//{print substr($0, index($0, "/Volumes/"))}' | head -1
+  local out
+  out="$(hdiutil attach -nobrowse -readonly "$1")" || return
+  awk '/\/Volumes\//{print substr($0, index($0, "/Volumes/")); exit}' <<< "$out"
 }
 
 app_from_zip() { # $1=name  $2=url
