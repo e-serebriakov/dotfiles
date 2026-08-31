@@ -1,3 +1,8 @@
+[settings]
+# Pin resolved versions in mise.lock so a fresh machine reproduces this one
+# instead of taking whatever "latest" means that day.
+locked = true
+
 [tools]
 node = "24"
 python = "3.12"
