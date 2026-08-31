@@ -29,8 +29,10 @@ That's it. Open a new shell and the environment is restored.
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: installs [`mise`](https://mise.jdx.dev) and GNU Stow, then the GUI apps via `bootstrap/casks.sh`.
-   - Linux: installs build essentials and `mise` via `apt`.
+   - macOS: builds GNU Stow, then installs the GUI apps via `bootstrap/casks.sh`.
+   - Linux: installs build essentials via `apt`.
+
+   Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
 3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
 4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
@@ -80,8 +82,8 @@ The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in thi
 dotfiles/
 ├── bootstrap/
 │   ├── install.sh      # entry point — orchestrates everything
-│   ├── macos.sh        # mise + stow bootstrap
-│   ├── linux.sh        # apt essentials + mise
+│   ├── macos.sh        # stow build + apps
+│   ├── linux.sh        # apt essentials
 │   └── casks.sh        # macOS apps, fonts and pkg installers
 ├── theme/              # design tokens + generator (see Theme)
 │   ├── ergo-light.tokens.json  # the single source of colour
