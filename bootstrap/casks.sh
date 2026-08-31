@@ -26,6 +26,29 @@ app_from_zip() { # $1=name  $2=url
   curl -fsSL "$2" -o "$TMP/$1.zip"
   unzip -q "$TMP/$1.zip" -d "$TMP/$1"
   cp -R "$TMP/$1"/*.app /Applications/
+  # AeroSpace ships its CLI beside the .app inside the archive; no-op for the rest.
+  find "$TMP/$1" -type f -path '*/bin/*' -perm -u+x \
+    -exec install -m 755 {} "$HOME/.local/bin/" \;
+}
+
+# The casks used to drop these into /opt/homebrew/bin. They live inside the app
+# bundles, so linking them keeps the commands working without Homebrew.
+link_app_clis() {
+  mkdir -p "$HOME/.local/bin"
+  local src
+  for src in \
+    /Applications/WezTerm.app/Contents/MacOS/wezterm \
+    /Applications/WezTerm.app/Contents/MacOS/wezterm-gui \
+    /Applications/WezTerm.app/Contents/MacOS/wezterm-mux-server \
+    /Applications/WezTerm.app/Contents/MacOS/strip-ansi-escapes \
+    /Applications/OrbStack.app/Contents/MacOS/bin/orb \
+    /Applications/OrbStack.app/Contents/MacOS/bin/orbctl \
+    "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
+  do
+    if [ -e "$src" ]; then
+      ln -sfn "$src" "$HOME/.local/bin/$(basename "$src")"
+    fi
+  done
 }
 
 app_from_dmg() { # $1=name  $2=url
@@ -47,11 +70,16 @@ pkg_from_dmg() { # $1=name  $2=url  $3=marker path
   hdiutil detach "$mnt" -quiet
 }
 
-install_pkg() { # $1=name  $2=url  $3=marker path
-  [ -e "$3" ] && { info "✓ $1 already installed"; return; }
-  info "Installing $1 (requires sudo)..."
-  curl -fsSL "$2" -o "$TMP/$1.pkg"
-  sudo installer -pkg "$TMP/$1.pkg" -target /
+# mosh's pkg holds three binaries that link only against /usr/lib, so unpacking
+# it into ~/.local/bin works and keeps sudo out of the picture.
+install_mosh() {
+  [ -x "$HOME/.local/bin/mosh" ] && { info "✓ mosh already installed"; return; }
+  info "Installing mosh..."
+  curl -fsSL "$(gh_asset mobile-shell/mosh 'mosh-.*\.pkg$')" -o "$TMP/mosh.pkg"
+  pkgutil --expand-full "$TMP/mosh.pkg" "$TMP/mosh"
+  mkdir -p "$HOME/.local/bin"
+  find "$TMP/mosh" -type f -perm -u+x -name 'mosh*' \
+    -exec install -m 755 {} "$HOME/.local/bin/" \;
 }
 
 install_font() {
@@ -75,8 +103,9 @@ main() {
   pkg_from_dmg Karabiner-Elements \
     "$(gh_asset pqrs-org/Karabiner-Elements 'Karabiner-Elements-.*\.dmg$')" \
     /Applications/Karabiner-Elements.app
-  install_pkg mosh "$(gh_asset mobile-shell/mosh 'mosh-.*\.pkg$')" /usr/local/bin/mosh
+  install_mosh
   install_font
+  link_app_clis
   info "✅ Apps installed"
 }
 
