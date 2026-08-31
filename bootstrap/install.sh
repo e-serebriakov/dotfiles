@@ -8,6 +8,9 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STOW_DIR="$DOTFILES_DIR/packages"
 TARGET="$HOME"
 
+# mise and stow install here; bash does not read .zshenv, which sets this for zsh.
+export PATH="$HOME/.local/bin:$PATH"
+
 cd "$DOTFILES_DIR"
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"

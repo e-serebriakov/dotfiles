@@ -29,8 +29,8 @@ That's it. Open a new shell and the environment is restored.
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: installs [Homebrew](https://brew.sh) if missing, then `brew bundle` from `bootstrap/Brewfile`.
-   - Linux: installs packages via `apt` and vendor repos.
+   - macOS: installs [`mise`](https://mise.jdx.dev) and GNU Stow, then the GUI apps via `bootstrap/casks.sh`.
+   - Linux: installs build essentials and `mise` via `apt`.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
 3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
 4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
@@ -51,7 +51,7 @@ The stow step runs `stow --adopt -R`. If a real (non-symlink) config file alread
 git diff --name-only packages/ | xargs -I{} git checkout -- {}
 ```
 
-So the repo's tracked version always wins, and any pre-existing config on the machine is replaced by these dotfiles. Uncommitted changes elsewhere (e.g. `Brewfile`) are left untouched.
+So the repo's tracked version always wins, and any pre-existing config on the machine is replaced by these dotfiles. Uncommitted changes elsewhere are left untouched.
 
 ## SSH setup
 
@@ -80,9 +80,9 @@ The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in thi
 dotfiles/
 ├── bootstrap/
 │   ├── install.sh      # entry point — orchestrates everything
-│   ├── macos.sh        # Homebrew + brew bundle
-│   ├── linux.sh        # apt + vendor installs
-│   └── Brewfile        # macOS packages (brews + casks + fonts)
+│   ├── macos.sh        # mise + stow bootstrap
+│   ├── linux.sh        # apt essentials + mise
+│   └── casks.sh        # macOS apps, fonts and pkg installers
 ├── theme/              # design tokens + generator (see Theme)
 │   ├── ergo-light.tokens.json  # the single source of colour
 │   └── generate.py             # tokens → per-tool theme files
@@ -150,17 +150,23 @@ Tools that aren't generated (ccstatusline, starship, git's own output) use **nam
 
 ## What gets installed
 
-- **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `git-delta`, `zoxide`, `stow`, `gh`, `git-town`
+Everything except the GUI apps comes from `mise`, so macOS and Linux install the same list.
+
+- **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `delta`, `zoxide`, `gh`, `git-town`, `direnv`, `bottom`, `k9s`, `rainfrog`
 - **Editors**: `neovim`, `helix`
 - **Shell/prompt**: `zsh` + plugins, `starship`
-- **Terminal/WM** (macOS): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`
-- **Runtimes** (via mise): `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
+- **Runtimes**: `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
+- **Linters**: `shellcheck`, `actionlint`, `markdownlint-cli2`
+- **Agents**: `claude-code`, `codex`
+- **Apps** (macOS, via `casks.sh`): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`, `mosh`, JetBrains Mono Nerd Font
 
-See `bootstrap/Brewfile` and `packages/mise/.config/mise/config.toml` for the authoritative lists.
+GNU Stow is the one exception — it is a Perl program with no release binary, so `macos.sh` builds it from source into `~/.local`.
+
+See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 
 ## Requirements
 
 - `git` and a working `curl` (both scripts fetch installers)
 - `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
-- macOS: nothing else — Homebrew is installed automatically
+- macOS: `sudo` access — Karabiner-Elements and mosh ship as `.pkg` installers
 - Linux: `sudo` access (apt + vendor repos)
