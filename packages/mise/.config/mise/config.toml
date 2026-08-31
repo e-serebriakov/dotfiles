@@ -22,8 +22,14 @@ delta = "latest"
 
 just = "latest"
 lazydocker = "latest"
+direnv = "latest"
+actionlint = "latest"
+shellcheck = "latest"
+k9s = "latest"
 claude-code = "latest"
 codex = "latest"
+
+"github:achristmascarl/rainfrog" = "latest" # no registry entry
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
