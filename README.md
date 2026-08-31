@@ -45,15 +45,11 @@ That's it. Open a new shell and the environment is restored.
 | Dry run (preview symlinks) | `./bootstrap/install.sh -n` or `--dry-run` |
 | Context (default `personal`) | `DOTFILES_CONTEXT=work ./bootstrap/install.sh` |
 
-### On the `--adopt` restore step
+### On the backup step
 
-The stow step runs `stow --adopt -R`. If a real (non-symlink) config file already exists at a target path, `--adopt` pulls it *into* the repo instead of erroring. Immediately after, the script restores `packages/` from git:
+Before `stow -R`, the script moves any real (non-symlink) file sitting at a target path into `~/.dotfiles-backup/<timestamp>/`, preserving its relative path. Only genuine conflicts move — targets that already resolve back into `packages/` are left alone.
 
-```sh
-git diff --name-only packages/ | xargs -I{} git checkout -- {}
-```
-
-So the repo's tracked version always wins, and any pre-existing config on the machine is replaced by these dotfiles. Uncommitted changes elsewhere are left untouched.
+So the repo's tracked version always wins, any pre-existing config on the machine is set aside rather than overwritten, and uncommitted changes under `packages/` are never reverted.
 
 ## SSH setup
 
@@ -171,4 +167,4 @@ See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 - `git` and a working `curl` (both scripts fetch installers)
 - `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
 - macOS: `sudo` access — Karabiner-Elements and mosh ship as `.pkg` installers
-- Linux: `sudo` access (apt + vendor repos)
+- Linux: `sudo` access (apt)
