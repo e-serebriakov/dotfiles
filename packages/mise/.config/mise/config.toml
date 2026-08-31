@@ -26,6 +26,7 @@ direnv = "latest"
 actionlint = "latest"
 shellcheck = "latest"
 k9s = "latest"
+bottom = "latest" # btop has no macOS build
 claude-code = "latest"
 codex = "latest"
 
