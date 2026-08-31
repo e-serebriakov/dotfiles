@@ -7,12 +7,6 @@ info() {
   echo -e "\033[1;34m[macos]\033[0m $*"
 }
 
-install_mise() {
-  command -v mise &> /dev/null && { info "✓ mise already installed"; return; }
-  info "Installing mise..."
-  curl -fsSL https://mise.run | sh
-}
-
 # Stow is a Perl program, so this only substitutes paths — no compiler involved.
 # It is the one CLI tool with no mise registry entry.
 install_stow() {
@@ -48,7 +42,6 @@ setup_ssh_keychain() {
 
 main() {
   info "🔧 Starting macOS bootstrap"
-  install_mise
   install_stow
   bash "$(dirname "$0")/casks.sh"
   setup_ssh_keychain

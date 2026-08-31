@@ -20,6 +20,17 @@ fi
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
+# Both platforms get their tools from mise, so it is installed here rather than
+# twice in the platform scripts. Runs after them because Linux needs apt's curl.
+install_mise() {
+  if command -v mise &> /dev/null; then
+    echo "  ✓ mise already installed"
+    return
+  fi
+  echo "▶ Installing mise..."
+  curl -fsSL https://mise.run | sh
+}
+
 # Skipped on a dry run: these install compilers, apps and .pkg files, and
 # casks.sh prompts for sudo. Only the stow step below is simulated.
 if [[ -z "$DRY_RUN" ]]; then
@@ -28,6 +39,7 @@ if [[ -z "$DRY_RUN" ]]; then
   elif [[ "$PLATFORM" == "linux" ]]; then
     bash bootstrap/linux.sh
   fi
+  install_mise
 else
   echo "  (dry run: skipping platform bootstrap)"
 fi
