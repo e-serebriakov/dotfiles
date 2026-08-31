@@ -23,6 +23,7 @@ delta = "latest"
 just = "latest"
 lazydocker = "latest"
 claude-code = "latest"
+codex = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
