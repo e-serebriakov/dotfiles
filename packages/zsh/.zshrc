@@ -16,7 +16,7 @@ setopt interactive_comments
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
 # mise puts starship, fzf, zoxide and the rest on PATH, so it has to run before
-# anything that probes for them. Also lets compinit see their completions.
+# anything that probes for them.
 if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
 fi
