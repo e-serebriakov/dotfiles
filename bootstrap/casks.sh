@@ -7,6 +7,10 @@ info() { echo -e "\033[1;35m[apps]\033[0m $*"; }
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
+# Several functions below install CLIs here, and `find -exec install` fails
+# silently (find still exits 0), so create it once up front.
+mkdir -p "$HOME/.local/bin"
+
 # Some repos (AeroSpace) ship only pre-releases, so /releases/latest is empty.
 # Reading the releases list and filtering keeps both cases on one code path.
 gh_asset() { # $1=owner/repo  $2=asset regex
@@ -34,7 +38,6 @@ app_from_zip() { # $1=name  $2=url
 # The casks used to drop these into /opt/homebrew/bin. They live inside the app
 # bundles, so linking them keeps the commands working without Homebrew.
 link_app_clis() {
-  mkdir -p "$HOME/.local/bin"
   local src
   for src in \
     /Applications/WezTerm.app/Contents/MacOS/wezterm \
@@ -77,7 +80,6 @@ install_mosh() {
   info "Installing mosh..."
   curl -fsSL "$(gh_asset mobile-shell/mosh 'mosh-.*\.pkg$')" -o "$TMP/mosh.pkg"
   pkgutil --expand-full "$TMP/mosh.pkg" "$TMP/mosh"
-  mkdir -p "$HOME/.local/bin"
   find "$TMP/mosh" -type f -perm -u+x -name 'mosh*' \
     -exec install -m 755 {} "$HOME/.local/bin/" \;
 }
