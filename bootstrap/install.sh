@@ -131,7 +131,11 @@ fi
 # Install tools declared in packages/mise/.config/mise/config.toml
 if command -v mise &> /dev/null; then
   echo "▶ Installing mise tools..."
-  mise install
+  # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
+  # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
+  # immediate retry does not, since the limit takes minutes to clear.
+  MISE_JOBS="${MISE_JOBS:-4}" mise install || \
+    echo "⚠ some tools failed to install — re-run 'mise install' in a few minutes" >&2
 fi
 
 echo "✅ Done"
