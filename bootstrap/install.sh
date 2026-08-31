@@ -13,13 +13,23 @@ export PATH="$HOME/.local/bin:$PATH"
 
 cd "$DOTFILES_DIR"
 
+DRY_RUN=""
+if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
+  DRY_RUN=1
+fi
+
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
-# Platform-specific
-if [[ "$PLATFORM" == "darwin" ]]; then
-  bash bootstrap/macos.sh
-elif [[ "$PLATFORM" == "linux" ]]; then
-  bash bootstrap/linux.sh
+# Skipped on a dry run: these install compilers, apps and .pkg files, and
+# casks.sh prompts for sudo. Only the stow step below is simulated.
+if [[ -z "$DRY_RUN" ]]; then
+  if [[ "$PLATFORM" == "darwin" ]]; then
+    bash bootstrap/macos.sh
+  elif [[ "$PLATFORM" == "linux" ]]; then
+    bash bootstrap/linux.sh
+  fi
+else
+  echo "  (dry run: skipping platform bootstrap)"
 fi
 
 # Zsh plugins
@@ -47,7 +57,7 @@ for dir in "$STOW_DIR"/*/ ; do
 done
 
 # Dry-run: ./bootstrap/install.sh -n
-if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
+if [[ -n "$DRY_RUN" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
