@@ -138,7 +138,7 @@ elif command -v mise &> /dev/null; then
   # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
   # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
   # immediate retry does not, since the limit takes minutes to clear.
-  MISE_JOBS="${MISE_JOBS:-4}" mise install || \
+  MISE_JOBS="${MISE_JOBS:-4}" mise install --locked || \
     echo "⚠ some tools failed to install — re-run 'mise install' in a few minutes" >&2
 fi
 
