@@ -12,7 +12,7 @@ uv = "latest"
 
 neovim = "latest"
 helix = "latest"
-zellij = "latest"
+zellij = "0.44.1" # 0.45.1 breaks stacked panes, which work.kdl relies on
 starship = "latest"
 
 fzf = "latest"
