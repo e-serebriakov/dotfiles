@@ -8,31 +8,65 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STOW_DIR="$DOTFILES_DIR/packages"
 TARGET="$HOME"
 
+# mise installs here and brew puts stow on PATH; bash does not read .zshenv,
+# which sets both for zsh.
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
+
 cd "$DOTFILES_DIR"
+
+DRY_RUN=""
+if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
+  DRY_RUN=1
+fi
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
-# Platform-specific
-if [[ "$PLATFORM" == "darwin" ]]; then
-  bash bootstrap/macos.sh
-elif [[ "$PLATFORM" == "linux" ]]; then
-  bash bootstrap/linux.sh
+# Both platforms get their tools from mise, so it is installed here rather than
+# twice in the platform scripts. Runs after them because Linux needs apt's curl.
+install_mise() {
+  if command -v mise &> /dev/null; then
+    echo "  ✓ mise already installed"
+    return
+  fi
+  echo "▶ Installing mise..."
+  curl -fsSL https://mise.run | sh
+}
+
+# Skipped on a dry run: these install apps and packages, and brew bundle
+# prompts for sudo. Only the stow step below is simulated.
+if [[ -z "$DRY_RUN" ]]; then
+  if [[ "$PLATFORM" == "darwin" ]]; then
+    bash bootstrap/macos.sh
+  elif [[ "$PLATFORM" == "linux" ]]; then
+    bash bootstrap/linux.sh
+  fi
+  install_mise
+else
+  echo "  (dry run: skipping platform bootstrap)"
 fi
 
 # Zsh plugins
-ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
-mkdir -p "$ZSH_PLUGIN_DIR"
-while IFS='=' read -r name url; do
-  if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
-    echo "  Installing zsh plugin: $name"
-    git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
-  fi
-done <<'PLUGINS'
+if [[ -n "$DRY_RUN" ]]; then
+  echo "  (dry run: skipping zsh plugins)"
+else
+  ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
+  mkdir -p "$ZSH_PLUGIN_DIR"
+  while IFS='=' read -r name url; do
+    if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
+      echo "  Installing zsh plugin: $name"
+      git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
+    else
+      # Without this the plugins stay pinned to whenever they were first cloned.
+      git -C "$ZSH_PLUGIN_DIR/$name" pull --ff-only --quiet || \
+        echo "  ⚠ could not update $name" >&2
+    fi
+  done <<'PLUGINS'
 fzf-tab=https://github.com/Aloxaf/fzf-tab
 zsh-syntax-highlighting=https://github.com/zsh-users/zsh-syntax-highlighting
 zsh-history-substring-search=https://github.com/zsh-users/zsh-history-substring-search
 zsh-autosuggestions=https://github.com/zsh-users/zsh-autosuggestions
 PLUGINS
+fi
 
 # Build package list using shell globbing (portable on macOS)
 PKGS=()
@@ -44,18 +78,19 @@ for dir in "$STOW_DIR"/*/ ; do
 done
 
 # Dry-run: ./bootstrap/install.sh -n
-if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
+if [[ -n "$DRY_RUN" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
+  # Neither a missing python3 nor a bad token file should block re-stowing every
+  # other package; both just mean the tools fall back to their default colours.
   if ! command -v python3 &> /dev/null; then
-    echo "❌ python3 is required to generate theme files (theme/generate.py)." >&2
-    exit 1
-  fi
-  echo "▶ Generating theme files from design tokens..."
-  # A token typo must not block re-stowing every other package.
-  if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
-    echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+    echo "⚠ python3 not found — skipping theme generation" >&2
+  else
+    echo "▶ Generating theme files from design tokens..."
+    if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
+      echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+    fi
   fi
 
   # Without this, a ~/.config symlinked into a foreign repo would make $tgt resolve
@@ -97,9 +132,15 @@ else
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml
-if command -v mise &> /dev/null; then
+if [[ -n "$DRY_RUN" ]]; then
+  echo "  (dry run: skipping mise tools)"
+elif command -v mise &> /dev/null; then
   echo "▶ Installing mise tools..."
-  mise install
+  # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
+  # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
+  # immediate retry does not, since the limit takes minutes to clear.
+  MISE_JOBS="${MISE_JOBS:-4}" mise install --locked || \
+    echo "⚠ some tools failed to install — re-run 'mise install' in a few minutes" >&2
 fi
 
 echo "✅ Done"

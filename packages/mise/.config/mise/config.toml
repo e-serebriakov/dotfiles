@@ -1,10 +1,43 @@
+# mise.lock beside this file pins every resolved version, so a fresh machine
+# reproduces this one instead of taking whatever "latest" means that day. The
+# lockfile is read automatically; install.sh passes --locked to also *require*
+# it. That strictness is deliberately not a [settings] entry here — settings in
+# the global config apply to every project on the machine, and would break any
+# repo whose .mise.toml has no lockfile of its own.
+
 [tools]
-neovim = "latest"
-lazydocker = "latest"
 node = "24"
 python = "3.12"
-just = "latest"
 uv = "latest"
+
+neovim = "latest"
+helix = "latest"
+zellij = "0.44.1" # 0.45.1 breaks stacked panes, which work.kdl relies on
+starship = "latest"
+
+fzf = "latest"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+eza = "latest"
+jq = "latest"
+zoxide = "latest"
+
+gh = "latest"
+git-town = "latest"
+delta = "latest"
+
+just = "latest"
+lazydocker = "latest"
+direnv = "latest"
+actionlint = "latest"
+shellcheck = "latest"
+k9s = "latest"
+bottom = "latest" # btop has no macOS build
+claude-code = "latest"
+codex = "latest"
+
+"github:achristmascarl/rainfrog" = "latest" # no registry entry
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format

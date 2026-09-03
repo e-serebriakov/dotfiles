@@ -6,31 +6,14 @@ info() {
 }
 
 install_homebrew() {
-  if ! command -v brew &> /dev/null; then
-    info "Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
-    info "✓ Homebrew already installed"
-  fi
-}
-
-install_brewfile() {
-  local brewfile="$(dirname "$0")/Brewfile"
-
-  if [ ! -f "$brewfile" ]; then
-    echo "[ERROR] Brewfile not found: $brewfile"
-    exit 1
-  fi
-
-  if brew trust --help &> /dev/null; then
-    info "Trusting third-party taps..."
-    # Non-fatal: the Brewfile also declares this tap, so `brew bundle` still
-    # resolves it if the trust step can't reach/verify the tap.
-    brew trust nikitabobko/tap || info "⚠ could not trust nikitabobko/tap; Brewfile tap will handle it"  # aerospace
-  fi
-
-  info "Installing packages from Brewfile..."
-  HOMEBREW_NO_INSTALL_CLEANUP=1 brew bundle install --file="$brewfile"
+  command -v brew &> /dev/null && { info "✓ homebrew already installed"; return; }
+  info "Installing Homebrew (needs admin — Privileges.app if this is a managed Mac)..."
+  # NONINTERACTIVE skips the RETURN prompt but also makes the installer's sudo
+  # check use -n, which fails with no cached timestamp. Warm it here; the
+  # Karabiner-Elements cask reuses it later in the bundle.
+  sudo -v
+  NONINTERACTIVE=1 /bin/bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 # Load SSH keys into the login Keychain so the native agent unlocks them
@@ -54,10 +37,12 @@ setup_ssh_keychain() {
 main() {
   info "🔧 Starting macOS bootstrap"
   install_homebrew
-  install_brewfile
+  # The installer leaves PATH alone; on Apple Silicon brew lands here.
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  info "Installing apps from Brewfile (Karabiner-Elements prompts for sudo)..."
+  brew bundle --file "$(dirname "$0")/Brewfile"
   setup_ssh_keychain
   info "✅ macOS setup complete"
 }
 
 main "$@"
-
