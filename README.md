@@ -29,7 +29,7 @@ That's it. Open a new shell and the environment is restored.
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: builds GNU Stow, then installs the GUI apps via `bootstrap/casks.sh`.
+   - macOS: installs Homebrew if missing, then `brew bundle`s `bootstrap/Brewfile` (stow, the GUI apps and the font).
    - Linux: installs build essentials via `apt`.
 
    Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
@@ -78,9 +78,9 @@ The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in thi
 dotfiles/
 ├── bootstrap/
 │   ├── install.sh      # entry point — orchestrates everything
-│   ├── macos.sh        # stow build + apps
+│   ├── macos.sh        # homebrew + brew bundle + ssh keychain
 │   ├── linux.sh        # apt essentials
-│   └── casks.sh        # macOS apps, fonts and pkg installers
+│   └── Brewfile        # the macOS-only bare minimum: stow + casks
 ├── theme/              # design tokens + generator (see Theme)
 │   ├── ergo-light.tokens.json  # the single source of colour
 │   └── generate.py             # tokens → per-tool theme files
@@ -156,9 +156,9 @@ Everything except the GUI apps comes from `mise`, so macOS and Linux install the
 - **Runtimes**: `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
 - **Linters**: `shellcheck`, `actionlint`, `markdownlint-cli2`
 - **Agents**: `claude-code`, `codex`
-- **Apps** (macOS, via `casks.sh`): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`, `mosh`, JetBrains Mono Nerd Font
+- **Apps** (macOS, via `bootstrap/Brewfile`): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`, JetBrains Mono Nerd Font
 
-GNU Stow is the one exception — it is a Perl program with no release binary, so `macos.sh` builds it from source into `~/.local`.
+Homebrew stays for the handful of things mise can't do: macOS app bundles, the font, and GNU Stow (a Perl program with no release binary and no mise registry entry).
 
 See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 
@@ -166,5 +166,5 @@ See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 
 - `git` and a working `curl` (both scripts fetch installers)
 - `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
-- macOS: `sudo` access — Karabiner-Elements and mosh ship as `.pkg` installers
+- macOS: `sudo` access — the Homebrew installer and the Karabiner-Elements cask both need it
 - Linux: `sudo` access (apt)

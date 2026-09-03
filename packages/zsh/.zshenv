@@ -1,7 +1,7 @@
 # Loaded for every shell — interactive or not, login or not.
 typeset -U path PATH
 
-path=("$HOME/.local/bin" $path)
+path=("$HOME/.local/bin" /opt/homebrew/bin $path)
 export PATH
 
 export EDITOR=nvim
