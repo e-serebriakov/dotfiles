@@ -29,8 +29,10 @@ That's it. Open a new shell and the environment is restored.
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: installs [Homebrew](https://brew.sh) if missing, then `brew bundle` from `bootstrap/Brewfile`.
-   - Linux: installs packages via `apt` and vendor repos.
+   - macOS: installs Homebrew if missing, then `brew bundle`s `bootstrap/Brewfile` (stow, the GUI apps and the font).
+   - Linux: installs build essentials via `apt`.
+
+   Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
 3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
 4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
@@ -43,15 +45,11 @@ That's it. Open a new shell and the environment is restored.
 | Dry run (preview symlinks) | `./bootstrap/install.sh -n` or `--dry-run` |
 | Context (default `personal`) | `DOTFILES_CONTEXT=work ./bootstrap/install.sh` |
 
-### On the `--adopt` restore step
+### On the backup step
 
-The stow step runs `stow --adopt -R`. If a real (non-symlink) config file already exists at a target path, `--adopt` pulls it *into* the repo instead of erroring. Immediately after, the script restores `packages/` from git:
+Before `stow -R`, the script moves any real (non-symlink) file sitting at a target path into `~/.dotfiles-backup/<timestamp>/`, preserving its relative path. Only genuine conflicts move — targets that already resolve back into `packages/` are left alone.
 
-```sh
-git diff --name-only packages/ | xargs -I{} git checkout -- {}
-```
-
-So the repo's tracked version always wins, and any pre-existing config on the machine is replaced by these dotfiles. Uncommitted changes elsewhere (e.g. `Brewfile`) are left untouched.
+So the repo's tracked version always wins, any pre-existing config on the machine is set aside rather than overwritten, and uncommitted changes under `packages/` are never reverted.
 
 ## SSH setup
 
@@ -80,9 +78,9 @@ The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in thi
 dotfiles/
 ├── bootstrap/
 │   ├── install.sh      # entry point — orchestrates everything
-│   ├── macos.sh        # Homebrew + brew bundle
-│   ├── linux.sh        # apt + vendor installs
-│   └── Brewfile        # macOS packages (brews + casks + fonts)
+│   ├── macos.sh        # homebrew + brew bundle + ssh keychain
+│   ├── linux.sh        # apt essentials
+│   └── Brewfile        # the macOS-only bare minimum: stow + casks
 ├── theme/              # design tokens + generator (see Theme)
 │   ├── ergo-light.tokens.json  # the single source of colour
 │   └── generate.py             # tokens → per-tool theme files
@@ -150,17 +148,23 @@ Tools that aren't generated (ccstatusline, starship, git's own output) use **nam
 
 ## What gets installed
 
-- **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `git-delta`, `zoxide`, `stow`, `gh`, `git-town`
+Everything except the GUI apps comes from `mise`, so macOS and Linux install the same list.
+
+- **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `delta`, `zoxide`, `gh`, `git-town`, `direnv`, `bottom`, `k9s`, `rainfrog`
 - **Editors**: `neovim`, `helix`
 - **Shell/prompt**: `zsh` + plugins, `starship`
-- **Terminal/WM** (macOS): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`
-- **Runtimes** (via mise): `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
+- **Runtimes**: `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
+- **Linters**: `shellcheck`, `actionlint`, `markdownlint-cli2`
+- **Agents**: `claude-code`, `codex`
+- **Apps** (macOS, via `bootstrap/Brewfile`): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`, JetBrains Mono Nerd Font
 
-See `bootstrap/Brewfile` and `packages/mise/.config/mise/config.toml` for the authoritative lists.
+Homebrew stays for the handful of things mise can't do: macOS app bundles, the font, and GNU Stow (a Perl program with no release binary and no mise registry entry).
+
+See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 
 ## Requirements
 
 - `git` and a working `curl` (both scripts fetch installers)
 - `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
-- macOS: nothing else — Homebrew is installed automatically
-- Linux: `sudo` access (apt + vendor repos)
+- macOS: `sudo` access — the Homebrew installer and the Karabiner-Elements cask both need it
+- Linux: `sudo` access (apt)

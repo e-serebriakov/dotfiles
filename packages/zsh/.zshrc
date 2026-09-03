@@ -15,6 +15,12 @@ setopt interactive_comments
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
+# mise puts starship, fzf, zoxide and the rest on PATH, so it has to run before
+# anything that probes for them.
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
+fi
+
 # Completion — rebuild dump at most once a day for faster startup
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
@@ -137,9 +143,6 @@ if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 fi
 
-if (( $+commands[mise] )); then
-  eval "$(mise activate zsh)"
-fi
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
 fi
@@ -166,12 +169,7 @@ dev() {
     }
   fi
 
-  # Wide terminals get the centered/width-capped layout; the fixed 180-col
-  # pane in work-wide.kdl doesn't fit on narrower ones (zellij drops the tab)
-  local layout=work
-  (( COLUMNS >= 200 )) && layout=work-wide
-
-  zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n "$layout")
+  zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n work)
 }
 _dev() {
   local -a sessions dirs
