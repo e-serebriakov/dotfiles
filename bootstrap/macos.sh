@@ -1,25 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-STOW_VERSION=2.4.1
-
 info() {
   echo -e "\033[1;34m[macos]\033[0m $*"
 }
 
-# Stow is a Perl program, so this only substitutes paths — no compiler involved.
-# It is the one CLI tool with no mise registry entry.
-install_stow() {
-  command -v stow &> /dev/null && { info "✓ stow already installed"; return; }
-  info "Installing GNU Stow $STOW_VERSION..."
-  local tmp; tmp="$(mktemp -d)"
-  curl -fsSL "https://ftp.gnu.org/gnu/stow/stow-$STOW_VERSION.tar.gz" | tar xz -C "$tmp"
-  (
-    cd "$tmp/stow-$STOW_VERSION"
-    ./configure --prefix="$HOME/.local" > /dev/null
-    make install > /dev/null
-  )
-  rm -rf "$tmp"
+install_homebrew() {
+  command -v brew &> /dev/null && { info "✓ homebrew already installed"; return; }
+  info "Installing Homebrew (needs admin — Privileges.app if this is a managed Mac)..."
+  # NONINTERACTIVE skips the RETURN prompt but also makes the installer's sudo
+  # check use -n, which fails with no cached timestamp. Warm it here; the
+  # Karabiner-Elements cask reuses it later in the bundle.
+  sudo -v
+  NONINTERACTIVE=1 /bin/bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 # Load SSH keys into the login Keychain so the native agent unlocks them
@@ -42,8 +36,11 @@ setup_ssh_keychain() {
 
 main() {
   info "🔧 Starting macOS bootstrap"
-  install_stow
-  bash "$(dirname "$0")/casks.sh"
+  install_homebrew
+  # The installer leaves PATH alone; on Apple Silicon brew lands here.
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  info "Installing apps from Brewfile (Karabiner-Elements prompts for sudo)..."
+  brew bundle --file "$(dirname "$0")/Brewfile"
   setup_ssh_keychain
   info "✅ macOS setup complete"
 }

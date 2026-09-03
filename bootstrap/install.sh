@@ -8,8 +8,9 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STOW_DIR="$DOTFILES_DIR/packages"
 TARGET="$HOME"
 
-# mise and stow install here; bash does not read .zshenv, which sets this for zsh.
-export PATH="$HOME/.local/bin:$PATH"
+# mise installs here and brew puts stow on PATH; bash does not read .zshenv,
+# which sets both for zsh.
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
 cd "$DOTFILES_DIR"
 
@@ -31,8 +32,8 @@ install_mise() {
   curl -fsSL https://mise.run | sh
 }
 
-# Skipped on a dry run: these install compilers, apps and .pkg files, and
-# casks.sh prompts for sudo. Only the stow step below is simulated.
+# Skipped on a dry run: these install apps and packages, and brew bundle
+# prompts for sudo. Only the stow step below is simulated.
 if [[ -z "$DRY_RUN" ]]; then
   if [[ "$PLATFORM" == "darwin" ]]; then
     bash bootstrap/macos.sh
