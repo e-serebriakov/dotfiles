@@ -36,9 +36,9 @@ k9s = "latest"
 bottom = "latest" # btop has no macOS build
 claude-code = "latest"
 codex = "latest"
+pi = "latest"
 
 "github:achristmascarl/rainfrog" = "latest" # no registry entry
 
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format
-"npm:@earendil-works/pi-coding-agent" = "latest"
