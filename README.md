@@ -83,9 +83,9 @@ dotfiles/
 │   └── Brewfile        # the macOS-only bare minimum: stow + casks
 ├── theme/              # design tokens + generator (see Theme)
 │   ├── ergo-light.tokens.json  # the single source of colour
-│   ├── engine.py               # token graph + tokens↔generator contract
-│   ├── generators/             # one module per tool; ADAPTERS array
-│   └── generate.py             # CLI: tokens → per-tool theme files
+│   ├── engine.clj              # token graph + tokens↔generator contract
+│   ├── generators/             # one namespace per tool; adapters vector
+│   └── generate.clj            # CLI: tokens → per-tool theme files
 └── packages/           # one stow package per tool
     ├── aerospace/      # tiling WM (macOS)
     ├── ccstatusline/   # Claude Code statusline
@@ -121,7 +121,7 @@ To track a **new** config: create `packages/<name>/` mirroring its path under `$
 
 All colour comes from **one file** — `theme/ergo-light.tokens.json` — tool-agnostic [design tokens](https://tr.designtokens.org/) in two layers: raw OKLCH ramps (*primitives*) aliased into named roles (*semantic*: `accent.string`, `diff.add`, `status.error`, …). No tool reads it directly.
 
-`theme/generate.py` translates the semantic tokens into each tool's own format via small per-tool *generators* (`theme/generators/`), emitting five files:
+`theme/generate.clj` translates the semantic tokens into each tool's own format via small per-tool *generators* (`theme/generators/`), emitting five files:
 
 | Tool | Generated file |
 | --- | --- |
@@ -135,12 +135,12 @@ Those outputs are **gitignored build artifacts** — never hand-edit them; they'
 
 ```sh
 # Change the theme: edit theme/ergo-light.tokens.json, then
-python3 theme/generate.py          # rewrites the five files (install.sh also does this)
+cd theme && bb -m generate         # rewrites the five files (install.sh also does this)
 ```
 
 Reload the tool and the whole environment re-tunes together.
 
-**Add a tool:** drop a `theme/generators/<tool>.py` (exposing `OUTPUT` and `render(sem)`), register it in `generators/__init__.py`, and gitignore its output. A contract test guards that generators only reference tokens that exist:
+**Add a tool:** drop a `theme/generators/<tool>.clj` (exposing `render`), register it in the `adapters` vector in `generate.clj`, and gitignore its output. A contract test guards that generators only reference tokens that exist:
 
 ```sh
 python3 -m unittest theme.test_generate
