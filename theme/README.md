@@ -31,26 +31,27 @@ regenerated on every `install.sh`. `preview.svg` is the one *tracked* output
 
 ### Layout
 
-- [`engine.py`](engine.py) — the tool-agnostic core: resolves the token graph
-  into a `Theme` (`sem('surface.base')`) and holds the tokens↔generator contract.
-- [`generators/`](generators/) — one module per tool, each exposing `OUTPUT`
-  (its path) and `render(sem)`. [`__init__.py`](generators/__init__.py) collects
-  them into the `ADAPTERS` array the engine drives. `preview.py` lives here too
-  (see below), deliberately outside `ADAPTERS`.
-- [`generate.py`](generate.py) — the CLI: runs the contract check, then writes
+- [`engine.clj`](engine.clj) — the tool-agnostic core: resolves the token graph
+  into a `theme` fn (`(theme "surface.base")`) and holds the tokens↔generator
+  contract.
+- [`generators/`](generators/) — one namespace per tool, each exposing `render`.
+  [`generate.clj`](generate.clj) collects them into the `adapters` vector it
+  drives. `preview.clj` lives here too (see below), deliberately outside
+  `adapters`.
+- [`generate.clj`](generate.clj) — the CLI: runs the contract check, then writes
   every output.
 
 ## Working on the theme
 
 ```sh
 # Edit the tokens, then regenerate every output (install.sh also does this):
-python3 theme/generate.py
+cd theme && bb -m generate
 
 # Preview it right in the terminal (truecolor ANSI, writes nothing):
-python3 theme/generate.py --preview
+cd theme && bb -m generate --preview
 
 # Verify: contract (adapters only reference tokens that exist) + golden outputs:
-python3 -m unittest theme.test_generate
+cd theme && bb test
 ```
 
 `--preview` prints the same mock as `preview.svg` above using 24-bit-colour
@@ -67,9 +68,9 @@ after a major retune.)_
 
 Reload the tool and the whole environment re-tunes together.
 
-**Add a tool:** drop a `generators/<tool>.py` exposing `OUTPUT` and `render(sem)`,
-add one row to `ADAPTERS` in `generators/__init__.py`, and gitignore its output.
-Nothing in `engine.py` or `generate.py` changes. The contract test guards that
+**Add a tool:** drop a `generators/<tool>.clj` exposing `render`, add one row to
+the `adapters` vector in `generate.clj`, and gitignore its output. Nothing in
+`engine.clj` changes. The contract test guards that
 generators reference only real tokens, and flags tokens no generator consumes.
 
 Tools that aren't generated (ccstatusline, starship, git's own output) use
