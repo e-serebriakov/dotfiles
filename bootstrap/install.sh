@@ -82,13 +82,15 @@ if [[ -n "$DRY_RUN" ]]; then
   stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
 else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
-  # Neither a missing python3 nor a bad token file should block re-stowing every
+  # Neither a missing babashka nor a bad token file should block re-stowing every
   # other package; both just mean the tools fall back to their default colours.
-  if ! command -v python3 &> /dev/null; then
-    echo "⚠ python3 not found — skipping theme generation" >&2
+  # `mise install` runs after stow (it reads the stowed config), so bb is not on
+  # PATH yet — `mise exec` fetches it on demand instead.
+  if ! command -v mise &> /dev/null; then
+    echo "⚠ mise not found — skipping theme generation" >&2
   else
     echo "▶ Generating theme files from design tokens..."
-    if ! python3 "$DOTFILES_DIR/theme/generate.py"; then
+    if ! (cd "$DOTFILES_DIR/theme" && mise exec babashka@latest -- bb -m generate); then
       echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
     fi
   fi
