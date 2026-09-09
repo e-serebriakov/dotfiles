@@ -8,7 +8,10 @@ nvim.log
 
 __pycache__/
 
-# Generated theme files — build artifacts of theme/generate.py.
+.nrepl-port
+.clj-kondo/.cache/
+
+# Generated theme files — build artifacts of theme/generate.clj.
 # Edit theme/ergo-light.tokens.json instead; these are regenerated on install.
 packages/wezterm/.config/wezterm/colors/ergo_light.toml
 packages/zellij/.config/zellij/themes/ergo-light.kdl

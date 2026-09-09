@@ -1,0 +1,9 @@
+;; Babashka project file. `:paths ["."]` makes this directory a classpath root,
+;; so `engine.clj` is the namespace `engine`, `generators/delta.clj` is
+;; `generators.delta`, etc. Run tasks from here with `bb <task>`.
+{:paths ["."]
+ :tasks
+ {test {:doc "Run the test suite"
+        :requires ([clojure.test :as t] [generate-test])
+        :task (let [{:keys [fail error]} (t/run-tests 'generate-test)]
+                (when (pos? (+ fail error)) (System/exit 1)))}}}
