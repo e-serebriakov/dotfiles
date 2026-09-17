@@ -241,6 +241,30 @@ return {
             },
           },
         },
+
+        -- biome runs from the project's node_modules, so it's configured outside mason
+        biome = {
+          root_dir = function(bufnr, on_dir)
+            on_dir(vim.fs.root(bufnr, { 'biome.json', 'biome.jsonc' }))
+          end,
+          workspace_required = true,
+          cmd = function(dispatchers)
+            local file = vim.api.nvim_buf_get_name(0)
+            local exe = 'biome'
+            for dir in vim.fs.parents(file) do
+              local cand = dir .. '/node_modules/.bin/biome'
+              if vim.fn.executable(cand) == 1 then
+                exe = cand
+                break
+              end
+            end
+            return vim.lsp.rpc.start({ exe, 'lsp-proxy' }, dispatchers)
+          end,
+          on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -256,7 +280,9 @@ return {
       --
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.tbl_filter(function(name)
+        return name ~= 'biome'
+      end, vim.tbl_keys(servers))
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         -- markdownlint-cli2, vale, prettierd are managed by mise (see packages/mise)
@@ -265,39 +291,14 @@ return {
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        automatic_enable = false,
       }
 
-      -- biome runs from the project's node_modules, so it's configured outside mason
-      require('lspconfig').biome.setup {
-        capabilities = capabilities,
-        cmd = function(dispatchers)
-          local file = vim.api.nvim_buf_get_name(0)
-          local exe = 'biome'
-          for dir in vim.fs.parents(file) do
-            local cand = dir .. '/node_modules/.bin/biome'
-            if vim.fn.executable(cand) == 1 then
-              exe = cand
-              break
-            end
-          end
-          return vim.lsp.rpc.start({ exe, 'lsp-proxy' }, dispatchers)
-        end,
-        on_attach = function(client)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-      }
+      for server_name, server in pairs(servers) do
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        vim.lsp.config(server_name, server)
+        vim.lsp.enable(server_name)
+      end
     end,
   },
 }
