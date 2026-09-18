@@ -22,6 +22,25 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924893"
 provenance = "github-attestations"
 
+[[tools.babashka]]
+version = "1.13.219"
+backend = "github:babashka/babashka"
+
+[tools.babashka."platforms.linux-arm64"]
+checksum = "sha256:e8d7a9c66c364b80627a43cb6ba5c14fb6ac7e4af114e8e5d80f97551ccdfe11"
+url = "https://github.com/babashka/babashka/releases/download/v1.13.219/babashka-1.13.219-linux-aarch64-static.tar.gz"
+url_api = "https://api.github.com/repos/babashka/babashka/releases/assets/491554583"
+
+[tools.babashka."platforms.linux-x64"]
+checksum = "sha256:05ee29a1d4909e73686b36abd31722e8c5a0257cb8c23c0234f77477d1d59346"
+url = "https://github.com/babashka/babashka/releases/download/v1.13.219/babashka-1.13.219-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/babashka/babashka/releases/assets/491552887"
+
+[tools.babashka."platforms.macos-arm64"]
+checksum = "sha256:57a45df1cee534081375f35d39a3cb5f334956e6d429e364adbf46e296d52cfb"
+url = "https://github.com/babashka/babashka/releases/download/v1.13.219/babashka-1.13.219-macos-aarch64.tar.gz"
+url_api = "https://api.github.com/repos/babashka/babashka/releases/assets/491554791"
+
 [[tools.bat]]
 version = "0.26.1"
 backend = "aqua:sharkdp/bat"
@@ -83,23 +102,23 @@ url = "https://github.com/anthropics/claude-code/releases/download/v2.1.251/clau
 url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/533990605"
 
 [[tools.codex]]
-version = "0.151.0"
+version = "0.154.0"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-arm64"]
-checksum = "sha256:c64ad6e4f82609552a37069365b50528ef49e986aeab24a538781a18a402773d"
-url = "https://github.com/openai/codex/releases/download/rust-v0.151.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/535048303"
+checksum = "sha256:97d93e11df72d3c26772db019e6ea8bb72c246500d46b98c760839f3240355e6"
+url = "https://github.com/openai/codex/releases/download/rust-v0.154.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/553706520"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:6e35ac60b86c0e8c7f8bcf797be8b92206199f6253200b66ff0547276f8cfa5c"
-url = "https://github.com/openai/codex/releases/download/rust-v0.151.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/535048207"
+checksum = "sha256:fc6e3e3b85f2cf7d664520ee5c66a7fe4aa12bae7d46834f47e2f165fd0d6f78"
+url = "https://github.com/openai/codex/releases/download/rust-v0.154.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/553706441"
 
 [tools.codex."platforms.macos-arm64"]
-checksum = "sha256:d0d368b983d98a1b0785112877cff08c0806401d33e65aa00008d30eefac8ea9"
-url = "https://github.com/openai/codex/releases/download/rust-v0.151.0/codex-aarch64-apple-darwin.zst"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/535048334"
+checksum = "sha256:427ca74c027049e0cd1a330d611e7f8d1fe0f1eb6a6d85ac16f61bcf2cb4a485"
+url = "https://github.com/openai/codex/releases/download/rust-v0.154.0/codex-package-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/553706558"
 
 [[tools.delta]]
 version = "0.19.2"
