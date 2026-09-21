@@ -24,9 +24,6 @@
 [url "git@github.com:"]
   insteadOf = https://github.com/
 
-[credential]
-  helper = store
-
 [color]
   diff   = auto
   status = auto
