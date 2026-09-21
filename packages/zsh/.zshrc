@@ -169,6 +169,15 @@ dev() {
     }
   fi
 
+  # zellij caps session names because the whole UNIX socket path must fit in
+  # sun_path (104 on macOS), and $TMPDIR eats most of that budget.
+  local -ir max=24
+  if (( ${#project} > max )); then
+    local truncated="${project[1,max]}"
+    echo "dev: '$project' too long for zellij (max $max) — using '$truncated'" >&2
+    project="$truncated"
+  fi
+
   zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n work)
 }
 _dev() {
