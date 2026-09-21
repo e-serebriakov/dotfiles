@@ -181,3 +181,13 @@ compdef _dev dev
 
 alias rootpls='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --add'
 alias gg='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --remove'
+
+# Auto-connect Claude Code to this project's nvim IDE server (no /ide needed).
+# claudecode.nvim writes ~/.claude/ide/<port>.lock containing its workspaceFolders.
+# /dev/null keeps grep from reading stdin when no lockfiles exist.
+# ponytail: exact $PWD match — cd to the project root, as the work layout does.
+claude() {
+  local lock=$(grep -ls "\"$PWD\"" ~/.claude/ide/*.lock(N) /dev/null | head -1)
+  [[ -n $lock ]] && local -x ENABLE_IDE_INTEGRATION=true CLAUDE_CODE_SSE_PORT=${${lock:t}:r}
+  command claude "$@"
+}

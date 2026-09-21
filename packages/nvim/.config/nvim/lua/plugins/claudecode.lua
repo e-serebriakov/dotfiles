@@ -1,24 +1,13 @@
 return {
   'coder/claudecode.nvim',
-  config = true,
-  cmd = {
-    'ClaudeCode',
-    'ClaudeCodeFocus',
-    'ClaudeCodeSelectModel',
-    'ClaudeCodeAdd',
-    'ClaudeCodeSend',
-    'ClaudeCodeTreeAdd',
-    'ClaudeCodeStatus',
-    'ClaudeCodeStart',
-    'ClaudeCodeStop',
-    'ClaudeCodeDiffAccept',
-    'ClaudeCodeDiffDeny',
-  },
+  -- Claude runs in the zellij "agent" pane (see zellij/layouts/work.kdl); this
+  -- plugin only provides the WebSocket/MCP server for selection context and
+  -- native diffs. Eager load so the lockfile exists before the agent pane runs
+  -- claude — the claude() wrapper in .zshrc reads it to auto-connect.
+  event = 'VeryLazy',
+  opts = { terminal = { provider = 'none' } },
   keys = {
     { '<leader>a', nil, desc = 'AI/Claude Code' },
-    { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
-    { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
-    { '<leader>ar', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
     { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
     { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
     { '<leader>as', '<cmd>ClaudeCodeTreeAdd<cr>', desc = 'Add file', ft = { 'oil', 'minifiles' } },
