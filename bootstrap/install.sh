@@ -70,16 +70,19 @@ fi
 
 # Build package list using shell globbing (portable on macOS)
 PKGS=()
+NON_CLAUDE_PKGS=()
 for dir in "$STOW_DIR"/*/ ; do
   # skip if glob didn't match anything
   [[ -d "$dir" ]] || continue
   pkg="$(basename "$dir")"
   PKGS+=("$pkg")
+  [[ "$pkg" == "claude" ]] || NON_CLAUDE_PKGS+=("$pkg")
 done
 
 # Dry-run: ./bootstrap/install.sh -n
 if [[ -n "$DRY_RUN" ]]; then
-  stow -n -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
+  stow -n -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
+  stow -n -v -d "$STOW_DIR" -t "$TARGET" claude
 else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
   # Neither a missing babashka nor a bad token file should block re-stowing every
@@ -115,6 +118,7 @@ else
   for pkg in "${PKGS[@]}"; do
     while IFS= read -r -d '' src; do
       rel="${src#"$STOW_DIR/$pkg/"}"
+      [[ "$pkg" != "claude" && "$rel" == .claude/* ]] && continue
       tgt="$TARGET/$rel"
       # The `-ef` guard skips our own stow symlinks (they resolve back to $src),
       # so only genuine conflicts get backed up and `stow -R` won't abort.
@@ -130,7 +134,8 @@ else
     done < <(find "$STOW_DIR/$pkg" -type f -print0)
   done
   [[ -d "$BACKUP" ]] && echo "  (pre-existing files backed up to $BACKUP)"
-  stow -R -v -d "$STOW_DIR" -t "$TARGET" "${PKGS[@]}"
+  stow -R -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
+  stow -R -v -d "$STOW_DIR" -t "$TARGET" claude
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml
@@ -146,4 +151,3 @@ elif command -v mise &> /dev/null; then
 fi
 
 echo "✅ Done"
-

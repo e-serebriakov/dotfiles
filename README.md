@@ -30,7 +30,7 @@ That's it. Open a new shell and the environment is restored.
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
    - macOS: installs Homebrew if missing, then `brew bundle`s `bootstrap/Brewfile` (stow, the GUI apps and the font).
-   - Linux: installs build essentials via `apt`.
+   - Linux: installs build essentials and zsh via `apt`, then makes zsh the login shell.
 
    Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
@@ -150,7 +150,8 @@ Tools that aren't generated (ccstatusline, starship, git's own output) use **nam
 
 ## What gets installed
 
-Everything except the GUI apps comes from `mise`, so macOS and Linux install the same list.
+Most command-line tools come from `mise`, so macOS and Linux install the same list.
+Ubuntu's bootstrap prerequisites and zsh come from `apt`.
 
 - **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `delta`, `zoxide`, `gh`, `git-town`, `direnv`, `bottom`, `k9s`, `rainfrog`
 - **Editors**: `neovim`, `helix`

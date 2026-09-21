@@ -7,5 +7,6 @@ info() { echo -e "\033[1;32m[ubuntu]\033[0m $*"; }
 # mise (packages/mise/.config/mise/config.toml).
 info "🔧 Installing apt essentials..."
 sudo apt update -y
-sudo apt install -y git stow curl unzip build-essential
+sudo apt install -y git stow curl unzip build-essential zsh
+sudo chsh -s "$(command -v zsh)" "$USER"
 info "✅ Ubuntu setup complete"
