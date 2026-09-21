@@ -1,0 +1,13 @@
+{
+  "enabledPlugins": {
+    "mattpocock-skills@claude-plugins-official": true
+  },
+  "skipAutoPermissionPrompt": true,
+  "tui": "fullscreen",
+  "sandbox": {
+    "enabled": true
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  }
+}
