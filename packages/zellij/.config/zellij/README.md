@@ -26,4 +26,4 @@ Just `cd` into a project directory once so zoxide learns it.
 - `Alt+hjkl` — pane/tab navigation (works in all modes)
 - `Ctrl+p` — pane mode, `Ctrl+t` — tab mode, `Ctrl+n` — resize mode
 - `Ctrl+p m` — move mode (move panes around)
-- `Ctrl+g` — lazygit (normal mode) / lock toggle (other modes)
+- `Ctrl+g` — lock

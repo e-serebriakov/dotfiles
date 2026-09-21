@@ -7,15 +7,6 @@ keybinds clear-defaults=true {
         bind "Alt k" { MoveFocus "up"; }
         bind "Alt l" { MoveFocusOrTab "right"; }
     }
-    normal {
-        // Override global Ctrl+g lock binding — open lazygit floating pane instead
-        bind "Ctrl g" {
-            Run "lazygit" {
-                floating true
-                close_on_exit true
-            }
-        }
-    }
     pane {
         bind "left" { MoveFocus "left"; }
         bind "down" { MoveFocus "down"; }
