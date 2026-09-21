@@ -1,24 +1,22 @@
 return {
   'coder/claudecode.nvim',
-  config = true,
+  -- Claude itself runs in the zellij "agent" pane (see zellij/layouts/work.kdl).
+  -- This plugin is here only for the WebSocket/MCP server: selection context,
+  -- @-mentions and native diffs. Connect from the agent pane with /ide.
+  opts = { terminal = { provider = 'none' } },
   cmd = {
-    'ClaudeCode',
-    'ClaudeCodeFocus',
-    'ClaudeCodeSelectModel',
+    'ClaudeCodeStart',
+    'ClaudeCodeStop',
+    'ClaudeCodeStatus',
     'ClaudeCodeAdd',
     'ClaudeCodeSend',
     'ClaudeCodeTreeAdd',
-    'ClaudeCodeStatus',
-    'ClaudeCodeStart',
-    'ClaudeCodeStop',
     'ClaudeCodeDiffAccept',
     'ClaudeCodeDiffDeny',
   },
   keys = {
     { '<leader>a', nil, desc = 'AI/Claude Code' },
-    { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
-    { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
-    { '<leader>ar', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
+    { '<leader>ac', '<cmd>ClaudeCodeStart<cr>', desc = 'Start Claude server' },
     { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
     { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
     { '<leader>as', '<cmd>ClaudeCodeTreeAdd<cr>', desc = 'Add file', ft = { 'oil', 'minifiles' } },
