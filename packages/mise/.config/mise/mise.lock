@@ -26,6 +26,16 @@ provenance = "github-attestations"
 version = "1.13.223"
 backend = "github:babashka/babashka"
 
+[tools.babashka."platforms.linux-arm64"]
+checksum = "sha256:052c6051d05bf0342f2265090c1c82dd43309530bdb7b262fa72d79fd6ab5a61"
+url = "https://github.com/babashka/babashka/releases/download/v1.13.223/babashka-1.13.223-linux-aarch64-static.tar.gz"
+url_api = "https://api.github.com/repos/babashka/babashka/releases/assets/566524881"
+
+[tools.babashka."platforms.linux-x64"]
+checksum = "sha256:747b4c8161116c5758c39c4d585dc13c42c71fb7203126674d9ca2e25e6340fd"
+url = "https://github.com/babashka/babashka/releases/download/v1.13.223/babashka-1.13.223-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/babashka/babashka/releases/assets/566524024"
+
 [tools.babashka."platforms.macos-arm64"]
 checksum = "sha256:2bcde56ea09cd8f8b2683ca11feec975e42cd60e7aa4cac0305b1cce9ca3ba8f"
 url = "https://github.com/babashka/babashka/releases/download/v1.13.223/babashka-1.13.223-macos-aarch64.tar.gz"
