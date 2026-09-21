@@ -16,7 +16,7 @@ layout {
     }
 
     tab name="work" focus=true {
-        pane stacked=true {
+        pane split_direction="vertical" {
             pane name="editor" focus=true command="nvim" args="."
             pane name="agent"
         }
