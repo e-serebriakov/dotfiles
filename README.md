@@ -29,11 +29,11 @@ That's it. Open a new shell and the environment is restored.
 `bootstrap/install.sh` is idempotent — safe to re-run any time. It:
 
 1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: installs Homebrew if missing, then `brew bundle`s `bootstrap/Brewfile` (stow, the GUI apps and the font).
+   - macOS: installs Homebrew if missing, then runs `brew bundle --no-upgrade` for `bootstrap/Brewfile` (stow, the GUI apps and the font).
    - Linux: installs build essentials and zsh via `apt`, then makes zsh the login shell.
 
    Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
-2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
+2. **Restores pinned zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions). Exact commit IDs live in `bootstrap/install.sh`; reruns do not pull newer commits. Local plugin edits stop setup rather than being overwritten.
 3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
 4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
 5. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev). If mise is missing or a tool fails to install, bootstrap exits with a nonzero status and reports setup as incomplete. After resolving the reported error, retry with `mise install --locked`.
@@ -116,6 +116,40 @@ stow -D -d packages -t "$HOME" nvim
 ```
 
 To track a **new** config: create `packages/<name>/` mirroring its path under `$HOME`, move the file in, then re-run `./bootstrap/install.sh`.
+
+## Deliberate updates
+
+Bootstrap restores the committed mise lockfile and shell-plugin revisions.
+Theme generation also uses the locked Babashka version, reading the repo's mise
+configuration before Stow installs it.
+
+To update a CLI tool (run from the repo root):
+
+```sh
+MISE_GLOBAL_CONFIG_FILE="$PWD/packages/mise/.config/mise/config.toml" mise lock --global --bump babashka
+git diff -- packages/mise/.config/mise/mise.lock
+./bootstrap/install.sh
+```
+
+Replace `babashka` with another tool name, or omit it to update all tools within
+their configured version ranges. Review and commit the lockfile after testing.
+
+To update a shell plugin, find its upstream commit, replace that plugin's full
+commit ID in the `PLUGINS` block in `bootstrap/install.sh`, and rerun bootstrap:
+
+```sh
+git ls-remote https://github.com/Aloxaf/fzf-tab HEAD
+```
+
+Test the updated plugin in a new shell before committing the revision change.
+
+Homebrew apps and Ubuntu packages remain distribution-managed, not version
+locked. Homebrew setup skips routine upgrades of installed apps, though installing
+missing dependencies can still require upgrades. To explicitly update the Brewfile:
+
+```sh
+brew bundle --upgrade --file bootstrap/Brewfile
+```
 
 ## Theme
 

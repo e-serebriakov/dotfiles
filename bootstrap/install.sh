@@ -45,26 +45,37 @@ else
   echo "  (dry run: skipping platform bootstrap)"
 fi
 
-# Zsh plugins
+# Restore an exact revision without overwriting local plugin edits.
+install_zsh_plugin() {
+  local name="$1" url="$2" revision="$3" dir="$ZSH_PLUGIN_DIR/$1"
+  if [[ ! -d "$dir" ]]; then
+    git init --quiet "$dir"
+  fi
+  if [[ -n "$(git -C "$dir" status --porcelain)" ]]; then
+    echo "✗ $name has local changes; save them before restoring plugins" >&2
+    return 1
+  fi
+  [[ "$(git -C "$dir" rev-parse --verify HEAD 2>/dev/null || :)" == "$revision" ]] && return 0
+  if ! git -C "$dir" cat-file -e "$revision^{commit}" 2>/dev/null; then
+    git -C "$dir" fetch --depth 1 "$url" "$revision"
+  fi
+  git -C "$dir" checkout --quiet --detach "$revision"
+}
+
+# Zsh plugins — change these revisions deliberately; setup never pulls latest.
 if [[ -n "$DRY_RUN" ]]; then
   echo "  (dry run: skipping zsh plugins)"
 else
   ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
   mkdir -p "$ZSH_PLUGIN_DIR"
-  while IFS='=' read -r name url; do
-    if [[ ! -d "$ZSH_PLUGIN_DIR/$name" ]]; then
-      echo "  Installing zsh plugin: $name"
-      git clone --depth 1 "$url" "$ZSH_PLUGIN_DIR/$name"
-    else
-      # Without this the plugins stay pinned to whenever they were first cloned.
-      git -C "$ZSH_PLUGIN_DIR/$name" pull --ff-only --quiet || \
-        echo "  ⚠ could not update $name" >&2
-    fi
+  while IFS=' ' read -r name url revision; do
+    echo "  Restoring zsh plugin: $name"
+    install_zsh_plugin "$name" "$url" "$revision"
   done <<'PLUGINS'
-fzf-tab=https://github.com/Aloxaf/fzf-tab
-zsh-syntax-highlighting=https://github.com/zsh-users/zsh-syntax-highlighting
-zsh-history-substring-search=https://github.com/zsh-users/zsh-history-substring-search
-zsh-autosuggestions=https://github.com/zsh-users/zsh-autosuggestions
+fzf-tab https://github.com/Aloxaf/fzf-tab 24105b15714bfec37989ed5c5b6e60f572253019
+zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting 2fc57d63067c18b1100ecdbf684fa5baf49459d1
+zsh-history-substring-search https://github.com/zsh-users/zsh-history-substring-search 14c8d2e0ffaee98f2df9850b19944f32546fdea5
+zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions 85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5
 PLUGINS
 fi
 
@@ -87,13 +98,19 @@ else
   # Theme artifacts are gitignored build outputs, regenerated here before stowing.
   # Neither a missing babashka nor a bad token file should block re-stowing every
   # other package; both just mean the tools fall back to their default colours.
-  # `mise install` runs after stow (it reads the stowed config), so bb is not on
-  # PATH yet — `mise exec` fetches it on demand instead.
+  # Read the repo's config + adjacent lockfile before they are stowed. Install
+  # only Babashka here; the remaining tools are installed after stow.
   if ! command -v mise &> /dev/null; then
     echo "⚠ mise not found — skipping theme generation" >&2
   else
     echo "▶ Generating theme files from design tokens..."
-    if ! (cd "$DOTFILES_DIR/theme" && mise exec babashka@latest -- bb -m generate); then
+    if ! (
+      export MISE_GLOBAL_CONFIG_FILE="$STOW_DIR/mise/.config/mise/config.toml"
+      cd "$DOTFILES_DIR/theme" &&
+        mise install --locked babashka &&
+        bb_dir="$(mise where babashka)" &&
+        "$bb_dir/bin/bb" -m generate
+    ); then
       echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
     fi
   fi

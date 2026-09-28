@@ -40,7 +40,7 @@ main() {
   # The installer leaves PATH alone; on Apple Silicon brew lands here.
   eval "$(/opt/homebrew/bin/brew shellenv)"
   info "Installing apps from Brewfile (Karabiner-Elements prompts for sudo)..."
-  brew bundle --file "$(dirname "$0")/Brewfile"
+  brew bundle --no-upgrade --file "$(dirname "$0")/Brewfile"
   setup_ssh_keychain
   info "✅ macOS setup complete"
 }
