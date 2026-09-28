@@ -62,15 +62,6 @@ vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
 vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete' })
 
--- Unlock zellij when leaving nvim (zellij-autolock locks it when nvim starts)
-if vim.env.ZELLIJ then
-  vim.api.nvim_create_autocmd('VimLeave', {
-    group = vim.api.nvim_create_augroup('zellij-unlock', { clear = true }),
-    pattern = '*',
-    command = 'silent !zellij action switch-mode normal',
-  })
-end
-
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -132,7 +123,7 @@ require('lazy').setup({
 require('colorschemes.ergo_light').setup()
 
 -- :ErgoReload — re-read the generated palette + colorscheme after tuning tokens
--- (theme/generate.py). Busts the Lua module cache so require() re-reads from disk.
+-- (theme/generate.clj). Busts the Lua module cache so require() re-reads from disk.
 vim.api.nvim_create_user_command('ErgoReload', function()
   for _, m in ipairs { 'colorschemes.ergo_light_palette', 'colorschemes.ergo_light' } do
     package.loaded[m] = nil

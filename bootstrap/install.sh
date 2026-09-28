@@ -146,8 +146,13 @@ elif command -v mise &> /dev/null; then
   # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
   # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
   # immediate retry does not, since the limit takes minutes to clear.
-  MISE_JOBS="${MISE_JOBS:-4}" mise install --locked || \
-    echo "⚠ some tools failed to install — re-run 'mise install' in a few minutes" >&2
+  if ! MISE_JOBS="${MISE_JOBS:-4}" mise install --locked; then
+    echo "✗ Setup incomplete: some tools failed to install. Re-run 'mise install --locked' after resolving the error above." >&2
+    exit 1
+  fi
+else
+  echo "✗ Setup incomplete: mise is not on PATH. Re-run ./bootstrap/install.sh after installing mise." >&2
+  exit 1
 fi
 
 echo "✅ Done"

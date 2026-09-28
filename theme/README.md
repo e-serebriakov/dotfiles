@@ -19,11 +19,11 @@ the semantic layer onto that tool's own keys, emitting:
 
 | Tool | Generator | Generated file |
 | --- | --- | --- |
-| Neovim | [`generators/nvim.py`](generators/nvim.py) | `colorschemes/ergo_light_palette.lua` |
-| WezTerm | [`generators/wezterm.py`](generators/wezterm.py) | `colors/ergo_light.toml` |
-| Zellij | [`generators/zellij.py`](generators/zellij.py) | `themes/ergo-light.kdl` |
-| delta (git diffs) | [`generators/delta.py`](generators/delta.py) | `delta/ergo-light.gitconfig` |
-| Helix | [`generators/helix.py`](generators/helix.py) | `themes/ergo_light.toml` |
+| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/ergo_light_palette.lua` |
+| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/ergo_light.toml` |
+| Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/ergo-light.kdl` |
+| delta (git diffs) | [`generators/delta.clj`](generators/delta.clj) | `delta/ergo-light.gitconfig` |
+| Helix | [`generators/helix.clj`](generators/helix.clj) | `themes/ergo_light.toml` |
 
 Those five are **gitignored build artifacts** — never hand-edit them; they're
 regenerated on every `install.sh`. `preview.svg` is the one *tracked* output
@@ -45,13 +45,13 @@ regenerated on every `install.sh`. `preview.svg` is the one *tracked* output
 
 ```sh
 # Edit the tokens, then regenerate every output (install.sh also does this):
-cd theme && bb -m generate
+(cd theme && bb -m generate)
 
 # Preview it right in the terminal (truecolor ANSI, writes nothing):
-cd theme && bb -m generate --preview
+(cd theme && bb -m generate --preview)
 
 # Verify: contract (adapters only reference tokens that exist) + golden outputs:
-cd theme && bb test
+(cd theme && bb -m generate && bb test)
 ```
 
 `--preview` prints the same mock as `preview.svg` above using 24-bit-colour

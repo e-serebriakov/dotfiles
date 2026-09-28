@@ -1,7 +1,7 @@
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
-        // Keep pane/tab navigation working while locked (autolock locks when nvim is focused)
+        // Keep pane/tab navigation working while locked
         bind "Alt h" { MoveFocusOrTab "left"; }
         bind "Alt j" { MoveFocus "down"; }
         bind "Alt k" { MoveFocus "up"; }
@@ -149,8 +149,6 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
     }
-    // Ctrl+h removed — reserved for zellij-nav.nvim (Neovim ↔ Zellij pane navigation)
-    // Use Alt+hjkl for pane navigation, or Ctrl+p → h/j/k/l for move mode
     shared_except "locked" "session" {
         bind "Ctrl o" { SwitchToMode "session"; }
     }
@@ -225,22 +223,10 @@ plugins {
     }
 }
 
-// Plugins to load in the background when a new session starts
-// eg. "file:/path/to/my-plugin.wasm"
-// eg. "https://example.com/my-plugin.wasm"
-load_plugins {
-    // Auto-lock zellij when nvim/vim is focused so Ctrl+hjkl pass through to zellij-nav.nvim
-    "https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
-        triggers "nvim|vim"
-        watch_triggers "fzf|zoxide"
-        watch_interval "1.0"
-    }
-}
- 
 theme "ergo-light"
 default_shell "zsh"
 default_layout "work"
 show_release_notes false
 
 // Theme "ergo-light" is defined in themes/ergo-light.kdl, generated from
-// theme/ergo-light.tokens.json (see theme/generate.py).
+// theme/ergo-light.tokens.json (see theme/generate.clj).

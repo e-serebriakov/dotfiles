@@ -149,42 +149,39 @@ fi
 
 # Zellij project launcher — attach if session exists, create with work layout if not
 # Usage: dev              (use current dir as project)
+#        dev <path>       (use a directory directly)
 #        dev <project>    (resolve dir via zoxide)
 dev() {
-  if [[ -n "$ZELLIJ" ]]; then
+  if [[ -n "${ZELLIJ:-}" ]]; then
     echo "dev: already inside zellij — use Ctrl+o w (session manager) to switch" >&2
     return 1
   fi
 
-  local project dir
+  local project dir checksum
 
-  if [[ -z "$1" ]]; then
-    project="${PWD:t}"
-    dir="$PWD"
+  if [[ -d "${1:-.}" ]]; then
+    dir="${1:-.}"
   else
-    project="$1"
-    dir="$(zoxide query "$project" 2>/dev/null)" || {
-      echo "dev: could not resolve '$project' — cd there once so zoxide learns it" >&2
+    dir="$(zoxide query "$1" 2>/dev/null)" || {
+      echo "dev: could not resolve '$1' — cd there once so zoxide learns it" >&2
       return 1
     }
   fi
+  dir="$(cd -- "$dir" && pwd -P)" || return 1
 
-  # zellij caps session names because the whole UNIX socket path must fit in
-  # sun_path (104 on macOS), and $TMPDIR eats most of that budget.
-  local -ir max=24
-  if (( ${#project} > max )); then
-    local truncated="${project[1,max]}"
-    echo "dev: '$project' too long for zellij (max $max) — using '$truncated'" >&2
-    project="$truncated"
-  fi
+  # Keep the name within 24 ASCII bytes for macOS's UNIX socket path limit.
+  # ponytail: 32-bit path checksum; use a longer digest if session collisions arise.
+  checksum="$(printf '%s' "$dir" | cksum)"
+  project="${dir:t}"
+  project="${project//[^a-zA-Z0-9_-]/-}"
+  project="${project[1,13]}-${checksum%% *}"
 
   zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n work)
 }
 _dev() {
-  local -a sessions dirs
-  sessions=(${(f)"$(zellij list-sessions 2>/dev/null | awk '{print $1}')"})
-  dirs=(${(f)"$(zoxide query -l 2>/dev/null | while read -r d; do echo "${d:t}"; done)"})
-  _alternative "sessions:sessions:(${sessions})" "dirs:directories:(${dirs})"
+  local -a dirs
+  dirs=("${(@f)$(zoxide query -l 2>/dev/null)}")
+  compadd -a dirs
 }
 compdef _dev dev
 

@@ -36,7 +36,7 @@ That's it. Open a new shell and the environment is restored.
 2. **Installs zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions).
 3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
 4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
-5. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev).
+5. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev). If mise is missing or a tool fails to install, bootstrap exits with a nonzero status and reports setup as incomplete. After resolving the reported error, retry with `mise install --locked`.
 
 ### Flags & env vars
 
@@ -135,7 +135,7 @@ Those outputs are **gitignored build artifacts** — never hand-edit them; they'
 
 ```sh
 # Change the theme: edit theme/ergo-light.tokens.json, then
-cd theme && bb -m generate         # rewrites the five files (install.sh also does this)
+(cd theme && bb -m generate)       # rewrites the five files (install.sh also does this)
 ```
 
 Reload the tool and the whole environment re-tunes together.
@@ -143,7 +143,7 @@ Reload the tool and the whole environment re-tunes together.
 **Add a tool:** drop a `theme/generators/<tool>.clj` (exposing `render`), register it in the `adapters` vector in `generate.clj`, and gitignore its output. A contract test guards that generators only reference tokens that exist:
 
 ```sh
-python3 -m unittest theme.test_generate
+(cd theme && bb -m generate && bb test)
 ```
 
 Tools that aren't generated (ccstatusline, starship, git's own output) use **named ANSI colours**, so they follow the terminal palette — itself themed from these tokens — automatically.
@@ -168,6 +168,6 @@ See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
 ## Requirements
 
 - `git` and a working `curl` (both scripts fetch installers)
-- `python3` (stdlib only) to generate the theme files — optional; without it the tools fall back to their default colours
+- Babashka (`bb`) generates the theme files; bootstrap fetches it through mise before stowing, so no manual installation is needed.
 - macOS: `sudo` access — the Homebrew installer and the Karabiner-Elements cask both need it
 - Linux: `sudo` access (apt)

@@ -3,8 +3,7 @@
 ## Setup
 
 ```sh
-brew install zellij
-cd ~/dotfiles/packages && stow zellij
+cd ~/dotfiles && ./bootstrap/install.sh
 ```
 
 ## Usage
@@ -20,10 +19,19 @@ and launches Zellij with the standard `work` layout. All panes inherit the proje
 
 Just `cd` into a project directory once so zoxide learns it.
 
+Use `dev` for the current directory or `dev /path/to/project` for an explicit path.
+Tab completion offers full project paths from zoxide.
+Session names combine a shortened directory name with a checksum of its physical
+path (at most 24 ASCII characters). Different queries or symlinks for the same
+directory share a session; same-named directories get different checksums.
+Sessions created with the old naming scheme remain available through
+`zellij attach <old-name>`; `dev` starts using the new names immediately.
+
 ## Navigation
 
-- `Ctrl+hjkl` — seamless Neovim ↔ Zellij pane navigation (via zellij-nav.nvim + autolock)
 - `Alt+hjkl` — pane/tab navigation (works in all modes)
 - `Ctrl+p` — pane mode, `Ctrl+t` — tab mode, `Ctrl+n` — resize mode
 - `Ctrl+p m` — move mode (move panes around)
-- `Ctrl+g` — lock
+- `Ctrl+g` — toggle lock (use it to pass Zellij's other shortcuts through to the editor)
+
+Locking is manual. Restart existing sessions to unload the former autolock plugin.
