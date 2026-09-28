@@ -82,6 +82,25 @@ url = "https://github.com/ClementTsang/bottom/releases/download/0.14.9/bottom_aa
 url_api = "https://api.github.com/repos/ClementTsang/bottom/releases/assets/531978112"
 provenance = "github-attestations"
 
+[[tools.claude]]
+version = "2.1.283"
+backend = "aqua:anthropics/claude-code"
+
+[tools.claude."platforms.linux-arm64"]
+checksum = "sha256:a2e7d497d40041d7eca8f8fd1d77405a6501ff8b1a61fa02a0e95c458824a43e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.283/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/588996729"
+
+[tools.claude."platforms.linux-x64"]
+checksum = "sha256:db404a91bec8baffb53463166fdc8bf579208a527d60afc2d984d7507dc0c2f9"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.283/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/588996841"
+
+[tools.claude."platforms.macos-arm64"]
+checksum = "sha256:033f733e135ecd00aeec18ea8990a87a0fd8be220b20548353fd025351a0a9b3"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.283/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/588996726"
+
 [[tools.claude-code]]
 version = "2.1.251"
 backend = "aqua:anthropics/claude-code"
