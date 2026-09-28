@@ -6,7 +6,7 @@ local ok, colors = pcall(require, 'colorschemes.ergo_light_palette')
 
 function M.setup()
   if not ok then
-    vim.notify('ergo_light: generated palette missing — run `cd ~/dotfiles/theme && bb -m generate`', vim.log.levels.WARN)
+    vim.notify('ergo_light: generated palette missing — run `bb -m generate` in the dotfiles repo theme/ dir', vim.log.levels.WARN)
     return
   end
   local hi = vim.api.nvim_set_hl

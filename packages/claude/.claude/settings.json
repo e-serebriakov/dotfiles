@@ -1,13 +1,67 @@
 {
-  "enabledPlugins": {
-    "mattpocock-skills@claude-plugins-official": true
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },
-  "skipAutoPermissionPrompt": true,
-  "tui": "fullscreen",
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "permissions": {
+    "defaultMode": "auto",
+    "deny": [
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(git merge)",
+      "Bash(git merge *)",
+      "Bash(git rebase)",
+      "Bash(git rebase *)",
+      "Bash(git reset --hard*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.git-credentials)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.kube/**)",
+      "Read(~/.npmrc)",
+      "Read(~/.pypirc)",
+      "Read(~/Library/Keychains/**)",
+      "Read(**/.env*)",
+      "Read(**/env.custom)",
+      "Read(**/env.prod.custom)",
+      "Read(**/.container_data/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
+    ]
+  },
   "sandbox": {
     "enabled": true
   },
-  "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
-  }
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@2.2.30"
+  },
+  "enabledPlugins": {
+    "impeccable@impeccable": true,
+    "ponytail@ponytail": true
+  },
+  "extraKnownMarketplaces": {
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
+  },
+  "tui": "fullscreen",
+  "theme": "light",
+  "autoMemoryEnabled": false,
+  "skipWorkflowUsageWarning": true
 }

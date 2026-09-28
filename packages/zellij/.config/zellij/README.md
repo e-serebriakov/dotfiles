@@ -3,7 +3,7 @@
 ## Setup
 
 ```sh
-cd ~/dotfiles && ./bootstrap/install.sh
+./bootstrap/install.sh  # from the dotfiles repo root
 ```
 
 ## Usage

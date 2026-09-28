@@ -17,7 +17,7 @@
   light = true
 
 ; Ergo Light delta colors — GENERATED from theme/ergo-light.tokens.json (gitignored).
-; Edit the tokens + run `cd ~/dotfiles/theme && bb -m generate`, not this include.
+; Edit the tokens + run `bb -m generate` in the repo's theme/, not this include.
 [include]
   path = ~/.config/delta/ergo-light.gitconfig
 

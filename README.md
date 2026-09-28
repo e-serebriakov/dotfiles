@@ -10,8 +10,9 @@ On a fresh machine:
 # 1. Install git (macOS: xcode-select --install | Ubuntu: sudo apt install -y git)
 
 # 2. Clone the repo
-git clone git@github.com:e-serebriakov/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+# (any location works; install.sh resolves paths relative to itself)
+git clone git@github.com:e-serebriakov/dotfiles.git ~/source_code/dotfiles
+cd ~/source_code/dotfiles
 
 # 3. Preview what will be symlinked (nothing is changed)
 ./bootstrap/install.sh -n
