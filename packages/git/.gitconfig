@@ -21,8 +21,10 @@
 [include]
   path = ~/.config/delta/ergo-light.gitconfig
 
+; Push over SSH, but keep fetching over anonymous https so clones work before
+; SSH keys are set up (lazy.nvim, zsh plugins).
 [url "git@github.com:"]
-  insteadOf = https://github.com/
+  pushInsteadOf = https://github.com/
 
 [color]
   diff   = auto
@@ -30,7 +32,7 @@
   branch = auto
 
 [branch]
-  autosetuprebase = always
+  sort = -committerdate
 
 [init]
   defaultBranch = main
@@ -51,6 +53,13 @@
 
 [rebase]
   autoStash = true
+  ; updateRefs deliberately unset: git town rebases without --no-update-refs.
+
+[fetch]
+  prune = true
+
+[merge]
+  conflictStyle = zdiff3
 
 [rerere]
   enabled = true

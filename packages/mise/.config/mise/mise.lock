@@ -419,6 +419,10 @@ url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-darwin-arm64.tar.gz"
 version = "0.28.0"
 backend = "npm:@fsouza/prettierd"
 
+[[tools."npm:ccstatusline"]]
+version = "2.2.30"
+backend = "npm:ccstatusline"
+
 [[tools."npm:markdownlint-cli2"]]
 version = "0.22.1"
 backend = "npm:markdownlint-cli2"

@@ -29,9 +29,13 @@ Sessions created with the old naming scheme remain available through
 
 ## Navigation
 
-- `Alt+hjkl` — pane/tab navigation (works in all modes)
-- `Ctrl+p` — pane mode, `Ctrl+t` — tab mode, `Ctrl+n` — resize mode
-- `Ctrl+p m` — move mode (move panes around)
-- `Ctrl+g` — toggle lock (use it to pass Zellij's other shortcuts through to the editor)
+Zellij starts **locked**: every key goes to nvim/the shell except these, which work anywhere:
 
-Locking is manual. Restart existing sessions to unload the former autolock plugin.
+- `Alt+hjkl` — pane/tab navigation
+- `Alt+f` — toggle floating pane, `Alt+n` — new pane
+
+For anything else, press `Ctrl+g` to unlock, then pick a mode. After the action Zellij locks again:
+
+- `Ctrl+g Ctrl+p` — pane mode (`m` for move mode), `Ctrl+g Ctrl+t` — tab mode, `Ctrl+g Ctrl+n` — resize mode
+- `Ctrl+g Ctrl+s` — scroll/search, `Ctrl+g Ctrl+o` — session mode (`w` switch, `d` detach, `q` quit)
+- `Ctrl+g` again (or `Esc` once inside a mode) — back to locked without doing anything
