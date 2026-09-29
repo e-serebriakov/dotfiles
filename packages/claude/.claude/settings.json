@@ -40,7 +40,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@2.2.30"
+    "command": "ccstatusline"
   },
   "enabledPlugins": {
     "impeccable@impeccable": true,

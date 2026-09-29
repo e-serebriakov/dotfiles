@@ -41,5 +41,6 @@ pi = "latest"
 
 "github:achristmascarl/rainfrog" = "latest" # no registry entry
 
+"npm:ccstatusline" = "2.2.30" # Claude Code statusline
 "npm:markdownlint-cli2" = "latest"
 "npm:@fsouza/prettierd" = "latest" # yaml/html format

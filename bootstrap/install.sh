@@ -15,9 +15,16 @@ export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 cd "$DOTFILES_DIR"
 
 DRY_RUN=""
-if [[ "${1:-}" == "-n" || "${1:-}" == "--dry-run" ]]; then
-  DRY_RUN=1
-fi
+case "${1:-}" in
+  "") ;;
+  -n|--dry-run) DRY_RUN=1 ;;
+  -h|--help)
+    echo "Usage: $0 [-n|--dry-run]"
+    exit 0 ;;
+  *)
+    echo "Unknown option: $1 (see --help)" >&2
+    exit 2 ;;
+esac
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
@@ -153,6 +160,13 @@ else
   [[ -d "$BACKUP" ]] && echo "  (pre-existing files backed up to $BACKUP)"
   stow -R -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
   stow -R -v -d "$STOW_DIR" -t "$TARGET" claude
+
+  # gitconfig points gpg.ssh.allowedSignersFile here; runs after stow so
+  # user.email is readable.
+  if [[ -f "$HOME/.ssh/sign.pub" && ! -f "$HOME/.ssh/allowed_signers" ]]; then
+    echo "  creating ~/.ssh/allowed_signers"
+    echo "$(git config --global user.email) $(cat "$HOME/.ssh/sign.pub")" > "$HOME/.ssh/allowed_signers"
+  fi
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml

@@ -22,12 +22,16 @@ if (( $+commands[mise] )); then
 fi
 
 # Completion — rebuild dump at most once a day for faster startup
+# (a glob inside [[ ]] never expands, so collect the qualified match into an
+# array; compinit only rewrites the dump when files change, hence the touch)
 autoload -Uz compinit
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+_stale=(~/.zcompdump(N.mh+24))
+if (( $#_stale )); then compinit; touch ~/.zcompdump; else compinit -C; fi
+unset _stale
+
+# Case-insensitive completion; preview directory contents when completing cd.
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # Plugins — order matters: fzf-tab first; syntax-highlighting after
 # widget-defining plugins; history-substring-search last.
@@ -112,30 +116,17 @@ pr() {
 }
 
 # macOS uses the native Keychain agent (~/.ssh/config.d/defaults.conf), so this
-# only runs on Linux where there's no launchd-managed agent.
-if [[ "$OSTYPE" == linux* ]]; then
-  _ssh_quiet_init() {
-    if [ -z "$SSH_AUTH_SOCK" ] || ! [ -S "$SSH_AUTH_SOCK" ]; then
-      eval "$(ssh-agent -s)" > /dev/null
-    fi
-
-    if [ -S "$SSH_AUTH_SOCK" ]; then
-      local SSH_KEYS=(
-        "$HOME/.ssh/auth"
-        "$HOME/.ssh/gh_auth"
-        "$HOME/.ssh/sign"
-      )
-
-      for key in "${SSH_KEYS[@]}"; do
-        if [ -f "$key" ]; then
-          ssh-add -l 2>/dev/null | grep -q "$(ssh-keygen -lf "$key" | awk '{print $2}')" || \
-            ssh-add "$key" 2>/dev/null
-        fi
-      done
-    fi
-  }
-  _ssh_quiet_init
-  unset -f _ssh_quiet_init
+# only runs on Linux where there's no launchd-managed agent. Every shell shares
+# one agent on a fixed socket; keys load on first use via AddKeysToAgent, so
+# startup never blocks on a passphrase. ssh-add exits 2 when no agent answers
+# (e.g. a stale socket left over from before a reboot).
+if [[ "$OSTYPE" == linux* && ! -S "${SSH_AUTH_SOCK:-}" ]]; then
+  export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+  ssh-add -l &> /dev/null
+  if (( $? == 2 )); then
+    rm -f "$SSH_AUTH_SOCK"
+    ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
+  fi
 fi
 
 # Prompt
@@ -153,7 +144,7 @@ fi
 #        dev <project>    (resolve dir via zoxide)
 dev() {
   if [[ -n "${ZELLIJ:-}" ]]; then
-    echo "dev: already inside zellij — use Ctrl+o w (session manager) to switch" >&2
+    echo "dev: already inside zellij — use Ctrl+g Ctrl+o w (session manager) to switch" >&2
     return 1
   fi
 

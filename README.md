@@ -14,10 +14,7 @@ On a fresh machine:
 git clone git@github.com:e-serebriakov/dotfiles.git ~/source_code/dotfiles
 cd ~/source_code/dotfiles
 
-# 3. Preview what will be symlinked (nothing is changed)
-./bootstrap/install.sh -n
-
-# 4. Run the full bootstrap
+# 3. Run the full bootstrap
 ./bootstrap/install.sh
 ```
 
@@ -43,7 +40,7 @@ That's it. Open a new shell and the environment is restored.
 
 | What | How |
 | --- | --- |
-| Dry run (preview symlinks) | `./bootstrap/install.sh -n` or `--dry-run` |
+| Dry run (preview symlinks; needs `stow`, so not on a fresh machine) | `./bootstrap/install.sh -n` or `--dry-run` |
 | Context (default `personal`) | `DOTFILES_CONTEXT=work ./bootstrap/install.sh` |
 
 ### On the backup step
@@ -69,7 +66,7 @@ On a fresh machine, two manual steps wire it up:
 
 2. **Load your keys into the agent:**
    - **macOS** — `bootstrap/macos.sh` runs `ssh-add --apple-use-keychain` automatically (prompts for each passphrase once, then Keychain unlocks them). To do it by hand: `ssh-add --apple-use-keychain ~/.ssh/auth ~/.ssh/sign`.
-   - **Linux** — `.zshrc` starts an `ssh-agent` and adds `~/.ssh/{auth,sign}` on shell startup (guarded to `linux*` only; macOS uses the native Keychain agent instead).
+   - **Linux** — `.zshrc` starts one shared `ssh-agent` at `~/.ssh/agent.sock` (guarded to `linux*` only; macOS uses the native Keychain agent instead). Keys are added on first use via `AddKeysToAgent`, so the passphrase prompt comes with your first `ssh`/`git` call, not at shell startup.
 
 The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in this repo — copy them over securely out of band.
 
