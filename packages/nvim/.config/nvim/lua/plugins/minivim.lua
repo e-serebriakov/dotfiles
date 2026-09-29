@@ -11,21 +11,10 @@ return { -- Collection of various small independent plugins/modules
 
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
-    -- - gsaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-    -- - gsd'   - [S]urround [D]elete [']quotes
-    -- - gsr)'  - [S]urround [R]eplace [)] [']
-    -- Prefixed with g because flash.nvim owns s.
-    require('mini.surround').setup {
-      mappings = {
-        add = 'gsa',
-        delete = 'gsd',
-        find = 'gsf',
-        find_left = 'gsF',
-        highlight = 'gsh',
-        replace = 'gsr',
-        update_n_lines = 'gsn',
-      },
-    }
+    -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+    -- - sd'   - [S]urround [D]elete [']quotes
+    -- - sr)'  - [S]urround [R]eplace [)] [']
+    require('mini.surround').setup()
 
     -- Simple and easy statusline.
     --  You could remove this setup call if you don't like it,
