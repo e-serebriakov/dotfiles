@@ -8,7 +8,6 @@
     "sessionUrl": false
   },
   "permissions": {
-    "defaultMode": "auto",
     "deny": [
       "Bash(git push)",
       "Bash(git push *)",
@@ -33,10 +32,8 @@
       "Read(**/.container_data/**)",
       "Read(**/*.pem)",
       "Read(**/*.key)"
-    ]
-  },
-  "sandbox": {
-    "enabled": true
+    ],
+    "defaultMode": "auto"
   },
   "statusLine": {
     "type": "command",
@@ -44,7 +41,8 @@
   },
   "enabledPlugins": {
     "impeccable@impeccable": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "mattpocock-skills@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "impeccable": {
@@ -60,8 +58,11 @@
       }
     }
   },
+  "sandbox": {
+    "enabled": true
+  },
   "tui": "fullscreen",
-  "theme": "light",
   "autoMemoryEnabled": false,
-  "skipWorkflowUsageWarning": true
+  "skipWorkflowUsageWarning": true,
+  "theme": "light"
 }
