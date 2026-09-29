@@ -22,11 +22,12 @@ if (( $+commands[mise] )); then
 fi
 
 # Completion — rebuild dump at most once a day for faster startup
-# (a glob inside [[ ]] never expands, so loop over the qualified match instead)
+# (a glob inside [[ ]] never expands, so collect the qualified match into an
+# array; compinit only rewrites the dump when files change, hence the touch)
 autoload -Uz compinit
-for _dump in ~/.zcompdump(N.mh+24); do compinit; done
-compinit -C
-unset _dump
+_stale=(~/.zcompdump(N.mh+24))
+if (( $#_stale )); then compinit; touch ~/.zcompdump; else compinit -C; fi
+unset _stale
 
 # Case-insensitive completion; preview directory contents when completing cd.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'

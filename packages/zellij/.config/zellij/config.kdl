@@ -1,7 +1,9 @@
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
-        // Keep pane/tab navigation and the floating pane working while locked
+    }
+    // Pane/tab navigation and the floating pane work in every mode, even locked
+    shared {
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Alt n" { NewPane; }
         bind "Alt h" { MoveFocusOrTab "left"; }
@@ -138,17 +140,11 @@ keybinds clear-defaults=true {
         }
     }
     shared_except "locked" {
-        bind "Alt h" { MoveFocusOrTab "left"; }
-        bind "Alt j" { MoveFocus "down"; }
-        bind "Alt k" { MoveFocus "up"; }
-        bind "Alt l" { MoveFocusOrTab "right"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
-        bind "Alt f" { ToggleFloatingPanes; }
-        bind "Alt n" { NewPane; }
         bind "Ctrl g" { SwitchToMode "locked"; }
     }
     shared_except "locked" "session" {
