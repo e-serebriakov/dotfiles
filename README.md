@@ -1,127 +1,144 @@
 # dotfiles
 
-My personal environment: shell, editor, terminal, window manager, and CLI tooling — managed with [GNU Stow](https://www.gnu.org/software/stow/) and bootstrapped for both **macOS** and **Ubuntu/Linux**.
+Personal shell, editor, terminal, window manager, and command-line configuration for macOS and Ubuntu.
+[GNU Stow](https://www.gnu.org/software/stow/) manages the configuration files.
 
 ## Quick restore
 
-On a fresh machine:
+On a new machine:
+
+1. Install Git: `xcode-select --install` on macOS or `sudo apt install -y git` on Ubuntu.
+2. Set up SSH access to GitHub before using the SSH clone command below. See [SSH setup](#ssh-setup).
+3. Clone the repository and run the setup script. You can clone into any directory; the script resolves its own paths.
 
 ```sh
-# 1. Install git (macOS: xcode-select --install | Ubuntu: sudo apt install -y git)
-
-# 2. Clone the repo
-# (any location works; install.sh resolves paths relative to itself)
 git clone git@github.com:e-serebriakov/dotfiles.git ~/source_code/dotfiles
 cd ~/source_code/dotfiles
-
-# 3. Run the full bootstrap
 ./bootstrap/install.sh
 ```
 
-That's it. Open a new shell and the environment is restored.
-
-> **SSH keys** need two manual touches on a fresh machine — see [SSH setup](#ssh-setup). Your private `~/.ssh/config` is intentionally **not** tracked here.
+Open a new shell to use the configuration.
 
 ## What `install.sh` does
 
-`bootstrap/install.sh` is idempotent — safe to re-run any time. It:
+You can safely run `bootstrap/install.sh` again. It:
 
-1. **Runs the platform bootstrap** (`macos.sh` or `linux.sh`, auto-detected via `uname`):
-   - macOS: installs Homebrew if missing, then runs `brew bundle --no-upgrade` for `bootstrap/Brewfile` (stow, the GUI apps and the font).
-   - Linux: installs build essentials and zsh via `apt`, then makes zsh the login shell.
+1. Detects the operating system with `uname` and runs `macos.sh` or `linux.sh`:
+   - macOS: installs Homebrew if needed, then runs `brew bundle --no-upgrade` with `bootstrap/Brewfile`.
+     This installs Stow, the applications, and the font.
+   - Ubuntu: installs required packages and zsh with `apt`, then sets zsh as the login shell.
+   - Both platforms: installs [mise](https://mise.jdx.dev) if needed.
+2. Restores zsh plugins in `~/.local/share/zsh`: fzf-tab, syntax-highlighting, history-substring-search, and autosuggestions.
+   It uses the commit IDs in `bootstrap/install.sh`. It does not fetch newer revisions or overwrite local plugin changes.
+   Local changes stop setup.
+3. Generates theme files from `theme/ergo-light.tokens.json` before Stow creates the symbolic links.
+   If generation fails, setup continues. Tools use default colors when generated files are unavailable.
+4. Uses Stow to create symbolic links from `$HOME` to the packages in `packages/`.
+5. Uses mise to install the tools in `packages/mise/.config/mise/config.toml`.
+   If mise is missing or installation fails, setup reports the error and exits with a nonzero status.
+   Correct the error, then run `mise install --locked`. If mise was missing, install it and run setup again.
 
-   Then installs [`mise`](https://mise.jdx.dev) the same way on both platforms.
-2. **Restores pinned zsh plugins** into `~/.local/share/zsh` (fzf-tab, syntax-highlighting, history-substring-search, autosuggestions). Exact commit IDs live in `bootstrap/install.sh`; reruns do not pull newer commits. Local plugin edits stop setup rather than being overwritten.
-3. **Generates the theme files** from `theme/ergo-light.tokens.json` (see [Theme](#theme)) — run before stowing so the symlinks point at fresh output. A token error is non-fatal: it stows anyway and the tools fall back to their defaults.
-4. **Symlinks every package** in `packages/` into `$HOME` with `stow`.
-5. **Installs runtime tools** declared in `packages/mise/.config/mise/config.toml` via [`mise`](https://mise.jdx.dev). If mise is missing or a tool fails to install, bootstrap exits with a nonzero status and reports setup as incomplete. After resolving the reported error, retry with `mise install --locked`.
+### Options and environment variables
 
-### Flags & env vars
-
-| What | How |
+| Purpose | Command |
 | --- | --- |
-| Dry run (preview symlinks; needs `stow`, so not on a fresh machine) | `./bootstrap/install.sh -n` or `--dry-run` |
-| Context (default `personal`) | `DOTFILES_CONTEXT=work ./bootstrap/install.sh` |
+| Preview symbolic links without installing tools; requires Stow | `./bootstrap/install.sh -n` or `--dry-run` |
+| Set the context (default: `personal`) | `DOTFILES_CONTEXT=work ./bootstrap/install.sh` |
 
-### On the backup step
+### Backups
 
-Before `stow -R`, the script moves any real (non-symlink) file sitting at a target path into `~/.dotfiles-backup/<timestamp>/`, preserving its relative path. Only genuine conflicts move — targets that already resolve back into `packages/` are left alone.
+Before `stow -R`, the script moves conflicting files or symbolic links to `~/.dotfiles-backup/<timestamp>/`.
+It preserves their relative paths and keeps links that already point to the package files.
+It skips backup paths that pass through a symbolic link to a directory outside `packages/`.
 
-So the repo's tracked version always wins, any pre-existing config on the machine is set aside rather than overwritten, and uncommitted changes under `packages/` are never reverted.
+The package files replace the conflicting configuration. The script preserves uncommitted changes in `packages/`.
 
 ## SSH setup
 
-Your `~/.ssh/config` is **not** tracked — it holds private hosts, tailnet addresses, and tool-managed blocks (OrbStack, DevPod). Only a generic, portable defaults block is versioned, at `packages/ssh/.ssh/config.d/defaults.conf`, which stow links to `~/.ssh/config.d/defaults.conf`. It sets `AddKeysToAgent`, `UseKeychain` (ignored on Linux via `IgnoreUnknown`), and the default identity files.
+Keep private hosts, tailnet addresses, and tool-managed sections (OrbStack, DevPod) in `~/.ssh/config`.
+This file is not tracked.
 
-On a fresh machine, two manual steps wire it up:
+Stow links `packages/ssh/.ssh/config.d/defaults.conf` to `~/.ssh/config.d/defaults.conf`.
+These shared defaults set `AddKeysToAgent`, `UseKeychain`, and the identity files.
+`IgnoreUnknown` lets Linux ignore `UseKeychain`.
 
-1. **Include the tracked defaults** from your real config. Add this line to `~/.ssh/config` (anywhere in global scope, or under a `Host *`):
+On a new machine:
+
+1. Copy your private keys (`~/.ssh/auth`, `~/.ssh/sign`, and any others) through a secure channel.
+   Private keys are not stored in this repository.
+2. Add the defaults to `~/.ssh/config`:
 
    ```sshconfig
    Host *
    Include ~/.ssh/config.d/*.conf
    ```
 
-   > Note: an `Include` inherits the surrounding `Host`/`Match` context. Place it in global scope (or under an explicit `Host *`) so it applies to every connection — not accidentally nested inside another host's block.
+   `Include` inherits the surrounding `Host` or `Match` context.
+   Place it in global scope or under `Host *` so it applies to all connections.
+3. Load the keys:
+   - macOS: `bootstrap/macos.sh` runs `ssh-add --apple-use-keychain` automatically.
+     It requests each passphrase once, then Keychain unlocks the keys.
+     To load them manually, run `ssh-add --apple-use-keychain ~/.ssh/auth ~/.ssh/sign`.
+   - Linux: `.zshrc` starts a shared `ssh-agent` at `~/.ssh/agent.sock` if no agent socket is available.
+     `AddKeysToAgent` adds keys on first use. The passphrase prompt appears with the first SSH or Git command, not at shell startup.
+     macOS uses its native Keychain agent.
 
-2. **Load your keys into the agent:**
-   - **macOS** — `bootstrap/macos.sh` runs `ssh-add --apple-use-keychain` automatically (prompts for each passphrase once, then Keychain unlocks them). To do it by hand: `ssh-add --apple-use-keychain ~/.ssh/auth ~/.ssh/sign`.
-   - **Linux** — `.zshrc` starts one shared `ssh-agent` at `~/.ssh/agent.sock` (guarded to `linux*` only; macOS uses the native Keychain agent instead). Keys are added on first use via `AddKeysToAgent`, so the passphrase prompt comes with your first `ssh`/`git` call, not at shell startup.
+## Repository layout
 
-The private keys themselves (`~/.ssh/auth`, `~/.ssh/sign`, …) are never in this repo — copy them over securely out of band.
-
-## Repo layout
-
-```
+```text
 dotfiles/
 ├── bootstrap/
-│   ├── install.sh      # entry point — orchestrates everything
-│   ├── macos.sh        # homebrew + brew bundle + ssh keychain
-│   ├── linux.sh        # apt essentials
-│   └── Brewfile        # the macOS-only bare minimum: stow + casks
-├── theme/              # design tokens + generator (see Theme)
-│   ├── ergo-light.tokens.json  # the single source of colour
-│   ├── engine.clj              # token graph + tokens↔generator contract
-│   ├── generators/             # one namespace per tool; adapters vector
-│   └── generate.clj            # CLI: tokens → per-tool theme files
-└── packages/           # one stow package per tool
-    ├── aerospace/      # tiling WM (macOS)
-    ├── ccstatusline/   # Claude Code statusline
-    ├── claude/         # Claude Code config
-    ├── git/            # git config
-    ├── helix/          # helix editor
-    ├── karabiner/      # keyboard remapping (macOS)
-    ├── markdown/       # markdown lint config
-    ├── mise/           # runtime/tool versions
-    ├── nvim/           # neovim config
-    ├── ssh/            # generic SSH defaults (~/.ssh/config.d) — see SSH setup
-    ├── starship/       # prompt
-    ├── wezterm/        # terminal
-    ├── zellij/         # terminal multiplexer
-    └── zsh/            # .zshrc + .zshenv + shell setup
+│   ├── install.sh      # Main setup script
+│   ├── macos.sh        # Homebrew, applications, and SSH Keychain setup
+│   ├── linux.sh        # Required Ubuntu packages
+│   └── Brewfile        # Stow, macOS applications, and font
+├── theme/              # Design tokens and generators; see theme/README.md
+│   ├── ergo-light.tokens.json  # Shared color definitions
+│   ├── engine.clj              # Token resolution and generator validation
+│   ├── generators/             # One namespace per tool
+│   └── generate.clj            # Theme generation command
+└── packages/           # One Stow package per tool
+    ├── aerospace/      # Tiling window manager (macOS)
+    ├── ccstatusline/   # Claude Code status line
+    ├── claude/         # Claude Code configuration
+    ├── git/            # Git configuration
+    ├── helix/          # Helix editor
+    ├── karabiner/      # Keyboard remapping (macOS)
+    ├── markdown/       # Markdown lint configuration
+    ├── mise/           # Tool and runtime versions
+    ├── nvim/           # Neovim configuration
+    ├── ssh/            # Shared SSH defaults
+    ├── starship/       # Shell prompt
+    ├── wezterm/        # Terminal
+    ├── zellij/         # Terminal multiplexer
+    └── zsh/            # Shell configuration
 ```
 
-Each folder under `packages/` mirrors the layout of `$HOME`. For example, `packages/nvim/.config/nvim/` stows to `~/.config/nvim/`.
+Each directory in `packages/` matches the layout of `$HOME`.
+For example, Stow links `packages/nvim/.config/nvim/` to `~/.config/nvim/`.
 
-## Managing packages
+## Manage packages
 
 ```sh
-# Add / update a single package after editing it
+# Create or update the symbolic links for one package.
 stow -R -d packages -t "$HOME" nvim
 
-# Remove a package's symlinks
+# Remove the symbolic links for one package.
 stow -D -d packages -t "$HOME" nvim
 ```
 
-To track a **new** config: create `packages/<name>/` mirroring its path under `$HOME`, move the file in, then re-run `./bootstrap/install.sh`.
+To track a new configuration:
 
-## Deliberate updates
+1. Create `packages/<name>/` with the same directory layout as `$HOME`.
+2. Move the configuration file into that directory.
+3. Run `./bootstrap/install.sh` again.
 
-Bootstrap restores the committed mise lockfile and shell-plugin revisions.
-Theme generation also uses the locked Babashka version, reading the repo's mise
-configuration before Stow installs it.
+## Update tools
 
-To update a CLI tool (run from the repo root):
+Setup uses the committed mise lockfile and zsh plugin revisions.
+Theme generation uses the locked Babashka version from the repository's mise configuration before Stow links it.
+
+To update a command-line tool, run these commands from the repository root:
 
 ```sh
 MISE_GLOBAL_CONFIG_FILE="$PWD/packages/mise/.config/mise/config.toml" mise lock --global --bump babashka
@@ -129,21 +146,24 @@ git diff -- packages/mise/.config/mise/mise.lock
 ./bootstrap/install.sh
 ```
 
-Replace `babashka` with another tool name, or omit it to update all tools within
-their configured version ranges. Review and commit the lockfile after testing.
+Replace `babashka` with another tool name, or omit it to update all tools within their configured version ranges.
+Test the tools, then review and commit the lockfile.
 
-To update a shell plugin, find its upstream commit, replace that plugin's full
-commit ID in the `PLUGINS` block in `bootstrap/install.sh`, and rerun bootstrap:
+To update a zsh plugin:
 
-```sh
-git ls-remote https://github.com/Aloxaf/fzf-tab HEAD
-```
+1. Find its upstream commit. For example:
 
-Test the updated plugin in a new shell before committing the revision change.
+   ```sh
+   git ls-remote https://github.com/Aloxaf/fzf-tab HEAD
+   ```
 
-Homebrew apps and Ubuntu packages remain distribution-managed, not version
-locked. Homebrew setup skips routine upgrades of installed apps, though installing
-missing dependencies can still require upgrades. To explicitly update the Brewfile:
+2. Replace its full commit ID in the `PLUGINS` block in `bootstrap/install.sh`.
+3. Run setup again.
+4. Test the plugin in a new shell before committing the change.
+
+Homebrew applications and Ubuntu packages do not use version locks.
+Setup skips routine Homebrew upgrades, but missing dependencies can require upgrades.
+To upgrade packages listed in the Brewfile:
 
 ```sh
 brew bundle --upgrade --file bootstrap/Brewfile
@@ -151,55 +171,39 @@ brew bundle --upgrade --file bootstrap/Brewfile
 
 ## Theme
 
-All colour comes from **one file** — `theme/ergo-light.tokens.json` — tool-agnostic [design tokens](https://tr.designtokens.org/) in two layers: raw OKLCH ramps (*primitives*) aliased into named roles (*semantic*: `accent.string`, `diff.add`, `status.error`, …). No tool reads it directly.
+`theme/ergo-light.tokens.json` defines shared colors for Neovim, WezTerm, Zellij, delta, and Helix.
+Setup generates their theme files automatically. Git ignores these files; do not edit them manually.
 
-`theme/generate.clj` translates the semantic tokens into each tool's own format via small per-tool *generators* (`theme/generators/`), emitting five files:
-
-| Tool | Generated file |
-| --- | --- |
-| Neovim | `colorschemes/ergo_light_palette.lua` |
-| WezTerm | `colors/ergo_light.toml` |
-| Zellij | `themes/ergo-light.kdl` |
-| delta (git diffs) | `delta/ergo-light.gitconfig` |
-| Helix | `themes/ergo_light.toml` |
-
-Those outputs are **gitignored build artifacts** — never hand-edit them; they're regenerated on every `install.sh`.
+To change the colors, edit the token file and run:
 
 ```sh
-# Change the theme: edit theme/ergo-light.tokens.json, then
-(cd theme && bb -m generate)       # rewrites the five files (install.sh also does this)
+(cd theme && bb -m generate)
 ```
 
-Reload the tool and the whole environment re-tunes together.
+Reload each tool to apply the new colors.
+See the [theme guide](theme/README.md) for token structure, generated files, previews, tests, and instructions to add a tool.
 
-**Add a tool:** drop a `theme/generators/<tool>.clj` (exposing `render`), register it in the `adapters` vector in `generate.clj`, and gitignore its output. A contract test guards that generators only reference tokens that exist:
+## Installed tools
 
-```sh
-(cd theme && bb -m generate && bb test)
-```
+mise provides the same command-line tools on macOS and Linux.
+Ubuntu uses `apt` for setup requirements and zsh.
 
-Tools that aren't generated (ccstatusline, starship, git's own output) use **named ANSI colours**, so they follow the terminal palette — itself themed from these tokens — automatically.
+- **Command-line tools:** `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `delta`, `zoxide`, `gh`, `git-town`, `direnv`, `bottom`, `k9s`, `rainfrog`
+- **Editors:** `neovim`, `helix`
+- **Shell and prompt:** `zsh`, plugins, `starship`
+- **Runtimes and development tools:** `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, npm formatters
+- **Linters:** `shellcheck`, `actionlint`, `markdownlint-cli2`
+- **Agents:** `claude-code`, `codex`
+- **macOS applications:** `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`
 
-## What gets installed
-
-Most command-line tools come from `mise`, so macOS and Linux install the same list.
-Ubuntu's bootstrap prerequisites and zsh come from `apt`.
-
-- **CLI**: `fzf`, `ripgrep`, `fd`, `bat`, `eza`, `jq`, `delta`, `zoxide`, `gh`, `git-town`, `direnv`, `bottom`, `k9s`, `rainfrog`
-- **Editors**: `neovim`, `helix`
-- **Shell/prompt**: `zsh` + plugins, `starship`
-- **Runtimes**: `node 24`, `python 3.12`, `uv`, `just`, `lazydocker`, plus npm formatters
-- **Linters**: `shellcheck`, `actionlint`, `markdownlint-cli2`
-- **Agents**: `claude-code`, `codex`
-- **Apps** (macOS, via `bootstrap/Brewfile`): `wezterm`, `aerospace`, `karabiner-elements`, `raycast`, `orbstack`, `secretive`, JetBrains Mono Nerd Font
-
-Homebrew stays for the handful of things mise can't do: macOS app bundles, the font, and GNU Stow (a Perl program with no release binary and no mise registry entry).
-
-See `packages/mise/.config/mise/config.toml` for the authoritative tool list.
+Homebrew installs the macOS applications, JetBrains Mono Nerd Font, and GNU Stow from `bootstrap/Brewfile`.
+Stow uses Perl and has no release binary or mise registry entry.
+See `packages/mise/.config/mise/config.toml` for the complete mise tool list.
 
 ## Requirements
 
-- `git` and a working `curl` (both scripts fetch installers)
-- Babashka (`bb`) generates the theme files; bootstrap fetches it through mise before stowing, so no manual installation is needed.
-- macOS: `sudo` access — the Homebrew installer and the Karabiner-Elements cask both need it
-- Linux: `sudo` access (apt)
+- Git and curl to download the repository and installers.
+- macOS: `sudo` access for Homebrew installation and Karabiner-Elements.
+- Ubuntu: `sudo` access for `apt` and the login shell change.
+
+Setup installs Babashka (`bb`) through mise before theme generation. No manual Babashka installation is needed.

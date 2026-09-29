@@ -28,7 +28,7 @@ automatically-unhide-macos-hidden-apps = false
 
 [mode.main.binding]
 
-    # Disable cmd+m minimize
+    # Prevent Cmd+M from minimizing windows.
     cmd-m = 'exec-and-forget true'
 
     cmd-ctrl-alt-shift-slash = 'layout tiles horizontal vertical'
@@ -81,7 +81,7 @@ automatically-unhide-macos-hidden-apps = false
 
     cmd-ctrl-alt-shift-semicolon = 'mode service'
 
-# 'move' binding mode — entered via hyper+space
+# Press Cmd+Ctrl+Alt+Shift+Space to enter move mode.
 [mode.move.binding]
     esc = 'mode main'
 
@@ -125,7 +125,7 @@ automatically-unhide-macos-hidden-apps = false
 
     tab = ['move-workspace-to-monitor --wrap-around next', 'mode main']
 
-# 'service' binding mode declaration.
+# Service mode
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
@@ -147,8 +147,8 @@ automatically-unhide-macos-hidden-apps = false
 
 [[on-window-detected]]
     if.app-id = 'com.github.wez.wezterm'
-    run = 'move-node-to-workspace T' # mnemonics T - Terminal
+    run = 'move-node-to-workspace T' # T: Terminal
 
 [[on-window-detected]]
     if.app-id = 'md.obsidian'
-    run = 'move-node-to-workspace O' # mnemonics O - Obsidian
+    run = 'move-node-to-workspace O' # O: Obsidian

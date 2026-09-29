@@ -1,10 +1,10 @@
-# CLI tools live in packages/mise/.config/mise/config.toml (shared with Linux).
-# Homebrew only handles what mise can't: macOS app bundles and stow.
+# mise manages command-line tools for macOS and Linux; see packages/mise/.config/mise/config.toml.
+# Homebrew installs macOS applications, the font, and Stow.
 
-brew "stow" # Perl, no release binary — not in the mise registry
+brew "stow" # Requires Perl; no release binary or mise registry entry.
 
 cask "wezterm"
-cask "nikitabobko/tap/aerospace" # not in homebrew-cask; the name auto-taps
+cask "nikitabobko/tap/aerospace" # The name adds the required tap; absent from homebrew-cask.
 cask "karabiner-elements"
 cask "raycast"
 cask "orbstack"

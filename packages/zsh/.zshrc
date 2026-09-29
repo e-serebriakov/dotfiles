@@ -15,15 +15,14 @@ setopt interactive_comments
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
-# mise puts starship, fzf, zoxide and the rest on PATH, so it has to run before
-# anything that probes for them.
+# Initialize mise first so other tools are available on PATH.
 if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
 fi
 
-# Completion — rebuild dump at most once a day for faster startup
-# (a glob inside [[ ]] never expands, so collect the qualified match into an
-# array; compinit only rewrites the dump when files change, hence the touch)
+# Refresh the completion cache at most once a day to reduce startup time.
+# Expand the glob in an array; [[ ]] does not expand it.
+# Update the timestamp because compinit writes the cache only when files change.
 autoload -Uz compinit
 _stale=(~/.zcompdump(N.mh+24))
 if (( $#_stale )); then compinit; touch ~/.zcompdump; else compinit -C; fi
@@ -33,8 +32,8 @@ unset _stale
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
-# Plugins — order matters: fzf-tab first; syntax-highlighting after
-# widget-defining plugins; history-substring-search last.
+# Load fzf-tab first, syntax-highlighting after plugins that define widgets,
+# and history-substring-search last.
 if [[ -d ~/.local/share/zsh/fzf-tab/ ]]; then
   source ~/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
 fi
@@ -115,11 +114,10 @@ pr() {
   gh pr view "$num" && gh pr diff "$num" | delta
 }
 
-# macOS uses the native Keychain agent (~/.ssh/config.d/defaults.conf), so this
-# only runs on Linux where there's no launchd-managed agent. Every shell shares
-# one agent on a fixed socket; keys load on first use via AddKeysToAgent, so
-# startup never blocks on a passphrase. ssh-add exits 2 when no agent answers
-# (e.g. a stale socket left over from before a reboot).
+# On Linux, use a shared agent socket if no existing agent socket is available.
+# macOS uses the native Keychain agent with ~/.ssh/config.d/defaults.conf.
+# AddKeysToAgent loads keys on first use, so shell startup needs no passphrase.
+# ssh-add returns 2 if no agent responds, including after a reboot leaves a stale socket.
 if [[ "$OSTYPE" == linux* && ! -S "${SSH_AUTH_SOCK:-}" ]]; then
   export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
   ssh-add -l &> /dev/null
@@ -138,10 +136,10 @@ if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
 fi
 
-# Zellij project launcher — attach if session exists, create with work layout if not
-# Usage: dev              (use current dir as project)
-#        dev <path>       (use a directory directly)
-#        dev <project>    (resolve dir via zoxide)
+# Attach to an existing Zellij session or create one with the work layout.
+# Usage: dev              (use the current directory)
+#        dev <path>       (use a specific directory)
+#        dev <project>    (find the directory with zoxide)
 dev() {
   if [[ -n "${ZELLIJ:-}" ]]; then
     echo "dev: already inside zellij — use Ctrl+g Ctrl+o w (session manager) to switch" >&2
@@ -176,9 +174,9 @@ _dev() {
 }
 compdef _dev dev
 
-# Auto-connect Claude Code to this project's nvim IDE server (no /ide needed).
+# Connect Claude Code to this project's Neovim IDE server without /ide.
 # claudecode.nvim writes ~/.claude/ide/<port>.lock containing its workspaceFolders.
-# /dev/null keeps grep from reading stdin when no lockfiles exist.
+# /dev/null prevents grep from reading standard input when no lockfiles exist.
 # ponytail: exact $PWD match — cd to the project root, as the work layout does.
 claude() {
   local lock=$(grep -ls "\"$PWD\"" ~/.claude/ide/*.lock(N) /dev/null | head -1)

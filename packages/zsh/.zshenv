@@ -1,4 +1,4 @@
-# Loaded for every shell — interactive or not, login or not.
+# zsh reads this file for all shells, including noninteractive and non-login shells.
 typeset -U path PATH
 
 path=("$HOME/.local/bin" /opt/homebrew/bin $path)

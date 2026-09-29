@@ -3,8 +3,8 @@ return {
   'nvim-treesitter/nvim-treesitter',
   branch = 'main',
   build = ':TSUpdate',
-  -- main branch no longer uses nvim-treesitter.configs
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+  -- The main branch does not use nvim-treesitter.configs.
+  -- See :help nvim-treesitter.
   opts = {
     ensure_installed = {
       'bash',
@@ -28,7 +28,7 @@ return {
       'vimdoc',
       'yaml',
     },
-    -- Autoinstall languages that are not installed
+    -- Install missing language parsers automatically.
     auto_install = true,
     highlight = {
       enable = true,

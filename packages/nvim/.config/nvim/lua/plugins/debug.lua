@@ -1,11 +1,9 @@
--- debug.lua
---
--- DAP configuration for Python, JavaScript, and TypeScript debugging.
+-- Debug Python, JavaScript, and TypeScript with DAP.
 
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    -- Beautiful debugger UI
+    -- Debugger interface
     'rcarriga/nvim-dap-ui',
 
     -- Required dependency for nvim-dap-ui
@@ -116,7 +114,7 @@ return {
       },
     }
 
-    -- Dap UI setup
+    -- Debugger interface setup
     dapui.setup {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {

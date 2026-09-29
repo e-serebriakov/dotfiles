@@ -8,8 +8,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STOW_DIR="$DOTFILES_DIR/packages"
 TARGET="$HOME"
 
-# mise installs here and brew puts stow on PATH; bash does not read .zshenv,
-# which sets both for zsh.
+# Add mise and Homebrew to PATH. Bash does not read the zsh settings in .zshenv.
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
 
 cd "$DOTFILES_DIR"
@@ -28,8 +27,7 @@ esac
 
 echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
-# Both platforms get their tools from mise, so it is installed here rather than
-# twice in the platform scripts. Runs after them because Linux needs apt's curl.
+# Install mise once for both platforms, after the platform scripts install curl.
 install_mise() {
   if command -v mise &> /dev/null; then
     echo "  ✓ mise already installed"
@@ -39,8 +37,7 @@ install_mise() {
   curl -fsSL https://mise.run | sh
 }
 
-# Skipped on a dry run: these install apps and packages, and brew bundle
-# prompts for sudo. Only the stow step below is simulated.
+# Skip installation during a dry run. Only simulate the Stow operations below.
 if [[ -z "$DRY_RUN" ]]; then
   if [[ "$PLATFORM" == "darwin" ]]; then
     bash bootstrap/macos.sh
@@ -69,7 +66,7 @@ install_zsh_plugin() {
   git -C "$dir" checkout --quiet --detach "$revision"
 }
 
-# Zsh plugins — change these revisions deliberately; setup never pulls latest.
+# Update these plugin revisions manually. Setup restores only the listed commits.
 if [[ -n "$DRY_RUN" ]]; then
   echo "  (dry run: skipping zsh plugins)"
 else
@@ -86,11 +83,11 @@ zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions 85919cd1ffa
 PLUGINS
 fi
 
-# Build package list using shell globbing (portable on macOS)
+# Use shell globbing to list packages; this also works on macOS.
 PKGS=()
 NON_CLAUDE_PKGS=()
 for dir in "$STOW_DIR"/*/ ; do
-  # skip if glob didn't match anything
+  # Skip unmatched patterns.
   [[ -d "$dir" ]] || continue
   pkg="$(basename "$dir")"
   PKGS+=("$pkg")
@@ -102,11 +99,10 @@ if [[ -n "$DRY_RUN" ]]; then
   stow -n -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
   stow -n -v -d "$STOW_DIR" -t "$TARGET" claude
 else
-  # Theme artifacts are gitignored build outputs, regenerated here before stowing.
-  # Neither a missing babashka nor a bad token file should block re-stowing every
-  # other package; both just mean the tools fall back to their default colours.
-  # Read the repo's config + adjacent lockfile before they are stowed. Install
-  # only Babashka here; the remaining tools are installed after stow.
+  # Generate theme files before Stow creates links. Git ignores the output files.
+  # Continue if Babashka is unavailable or generation fails.
+  # Read the repository's mise configuration and lockfile before Stow links them.
+  # Install Babashka now and the remaining tools after Stow.
   if ! command -v mise &> /dev/null; then
     echo "⚠ mise not found — skipping theme generation" >&2
   else
@@ -122,8 +118,7 @@ else
     fi
   fi
 
-  # Without this, a ~/.config symlinked into a foreign repo would make $tgt resolve
-  # into that repo, and the backup loop would relocate that repo's file.
+  # Prevent backups from moving files through directory links into another repository.
   foreign_ancestor() {
     local dir; dir="$(dirname "$1")"
     while [[ "$dir" != "$TARGET" && "$dir" != "/" && "$dir" != "." ]]; do
@@ -136,16 +131,15 @@ else
     return 1
   }
 
-  # Replaces `stow --adopt` + `git checkout -- packages/`, which reverted ALL
-  # uncommitted changes under packages/, not just the adopted conflicts.
+  # Back up conflicts without reverting uncommitted package changes.
+  # Do not use stow --adopt followed by git checkout -- packages/.
   BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
   for pkg in "${PKGS[@]}"; do
     while IFS= read -r -d '' src; do
       rel="${src#"$STOW_DIR/$pkg/"}"
       [[ "$pkg" != "claude" && "$rel" == .claude/* ]] && continue
       tgt="$TARGET/$rel"
-      # The `-ef` guard skips our own stow symlinks (they resolve back to $src),
-      # so only genuine conflicts get backed up and `stow -R` won't abort.
+      # -ef preserves links to $src. Move conflicting targets before stow -R.
       if [[ -e "$tgt" || -L "$tgt" ]] && ! [[ "$tgt" -ef "$src" ]]; then
         if foreign_ancestor "$tgt"; then
           echo "  ⚠ skipping $rel (target path crosses a foreign symlinked dir)" >&2
@@ -161,8 +155,7 @@ else
   stow -R -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
   stow -R -v -d "$STOW_DIR" -t "$TARGET" claude
 
-  # gitconfig points gpg.ssh.allowedSignersFile here; runs after stow so
-  # user.email is readable.
+  # Create gpg.ssh.allowedSignersFile after Stow makes user.email available.
   if [[ -f "$HOME/.ssh/sign.pub" && ! -f "$HOME/.ssh/allowed_signers" ]]; then
     echo "  creating ~/.ssh/allowed_signers"
     echo "$(git config --global user.email) $(cat "$HOME/.ssh/sign.pub")" > "$HOME/.ssh/allowed_signers"
@@ -174,9 +167,8 @@ if [[ -n "$DRY_RUN" ]]; then
   echo "  (dry run: skipping mise tools)"
 elif command -v mise &> /dev/null; then
   echo "▶ Installing mise tools..."
-  # Resolving 30 tools at once trips GitHub's unauthenticated rate limit, and
-  # the vfox plugin fetches fail first. Fewer parallel jobs avoids it; an
-  # immediate retry does not, since the limit takes minutes to clear.
+  # Limit concurrent jobs to reduce GitHub rate limit errors, especially for vfox.
+  # An immediate retry does not help; the limit takes minutes to clear.
   if ! MISE_JOBS="${MISE_JOBS:-4}" mise install --locked; then
     echo "✗ Setup incomplete: some tools failed to install. Re-run 'mise install --locked' after resolving the error above." >&2
     exit 1

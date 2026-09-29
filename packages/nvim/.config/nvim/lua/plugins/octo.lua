@@ -14,7 +14,7 @@ return {
     { '<leader>gr', '<cmd>Octo review<cr>', desc = 'Octo review PR' },
   },
   config = function()
-    -- Colours from the generated Ergo Light palette, so octo re-tunes with the theme.
+    -- Use the generated Ergo Light palette for Octo colors.
     local ok, p = pcall(require, 'colorschemes.ergo_light_palette')
 
     local opts = { picker = 'telescope', enable_builtin = true }
@@ -38,8 +38,7 @@ return {
 
     vim.treesitter.language.register('markdown', 'octo')
 
-    -- octo's own defaults are near-invisible on this theme: give comment bodies a
-    -- soft-blue card and headers/dates a deliberate muted line.
+    -- Improve contrast with a blue comment background and subdued headings and dates.
     local function ergo_octo_highlights()
       if not ok then
         return

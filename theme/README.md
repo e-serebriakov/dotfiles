@@ -1,78 +1,71 @@
-# Theme — Ergo Light
+# Ergo Light theme
 
-![The Ergo Light theme rendered in itself — comments, syntax, a selection, search matches, an error mark, and a diff](preview.svg)
-
-One source of colour, many tools. Everything above is drawn from a single
-token file and re-tuned into each tool's own format.
+![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview.svg)
 
 ## How it works
 
-All colour lives in **one file** — [`ergo-light.tokens.json`](ergo-light.tokens.json) —
-tool-agnostic [design tokens](https://tr.designtokens.org/) in two layers:
+[`ergo-light.tokens.json`](ergo-light.tokens.json) defines the colors as [design tokens](https://tr.designtokens.org/) in two layers:
 
-- **primitives** — raw OKLCH ramps
-- **semantic** — named roles aliased onto primitives (`accent.string`,
-  `diff.add`, `status.error`, …)
+- **Primitives:** OKLCH color scales.
+- **Semantic tokens:** named roles that refer to primitives, such as `accent.string`, `diff.add`, and `status.error`.
 
-No tool reads the tokens directly. Each tool has a small *generator* that maps
-the semantic layer onto that tool's own keys, emitting:
+Tools do not read the tokens directly. Each generator converts semantic tokens to the format for its tool:
 
 | Tool | Generator | Generated file |
 | --- | --- | --- |
 | Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/ergo_light_palette.lua` |
 | WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/ergo_light.toml` |
 | Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/ergo-light.kdl` |
-| delta (git diffs) | [`generators/delta.clj`](generators/delta.clj) | `delta/ergo-light.gitconfig` |
+| delta | [`generators/delta.clj`](generators/delta.clj) | `delta/ergo-light.gitconfig` |
 | Helix | [`generators/helix.clj`](generators/helix.clj) | `themes/ergo_light.toml` |
 
-Those five are **gitignored build artifacts** — never hand-edit them; they're
-regenerated on every `install.sh`. `preview.svg` is the one *tracked* output
-(so it renders on GitHub); it's generated too, so don't hand-edit it either.
+Git ignores these five files. `install.sh` regenerates them on each run.
+The generator also creates `preview.svg`. Git tracks this file so GitHub can display it.
+Do not edit generated files manually.
 
-### Layout
+ccstatusline, Starship, and Git output use named ANSI colors from the terminal palette.
+They follow the theme without separate generated files.
 
-- [`engine.clj`](engine.clj) — the tool-agnostic core: resolves the token graph
-  into a `theme` fn (`(theme "surface.base")`) and holds the tokens↔generator
-  contract.
-- [`generators/`](generators/) — one namespace per tool, each exposing `render`.
-  [`generate.clj`](generate.clj) collects them into the `adapters` vector it
-  drives. `preview.clj` lives here too (see below), deliberately outside
-  `adapters`.
-- [`generate.clj`](generate.clj) — the CLI: runs the contract check, then writes
-  every output.
+### Source files
 
-## Working on the theme
+- [`engine.clj`](engine.clj) resolves token references into the `theme` function, for example `(theme "surface.base")`.
+  It also validates the contract between tokens and generators.
+- [`generators/`](generators/) contains one namespace per tool. Each provides a `render` function.
+  `preview.clj` is separate from `adapters` so preview-only references do not hide unused tool tokens.
+- [`generate.clj`](generate.clj) registers tool generators in `adapters`, validates the contract, and writes all output files.
+
+## Change the theme
+
+Edit the token file, then run these commands from the repository root:
 
 ```sh
-# Edit the tokens, then regenerate every output (install.sh also does this):
+# Regenerate all output files. install.sh also runs this command.
 (cd theme && bb -m generate)
 
-# Preview it right in the terminal (truecolor ANSI, writes nothing):
+# Show a 24-bit color preview in the terminal without writing files.
 (cd theme && bb -m generate --preview)
 
-# Verify: contract (adapters only reference tokens that exist) + golden outputs:
+# Validate token references and compare generated output with expected output.
 (cd theme && bb -m generate && bb test)
 ```
 
-`--preview` prints the same mock as `preview.svg` above using 24-bit-colour
-escapes — handy over ssh or in a `:terminal` split, and the fastest way to eyeball
-a token change without opening any tool. Both previews render from one shared
-definition, so they can't drift. (In a truecolor terminal: WezTerm, kitty, recent
-tmux; the error undercurl needs WezTerm/kitty and degrades to an underline
-elsewhere.)
+Reload each tool to apply the new colors.
 
-![`--preview` running in WezTerm](preview-terminal.png)
+The terminal preview and `preview.svg` use the same sample definition.
+Use `--preview` over SSH or in a Neovim `:terminal` window to inspect changes before reloading tools.
+Use a terminal with 24-bit color support, such as WezTerm, kitty, or a recent tmux version.
+The error mark uses a curved underline in WezTerm and kitty, and a straight underline elsewhere.
 
-_(A real capture, so — unlike `preview.svg` — it won't auto-update; recapture it
-after a major retune.)_
+![Terminal preview in WezTerm](preview-terminal.png)
 
-Reload the tool and the whole environment re-tunes together.
+This screenshot does not update automatically. Replace it after major theme changes.
 
-**Add a tool:** drop a `generators/<tool>.clj` exposing `render`, add one row to
-the `adapters` vector in `generate.clj`, and gitignore its output. Nothing in
-`engine.clj` changes. The contract test guards that
-generators reference only real tokens, and flags tokens no generator consumes.
+## Add a tool
 
-Tools that aren't generated (ccstatusline, starship, git's own output) use
-**named ANSI colours**, so they follow the terminal palette — itself themed
-from these tokens — automatically.
+1. Create `generators/<tool>.clj` with a `render` function.
+2. Add the generator to `adapters` in `generate.clj`.
+3. Add its output path to `.gitignore`.
+4. Run the generation and test commands above.
+
+No changes to `engine.clj` are needed.
+The contract test checks for missing token references and unused tokens.

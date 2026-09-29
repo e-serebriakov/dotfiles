@@ -1,7 +1,7 @@
 local M = {}
 
--- Palette is generated from theme/ergo-light.tokens.json (see theme/generate.clj).
--- Edit colors there and regenerate; do not hand-edit the palette values here.
+-- Generate the palette from theme/ergo-light.tokens.json with theme/generate.clj.
+-- Edit the tokens, then regenerate. Do not edit generated palette values.
 local ok, colors = pcall(require, 'colorschemes.ergo_light_palette')
 
 function M.setup()
@@ -66,12 +66,10 @@ function M.setup()
   -- Syntax highlighting
   hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg })
   hi(0, 'String', { fg = colors.string_fg })
-  -- Docstrings / doc-comments are documentation, not plain strings: readable dark
-  -- ink on the same warm band as comments, so prose reads as one important layer.
+  -- Use dark text and the comment background for documentation strings and comments.
   hi(0, '@string.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
   hi(0, '@comment.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
-  -- High-priority comment markers (TODO/FIXME/WARNING/NOTE): the deeper 'attention'
-  -- amber + bold, so must-see notes out-shout the ordinary comment band.
+  -- Emphasize TODO, FIXME, WARNING, and NOTE with bold text and the attention color.
   for _, g in ipairs({ '@comment.todo', '@comment.note', '@comment.warning', '@comment.error', 'Todo' }) do
     hi(0, g, { fg = colors.text, bg = colors.comment_high_bg, bold = true })
   end
@@ -118,15 +116,14 @@ function M.setup()
   hi(0, 'markdownItalic', { italic = true })
   hi(0, 'markdownStrikethrough', { strikethrough = true })
 
-  -- Diagnostics. Marks-only alert: alert_fg on the mark (undercurl sp, sign), muted
-  -- err_fg on the text. Why: alert.fg tokens.
+  -- Use alert_fg for diagnostic marks and err_fg for text. See the alert.fg tokens.
   hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
   hi(0, 'DiagnosticUnnecessary', { fg = colors.comment_fg, italic = true })
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
-  -- Some LSP setups paint the squiggle via DiagnosticUnderline*, not the base group.
+  -- Some language servers use DiagnosticUnderline* groups for underlines.
   hi(0, 'DiagnosticUnderlineError', { undercurl = true, sp = colors.alert_fg })
   hi(0, 'DiagnosticUnderlineWarn', { underdashed = true, sp = colors.warn_fg })
   hi(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = colors.info_fg })
@@ -240,7 +237,7 @@ function M.setup()
   hi(0, 'WhichKeyGroup', { fg = colors.text, bg = 'NONE', bold = true })
   hi(0, 'WhichKeyValue', { fg = colors.text_soft, bg = 'NONE' })
 
-  -- Oil.nvim file explorer (grey highlight)
+  -- Oil.nvim file explorer (gray highlight)
   hi(0, 'OilEntry', { fg = colors.text, bg = 'NONE' })
   hi(0, 'OilEntryDir', { fg = colors.function_fg, bg = 'NONE' })
   hi(0, 'OilEntryFile', { fg = colors.text, bg = 'NONE' })
@@ -250,11 +247,9 @@ function M.setup()
   hi(0, 'OilCursorLine', { bg = colors.line })
   hi(0, 'OilSelected', { fg = colors.text, bg = colors.line })
 
-  -- Diff windows drop the comment band so comments there take the diff colour
-  -- (deleted -> rose, added -> mint) instead of punching a yellow hole in the
-  -- red/green. Done with a window-local highlight namespace where the comment
-  -- groups have no background; applied to any window in diff mode (vimdiff +
-  -- diffview both set 'diff'). Rebuilt here so it tracks the current palette.
+  -- Remove comment backgrounds in diff windows so added and deleted lines keep their colors.
+  -- Use a window-local highlight namespace for vimdiff and diffview; both set 'diff'.
+  -- Rebuild the namespace when the palette changes.
   local ns = vim.api.nvim_create_namespace('ergo_diff_nobg')
   for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation' }) do
     local h = vim.api.nvim_get_hl(0, { name = g, link = false })
@@ -275,11 +270,8 @@ function M.setup()
     if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
   end
 
-  -- We apply the theme with nvim_set_hl, not `:colorscheme`, so nothing fires the
-  -- ColorScheme event. Plugins that cache derived colours on it (render-markdown
-  -- bakes its code-block border glyphs into a concrete highlight, refreshed only on
-  -- ColorScheme) would otherwise keep pre-theme colours — dark code-block bands
-  -- after :ErgoReload's `highlight clear`. Fire it so those caches rebuild.
+  -- nvim_set_hl does not trigger ColorScheme. Send the event to refresh plugin color caches.
+  -- This prevents stale render-markdown code block borders after :ErgoReload clears highlights.
   vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'ergo_light', modeline = false })
 end
 

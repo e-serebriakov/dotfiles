@@ -1,9 +1,6 @@
-# mise.lock beside this file pins every resolved version, so a fresh machine
-# reproduces this one instead of taking whatever "latest" means that day. The
-# lockfile is read automatically; install.sh passes --locked to also *require*
-# it. That strictness is deliberately not a [settings] entry here — settings in
-# the global config apply to every project on the machine, and would break any
-# repo whose .mise.toml has no lockfile of its own.
+# The adjacent mise.lock fixes tool versions for repeatable installation.
+# mise reads it automatically. install.sh uses --locked to require it.
+# Do not require lockfiles globally: projects without a lockfile would fail.
 
 [tools]
 node = "24"

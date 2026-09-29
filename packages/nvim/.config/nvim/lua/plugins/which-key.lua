@@ -1,15 +1,14 @@
--- Useful plugin to show you pending keybinds.
+-- Show available keys after a key prefix.
 return {
   'folke/which-key.nvim',
-  event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  event = 'VimEnter',
   opts = {
-    -- this setting is independent of vim.opt.timeoutlen
+    -- This delay is independent of vim.opt.timeoutlen.
     delay = 0,
     icons = {
-      -- set icon mappings to true if you have a Nerd Font
+      -- Use icons when a Nerd Font is available.
       mappings = vim.g.have_nerd_font,
-      -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-      -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+      -- Use default Nerd Font icons or the text labels below.
       keys = vim.g.have_nerd_font and {} or {
         Up = '<Up> ',
         Down = '<Down> ',

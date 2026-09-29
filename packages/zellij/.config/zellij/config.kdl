@@ -202,8 +202,7 @@ keybinds clear-defaults=true {
     }
 }
 
-// Plugin aliases - can be used to change the implementation of Zellij
-// changing these requires a restart to take effect
+// Plugin aliases select plugin implementations. Restart Zellij after changes.
 plugins {
     about location="zellij:about"
     compact-bar location="zellij:compact-bar"
@@ -222,8 +221,8 @@ plugins {
 }
 
 theme "ergo-light"
-// Start locked so Ctrl keys reach nvim/the shell; Ctrl+g unlocks for one
-// Zellij action, after which every mode drops back to locked.
+// Start locked so Ctrl keys reach Neovim or the shell. Ctrl+g unlocks Zellij.
+// Most actions return to locked mode; navigation and resizing can remain active.
 default_mode "locked"
 default_shell "zsh"
 default_layout "work"

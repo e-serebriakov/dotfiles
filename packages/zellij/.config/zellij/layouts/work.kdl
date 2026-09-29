@@ -1,8 +1,6 @@
-// Standard project layout — inherits cwd from the shell
-//
-// For quick commands without leaving the work tab: Alt+f (floating pane)
-//
-// Launch via: dev <project>
+// Project layout; starts in the shell's current directory.
+// Press Alt+f for a floating pane in the work tab.
+// Start with dev <project>.
 
 layout {
     default_tab_template {

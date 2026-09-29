@@ -1,9 +1,8 @@
 return {
   'coder/claudecode.nvim',
-  -- Claude runs in the zellij "agent" pane (see zellij/layouts/work.kdl); this
-  -- plugin only provides the WebSocket/MCP server for selection context and
-  -- native diffs. Eager load so the lockfile exists before the agent pane runs
-  -- claude — the claude() wrapper in .zshrc reads it to auto-connect.
+  -- Claude runs in the Zellij agent pane; see zellij/layouts/work.kdl.
+  -- This plugin provides the WebSocket/MCP server for selection context and native diffs.
+  -- The claude() wrapper in .zshrc needs the server lockfile to connect automatically.
   event = 'VeryLazy',
   opts = { terminal = { provider = 'none' } },
   keys = {

@@ -3,39 +3,39 @@
 ## Setup
 
 ```sh
-./bootstrap/install.sh  # from the dotfiles repo root
+./bootstrap/install.sh  # Run from the repository root.
 ```
 
 ## Usage
 
-Launch a project session (attaches if already running):
+Start a project session or attach to its existing session:
 
 ```sh
 dev deltia
 ```
 
-The `dev` function (in `.zshrc`) resolves project names via zoxide, `cd`s there,
-and launches Zellij with the standard `work` layout. All panes inherit the project root as cwd.
+The `dev` function in `.zshrc` finds projects with zoxide and starts new sessions with the `work` layout.
+All panes start in the project directory.
+Run `cd` to enter the project directory once. This adds it to zoxide.
 
-Just `cd` into a project directory once so zoxide learns it.
+Use `dev` for the current directory or `dev /path/to/project` for a specific path.
+Tab completion lists project paths from zoxide.
 
-Use `dev` for the current directory or `dev /path/to/project` for an explicit path.
-Tab completion offers full project paths from zoxide.
-Session names combine a shortened directory name with a checksum of its physical
-path (at most 24 ASCII characters). Different queries or symlinks for the same
-directory share a session; same-named directories get different checksums.
-Sessions created with the old naming scheme remain available through
-`zellij attach <old-name>`; `dev` starts using the new names immediately.
+Session names contain a shortened directory name and a checksum of the physical path, with a limit of 24 ASCII characters.
+Queries and symbolic links to the same directory share a session.
+The checksum distinguishes directories with the same name.
+Use `zellij attach <old-name>` for sessions created before this naming scheme. `dev` uses the new names.
 
 ## Navigation
 
-Zellij starts **locked**: every key goes to nvim/the shell except these, which work anywhere:
+Zellij starts **locked**. Keys go to Neovim or the shell, except these shortcuts, which work in all modes:
 
 - `Alt+hjkl` — pane/tab navigation
 - `Alt+f` — toggle floating pane, `Alt+n` — new pane
 
-For anything else, press `Ctrl+g` to unlock, then pick a mode. After the action Zellij locks again:
+For other actions, press `Ctrl+g` to unlock, then select a mode.
+Most actions return to locked mode. Navigation and resizing can remain in their mode.
 
 - `Ctrl+g Ctrl+p` — pane mode (`m` for move mode), `Ctrl+g Ctrl+t` — tab mode, `Ctrl+g Ctrl+n` — resize mode
 - `Ctrl+g Ctrl+s` — scroll/search, `Ctrl+g Ctrl+o` — session mode (`w` switch, `d` detach, `q` quit)
-- `Ctrl+g` again (or `Esc` once inside a mode) — back to locked without doing anything
+- `Ctrl+g` again — return to locked mode. `Esc` also exits most modes; search and rename modes have separate behavior.

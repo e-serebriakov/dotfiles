@@ -11,21 +11,21 @@ config.window_padding = { left = 6, right = 6, top = 4, bottom = 4 }
 
 config.color_scheme = "Ergo Light"
 
--- Behaviors (non-color)
+-- Tab bar
 config.use_fancy_tab_bar = false
 config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
--- Make sure cursor colors aren’t overridden by reverse video
+-- Use reverse video for the cursor.
 config.force_reverse_video_cursor = true
 
 config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.92 }
 
--- Enable Kitty keyboard protocol so Ctrl+Alt+letter combos reach Zellij correctly
+-- Use the Kitty keyboard protocol to send Ctrl+Alt+letter combinations to Zellij.
 config.enable_kitty_keyboard = true
 
--- Send Alt as modifier, not as macOS special characters
+-- Send Alt as a modifier instead of macOS special characters.
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 
