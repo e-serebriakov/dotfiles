@@ -28,6 +28,5 @@ This user works with **stacked branches** managed by **Git Town** (`git town` CL
 ## Constraints
 
 - Never add new pip/npm dependencies without asking first
-- Never modify database migrations directly — generate them with manage.py
 - Never modify CI/CD configuration
 - When unsure about a pattern, find an existing example in the codebase first

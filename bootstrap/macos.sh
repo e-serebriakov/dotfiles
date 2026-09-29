@@ -7,7 +7,7 @@ info() {
 
 install_homebrew() {
   command -v brew &> /dev/null && { info "✓ homebrew already installed"; return; }
-  info "Installing Homebrew (needs admin — Privileges.app if this is a managed Mac)..."
+  info "Installing Homebrew (needs admin)..."
   # NONINTERACTIVE skips the RETURN prompt but also makes the installer's sudo
   # check use -n, which fails with no cached timestamp. Warm it here; the
   # Karabiner-Elements cask reuses it later in the bundle.

@@ -185,9 +185,6 @@ _dev() {
 }
 compdef _dev dev
 
-alias rootpls='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --add'
-alias gg='/Applications/Privileges.app/Contents/MacOS/PrivilegesCLI --remove'
-
 # Auto-connect Claude Code to this project's nvim IDE server (no /ide needed).
 # claudecode.nvim writes ~/.claude/ide/<port>.lock containing its workspaceFolders.
 # /dev/null keeps grep from reading stdin when no lockfiles exist.
