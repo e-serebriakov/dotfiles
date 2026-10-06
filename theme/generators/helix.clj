@@ -27,10 +27,10 @@
 \"ui.window\" = { fg = \"divider\", bg = \"paper\" }
 \"ui.help\" = { fg = \"text\", bg = \"paper\" }
 
-\"ui.gutter\" = { fg = \"comment_fg\", bg = \"paper\" }
+\"ui.gutter\" = { fg = \"text_muted\", bg = \"paper\" }
 \"ui.gutter.selected\" = { fg = \"text\", bg = \"paper\", modifiers = [\"bold\"] }
 
-\"ui.linenr\" = { fg = \"comment_fg\" }
+\"ui.linenr\" = { fg = \"text_muted\" }
 \"ui.linenr.selected\" = { fg = \"text\", modifiers = [\"bold\"] }
 
 \"ui.statusline\" = { fg = \"text\", bg = \"panel\" }
@@ -46,7 +46,7 @@
 
 \"ui.menu\" = { fg = \"text\", bg = \"panel\" }
 \"ui.menu.selected\" = { fg = \"text\", bg = \"sel_secondary\", modifiers = [\"bold\"] }
-\"ui.menu.scroll\" = { fg = \"comment_fg\", bg = \"panel\" }
+\"ui.menu.scroll\" = { fg = \"text_muted\", bg = \"panel\" }
 
 \"ui.popup\" = { fg = \"text\", bg = \"popup_bg\" }
 \"ui.popup.info\" = { fg = \"text\", bg = \"popup_bg\" }
@@ -66,11 +66,11 @@
 \"ui.virtual.whitespace\" = { fg = \"divider\" }
 \"ui.virtual.indent-guide\" = { fg = \"divider\" }
 \"ui.virtual.wrap\" = { fg = \"divider\" }
-\"ui.virtual.inlay-hint\" = { fg = \"comment_fg\", bg = \"paper\" }
-\"ui.virtual.inlay-hint.parameter\" = { fg = \"comment_fg\", bg = \"paper\", modifiers = [\"italic\"] }
-\"ui.virtual.inlay-hint.type\" = { fg = \"comment_fg\", bg = \"paper\" }
+\"ui.virtual.inlay-hint\" = { fg = \"text_muted\", bg = \"paper\" }
+\"ui.virtual.inlay-hint.parameter\" = { fg = \"text_muted\", bg = \"paper\", modifiers = [\"italic\"] }
+\"ui.virtual.inlay-hint.type\" = { fg = \"text_muted\", bg = \"paper\" }
 
-\"ui.virtual.jump-label\" = { fg = \"text\", bg = \"search_mid\", modifiers = [\"bold\"] }
+\"ui.virtual.jump-label\" = { fg = \"text_strong\", bg = \"search_mid\", modifiers = [\"bold\"] }
 
 \"ui.selection\" = { fg = \"text\", bg = \"sel_secondary\" }
 \"ui.selection.primary\" = { fg = \"text\", bg = \"sel_primary\" }
@@ -89,8 +89,8 @@
 # Diagnostics
 \"diagnostic\" = { fg = \"text\" }
 \"diagnostic.hint\" = { fg = \"hint_fg\", underline = { color = \"hint_fg\", style = \"dotted\" } }
-\"diagnostic.info\" = { fg = \"info_fg\", underline = { color = \"info_fg\", style = \"curl\" } }
-\"diagnostic.warning\" = { fg = \"warn_fg\", underline = { color = \"warn_fg\", style = \"dashed\" } }
+\"diagnostic.info\" = { fg = \"info_fg\", underline = { color = \"info_fg\", style = \"dashed\" } }
+\"diagnostic.warning\" = { fg = \"warn_fg\", underline = { color = \"warn_fg\", style = \"curl\" } }
 \"diagnostic.error\" = { fg = \"err_fg\", underline = { color = \"alert_fg\", style = \"curl\" } }
 \"diagnostic.unnecessary\" = { fg = \"comment_fg\", modifiers = [\"dim\", \"italic\"] }
 \"diagnostic.deprecated\" = { underline = { color = \"comment_fg\", style = \"double_line\" } }
@@ -111,9 +111,9 @@
 \"diff.delta.conflict\" = { bg = \"diff_conflict_bg\", fg = \"text\" }
 
 # Syntax
-\"comment\" = { fg = \"comment_fg\", bg = \"comment_bg\" }
-\"comment.line\" = { fg = \"comment_fg\" }
-\"comment.block\" = { fg = \"comment_fg\" }
+\"comment\" = { fg = \"comment_fg\", bg = \"comment_bg\", modifiers = [\"italic\"] }
+\"comment.line\" = { fg = \"comment_fg\", modifiers = [\"italic\"] }
+\"comment.block\" = { fg = \"comment_fg\", modifiers = [\"italic\"] }
 
 \"comment.documentation\" = { fg = \"doc_fg\" }
 \"comment.block.documentation\" = { fg = \"doc_fg\" }
@@ -217,6 +217,8 @@
    ["divider" "border.default"]
    ["code_bg" "surface.code"]
    ["text" "text.primary"]
+   ["text_muted" "text.muted"]
+   ["text_strong" "text.strong"]
    ["text_soft" "text.secondary"]
    ["comment_fg" "comment.fg"]
    ["comment_bg" "comment.bg"]
