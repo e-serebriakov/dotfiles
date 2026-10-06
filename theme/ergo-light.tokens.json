@@ -132,7 +132,8 @@
       "column": { "$value": "{primitive.gray.100}", "$description": "colorcolumn / cursorcolumn" },
       "ruler": { "$value": "{primitive.gray.100}", "$description": "ruler background" },
       "popup": { "$value": "{primitive.gray.100}", "$description": "popup / telescope bg — one step off base so it reads as a layer, not just a border" },
-      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "popup title bar" }
+      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "popup title bar" },
+      "key": { "$value": "{primitive.gray.300}", "$description": "Selected block: active tab, current mode, cursor position. A grey keycap with ink text, calmer than a black fill." }
     },
     "border": {
       "$type": "color",

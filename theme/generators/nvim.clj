@@ -49,7 +49,8 @@
    ["diff_change_text_bg" "diff.changeText"]
    ["diff_conflict_bg" "diff.conflict"]
    ["popup_bg" "surface.popup"]
-   ["popup_header_bg" "surface.popupHeader"]])
+   ["popup_header_bg" "surface.popupHeader"]
+   ["key_bg" "surface.key"]])
 
 (defn render [theme]
   (str

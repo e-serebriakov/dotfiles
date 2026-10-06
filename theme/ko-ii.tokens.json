@@ -365,6 +365,10 @@
       },
       "popupHeader": {
         "$value": "{primitive.gray.200}"
+      },
+      "key": {
+        "$value": "{primitive.gray.300}",
+        "$description": "Selected block: active tab, current mode, cursor position. A grey keycap with ink text, calmer than a black fill."
       }
     },
     "border": {

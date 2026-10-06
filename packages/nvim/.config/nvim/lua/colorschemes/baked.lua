@@ -24,7 +24,8 @@ function M.setup()
   hi(0, 'Normal', { fg = colors.text, bg = colors.paper })
   hi(0, 'NormalFloat', { fg = colors.text, bg = colors.panel })
   hi(0, 'FloatBorder', { fg = colors.divider, bg = colors.panel })
-  hi(0, 'NormalNC', { fg = colors.text, bg = colors.paper })
+  -- Unfocused windows sit on the panel grey, so the focused split reads as the lit one.
+  hi(0, 'NormalNC', { fg = colors.text, bg = colors.panel })
 
   -- Cursor
   hi(0, 'Cursor', { fg = colors.paper, bg = colors.cursor_primary })
@@ -159,8 +160,8 @@ function M.setup()
   hi(0, 'GitSignsDelete', { fg = colors.err_fg })
 
   -- Gutter
-  hi(0, 'SignColumn', { fg = colors.text_muted, bg = colors.paper })
-  hi(0, 'FoldColumn', { fg = colors.text_muted, bg = colors.paper })
+  hi(0, 'SignColumn', { fg = colors.text_muted })
+  hi(0, 'FoldColumn', { fg = colors.text_muted })
   hi(0, 'Folded', { fg = colors.text_muted, bg = colors.panel })
 
   -- Separators and borders
@@ -178,9 +179,9 @@ function M.setup()
   hi(0, 'IndentBlanklineContextChar', { fg = colors.text_soft })
 
   -- Inlay hints
-  hi(0, 'LspInlayHint', { fg = colors.text_muted, bg = colors.paper })
-  hi(0, 'LspInlayHintParameter', { fg = colors.text_muted, bg = colors.paper, italic = true })
-  hi(0, 'LspInlayHintType', { fg = colors.text_muted, bg = colors.paper })
+  hi(0, 'LspInlayHint', { fg = colors.text_muted })
+  hi(0, 'LspInlayHintParameter', { fg = colors.text_muted, italic = true })
+  hi(0, 'LspInlayHintType', { fg = colors.text_muted })
 
   -- Match pairs
   hi(0, 'MatchParen', { fg = colors.text, bg = colors.match_bg, bold = true })
@@ -210,8 +211,8 @@ function M.setup()
   hi(0, 'MoreMsg', { fg = colors.info_fg })
 
   -- Mini.statusline (if using mini.nvim)
-  -- Every mode uses this ink block (see plugins/minivim.lua); the label tells modes apart.
-  hi(0, 'MiniStatuslineModeNormal', { fg = colors.paper, bg = colors.text_strong })
+  -- Every mode uses this keycap block (see plugins/minivim.lua); the label tells modes apart.
+  hi(0, 'MiniStatuslineModeNormal', { fg = colors.text_strong, bg = colors.key_bg })
   hi(0, 'BakedSignal', { fg = colors.signal_mark, bg = colors.panel })
   hi(0, 'MiniStatuslineModeInsert', { fg = colors.text, bg = colors.panel, bold = true })
   hi(0, 'MiniStatuslineModeVisual', { fg = colors.text, bg = colors.panel, bold = true })

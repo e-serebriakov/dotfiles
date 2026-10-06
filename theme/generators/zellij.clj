@@ -5,7 +5,7 @@
 
 ;; Zellij's component theme spec (0.42+): one block per UI part, so each bar
 ;; element gets an explicit colour instead of borrowing a palette slot.
-;; The selected ribbon is an ink block; nothing else is filled.
+;; The selected ribbon is a grey keycap (surface.key) with ink text.
 ;; Some emphasis slots have specific jobs in the built-in plugins:
 ;;   ribbon_unselected 0 = status-bar key letter, 1 = compact-bar alternate tab fill, 3 = bell
 ;;   text_unselected   2 = compact-bar NORMAL (armed), 3 = compact-bar LOCKED (resting, so muted)
@@ -15,7 +15,7 @@
 (def ^:private components
   [["text_unselected"     {:base "text.primary"   :background "surface.base"       :emphasis ["text.strong" "status.info" "signal.mark" "text.muted"]}]
    ["text_selected"       {:base "text.strong"    :background "surface.cursorline" :emphasis ["surface.cursorline" "status.info" "status.success" "signal.mark"]}]
-   ["ribbon_selected"     {:base "surface.base"   :background "text.strong"        :emphasis ["surface.base" "surface.base" "surface.base" "surface.base"]}]
+   ["ribbon_selected"     {:base "text.strong"    :background "surface.key"        :emphasis ["text.strong" "text.strong" "text.strong" "text.strong"]}]
    ["ribbon_unselected"   {:base "text.secondary" :background "surface.raised"     :emphasis ["text.strong" "surface.cursorline" "text.strong" "signal.mark"]}]
    ["table_title"         {:base "text.strong"    :background "surface.base"       :emphasis ["text.strong" "status.info" "status.success" "signal.mark"]}]
    ["table_cell_selected" {:base "text.strong"    :background "surface.cursorline" :emphasis ["text.strong" "status.info" "status.success" "signal.mark"]}]
