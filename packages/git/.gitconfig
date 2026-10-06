@@ -16,10 +16,10 @@
   line-numbers = true
   light = true
 
-; Generated delta colors from theme/ergo-light.tokens.json; Git ignores the output file.
+; Generated delta colors from the active theme/*.tokens.json; Git ignores the output file.
 ; Edit the tokens, then run bb -m generate in theme/. Do not edit the generated file.
 [include]
-  path = ~/.config/delta/ergo-light.gitconfig
+  path = ~/.config/delta/baked.gitconfig
 
 ; Push over SSH. Keep HTTPS downloads so lazy.nvim and zsh plugins can clone before SSH setup.
 [url "git@github.com:"]

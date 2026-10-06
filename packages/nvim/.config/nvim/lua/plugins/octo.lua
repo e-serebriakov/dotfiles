@@ -14,8 +14,8 @@ return {
     { '<leader>gr', '<cmd>Octo review<cr>', desc = 'Octo review PR' },
   },
   config = function()
-    -- Use the generated Ergo Light palette for Octo colors.
-    local ok, p = pcall(require, 'colorschemes.ergo_light_palette')
+    -- Use the generated baked palette for Octo colors.
+    local ok, p = pcall(require, 'colorschemes.baked_palette')
 
     local opts = { picker = 'telescope', enable_builtin = true }
     if ok then
@@ -39,7 +39,7 @@ return {
     vim.treesitter.language.register('markdown', 'octo')
 
     -- Improve contrast with a blue comment background and subdued headings and dates.
-    local function ergo_octo_highlights()
+    local function baked_octo_highlights()
       if not ok then
         return
       end
@@ -48,7 +48,7 @@ return {
       vim.api.nvim_set_hl(0, 'OctoDate', { fg = p.hint_fg })
       vim.api.nvim_set_hl(0, 'OctoSymbol', { fg = p.hint_fg })
     end
-    ergo_octo_highlights()
-    vim.api.nvim_create_autocmd('ColorScheme', { callback = ergo_octo_highlights })
+    baked_octo_highlights()
+    vim.api.nvim_create_autocmd('ColorScheme', { callback = baked_octo_highlights })
   end,
 }

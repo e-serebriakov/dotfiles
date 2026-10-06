@@ -31,7 +31,7 @@ You can safely run `bootstrap/install.sh` again. It:
 2. Restores zsh plugins in `~/.local/share/zsh`: fzf-tab, syntax-highlighting, history-substring-search, and autosuggestions.
    It uses the commit IDs in `bootstrap/install.sh`. It does not fetch newer revisions or overwrite local plugin changes.
    Local changes stop setup.
-3. Generates theme files from `theme/ergo-light.tokens.json` before Stow creates the symbolic links.
+3. Generates theme files from the active theme in `theme/` before Stow creates the symbolic links.
    If generation fails, setup continues. Tools use default colors when generated files are unavailable.
 4. Uses Stow to create symbolic links from `$HOME` to the packages in `packages/`.
 5. Uses mise to install the tools in `packages/mise/.config/mise/config.toml`.
@@ -93,7 +93,8 @@ dotfiles/
 │   ├── linux.sh        # Required Ubuntu packages
 │   └── Brewfile        # Stow, macOS applications, and font
 ├── theme/              # Design tokens and generators; see theme/README.md
-│   ├── ergo-light.tokens.json  # Shared color definitions
+│   ├── ergo-light.tokens.json  # Default theme colors
+│   ├── te-calm.tokens.json     # Teenage Engineering-inspired theme
 │   ├── engine.clj              # Token resolution and generator validation
 │   ├── generators/             # One namespace per tool
 │   └── generate.clj            # Theme generation command
@@ -171,13 +172,14 @@ brew bundle --upgrade --file bootstrap/Brewfile
 
 ## Theme
 
-`theme/ergo-light.tokens.json` defines shared colors for Neovim, WezTerm, Zellij, delta, and Helix.
-Setup generates their theme files automatically. Git ignores these files; do not edit them manually.
+Each `theme/*.tokens.json` file defines one theme for Neovim, WezTerm, Zellij, delta, and Helix: `ergo-light` (the default) and `te-calm`.
+Setup generates the active theme into files named `baked` that each tool loads. Git ignores these files; do not edit them manually.
 
-To change the colors, edit the token file and run:
+To switch themes, or to apply edits to a token file, run:
 
 ```sh
-(cd theme && bb -m generate)
+(cd theme && bb -m generate --theme te-calm)  # switch; the choice is remembered
+(cd theme && bb -m generate)                  # regenerate the active theme
 ```
 
 Reload each tool to apply the new colors.

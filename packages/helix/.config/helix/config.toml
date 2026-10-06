@@ -1,4 +1,4 @@
-theme = "ergo_light"
+theme = "baked"
 
 [editor]
 line-number = "relative"

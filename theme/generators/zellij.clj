@@ -6,7 +6,7 @@
   (str
    "// " generated-banner "\n"
    "themes {\n"
-   "    ergo-light {\n"
+   "    baked {\n"
    "        fg      \"" (theme "text.primary") "\"\n"
    "        bg      \"" (theme "surface.base") "\"\n"
    "        black   \"" (theme "surface.tile") "\"\n"

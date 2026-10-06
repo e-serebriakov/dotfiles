@@ -9,7 +9,7 @@ config.font_size = 14
 config.window_decorations = "RESIZE"
 config.window_padding = { left = 6, right = 6, top = 4, bottom = 4 }
 
-config.color_scheme = "Ergo Light"
+config.color_scheme = "baked"
 
 -- Tab bar
 config.use_fancy_tab_bar = false

@@ -1,7 +1,6 @@
 (ns generate-test
   (:require
    [babashka.fs :as fs]
-   [cheshire.core :as json]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]]
    [engine :as e]
@@ -9,8 +8,9 @@
    [generators.common :refer [generated-banner]]
    [generators.preview :as preview]))
 
-(defn- theme []
-  (e/->theme (json/parse-string (slurp (str e/tokens-path)))))
+(defn- theme
+  ([] (theme (e/active-theme)))
+  ([theme-name] (e/->theme (g/load-theme theme-name))))
 
 ;; The heart of the whole migration: every adapter must render its committed
 ;; file byte-for-byte. If a token changes and a file isn't regenerated, this
@@ -24,10 +24,15 @@
             (str output " drifted — run `bb -m generate`"))))))
 
 (deftest repo-contract-holds
-  (let [tokens (json/parse-string (slurp (str e/tokens-path)))
-        {:keys [missing unused]} (g/check tokens g/adapters)]
-    (is (empty?  missing))
-    (is (empty?  unused))))
+  (doseq [theme-name (e/theme-names)]
+    (testing theme-name
+      (let [{:keys [missing unused]} (g/check (g/load-theme theme-name) g/adapters)]
+        (is (empty?  missing))
+        (is (empty?  unused))))))
+
+(deftest unknown-theme-is-fatal
+  (is (thrown-with-msg? clojure.lang.ExceptionInfo #"unknown theme 'nope'"
+                        (g/load-theme "nope"))))
 
 (deftest missing-tokens-are-caught
   (let [tokens {"semantic" {"surface" {"base" {"$value" "#fff"}}}}
@@ -63,12 +68,15 @@
 ;; The committed README image is the one generated artifact that is tracked
 ;; rather than gitignored+regenerated, so a stale copy would ship to GitHub.
 (deftest preview-matches-disk
-  (let [content (preview/generate-preview (theme))]
-    (is (fs/exists? e/preview-path)
-        "preview.svg not generated yet — run `bb -m generate`")
-    (is (= (slurp (str e/preview-path)) content)
-        "preview.svg drifted — run `bb -m generate`")
-    (is (str/includes? content generated-banner))))
+  (doseq [theme-name (e/theme-names)]
+    (testing theme-name
+      (let [content (preview/generate-preview (theme theme-name))
+            path    (e/preview-path theme-name)]
+        (is (fs/exists? path)
+            (str (fs/file-name path) " not generated yet — run `bb -m generate`"))
+        (is (= (slurp (str path)) content)
+            (str (fs/file-name path) " drifted — run `bb -m generate`"))
+        (is (str/includes? content generated-banner))))))
 
 ;; Proves preview-ansi consumes the same preview-rows the SVG does: every hex
 ;; named in a row must show up as a truecolor (2;r;g;b) run.

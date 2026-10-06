@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- GENERATED from theme/ergo-light.tokens.json — do not edit by hand. -->
+<!-- GENERATED from the active theme/*.tokens.json — do not edit by hand. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="780" height="430" viewBox="0 0 780 430">
 <rect width="780" height="430" fill="#F3F3F3"/>
-<rect x="0" y="18.0" width="780" height="34" fill="#DDD6CB"/>
+<rect x="0" y="18.0" width="780" height="34" fill="#F0E0F3"/>
 <text x="80.0" y="41.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">1</text>
-<text x="104.0" y="41.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#5C5C5C" xml:space="preserve">// resolve an alias down to a hex</text>
+<text x="104.0" y="41.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#2F6571" xml:space="preserve">// resolve an alias down to a hex</text>
 <text x="80.0" y="75.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">2</text>
 <text x="104.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">const paper = </text>
-<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#556D82" xml:space="preserve">theme</text>
+<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#4A69A4" xml:space="preserve">theme</text>
 <text x="320.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">(</text>
-<text x="332.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#59715B" xml:space="preserve">'surface.base'</text>
+<text x="332.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#56735B" xml:space="preserve">'surface.base'</text>
 <text x="491.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">)</text>
 <text x="80.0" y="109.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">3</text>
 <text x="104.0" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">const CEIL = </text>
-<text x="252.2" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#5C5974" xml:space="preserve">0.035</text>
-<rect x="0" y="120.0" width="780" height="34" fill="#D8C2A6"/>
+<text x="252.2" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#5C5190" xml:space="preserve">0.035</text>
+<rect x="0" y="120.0" width="780" height="34" fill="#EAB8AD"/>
 <text x="80.0" y="143.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">4</text>
-<text x="104.0" y="143.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#5C5C5C" xml:space="preserve">// TODO: verify AA on paper</text>
+<text x="104.0" y="143.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#2F6571" xml:space="preserve">// TODO: verify AA on paper</text>
 <text x="80.0" y="177.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">5</text>
 <text x="104.0" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">see </text>
-<text x="149.6" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#3A4B5C" xml:space="preserve">https://oklch.com</text>
-<line x1="149.6" y1="180.0" x2="343.4" y2="180.0" stroke="#3A4B5C" stroke-width="1.4"/>
-<rect x="0" y="188.0" width="780" height="34" fill="#C5C1E2"/>
+<text x="149.6" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#424956" xml:space="preserve">https://oklch.com</text>
+<line x1="149.6" y1="180.0" x2="343.4" y2="180.0" stroke="#424956" stroke-width="1.4"/>
+<rect x="0" y="188.0" width="780" height="34" fill="#A9C6FA"/>
 <text x="80.0" y="211.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">6</text>
 <text x="104.0" y="211.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">  selected line — a live selection</text>
 <text x="80.0" y="245.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">7</text>
 <text x="104.0" y="245.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">grep </text>
-<rect x="159.0" y="227.0" width="61.0" height="24" rx="3" fill="#A4CFD5"/>
+<rect x="159.0" y="227.0" width="61.0" height="24" rx="3" fill="#D8C489"/>
 <text x="161.0" y="245.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">match</text>
 <text x="218.0" y="245.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve"> and </text>
-<rect x="273.0" y="227.0" width="83.8" height="24" rx="3" fill="#82ABB1"/>
+<rect x="273.0" y="227.0" width="83.8" height="24" rx="3" fill="#B5A268"/>
 <text x="275.0" y="245.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">current</text>
-<text x="80.0" y="279.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#B0454E" xml:space="preserve">⊗</text>
+<text x="80.0" y="279.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#D00021" xml:space="preserve">⊗</text>
 <text x="104.0" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">foo()</text>
-<path d="M104.0,283.0 Q106.0,281.0 108.0,283.0 Q110.0,285.0 112.0,283.0 Q114.0,281.0 116.0,283.0 Q118.0,285.0 120.0,283.0 Q122.0,281.0 124.0,283.0 Q126.0,285.0 128.0,283.0 Q130.0,281.0 132.0,283.0 Q134.0,285.0 136.0,283.0 Q138.0,281.0 140.0,283.0 Q142.0,285.0 144.0,283.0 Q146.0,281.0 148.0,283.0 Q150.0,285.0 152.0,283.0 Q154.0,281.0 156.0,283.0 Q158.0,285.0 160.0,283.0" fill="none" stroke="#B0454E" stroke-width="1.3"/>
+<path d="M104.0,283.0 Q106.0,281.0 108.0,283.0 Q110.0,285.0 112.0,283.0 Q114.0,281.0 116.0,283.0 Q118.0,285.0 120.0,283.0 Q122.0,281.0 124.0,283.0 Q126.0,285.0 128.0,283.0 Q130.0,281.0 132.0,283.0 Q134.0,285.0 136.0,283.0 Q138.0,281.0 140.0,283.0 Q142.0,285.0 144.0,283.0 Q146.0,281.0 148.0,283.0 Q150.0,285.0 152.0,283.0 Q154.0,281.0 156.0,283.0 Q158.0,285.0 160.0,283.0" fill="none" stroke="#D00021" stroke-width="1.3"/>
 <text x="161.0" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">   </text>
-<text x="195.2" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#B0454E" xml:space="preserve">■ </text>
-<text x="218.0" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#745353" xml:space="preserve">undefined name 'foo'</text>
-<rect x="0" y="310.0" width="780" height="34" fill="#E2BABB"/>
+<text x="195.2" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#D00021" xml:space="preserve">■ </text>
+<text x="218.0" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#943D2E" xml:space="preserve">undefined name 'foo'</text>
+<rect x="0" y="310.0" width="780" height="34" fill="#EAB8AD"/>
 <text x="80.0" y="333.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">-</text>
 <text x="104.0" y="333.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">  const c = </text>
-<rect x="238.8" y="315.0" width="61.0" height="24" rx="3" fill="#BE9798"/>
+<rect x="238.8" y="315.0" width="61.0" height="24" rx="3" fill="#C6968C"/>
 <text x="240.8" y="333.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">0.061</text>
-<rect x="0" y="344.0" width="780" height="34" fill="#D1DAD1"/>
+<rect x="0" y="344.0" width="780" height="34" fill="#CFDAD0"/>
 <text x="80.0" y="367.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">+</text>
 <text x="104.0" y="367.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">  const c = </text>
-<rect x="238.8" y="349.0" width="61.0" height="24" rx="3" fill="#B4CEB4"/>
+<rect x="238.8" y="349.0" width="61.0" height="24" rx="3" fill="#AFCFB4"/>
 <text x="240.8" y="367.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">0.035</text>
-<rect x="0" y="378.0" width="780" height="34" fill="#E1E6ED"/>
+<rect x="0" y="378.0" width="780" height="34" fill="#DFE7F4"/>
 <text x="80.0" y="401.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">~</text>
 <text x="104.0" y="401.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">  modified </text>
-<rect x="227.4" y="383.0" width="49.6" height="24" rx="3" fill="#CED8E1"/>
+<rect x="227.4" y="383.0" width="49.6" height="24" rx="3" fill="#CDD7E9"/>
 <text x="229.4" y="401.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">word</text>
 <text x="275.0" y="401.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve"> here</text>
 </svg>

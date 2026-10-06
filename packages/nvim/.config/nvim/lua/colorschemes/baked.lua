@@ -1,12 +1,12 @@
 local M = {}
 
--- Generate the palette from theme/ergo-light.tokens.json with theme/generate.clj.
+-- Generate the palette from the active theme/*.tokens.json with theme/generate.clj.
 -- Edit the tokens, then regenerate. Do not edit generated palette values.
-local ok, colors = pcall(require, 'colorschemes.ergo_light_palette')
+local ok, colors = pcall(require, 'colorschemes.baked_palette')
 
 function M.setup()
   if not ok then
-    vim.notify('ergo_light: generated palette missing — run `bb -m generate` in the dotfiles repo theme/ dir', vim.log.levels.WARN)
+    vim.notify('baked: generated palette missing — run `bb -m generate` in the dotfiles repo theme/ dir', vim.log.levels.WARN)
     return
   end
   local hi = vim.api.nvim_set_hl
@@ -17,7 +17,7 @@ function M.setup()
     vim.cmd('syntax reset')
   end
 
-  vim.g.colors_name = 'ergo_light'
+  vim.g.colors_name = 'baked'
   vim.o.background = 'light'
 
   -- UI Background
@@ -250,13 +250,13 @@ function M.setup()
   -- Remove comment backgrounds in diff windows so added and deleted lines keep their colors.
   -- Use a window-local highlight namespace for vimdiff and diffview; both set 'diff'.
   -- Rebuild the namespace when the palette changes.
-  local ns = vim.api.nvim_create_namespace('ergo_diff_nobg')
+  local ns = vim.api.nvim_create_namespace('baked_diff_nobg')
   for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation' }) do
     local h = vim.api.nvim_get_hl(0, { name = g, link = false })
     h.bg, h.ctermbg = nil, nil
     vim.api.nvim_set_hl(ns, g, h)
   end
-  local aug = vim.api.nvim_create_augroup('ErgoDiffNoBg', { clear = true })
+  local aug = vim.api.nvim_create_augroup('BakedDiffNoBg', { clear = true })
   vim.api.nvim_create_autocmd('OptionSet', {
     group = aug,
     pattern = 'diff',
@@ -271,8 +271,8 @@ function M.setup()
   end
 
   -- nvim_set_hl does not trigger ColorScheme. Send the event to refresh plugin color caches.
-  -- This prevents stale render-markdown code block borders after :ErgoReload clears highlights.
-  vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'ergo_light', modeline = false })
+  -- This prevents stale render-markdown code block borders after :BakedReload clears highlights.
+  vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'baked', modeline = false })
 end
 
 return M

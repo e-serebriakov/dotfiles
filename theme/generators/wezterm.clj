@@ -37,7 +37,7 @@
   (str
    "# " generated-banner "\n"
    "[metadata]" "\n"
-   "name = \"Ergo Light\"" "\n"
+   "name = \"baked\"" "\n"
    "wezterm_version = \"*\"" "\n\n"
 
    "[colors]" "\n"

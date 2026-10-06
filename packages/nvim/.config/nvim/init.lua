@@ -119,18 +119,18 @@ require('lazy').setup({
   },
 })
 
--- Load ergo_light colorscheme after plugins are set up
-require('colorschemes.ergo_light').setup()
+-- Load the baked colorscheme after plugins are set up
+require('colorschemes.baked').setup()
 
--- :ErgoReload reloads the palette and theme after token generation (theme/generate.clj).
+-- :BakedReload reloads the palette and theme after token generation (theme/generate.clj).
 -- Clear the Lua module cache so require() reads the updated files.
-vim.api.nvim_create_user_command('ErgoReload', function()
-  for _, m in ipairs { 'colorschemes.ergo_light_palette', 'colorschemes.ergo_light' } do
+vim.api.nvim_create_user_command('BakedReload', function()
+  for _, m in ipairs { 'colorschemes.baked_palette', 'colorschemes.baked' } do
     package.loaded[m] = nil
   end
-  require('colorschemes.ergo_light').setup()
+  require('colorschemes.baked').setup()
   vim.cmd.redraw { bang = true }
-  vim.notify('Ergo Light reloaded')
-end, { desc = 'Reload the generated Ergo Light theme' })
+  vim.notify('Baked theme reloaded')
+end, { desc = 'Reload the generated baked theme' })
 
 -- vim: ts=2 sts=2 sw=2 et

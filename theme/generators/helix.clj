@@ -249,7 +249,7 @@
 (defn render [theme]
   (str
    "# " generated-banner "\n"
-   "# Edit theme/ergo-light.tokens.json, not this file.\n"
+   "# Edit the tokens in theme/, then run `bb -m generate`.\n"
    "\n"
    scopes "\n"
    "\n"
