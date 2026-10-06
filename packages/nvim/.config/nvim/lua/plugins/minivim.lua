@@ -16,19 +16,9 @@ return {
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
 
-    -- Status line: plain text, lowercase mode labels, one ink block for every mode.
+    -- Status line: plain text, no icons.
     local statusline = require 'mini.statusline'
     statusline.setup { use_icons = false }
-
-    local modes = {
-      n = 'nor', i = 'ins', v = 'vis', V = 'vis', ['\22'] = 'vis',
-      s = 'sel', S = 'sel', ['\19'] = 'sel', R = 'rep', c = 'cmd', t = 'ter',
-    }
-    ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_mode = function()
-      local m = vim.fn.mode():sub(1, 1)
-      return modes[m] or m, 'MiniStatuslineModeNormal'
-    end
 
     -- Armed states get the signal mark: ● for unsaved, ● rec @q while recording a macro.
     ---@diagnostic disable-next-line: duplicate-set-field

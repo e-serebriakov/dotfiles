@@ -211,7 +211,7 @@ function M.setup()
   hi(0, 'MoreMsg', { fg = colors.info_fg })
 
   -- Mini.statusline (if using mini.nvim)
-  -- Every mode uses this keycap block (see plugins/minivim.lua); the label tells modes apart.
+  -- Normal mode is the grey keycap; other modes keep mini.statusline's default Diff* links.
   hi(0, 'MiniStatuslineModeNormal', { fg = colors.text_strong, bg = colors.key_bg })
   hi(0, 'BakedSignal', { fg = colors.signal_mark, bg = colors.panel })
   hi(0, 'MiniStatuslineDevinfo', { fg = colors.text, bg = colors.panel })
