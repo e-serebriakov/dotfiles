@@ -3,20 +3,11 @@
 | Ergo Light (default) | TE calm |
 | --- | --- |
 | ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) |
-
-## Themes
-
-| Theme | Tokens |
-| --- | --- |
-| Ergo Light (default) | [`ergo-light.tokens.json`](ergo-light.tokens.json): cool monochrome, muted accents |
-| TE calm | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, lab-grey paper, saturation reserved for important signals |
+| [`ergo-light.tokens.json`](ergo-light.tokens.json): cool monochrome, muted accents | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, lab-grey paper, saturation reserved for important signals |
 
 Only one theme is active at a time. Switch with `bb -m generate --theme <name>`.
 The choice is saved in `theme/.active`, which Git ignores, so `install.sh` regenerates the same theme.
 Each theme has its own `preview-<name>.svg`, so switching themes never changes tracked files.
-
-[`retro-options.html`](retro-options.html) is the design exploration that produced TE calm.
-Open it in a browser to compare the two themes and export primitives for a new one.
 
 ## How it works
 

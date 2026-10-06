@@ -17,6 +17,12 @@ config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
+-- Tabs read [01] title, [02] title, ...
+wezterm.on("format-tab-title", function(tab)
+  local title = tab.tab_title ~= "" and tab.tab_title or tab.active_pane.title
+  return string.format(" [%02d] %s ", tab.tab_index + 1, title)
+end)
+
 -- Use reverse video for the cursor.
 config.force_reverse_video_cursor = true
 

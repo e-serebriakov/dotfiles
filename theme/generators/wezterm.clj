@@ -4,18 +4,17 @@
    [generators.common :refer [generated-banner]]))
 
 (def ^:private tabs
-  [["active_tab"         {:bg "surface.raised"    :fg "text.primary"   :intensity "Bold"}]
-   ["inactive_tab"       {:bg "surface.raised"    :fg "comment.fg"}]
-   ["inactive_tab_hover" {:bg "surface.cursorline" :fg "text.primary"  :italic "true"}]
+  [["active_tab"         {:bg "surface.key"       :fg "text.strong"}]
+   ["inactive_tab"       {:bg "surface.raised"    :fg "text.muted"}]
+   ["inactive_tab_hover" {:bg "surface.cursorline" :fg "text.primary"}]
    ["new_tab"            {:bg "surface.raised"    :fg "text.secondary"}]
-   ["new_tab_hover"      {:bg "surface.base"      :fg "status.info"    :italic "true"}]])
+   ["new_tab_hover"      {:bg "surface.base"      :fg "status.info"}]])
 
-(defn- tab [theme {:keys [bg fg italic intensity]
-                   :or   {italic "false" intensity "Normal"}}]
+(defn- tab [theme {:keys [bg fg]}]
   (str "bg_color = \"" (theme bg) "\"\n"      ; specs hold paths, so resolve here
        "fg_color = \"" (theme fg) "\"\n"
-       "intensity = \"" intensity "\"\n"
-       "italic = " italic "\n"
+       "intensity = \"Normal\"\n"
+       "italic = false\n"
        "underline = \"None\"\n"
        "strikethrough = false"))
 

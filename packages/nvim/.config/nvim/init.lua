@@ -48,6 +48,10 @@ vim.opt.inccommand = 'split'
 
 vim.opt.cursorline = true
 
+-- Square hairline borders on every float; hide the ~ after the end of the buffer.
+vim.o.winborder = 'single'
+vim.opt.fillchars = { eob = ' ' }
+
 vim.opt.scrolloff = 15
 
 vim.opt.confirm = true
@@ -100,7 +104,7 @@ require('lazy').setup({
   { import = 'plugins' },
 }, {
   ui = {
-    border = 'rounded',
+    border = 'single',
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',

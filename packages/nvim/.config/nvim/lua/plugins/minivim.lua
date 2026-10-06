@@ -16,17 +16,30 @@ return {
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
 
-    -- Status line
+    -- Status line: plain text, no icons.
     local statusline = require 'mini.statusline'
-    -- set use_icons to true if you have a Nerd Font
-    statusline.setup {
-      use_icons = vim.g.have_nerd_font,
-    }
+    statusline.setup { use_icons = false }
 
-    -- Show the cursor position as LINE:COLUMN.
+    -- Armed states get the signal mark: ● for unsaved, ● rec @q while recording a macro.
+    ---@diagnostic disable-next-line: duplicate-set-field
+    statusline.section_filename = function()
+      local marks = vim.bo.modified and ' %#BakedSignal#●%#MiniStatuslineFilename#' or ''
+      local reg = vim.fn.reg_recording()
+      if reg ~= '' then
+        marks = marks .. ' %#BakedSignal#● rec @' .. reg .. '%#MiniStatuslineFilename#'
+      end
+      return '%f%r' .. marks
+    end
+    vim.api.nvim_create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
+      callback = function()
+        vim.schedule(vim.cmd.redrawstatus)
+      end,
+    })
+
+    -- Zero-padded LINE:COLUMN, so the status line doesn't shift as you move.
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_location = function()
-      return '%2l:%-2v'
+      return '%03l:%02v'
     end
 
     -- More options: https://github.com/echasnovski/mini.nvim

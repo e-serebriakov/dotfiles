@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale; primitives were generated in theme/retro-options.html (te-calm) and the role overrides below come from that option.",
+  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale.",
   "primitive": {
     "gray": {
       "50": {
@@ -300,8 +300,9 @@
       "popupHeader": {
         "$value": "{primitive.gray.200}"
       },
-      "tile": {
-        "$value": "{primitive.gray.300}"
+      "key": {
+        "$value": "{primitive.gray.300}",
+        "$description": "Selected block: active tab, current mode, cursor position. A grey keycap with ink text, calmer than a black fill."
       }
     },
     "border": {
@@ -338,9 +339,6 @@
       },
       "link": {
         "$value": "{primitive.blue.800}"
-      },
-      "warm": {
-        "$value": "{primitive.gray.800}"
       }
     },
     "status": {
@@ -365,6 +363,13 @@
       "$type": "color",
       "fg": {
         "$value": "{primitive.alert.fg}"
+      }
+    },
+    "signal": {
+      "$type": "color",
+      "mark": {
+        "$value": "{primitive.alert.fg}",
+        "$description": "Small armed-state mark (unsaved, recording) on surfaces; >=3:1. Never a fill."
       }
     },
     "selection": {

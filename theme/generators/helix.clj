@@ -111,9 +111,9 @@
 \"diff.delta.conflict\" = { bg = \"diff_conflict_bg\", fg = \"text\" }
 
 # Syntax
-\"comment\" = { fg = \"comment_fg\", bg = \"comment_bg\", modifiers = [\"italic\"] }
-\"comment.line\" = { fg = \"comment_fg\", modifiers = [\"italic\"] }
-\"comment.block\" = { fg = \"comment_fg\", modifiers = [\"italic\"] }
+\"comment\" = { fg = \"comment_fg\", bg = \"comment_bg\" }
+\"comment.line\" = { fg = \"comment_fg\" }
+\"comment.block\" = { fg = \"comment_fg\" }
 
 \"comment.documentation\" = { fg = \"doc_fg\" }
 \"comment.block.documentation\" = { fg = \"doc_fg\" }

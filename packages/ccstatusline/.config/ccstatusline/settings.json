@@ -5,11 +5,8 @@
       {
         "id": "1",
         "type": "model",
-        "color": "cyan"
-      },
-      {
-        "id": "2",
-        "type": "separator"
+        "color": "cyan",
+        "rawValue": true
       },
       {
         "id": "3",
@@ -17,17 +14,9 @@
         "color": "brightBlack"
       },
       {
-        "id": "4",
-        "type": "separator"
-      },
-      {
         "id": "5",
         "type": "git-branch",
         "color": "magenta"
-      },
-      {
-        "id": "6",
-        "type": "separator"
       },
       {
         "id": "7",
@@ -42,6 +31,7 @@
   "compactThreshold": 60,
   "colorLevel": 2,
   "defaultPaddingSide": "both",
+  "defaultSeparator": "·",
   "inheritSeparatorColors": false,
   "globalBold": false,
   "gitCacheTtlSeconds": 5,
@@ -58,5 +48,6 @@
     "endCaps": [],
     "autoAlign": false,
     "continueThemeAcrossLines": false
-  }
+  },
+  "defaultPadding": " "
 }
