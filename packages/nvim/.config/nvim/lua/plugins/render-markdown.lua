@@ -20,7 +20,6 @@ return {
       border = 'thin',
     },
     pipe_table = {
-      preset = 'round',
       cell = 'padded',
     },
     bullet = {

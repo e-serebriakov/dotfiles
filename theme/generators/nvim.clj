@@ -39,6 +39,7 @@
    ["search_mid" "search.active"]
    ["err_fg" "status.error"]
    ["alert_fg" "alert.fg"]
+   ["signal_mark" "signal.mark"]
    ["warn_fg" "status.warning"]
    ["info_fg" "status.info"]
    ["hint_fg" "status.hint"]

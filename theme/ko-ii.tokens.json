@@ -1,39 +1,39 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale; primitives were generated in theme/retro-options.html (te-calm) and the role overrides below come from that option.",
+  "$description": "K.O. II — Teenage Engineering EP-133 K.O. II-inspired variant of TE calm: warm chassis grey, black-key text, signal orange for functions and the error mark, display blue and pink for strings and constants. Same semantic roles as te-calm.tokens.json.",
   "primitive": {
     "gray": {
+      "$type": "color",
       "50": {
-        "$value": "#F3F3F3"
+        "$value": "#ECEBE7"
       },
       "100": {
-        "$value": "#E6E6E6"
+        "$value": "#E2E1DC"
       },
       "200": {
-        "$value": "#D6D6D6"
+        "$value": "#D5D4CF"
       },
       "300": {
-        "$value": "#C5C5C5"
+        "$value": "#C4C3BE"
       },
       "400": {
-        "$value": "#A3A3A3"
+        "$value": "#A3A29D"
       },
       "500": {
-        "$value": "#838383"
+        "$value": "#858480"
       },
       "600": {
-        "$value": "#6A6A6A"
+        "$value": "#686764"
       },
       "700": {
-        "$value": "#5C5C5C"
+        "$value": "#575653"
       },
       "800": {
-        "$value": "#494949"
+        "$value": "#3D3C3A"
       },
       "900": {
-        "$value": "#212121"
-      },
-      "$type": "color"
+        "$value": "#1C1C1B"
+      }
     },
     "red": {
       "50": {
@@ -135,37 +135,37 @@
       "$type": "color"
     },
     "blue": {
+      "$type": "color",
       "50": {
-        "$value": "#EFF3FC"
+        "$value": "#EBF3FA"
       },
       "100": {
-        "$value": "#DFE7F4"
+        "$value": "#DAE9F6"
       },
       "200": {
-        "$value": "#CDD7E9"
+        "$value": "#C4DBEF"
       },
       "300": {
-        "$value": "#A9C6FA"
+        "$value": "#9CCBF2"
       },
       "400": {
-        "$value": "#88A4D6"
+        "$value": "#6DB0E8"
       },
       "500": {
-        "$value": "#6283BF"
+        "$value": "#3D9BE0"
       },
       "600": {
-        "$value": "#4A69A4"
+        "$value": "#1F78BF"
       },
       "700": {
-        "$value": "#3C5B94"
+        "$value": "#17639F"
       },
       "800": {
-        "$value": "#424956"
+        "$value": "#3D4A55"
       },
       "900": {
-        "$value": "#1D2129"
-      },
-      "$type": "color"
+        "$value": "#1A2128"
+      }
     },
     "cyan": {
       "50": {
@@ -269,7 +269,73 @@
     "alert": {
       "$type": "color",
       "fg": {
-        "$value": "#D00021"
+        "$value": "#FF4F00"
+      }
+    },
+    "orange": {
+      "$type": "color",
+      "50": {
+        "$value": "#FBEFE9"
+      },
+      "100": {
+        "$value": "#F6E0D5"
+      },
+      "200": {
+        "$value": "#EDCDBF"
+      },
+      "300": {
+        "$value": "#FFB49A"
+      },
+      "400": {
+        "$value": "#FF8A5E"
+      },
+      "500": {
+        "$value": "#FF5A1F"
+      },
+      "600": {
+        "$value": "#D9440F"
+      },
+      "700": {
+        "$value": "#B23A0B"
+      },
+      "800": {
+        "$value": "#5A3F35"
+      },
+      "900": {
+        "$value": "#2A1C16"
+      }
+    },
+    "pink": {
+      "$type": "color",
+      "50": {
+        "$value": "#FBEEF2"
+      },
+      "100": {
+        "$value": "#F6DEE6"
+      },
+      "200": {
+        "$value": "#EDCAD6"
+      },
+      "300": {
+        "$value": "#F7A9C2"
+      },
+      "400": {
+        "$value": "#EE7BA0"
+      },
+      "500": {
+        "$value": "#E8457A"
+      },
+      "600": {
+        "$value": "#C42F62"
+      },
+      "700": {
+        "$value": "#A42651"
+      },
+      "800": {
+        "$value": "#55404A"
+      },
+      "900": {
+        "$value": "#281C21"
       }
     }
   },
@@ -325,13 +391,13 @@
     "accent": {
       "$type": "color",
       "string": {
-        "$value": "{primitive.green.600}"
+        "$value": "{primitive.blue.700}"
       },
       "constant": {
-        "$value": "{primitive.violet.700}"
+        "$value": "{primitive.pink.700}"
       },
       "function": {
-        "$value": "{primitive.blue.600}"
+        "$value": "{primitive.orange.700}"
       },
       "link": {
         "$value": "{primitive.blue.800}"
@@ -364,7 +430,7 @@
     "signal": {
       "$type": "color",
       "mark": {
-        "$value": "{primitive.alert.fg}",
+        "$value": "{primitive.orange.600}",
         "$description": "Small armed-state mark (unsaved, recording) on surfaces; >=3:1. Never a fill."
       }
     },
@@ -377,7 +443,7 @@
         "$value": "{primitive.gray.200}"
       },
       "match": {
-        "$value": "{primitive.violet.100}"
+        "$value": "{primitive.pink.100}"
       }
     },
     "search": {
@@ -386,19 +452,19 @@
         "$value": "{primitive.amber.300}"
       },
       "active": {
-        "$value": "{primitive.amber.400}"
+        "$value": "{primitive.orange.400}"
       }
     },
     "comment": {
       "$type": "color",
       "fg": {
-        "$value": "{primitive.cyan.700}"
+        "$value": "{primitive.amber.700}"
       },
       "bg": {
-        "$value": "{primitive.plum.100}"
+        "$value": "{primitive.amber.50}"
       },
       "high": {
-        "$value": "{primitive.plum.200}"
+        "$value": "{primitive.orange.100}"
       }
     },
     "doc": {
@@ -468,7 +534,7 @@
           "$value": "{primitive.blue.600}"
         },
         "magenta": {
-          "$value": "{primitive.plum.600}"
+          "$value": "{primitive.pink.600}"
         },
         "cyan": {
           "$value": "{primitive.cyan.700}"
@@ -483,7 +549,7 @@
           "$value": "{primitive.gray.700}"
         },
         "red": {
-          "$value": "{primitive.red.500}"
+          "$value": "{primitive.orange.600}"
         },
         "green": {
           "$value": "{primitive.green.600}"
@@ -495,7 +561,7 @@
           "$value": "{primitive.blue.500}"
         },
         "magenta": {
-          "$value": "{primitive.plum.500}"
+          "$value": "{primitive.pink.500}"
         },
         "cyan": {
           "$value": "{primitive.cyan.500}"

@@ -65,7 +65,7 @@ function M.setup()
   hi(0, 'CurSearch', { fg = colors.text_strong, bg = colors.search_mid, bold = true })
 
   -- Syntax highlighting
-  hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg, italic = true })
+  hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg })
   hi(0, 'String', { fg = colors.string_fg })
   -- Use dark text and the comment background for documentation strings and comments.
   hi(0, '@string.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
@@ -210,7 +210,9 @@ function M.setup()
   hi(0, 'MoreMsg', { fg = colors.info_fg })
 
   -- Mini.statusline (if using mini.nvim)
-  hi(0, 'MiniStatuslineModeNormal', { fg = colors.text, bg = colors.panel, bold = true })
+  -- Every mode uses this ink block (see plugins/minivim.lua); the label tells modes apart.
+  hi(0, 'MiniStatuslineModeNormal', { fg = colors.paper, bg = colors.text_strong })
+  hi(0, 'BakedSignal', { fg = colors.signal_mark, bg = colors.panel })
   hi(0, 'MiniStatuslineModeInsert', { fg = colors.text, bg = colors.panel, bold = true })
   hi(0, 'MiniStatuslineModeVisual', { fg = colors.text, bg = colors.panel, bold = true })
   hi(0, 'MiniStatuslineModeReplace', { fg = colors.text, bg = colors.panel, bold = true })

@@ -1,0 +1,16 @@
+# Lazydocker reads ~/Library/Application Support/jesseduffield/lazydocker on macOS.
+# Colours are ANSI names from the terminal palette, so they follow the active theme.
+gui:
+  theme:
+    # Every ANSI slot is a dark ink in the light themes, so a coloured row fill hides the text.
+    # Reverse video keeps each cell readable whatever its colour.
+    selectedLineBgColor:
+      - reverse
+    # Ink frame on the focused panel, like Zellij and Neovim floats.
+    activeBorderColor:
+      - black
+      - bold
+    inactiveBorderColor:
+      - default
+    optionsTextColor:
+      - default

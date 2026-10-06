@@ -42,6 +42,7 @@
   "compactThreshold": 60,
   "colorLevel": 2,
   "defaultPaddingSide": "both",
+  "defaultSeparator": "│",
   "inheritSeparatorColors": false,
   "globalBold": false,
   "gitCacheTtlSeconds": 5,

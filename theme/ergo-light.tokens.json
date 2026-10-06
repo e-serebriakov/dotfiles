@@ -132,8 +132,7 @@
       "column": { "$value": "{primitive.gray.100}", "$description": "colorcolumn / cursorcolumn" },
       "ruler": { "$value": "{primitive.gray.100}", "$description": "ruler background" },
       "popup": { "$value": "{primitive.gray.100}", "$description": "popup / telescope bg — one step off base so it reads as a layer, not just a border" },
-      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "popup title bar" },
-      "tile": { "$value": "{primitive.gray.300}", "$description": "multiplexer bar/tile shade" }
+      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "popup title bar" }
     },
     "border": {
       "$type": "color",
@@ -151,8 +150,7 @@
       "string": { "$value": "{primitive.green.600}", "$description": "string literals / git add" },
       "constant": { "$value": "{primitive.violet.700}", "$description": "constants, numbers, booleans — violet.700, stepped darker than function (blue.600) for CVD lightness separation" },
       "function": { "$value": "{primitive.blue.600}", "$description": "function names" },
-      "link": { "$value": "{primitive.blue.800}", "$description": "links / urls — blue.800, kept clear of constant (violet.700) under CVD; the two never share a buffer" },
-      "warm": { "$value": "{primitive.red.500}", "$description": "warm mode-accent (e.g. zellij PANE)" }
+      "link": { "$value": "{primitive.blue.800}", "$description": "links / urls — blue.800, kept clear of constant (violet.700) under CVD; the two never share a buffer" }
     },
     "status": {
       "$type": "color",
@@ -166,6 +164,13 @@
       "$type": "color",
       "$description": "The 'demands action' tier — error only, kept separate from status.error so terminal/delta/zellij red stays muted (status.error = red.700) while the editor's error MARK shouts. One lever, error-scoped: the saturated undercurl + bold sign glyph only — foreground, no fill. The diagnostic message/virtual text rides muted status.error, not this, so only the small marks are loud. Warnings stay on amber one tier down. (Chroma-singleton physics: see primitive.alert.)",
       "fg": { "$value": "{primitive.alert.fg}", "$description": "loud error MARK — undercurl + bold sign glyph only; message/virtual text uses status.error (muted)" }
+    },
+    "signal": {
+      "$type": "color",
+      "mark": {
+        "$value": "{semantic.text.strong}",
+        "$description": "Small armed-state mark (unsaved, recording) on surfaces; >=3:1. Never a fill."
+      }
     },
     "selection": {
       "$type": "color",

@@ -4,8 +4,14 @@ theme = "baked"
 line-number = "relative"
 mouse = false
 auto-format = true
-popup-border = "popup"
+popup-border = "all"
 bufferline = "multiple"
+
+[editor.statusline]
+separator = "│"
+mode.normal = "nor"
+mode.insert = "ins"
+mode.select = "sel"
 
 [editor.cursor-shape]
 insert = "bar"

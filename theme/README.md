@@ -1,8 +1,8 @@
 # Themes
 
-| Ergo Light (default) | TE calm |
-| --- | --- |
-| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) |
+| Ergo Light (default) | TE calm | K.O. II |
+| --- | --- | --- |
+| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) | ![K.O. II preview: comments, syntax, selection, search matches, error mark, and diff](preview-ko-ii.svg) |
 
 ## Themes
 
@@ -10,6 +10,7 @@
 | --- | --- |
 | Ergo Light (default) | [`ergo-light.tokens.json`](ergo-light.tokens.json): cool monochrome, muted accents |
 | TE calm | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, lab-grey paper, saturation reserved for important signals |
+| K.O. II | [`ko-ii.tokens.json`](ko-ii.tokens.json): EP-133 K.O. II-inspired, warm chassis grey, signal-orange functions, display blue and pink |
 
 Only one theme is active at a time. Switch with `bb -m generate --theme <name>`.
 The choice is saved in `theme/.active`, which Git ignores, so `install.sh` regenerates the same theme.
