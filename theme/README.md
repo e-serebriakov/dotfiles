@@ -1,10 +1,17 @@
-# Ergo Light theme
+# Themes
 
-![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview.svg)
+| Ergo Light (default) | TE calm |
+| --- | --- |
+| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) |
+| [`ergo-light.tokens.json`](ergo-light.tokens.json): cool monochrome, muted accents | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, lab-grey paper, saturation reserved for important signals |
+
+Only one theme is active at a time. Switch with `bb -m generate --theme <name>`.
+The choice is saved in `theme/.active`, which Git ignores, so `install.sh` regenerates the same theme.
+Each theme has its own `preview-<name>.svg`, so switching themes never changes tracked files.
 
 ## How it works
 
-[`ergo-light.tokens.json`](ergo-light.tokens.json) defines the colors as [design tokens](https://tr.designtokens.org/) in two layers:
+Each `*.tokens.json` file defines the colors as [design tokens](https://tr.designtokens.org/) in two layers:
 
 - **Primitives:** OKLCH color scales.
 - **Semantic tokens:** named roles that refer to primitives, such as `accent.string`, `diff.add`, and `status.error`.
@@ -13,14 +20,17 @@ Tools do not read the tokens directly. Each generator converts semantic tokens t
 
 | Tool | Generator | Generated file |
 | --- | --- | --- |
-| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/ergo_light_palette.lua` |
-| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/ergo_light.toml` |
-| Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/ergo-light.kdl` |
-| delta | [`generators/delta.clj`](generators/delta.clj) | `delta/ergo-light.gitconfig` |
-| Helix | [`generators/helix.clj`](generators/helix.clj) | `themes/ergo_light.toml` |
+| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/baked_palette.lua` |
+| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/baked.toml` |
+| Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/baked.kdl` |
+| delta | [`generators/delta.clj`](generators/delta.clj) | `delta/baked.gitconfig` |
+| Helix | [`generators/helix.clj`](generators/helix.clj) | `themes/baked.toml` |
+
+Every generated file, and the theme name inside it, is called `baked` whichever theme is active.
+That way the tool configs never change when you switch themes.
 
 Git ignores these five files. `install.sh` regenerates them on each run.
-The generator also creates `preview.svg`. Git tracks this file so GitHub can display it.
+The generator also creates one `preview-<name>.svg` per theme. Git tracks these files so GitHub can display them.
 Do not edit generated files manually.
 
 ccstatusline, Starship, and Git output use named ANSI colors from the terminal palette.
@@ -32,26 +42,30 @@ They follow the theme without separate generated files.
   It also validates the contract between tokens and generators.
 - [`generators/`](generators/) contains one namespace per tool. Each provides a `render` function.
   `preview.clj` is separate from `adapters` so preview-only references do not hide unused tool tokens.
-- [`generate.clj`](generate.clj) registers tool generators in `adapters`, validates the contract, and writes all output files.
+- [`generate.clj`](generate.clj) registers tool generators in `adapters`, picks the theme, validates the contract, and writes all output files.
 
 ## Change the theme
 
-Edit the token file, then run these commands from the repository root:
+Edit a token file, then run these commands from the repository root:
 
 ```sh
-# Regenerate all output files. install.sh also runs this command.
+# Switch to another theme and regenerate all output files.
+(cd theme && bb -m generate --theme te-calm)
+
+# Regenerate the active theme. install.sh also runs this command.
 (cd theme && bb -m generate)
 
 # Show a 24-bit color preview in the terminal without writing files.
 (cd theme && bb -m generate --preview)
+(cd theme && bb -m generate --preview --theme te-calm)  # any theme; does not switch
 
-# Validate token references and compare generated output with expected output.
+# Validate every theme's token references and compare generated output with expected output.
 (cd theme && bb -m generate && bb test)
 ```
 
-Reload each tool to apply the new colors.
+Reload each tool to apply the new colors. In Neovim, run `:BakedReload`.
 
-The terminal preview and `preview.svg` use the same sample definition.
+The terminal preview and the `preview-<name>.svg` images use the same sample definition.
 Use `--preview` over SSH or in a Neovim `:terminal` window to inspect changes before reloading tools.
 Use a terminal with 24-bit color support, such as WezTerm, kitty, or a recent tmux version.
 The error mark uses a curved underline in WezTerm and kitty, and a straight underline elsewhere.

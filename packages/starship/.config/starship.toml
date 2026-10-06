@@ -2,20 +2,60 @@ format = """
 $username\
 $hostname\
 $container\
-$shlvl\
 $directory\
 $git_branch\
-$git_commit\
 $git_state\
-$git_metrics\
-$git_status\
-$sudo\
+$git_status \
+$nodejs\
+$python\
 $cmd_duration\
-$line_break\
 $jobs\
-$status\
-$shell\
 $character"""
 
+# path:branch with runtimes: dotfiles:main +2 ~1 node@24 py@3.12 >
 [container]
 format = '[$symbol]($style) '
+
+[directory]
+format = '[$path]($style)[$read_only]($read_only_style)'
+style = 'cyan'
+read_only = ' ro'
+
+[git_branch]
+format = '[:](bright-black)[$branch]($style)'
+style = 'purple'
+
+[git_state]
+format = ' [$state( $progress_current/$progress_total)]($style)'
+
+[git_status]
+format = '[( $conflicted)( $staged)( $modified)( $renamed)( $deleted)( $untracked)( $ahead_behind)]($style)'
+conflicted = '!${count}'
+staged = '•${count}'
+modified = '~${count}'
+renamed = '>${count}'
+deleted = '-${count}'
+untracked = '+${count}'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇡${ahead_count}⇣${behind_count}'
+style = 'red'
+
+[nodejs]
+format = '[node@$version]($style) '
+version_format = '${major}'
+style = 'bright-black'
+
+[python]
+format = '[py@$version( \($virtualenv\))]($style) '
+version_format = '${major}.${minor}'
+style = 'bright-black'
+
+[cmd_duration]
+format = '[$duration]($style) '
+style = 'bright-black'
+
+[character]
+success_symbol = '[>](bold)'
+error_symbol = '[>](bold red)'
+vimcmd_symbol = '[<](bold)'

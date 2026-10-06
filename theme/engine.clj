@@ -13,8 +13,25 @@
       (spit path content)
       (println "wrote" (str (fs/relativize root path))))))
 
-(def tokens-path (fs/file root "theme" "ergo-light.tokens.json"))
-(def preview-path (fs/file root "theme" "preview.svg"))
+(def default-theme "ergo-light")
+;; The chosen theme name, remembered so install.sh regenerates the same theme.
+(def active-path (fs/file root "theme" ".active"))
+(defn preview-path [theme-name]
+  (fs/file root "theme" (str "preview-" theme-name ".svg")))
+
+(defn tokens-path [theme-name]
+  (fs/file root "theme" (str theme-name ".tokens.json")))
+
+(defn theme-names
+  "Every theme that has a tokens file in theme/."
+  []
+  (sort (map #(str/replace (fs/file-name %) #"\.tokens\.json$" "")
+             (fs/glob (fs/file root "theme") "*.tokens.json"))))
+
+(defn active-theme []
+  (if (fs/exists? active-path)
+    (str/trim (slurp (str active-path)))
+    default-theme))
 
 (defn- get-token [tokens path]
   (get-in tokens (conj (str/split path #"\.") "$value")))

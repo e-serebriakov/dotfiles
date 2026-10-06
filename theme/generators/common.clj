@@ -2,4 +2,4 @@
   "Shared content for the per-tool generators.")
 
 (def generated-banner
-  "GENERATED from theme/ergo-light.tokens.json — do not edit by hand.")
+  "GENERATED from the active theme/*.tokens.json — do not edit by hand.")

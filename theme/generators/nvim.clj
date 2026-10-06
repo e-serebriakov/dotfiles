@@ -17,6 +17,8 @@
    ["code_bg" "surface.code"]
    ["text" "text.primary"]
    ["text_soft" "text.secondary"]
+   ["text_muted" "text.muted"]
+   ["text_strong" "text.strong"]
    ["comment_fg" "comment.fg"]
    ["comment_bg" "comment.bg"]
    ["comment_high_bg" "comment.high"]
@@ -37,6 +39,7 @@
    ["search_mid" "search.active"]
    ["err_fg" "status.error"]
    ["alert_fg" "alert.fg"]
+   ["signal_mark" "signal.mark"]
    ["warn_fg" "status.warning"]
    ["info_fg" "status.info"]
    ["hint_fg" "status.hint"]
@@ -46,7 +49,8 @@
    ["diff_change_text_bg" "diff.changeText"]
    ["diff_conflict_bg" "diff.conflict"]
    ["popup_bg" "surface.popup"]
-   ["popup_header_bg" "surface.popupHeader"]])
+   ["popup_header_bg" "surface.popupHeader"]
+   ["key_bg" "surface.key"]])
 
 (defn render [theme]
   (str
