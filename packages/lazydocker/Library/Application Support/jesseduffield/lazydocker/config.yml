@@ -10,7 +10,5 @@ gui:
     activeBorderColor:
       - black
       - bold
-    inactiveBorderColor:
-      - default
     optionsTextColor:
       - default

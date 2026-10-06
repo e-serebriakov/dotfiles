@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale; primitives were generated in theme/retro-options.html (te-calm) and the role overrides below come from that option.",
+  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale.",
   "primitive": {
     "gray": {
       "50": {
