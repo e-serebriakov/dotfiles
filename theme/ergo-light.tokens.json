@@ -143,7 +143,8 @@
       "$type": "color",
       "primary": { "$value": "{primitive.gray.800}", "$description": "body text / default fg — soft neutral dark (~8:1, softened from ~10:1 for the calmer cool-monochrome tuning), calm not harsh" },
       "secondary": { "$value": "{primitive.gray.700}", "$description": "secondary / status text" },
-      "muted": { "$value": "{primitive.gray.600}", "$description": "hints, line numbers, muted UI (comments use comment.fg)" }
+      "muted": { "$value": "{primitive.gray.600}", "$description": "hints, line numbers, muted UI (comments use comment.fg)" },
+      "strong": { "$value": "{primitive.gray.900}", "$description": "text on the strongest fills (current search match) — gray.900 keeps AA where text.primary drops to ~3.6:1" }
     },
     "accent": {
       "$type": "color",

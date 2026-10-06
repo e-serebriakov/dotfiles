@@ -17,6 +17,8 @@
    ["code_bg" "surface.code"]
    ["text" "text.primary"]
    ["text_soft" "text.secondary"]
+   ["text_muted" "text.muted"]
+   ["text_strong" "text.strong"]
    ["comment_fg" "comment.fg"]
    ["comment_bg" "comment.bg"]
    ["comment_high_bg" "comment.high"]

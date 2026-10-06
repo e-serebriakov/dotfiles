@@ -35,9 +35,10 @@ function M.setup()
   hi(0, 'CursorLineNr', { fg = colors.text, bold = true })
 
   -- Line numbers
-  hi(0, 'LineNr', { fg = colors.comment_fg })
-  hi(0, 'LineNrAbove', { fg = colors.comment_fg })
-  hi(0, 'LineNrBelow', { fg = colors.comment_fg })
+  -- The gutter uses text_muted so the comment colour only ever means a comment.
+  hi(0, 'LineNr', { fg = colors.text_muted })
+  hi(0, 'LineNrAbove', { fg = colors.text_muted })
+  hi(0, 'LineNrBelow', { fg = colors.text_muted })
 
   -- Status line
   hi(0, 'StatusLine', { fg = colors.text, bg = colors.panel, bold = true })
@@ -53,18 +54,18 @@ function M.setup()
   hi(0, 'Pmenu', { fg = colors.text, bg = colors.panel })
   hi(0, 'PmenuSel', { fg = colors.text, bg = colors.sel_secondary, bold = true })
   hi(0, 'PmenuSbar', { bg = colors.panel })
-  hi(0, 'PmenuThumb', { bg = colors.comment_fg })
+  hi(0, 'PmenuThumb', { bg = colors.text_muted })
   hi(0, 'WildMenu', { fg = colors.text, bg = colors.sel_secondary, bold = true })
 
   -- Selection
   hi(0, 'Visual', { fg = colors.text, bg = colors.sel_primary })
   hi(0, 'VisualNOS', { fg = colors.text, bg = colors.sel_primary })
   hi(0, 'Search', { fg = colors.text, bg = colors.search_soft, bold = true })
-  hi(0, 'IncSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
-  hi(0, 'CurSearch', { fg = colors.text, bg = colors.search_mid, bold = true })
+  hi(0, 'IncSearch', { fg = colors.text_strong, bg = colors.search_mid, bold = true })
+  hi(0, 'CurSearch', { fg = colors.text_strong, bg = colors.search_mid, bold = true })
 
   -- Syntax highlighting
-  hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg })
+  hi(0, 'Comment', { fg = colors.comment_fg, bg = colors.comment_bg, italic = true })
   hi(0, 'String', { fg = colors.string_fg })
   -- Use dark text and the comment background for documentation strings and comments.
   hi(0, '@string.documentation', { fg = colors.doc_fg, bg = colors.comment_bg })
@@ -118,15 +119,16 @@ function M.setup()
 
   -- Use alert_fg for diagnostic marks and err_fg for text. See the alert.fg tokens.
   hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
-  hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, underdashed = true })
-  hi(0, 'DiagnosticInfo', { fg = colors.info_fg, undercurl = true })
+  -- Undercurl means error or warning only; info is dashed and hint dotted.
+  hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, undercurl = true, sp = colors.warn_fg })
+  hi(0, 'DiagnosticInfo', { fg = colors.info_fg, underdashed = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
   hi(0, 'DiagnosticUnnecessary', { fg = colors.comment_fg, italic = true })
   hi(0, 'DiagnosticDeprecated', { fg = colors.comment_fg, underdouble = true })
   -- Some language servers use DiagnosticUnderline* groups for underlines.
   hi(0, 'DiagnosticUnderlineError', { undercurl = true, sp = colors.alert_fg })
-  hi(0, 'DiagnosticUnderlineWarn', { underdashed = true, sp = colors.warn_fg })
-  hi(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = colors.info_fg })
+  hi(0, 'DiagnosticUnderlineWarn', { undercurl = true, sp = colors.warn_fg })
+  hi(0, 'DiagnosticUnderlineInfo', { underdashed = true, sp = colors.info_fg })
   hi(0, 'DiagnosticUnderlineHint', { underdotted = true, sp = colors.hint_fg })
 
   hi(0, 'DiagnosticVirtualTextError', { fg = colors.err_fg, bold = true })
@@ -135,7 +137,7 @@ function M.setup()
   hi(0, 'DiagnosticVirtualTextHint', { fg = colors.hint_fg })
 
   hi(0, 'DiagnosticSignError', { fg = colors.alert_fg, bold = true })
-  hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg })
+  hi(0, 'DiagnosticSignWarn', { fg = colors.warn_fg, bold = true })
   hi(0, 'DiagnosticSignInfo', { fg = colors.info_fg })
   hi(0, 'DiagnosticSignHint', { fg = colors.hint_fg })
 
@@ -157,9 +159,9 @@ function M.setup()
   hi(0, 'GitSignsDelete', { fg = colors.err_fg })
 
   -- Gutter
-  hi(0, 'SignColumn', { fg = colors.comment_fg, bg = colors.paper })
-  hi(0, 'FoldColumn', { fg = colors.comment_fg, bg = colors.paper })
-  hi(0, 'Folded', { fg = colors.comment_fg, bg = colors.panel })
+  hi(0, 'SignColumn', { fg = colors.text_muted, bg = colors.paper })
+  hi(0, 'FoldColumn', { fg = colors.text_muted, bg = colors.paper })
+  hi(0, 'Folded', { fg = colors.text_muted, bg = colors.panel })
 
   -- Separators and borders
   hi(0, 'VertSplit', { fg = colors.divider, bg = colors.paper })
@@ -176,16 +178,16 @@ function M.setup()
   hi(0, 'IndentBlanklineContextChar', { fg = colors.text_soft })
 
   -- Inlay hints
-  hi(0, 'LspInlayHint', { fg = colors.comment_fg, bg = colors.paper })
-  hi(0, 'LspInlayHintParameter', { fg = colors.comment_fg, bg = colors.paper, italic = true })
-  hi(0, 'LspInlayHintType', { fg = colors.comment_fg, bg = colors.paper })
+  hi(0, 'LspInlayHint', { fg = colors.text_muted, bg = colors.paper })
+  hi(0, 'LspInlayHintParameter', { fg = colors.text_muted, bg = colors.paper, italic = true })
+  hi(0, 'LspInlayHintType', { fg = colors.text_muted, bg = colors.paper })
 
   -- Match pairs
   hi(0, 'MatchParen', { fg = colors.text, bg = colors.match_bg, bold = true })
 
   -- Quickfix
   hi(0, 'QuickFixLine', { bg = colors.sel_secondary })
-  hi(0, 'qfLineNr', { fg = colors.comment_fg })
+  hi(0, 'qfLineNr', { fg = colors.text_muted })
 
   -- Tabline
   hi(0, 'TabLine', { fg = colors.text, bg = colors.panel })
@@ -203,7 +205,7 @@ function M.setup()
 
   -- Error messages
   hi(0, 'ErrorMsg', { fg = colors.alert_fg, bold = true })
-  hi(0, 'WarningMsg', { fg = colors.warn_fg })
+  hi(0, 'WarningMsg', { fg = colors.warn_fg, bold = true })
   hi(0, 'ModeMsg', { fg = colors.text })
   hi(0, 'MoreMsg', { fg = colors.info_fg })
 
@@ -247,11 +249,12 @@ function M.setup()
   hi(0, 'OilCursorLine', { bg = colors.line })
   hi(0, 'OilSelected', { fg = colors.text, bg = colors.line })
 
-  -- Remove comment backgrounds in diff windows so added and deleted lines keep their colors.
+  -- Remove comment and TODO backgrounds in diff windows so added and deleted lines keep their colors.
   -- Use a window-local highlight namespace for vimdiff and diffview; both set 'diff'.
   -- Rebuild the namespace when the palette changes.
   local ns = vim.api.nvim_create_namespace('baked_diff_nobg')
-  for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation' }) do
+  for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation',
+                      '@comment.todo', '@comment.note', '@comment.warning', '@comment.error', 'Todo' }) do
     local h = vim.api.nvim_get_hl(0, { name = g, link = false })
     h.bg, h.ctermbg = nil, nil
     vim.api.nvim_set_hl(ns, g, h)

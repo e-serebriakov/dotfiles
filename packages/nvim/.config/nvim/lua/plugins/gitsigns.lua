@@ -3,7 +3,7 @@ return {
   opts = {
     signs = {
       add          = { text = '│' },
-      change       = { text = '│' },
+      change       = { text = '┃' }, -- heavier than add: not colour-only
       delete       = { text = '_' },
       topdelete    = { text = '‾' },
       changedelete = { text = '~' },
