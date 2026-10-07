@@ -5,17 +5,17 @@ return {
     ft = 'lua',
     opts = {
       library = {
-        -- Load luvit types when the `vim.uv` word is found
+        -- When `vim.uv` occurs in the source, load the luvit types.
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
     },
   },
   {
-    -- Main LSP Configuration
+    -- Primary LSP configuration
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Mason installs servers and tools in Neovim's data directory.
-      -- Initialize it before dependent plugins. opts = {} calls setup({}).
+      -- Initialize Mason before you load plugins that use it. opts = {} calls setup({}).
       { 'williamboman/mason.nvim', opts = {} },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
@@ -31,7 +31,7 @@ return {
     },
     config = function()
       -- Language servers provide navigation, completion, and other language features.
-      -- Mason installs the servers configured below, except Biome.
+      -- Mason installs the servers configured below. It does not install Biome.
       -- See :help lsp-vs-treesitter.
 
       -- Configure the buffer when a language server attaches.
@@ -67,13 +67,13 @@ return {
           -- Run a code action at the cursor, such as a suggested correction.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
-          -- Find the declaration, not the definition; for example, a C header.
+          -- Find the declaration. For example, find the declaration in a C header rather than its definition.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Support the Neovim 0.10 method signature and the signature used since 0.11.
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
-          ---@param bufnr? integer some lsp support methods only in specific files
+          ---@param bufnr? integer Some language servers support methods only for specified files.
           ---@return boolean
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
@@ -83,7 +83,7 @@ return {
             end
           end
 
-          -- Highlight references on CursorHold; clear them when the cursor moves.
+          -- Highlight references on CursorHold. Clear the highlights when the cursor moves.
           -- See :help CursorHold.
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
@@ -124,7 +124,7 @@ return {
         severity_sort = true,
         float = { border = 'single', source = 'if_many' },
         underline = { severity = { min = vim.diagnostic.severity.WARN } },
-        -- Each severity has its own shape, so signs read without colour.
+        -- Each severity has its own shape. The signs remain distinguishable without color.
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = '■',
@@ -187,7 +187,7 @@ return {
           },
         },
 
-        -- Use project-local Biome from node_modules when available; bypass Mason.
+        -- If node_modules contains Biome, use that installation. Do not use Mason for Biome.
         biome = {
           root_dir = function(bufnr, on_dir)
             on_dir(vim.fs.root(bufnr, { 'biome.json', 'biome.jsonc' }))
@@ -213,14 +213,14 @@ return {
       }
 
       -- Install the configured servers and additional tools below.
-      -- Use :Mason to inspect or install tools; press g? for help.
+      -- Use :Mason to examine or install tools. Press g? for help.
       -- Configure Mason in the dependencies table above.
       local ensure_installed = vim.tbl_filter(function(name)
         return name ~= 'biome'
       end, vim.tbl_keys(servers))
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        -- markdownlint-cli2, vale, prettierd are managed by mise (see packages/mise)
+        -- mise installs markdownlint-cli2 and prettierd (see packages/mise).
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

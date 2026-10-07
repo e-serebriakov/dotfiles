@@ -1,4 +1,4 @@
--- Set the leader keys before loading plugins.
+-- Set the leader keys before you load plugins.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
@@ -12,7 +12,7 @@ vim.opt.colorcolumn = '100'
 
 vim.opt.mouse = 'a'
 
--- The status line already shows the mode.
+-- The status line shows the mode.
 vim.opt.showmode = false
 
 -- Defer clipboard setup to reduce startup delays.
@@ -48,7 +48,7 @@ vim.opt.inccommand = 'split'
 
 vim.opt.cursorline = true
 
--- Square hairline borders on every float; hide the ~ after the end of the buffer.
+-- Use a thin square border for each floating window. Hide the ~ after the end of the buffer.
 vim.o.winborder = 'single'
 vim.opt.fillchars = { eob = ' ' }
 
@@ -74,8 +74,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Wrap Markdown and plain text at word boundaries and check spelling.
--- Do not insert line breaks automatically. Use one sentence per source line.
+-- Show Markdown and plain text with visual line breaks at word boundaries. Check the spelling.
+-- Do not insert line breaks automatically. Use one sentence for each source line.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'markdown', 'text' },
   group = vim.api.nvim_create_augroup('markdown-prose', { clear = true }),
@@ -123,7 +123,7 @@ require('lazy').setup({
   },
 })
 
--- Load the baked colorscheme after plugins are set up
+-- Load the baked colorscheme after Neovim initializes the plugins.
 require('colorschemes.baked').setup()
 
 -- :BakedReload reloads the palette and theme after token generation (theme/generate.clj).

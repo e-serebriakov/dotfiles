@@ -3,6 +3,6 @@ return {
   'folke/todo-comments.nvim',
   event = 'VimEnter',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  -- after = '': the text after a keyword keeps comment colours instead of the keyword's.
+  -- after = '': only the keyword uses the highlight color. The text after it keeps the comment colors.
   opts = { signs = false, highlight = { after = '' } },
 }

@@ -3,7 +3,7 @@ return {
   'folke/which-key.nvim',
   event = 'VimEnter',
   opts = {
-    -- This delay is independent of vim.opt.timeoutlen.
+    -- This delay does not depend on vim.opt.timeoutlen.
     delay = 0,
     icons = {
       -- Use icons when a Nerd Font is available.

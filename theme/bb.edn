@@ -1,6 +1,6 @@
-;; Babashka project file. `:paths ["."]` makes this directory a classpath root,
-;; so `engine.clj` is the namespace `engine`, `generators/delta.clj` is
-;; `generators.delta`, etc. Run tasks from here with `bb <task>`.
+;; Babashka uses this directory as a classpath root through `:paths ["."]`.
+;; engine.clj supplies namespace engine. generators/delta.clj supplies generators.delta.
+;; From this directory, run tasks with `bb <task>`.
 {:paths ["."]
  :tasks
  {test {:doc "Run the test suite"

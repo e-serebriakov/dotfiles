@@ -25,15 +25,15 @@ case "${1:-}" in
     exit 2 ;;
 esac
 
-echo "▶ Installing dotfiles for platform: $PLATFORM, context: $CONTEXT"
+echo "▶ Setup installs dotfiles for platform: $PLATFORM, context: $CONTEXT"
 
-# Install mise once for both platforms, after the platform scripts install curl.
+# Install mise once for macOS and Ubuntu, after the platform scripts install curl.
 install_mise() {
   if command -v mise &> /dev/null; then
-    echo "  ✓ mise already installed"
+    echo "  ✓ mise is installed"
     return
   fi
-  echo "▶ Installing mise..."
+  echo "▶ Setup installs mise."
   curl -fsSL https://mise.run | sh
 }
 
@@ -46,17 +46,17 @@ if [[ -z "$DRY_RUN" ]]; then
   fi
   install_mise
 else
-  echo "  (dry run: skipping platform bootstrap)"
+  echo "  (dry run: setup skips platform installation)"
 fi
 
-# Restore an exact revision without overwriting local plugin edits.
+# Restore the specified revision. Keep local plugin changes.
 install_zsh_plugin() {
   local name="$1" url="$2" revision="$3" dir="$ZSH_PLUGIN_DIR/$1"
   if [[ ! -d "$dir" ]]; then
     git init --quiet "$dir"
   fi
   if [[ -n "$(git -C "$dir" status --porcelain)" ]]; then
-    echo "✗ $name has local changes; save them before restoring plugins" >&2
+    echo "✗ $name has local changes. Save them before you restore the plugins." >&2
     return 1
   fi
   [[ "$(git -C "$dir" rev-parse --verify HEAD 2>/dev/null || :)" == "$revision" ]] && return 0
@@ -68,12 +68,12 @@ install_zsh_plugin() {
 
 # Update these plugin revisions manually. Setup restores only the listed commits.
 if [[ -n "$DRY_RUN" ]]; then
-  echo "  (dry run: skipping zsh plugins)"
+  echo "  (dry run: setup skips zsh plugins)"
 else
   ZSH_PLUGIN_DIR="$HOME/.local/share/zsh"
   mkdir -p "$ZSH_PLUGIN_DIR"
   while IFS=' ' read -r name url revision; do
-    echo "  Restoring zsh plugin: $name"
+    echo "  Setup restores zsh plugin: $name"
     install_zsh_plugin "$name" "$url" "$revision"
   done <<'PLUGINS'
 fzf-tab https://github.com/Aloxaf/fzf-tab 24105b15714bfec37989ed5c5b6e60f572253019
@@ -83,7 +83,7 @@ zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions 85919cd1ffa
 PLUGINS
 fi
 
-# Use shell globbing to list packages; this also works on macOS.
+# Use shell globbing to list packages. This also operates on macOS.
 PKGS=()
 NON_CLAUDE_PKGS=()
 for dir in "$STOW_DIR"/*/ ; do
@@ -102,11 +102,11 @@ else
   # Generate theme files before Stow creates links. Git ignores the output files.
   # Continue if Babashka is unavailable or generation fails.
   # Read the repository's mise configuration and lockfile before Stow links them.
-  # Install Babashka now and the remaining tools after Stow.
+  # Install Babashka before Stow creates the links. Install the other tools after Stow creates the links.
   if ! command -v mise &> /dev/null; then
-    echo "⚠ mise not found — skipping theme generation" >&2
+    echo "⚠ mise is not available. Setup skips theme generation." >&2
   else
-    echo "▶ Generating theme files from design tokens..."
+    echo "▶ Setup generates theme files from design tokens."
     if ! (
       export MISE_GLOBAL_CONFIG_FILE="$STOW_DIR/mise/.config/mise/config.toml"
       cd "$DOTFILES_DIR/theme" &&
@@ -114,11 +114,11 @@ else
         bb_dir="$(mise where babashka)" &&
         "$bb_dir/bin/bb" -m generate
     ); then
-      echo "⚠ theme generation failed — stowing anyway; theme falls back to defaults" >&2
+      echo "⚠ Theme generation failed. Setup continues with Stow. Tools use their default colors." >&2
     fi
   fi
 
-  # Prevent backups from moving files through directory links into another repository.
+  # Keep backups in this repository. Do not move files through links to directories in a different repository.
   foreign_ancestor() {
     local dir; dir="$(dirname "$1")"
     while [[ "$dir" != "$TARGET" && "$dir" != "/" && "$dir" != "." ]]; do
@@ -131,7 +131,7 @@ else
     return 1
   }
 
-  # Back up conflicts without reverting uncommitted package changes.
+  # Back up conflicting files. Keep uncommitted package changes.
   # Do not use stow --adopt followed by git checkout -- packages/.
   BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
   for pkg in "${PKGS[@]}"; do
@@ -139,42 +139,42 @@ else
       rel="${src#"$STOW_DIR/$pkg/"}"
       [[ "$pkg" != "claude" && "$rel" == .claude/* ]] && continue
       tgt="$TARGET/$rel"
-      # -ef preserves links to $src. Move conflicting targets before stow -R.
+      # -ef keeps links to $src. Move conflicting targets before stow -R.
       if [[ -e "$tgt" || -L "$tgt" ]] && ! [[ "$tgt" -ef "$src" ]]; then
         if foreign_ancestor "$tgt"; then
-          echo "  ⚠ skipping $rel (target path crosses a foreign symlinked dir)" >&2
+          echo "  ⚠ Setup skips $rel. The target path crosses a symbolic link to a directory outside packages/." >&2
           continue
         fi
-        echo "  backing up existing $rel"
+        echo "  Setup makes a backup of $rel."
         mkdir -p "$BACKUP/$(dirname "$rel")"
         mv "$tgt" "$BACKUP/$rel"
       fi
     done < <(find "$STOW_DIR/$pkg" -type f -print0)
   done
-  [[ -d "$BACKUP" ]] && echo "  (pre-existing files backed up to $BACKUP)"
+  [[ -d "$BACKUP" ]] && echo "  (setup moved conflicting files to $BACKUP)"
   stow -R -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
   stow -R -v -d "$STOW_DIR" -t "$TARGET" claude
 
   # Create gpg.ssh.allowedSignersFile after Stow makes user.email available.
   if [[ -f "$HOME/.ssh/sign.pub" && ! -f "$HOME/.ssh/allowed_signers" ]]; then
-    echo "  creating ~/.ssh/allowed_signers"
+    echo "  Setup creates ~/.ssh/allowed_signers."
     echo "$(git config --global user.email) $(cat "$HOME/.ssh/sign.pub")" > "$HOME/.ssh/allowed_signers"
   fi
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml
 if [[ -n "$DRY_RUN" ]]; then
-  echo "  (dry run: skipping mise tools)"
+  echo "  (dry run: setup skips mise tools)"
 elif command -v mise &> /dev/null; then
-  echo "▶ Installing mise tools..."
-  # Limit concurrent jobs to reduce GitHub rate limit errors, especially for vfox.
-  # An immediate retry does not help; the limit takes minutes to clear.
+  echo "▶ Setup installs mise tools."
+  # Limit concurrent jobs to reduce errors caused by GitHub rate limits, especially for vfox.
+  # An immediate retry does not help. The limit takes minutes to clear.
   if ! MISE_JOBS="${MISE_JOBS:-4}" mise install --locked; then
-    echo "✗ Setup incomplete: some tools failed to install. Re-run 'mise install --locked' after resolving the error above." >&2
+    echo "✗ Some tools failed to install. Correct the error. Then run 'mise install --locked' again." >&2
     exit 1
   fi
 else
-  echo "✗ Setup incomplete: mise is not on PATH. Re-run ./bootstrap/install.sh after installing mise." >&2
+  echo "✗ mise is not on PATH. Install mise. Then run ./bootstrap/install.sh again." >&2
   exit 1
 fi
 

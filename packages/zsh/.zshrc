@@ -21,14 +21,14 @@ if (( $+commands[mise] )); then
 fi
 
 # Refresh the completion cache at most once a day to reduce startup time.
-# Expand the glob in an array; [[ ]] does not expand it.
+# Expand the glob in an array. [[ ]] does not expand it.
 # Update the timestamp because compinit writes the cache only when files change.
 autoload -Uz compinit
 _stale=(~/.zcompdump(N.mh+24))
 if (( $#_stale )); then compinit; touch ~/.zcompdump; else compinit -C; fi
 unset _stale
 
-# Case-insensitive completion; preview directory contents when completing cd.
+# Completion ignores case. The cd completion preview shows the directory contents.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
@@ -106,7 +106,7 @@ alias gtdp='git town diff-parent'
 alias gtl='git town status'
 alias gth='git town hack'
 
-# PR review from terminal — `pr` for own PRs, `pr 123` for specific PR
+# Review PRs in the terminal. Use `pr` for your PRs or `pr 123` for a specified PR.
 pr() {
   local num=${1:-$(gh pr list --author @me --state open --json number,title \
     | jq -r '.[] | "\(.number)\t\(.title)"' | fzf --prompt="PR> " | cut -f1)}
@@ -116,7 +116,7 @@ pr() {
 
 # On Linux, use a shared agent socket if no existing agent socket is available.
 # macOS uses the native Keychain agent with ~/.ssh/config.d/defaults.conf.
-# AddKeysToAgent loads keys on first use, so shell startup needs no passphrase.
+# AddKeysToAgent loads a key when a command first uses it. Shell startup needs no passphrase.
 # ssh-add returns 2 if no agent responds, including after a reboot leaves a stale socket.
 if [[ "$OSTYPE" == linux* && ! -S "${SSH_AUTH_SOCK:-}" ]]; then
   export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
@@ -133,17 +133,17 @@ if (( $+commands[starship] )); then
 fi
 
 if (( $+commands[zoxide] )); then
-  # --cmd cd: cd falls back to a zoxide jump when the argument isn't a directory.
+  # --cmd cd: if the argument is not a directory, zoxide searches for a directory.
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # Attach to an existing Zellij session or create one with the work layout.
 # Usage: dev              (use the current directory)
-#        dev <path>       (use a specific directory)
+#        dev <path>       (use a specified directory)
 #        dev <project>    (find the directory with zoxide)
 dev() {
   if [[ -n "${ZELLIJ:-}" ]]; then
-    echo "dev: already inside zellij — use Ctrl+g Ctrl+o w (session manager) to switch" >&2
+    echo "dev: a Zellij session is active. Use Ctrl+g Ctrl+o w to open the session manager." >&2
     return 1
   fi
 
@@ -153,14 +153,14 @@ dev() {
     dir="${1:-.}"
   else
     dir="$(zoxide query "$1" 2>/dev/null)" || {
-      echo "dev: could not resolve '$1' — cd there once so zoxide learns it" >&2
+      echo "dev: zoxide cannot find '$1'. Use cd to open the project directory once. This adds the directory to zoxide." >&2
       return 1
     }
   fi
   dir="$(cd -- "$dir" && pwd -P)" || return 1
 
-  # Keep the name within 24 ASCII bytes for macOS's UNIX socket path limit.
-  # ponytail: 32-bit path checksum; use a longer digest if session collisions arise.
+  # Limit the name to 24 ASCII bytes to obey the macOS limit for UNIX socket paths.
+  # ponytail: the path checksum has 32 bits. Use a longer digest if session names collide.
   checksum="$(printf '%s' "$dir" | cksum)"
   project="${dir:t}"
   project="${project//[^a-zA-Z0-9_-]/-}"
@@ -176,9 +176,9 @@ _dev() {
 compdef _dev dev
 
 # Connect Claude Code to this project's Neovim IDE server without /ide.
-# claudecode.nvim writes ~/.claude/ide/<port>.lock containing its workspaceFolders.
-# /dev/null prevents grep from reading standard input when no lockfiles exist.
-# ponytail: exact $PWD match — cd to the project root, as the work layout does.
+# claudecode.nvim writes ~/.claude/ide/<port>.lock. This file contains its workspaceFolders.
+# If no lockfile exists, /dev/null prevents grep from waiting for standard input.
+# ponytail: the workspace path must equal $PWD. Use cd to open the project root, as the work layout does.
 claude() {
   local lock=$(grep -ls "\"$PWD\"" ~/.claude/ide/*.lock(N) /dev/null | head -1)
   [[ -n $lock ]] && local -x ENABLE_IDE_INTEGRATION=true CLAUDE_CODE_SSE_PORT=${${lock:t}:r}

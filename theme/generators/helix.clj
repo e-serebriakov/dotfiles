@@ -3,8 +3,8 @@
    [clojure.string :as str]
    [generators.common :refer [generated-banner]]))
 
-;; The fixed scope map — helix palette NAMES (resolved by the [palette] section
-;; below), so this block is a literal, tokens never touch it.
+;; This fixed scope map uses Helix palette names from the [palette] section below.
+;; Token values do not change this block.
 (def ^:private scopes
   "\"ui.background\" = { fg = \"text\", bg = \"paper\" }
 \"ui.background.separator\" = { fg = \"divider\" }
@@ -206,7 +206,7 @@
 
 \"tabstop\" = { fg = \"text\", bg = \"sel_secondary\" }")
 
-;; helix palette name -> semantic token (a vector of pairs to preserve order).
+;; Map each Helix palette name to a semantic token. A vector of pairs keeps the order.
 (def ^:private palette
   [["paper" "surface.base"]
    ["panel" "surface.raised"]

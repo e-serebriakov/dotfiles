@@ -1,10 +1,10 @@
-# mise manages command-line tools for macOS and Linux; see packages/mise/.config/mise/config.toml.
+# mise manages command-line tools for macOS and Linux. See packages/mise/.config/mise/config.toml.
 # Homebrew installs macOS applications, the font, and Stow.
 
-brew "stow" # Requires Perl; no release binary or mise registry entry.
+brew "stow" # Perl is necessary. Stow has no release binary or mise registry entry.
 
 cask "wezterm"
-cask "nikitabobko/tap/aerospace" # The name adds the required tap; absent from homebrew-cask.
+cask "nikitabobko/tap/aerospace" # This name adds the tap. homebrew-cask does not contain this application.
 cask "karabiner-elements"
 cask "raycast"
 cask "orbstack"

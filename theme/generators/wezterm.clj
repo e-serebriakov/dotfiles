@@ -11,7 +11,7 @@
    ["new_tab_hover"      {:bg "surface.base"      :fg "status.info"}]])
 
 (defn- tab [theme {:keys [bg fg]}]
-  (str "bg_color = \"" (theme bg) "\"\n"      ; specs hold paths, so resolve here
+  (str "bg_color = \"" (theme bg) "\"\n"      ; Resolve the token paths here.
        "fg_color = \"" (theme fg) "\"\n"
        "intensity = \"Normal\"\n"
        "italic = false\n"

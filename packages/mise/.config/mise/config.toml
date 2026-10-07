@@ -1,6 +1,6 @@
 # The adjacent mise.lock fixes tool versions for repeatable installation.
-# mise reads it automatically. install.sh uses --locked to require it.
-# Do not require lockfiles globally: projects without a lockfile would fail.
+# mise reads it automatically. install.sh uses --locked so installation must use it.
+# Do not make lockfiles mandatory for all projects. Projects without a lockfile cannot install their tools with that setting.
 
 [tools]
 node = "24"

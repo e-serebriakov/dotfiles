@@ -27,19 +27,19 @@
         diff-change-text (theme "diff.changeText")]
     {:paper paper
      :rows [{:gutter "1" :gcol muted :band comment-bg
-             :segments [{:text "// resolve an alias down to a hex" :fg comment-fg}]}
+             :segments [{:text "// Resolve an alias to a hexadecimal color." :fg comment-fg}]}
             {:gutter "2" :gcol muted
              :segments [{:text "const paper = " :fg ink} {:text "theme" :fg function}
                         {:text "(" :fg ink} {:text "'surface.base'" :fg string} {:text ")" :fg ink}]}
             {:gutter "3" :gcol muted
              :segments [{:text "const CEIL = " :fg ink} {:text "0.035" :fg constant}]}
             {:gutter "4" :gcol muted :band todo
-             :segments [{:text "// TODO: verify AA on paper" :fg comment-fg}]}
+             :segments [{:text "// TODO: measure contrast against the background" :fg comment-fg}]}
             {:gutter "5" :gcol muted
              :segments [{:text "see " :fg ink}
                         {:text "https://oklch.com" :fg link :underline true}]}
             {:gutter "6" :gcol muted :band selection
-             :segments [{:text "  selected line — a live selection" :fg ink}]}
+             :segments [{:text "  selected line — active selection" :fg ink}]}
             {:gutter "7" :gcol muted
              :segments [{:text "grep " :fg ink} {:text "match" :fg ink :hl search}
                         {:text " and " :fg ink} {:text "current" :fg ink :hl search-active}]}
@@ -64,14 +64,15 @@
 (def ^:private code-x 104)               ; left edge where code segments start
 (def ^:private gutter-x 80)              ; right edge the gutter number is anchored to
 (def ^:private padding-top 18)
-(def ^:private diff-gap 20)              ; extra space before the diff block
+(def ^:private diff-gap 20)              ; Additional space before the diff block.
 (def ^:private padding-bottom 18)
 (def ^:private mono
   "ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace")
 
 (defn- format-coord
-  "One decimal place. Locale/ROOT because JVM `format` would otherwise emit a
-  comma decimal separator under de/fr/ru and corrupt every coordinate."
+  "Format a coordinate with one decimal place.
+  Locale/ROOT keeps the decimal separator as a period for all system locales.
+  A comma decimal separator produces invalid coordinates."
   [x]
   (String/format java.util.Locale/ROOT "%.1f" (into-array Object [(double x)])))
 
@@ -98,8 +99,8 @@
        (esc s))))
 
 (defn- undercurl
-  "A wavy underline — the error MARK's shape cue. Folds a {:d :cx :up} wave point
-  by point into one SVG path."
+  "Make the curved underline for an error mark.
+  Convert the {:d :cx :up} points to one SVG path."
   [x y w color]
   (let [{:keys [d]} (reduce (fn [{:keys [d cx up]} _]
                               (let [nx (+ cx 4)
@@ -112,8 +113,8 @@
     (el "path" ["d" d "fill" "none" "stroke" color "stroke-width" "1.3"])))
 
 (defn- segment-elements
-  "One segment rendered at start column `column`: its text, plus any highlight
-  band, underline, or undercurl."
+  "Render a segment at `column`.
+  Include its text, highlight background, and underline when present."
   [baseline y column {:keys [text underline] foreground :fg, highlight :hl, curl-color :curl}]
   (let [x             (+ code-x (* column char-width))
         segment-width (* (count text) char-width)]
@@ -130,10 +131,10 @@
       curl-color (conj (undercurl x (+ baseline 4) segment-width curl-color)))))
 
 (defn- draw-row
-  "One row at baseline-top `y`: optional band, the gutter number, then each
-  segment placed by its running character column."
+  "Render a row at baseline-top `y`.
+  Include the background, gutter number, and segments at their character columns."
   [y {:keys [gutter band segments] gutter-color :gcol}]
-  (let [baseline (+ y 23)                                   ; centred in the line box
+  (let [baseline (+ y 23)                                   ; Center the text in the line box.
         columns  (reductions + 0 (map (comp count :text) segments))]
     (into (cond-> []
             band (conj (el "rect" ["x" "0" "y" (format-coord y) "width" svg-width
@@ -184,8 +185,8 @@
                      rows))))
 
 (defn- render-line
-  "One row as a styled terminal line: gutter, separator, segments, then a pad
-  that stretches the band to the full width."
+  "Render a terminal row with its gutter, separator, and segments.
+  Add spaces to extend the background to the full width."
   [width {:keys [gutter band segments] gutter-color :gcol}]
   (let [consumed (+ gutter-width (count separator)
                     (reduce + (map (comp count :text) segments)))]
@@ -198,8 +199,9 @@
          (run (apply str (repeat (- width consumed) \space)) {:bg band}))))
 
 (defn preview-ansi
-  "The same self-portrait as generate-preview, in 24-bit-colour ANSI. The
-  undercurl uses the 4:3 / 58 SGR and degrades to a plain underline elsewhere."
+  "Render the generate-preview sample with 24-bit ANSI colors.
+  SGR codes 4:3 and 58 control the curved underline.
+  Terminals without this support show a straight underline."
   [theme]
   (let [{:keys [paper rows]} (preview-rows theme)
         width (line-width rows)

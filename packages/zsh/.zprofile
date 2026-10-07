@@ -1,4 +1,4 @@
-# Loaded for login shells, before .zshrc.
+# zsh loads this file for login shells before .zshrc.
 
 # Added by OrbStack: command-line tools and integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :

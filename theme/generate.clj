@@ -38,24 +38,23 @@
         theme-name (or chosen (e/active-theme))
         tokens     (load-theme theme-name)
         theme      (e/->theme tokens)]
-    (if (some #{"--preview"} args)                    ; print the theme, write nothing
+    (if (some #{"--preview"} args)                    ; Show the theme. Do not write files.
       (do (print (preview/preview-ansi theme)) (flush))
       (let [{:keys [missing unused]} (check tokens adapters)]
-        (when (seq missing)                           ; dangling ref would crash generation — stop first
-          (throw (ex-info (str "contract broken — undefined tokens: "
+        (when (seq missing)                           ; Stop before generation if a token reference has no definition.
+          (throw (ex-info (str "theme generation stopped — undefined tokens: "
                                (str/join ", " (sort missing)))
                           {:type :theme-error})))
         (println "theme:" theme-name)
         (doseq [{:keys [render output]} adapters]
           (e/write-if-changed (fs/file e/root output) (render theme)))
         (when chosen (spit (str e/active-path) (str chosen "\n")))
-        ;; Deliberately not an adapter: the preview touches far more of the
-        ;; vocabulary than any tool, so the contract check would never see an
-        ;; unused token again.
-        ;; One README image per theme, whichever is active, so switching themes
-        ;; never dirties these tracked files.
+        ;; Keep the preview separate from the tool generators. It references more tokens
+        ;; than the tools. Its references can hide tokens that no tool generator uses.
+        ;; Generate a README image for each theme. A change of active theme
+        ;; does not change these tracked files.
         (doseq [n (e/theme-names)]
           (e/write-if-changed (e/preview-path n)
                               (preview/generate-preview (e/->theme (load-theme n)))))
-        (when (seq unused)                            ; rot, not breakage — warn, don't fail
-          (println "warning: unused semantic tokens:" (str/join ", " (sort unused))))))))
+        (when (seq unused)                            ; Report tokens that no generator references. They do not prevent generation.
+          (println "warning: no generator references these semantic tokens:" (str/join ", " (sort unused))))))))

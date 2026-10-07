@@ -20,7 +20,7 @@ return {
     local statusline = require 'mini.statusline'
     statusline.setup { use_icons = false }
 
-    -- Armed states get the signal mark: ● for unsaved, ● rec @q while recording a macro.
+    -- Show ● for an unsaved buffer. Show ● rec @q while the user records a macro.
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_filename = function()
       local marks = vim.bo.modified and ' %#BakedSignal#●%#MiniStatuslineFilename#' or ''
@@ -36,7 +36,7 @@ return {
       end,
     })
 
-    -- Zero-padded LINE:COLUMN, so the status line doesn't shift as you move.
+    -- Pad LINE:COLUMN with zeros so the status line does not move when the cursor moves.
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_location = function()
       return '%03l:%02v'

@@ -1,4 +1,4 @@
--- GitHub issues, PRs and reviews inside Neovim (uses gh CLI)
+-- Use GitHub issues, PRs, and reviews in Neovim through the gh CLI.
 return {
   'pwntester/octo.nvim',
   cmd = 'Octo',

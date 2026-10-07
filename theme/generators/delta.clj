@@ -5,7 +5,7 @@
 (defn render [theme]
   (str
    "; " generated-banner "\n"
-   "; Color styles only; behavioural delta settings live in the committed .gitconfig.\n"
+   "; This file contains color styles. The committed .gitconfig contains the other delta settings.\n"
    "[delta]\n"
    "    syntax-theme = ansi\n"
    "    plus-style = \"syntax " (theme "diff.add") "\"\n"
