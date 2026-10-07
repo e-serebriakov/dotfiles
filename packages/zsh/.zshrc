@@ -15,6 +15,22 @@ setopt interactive_comments
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
+# zsh selects Vi mode from EDITOR=nvim. Set it explicitly here.
+# Set Vi mode before you load plugins and Starship. Their bindings and widget wrappers then extend Vi mode.
+bindkey -v
+KEYTIMEOUT=1                                  # Esc switches modes without the 0.4s wait
+bindkey -M viins '^?' backward-delete-char    # Backspace past the point where insert began
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins '^A' beginning-of-line       # Emacs line start/end. Ctrl+E also accepts autosuggestions.
+bindkey -M viins '^E' end-of-line
+autoload -Uz edit-command-line && zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line        # Esc v: edit the command in Neovim
+
+# Block cursor in normal mode, blinking beam in insert mode.
+zle-keymap-select() { [[ $KEYMAP == vicmd ]] && printf '\e[2 q' || printf '\e[5 q'; }
+zle-line-init() { printf '\e[5 q'; }
+zle -N zle-keymap-select && zle -N zle-line-init
+
 # Initialize mise first so other tools are available on PATH.
 if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
@@ -23,10 +39,34 @@ fi
 # Refresh the completion cache at most once a day to reduce startup time.
 # Expand the glob in an array. [[ ]] does not expand it.
 # Update the timestamp because compinit writes the cache only when files change.
+# mise installs binaries without zsh completions. Generate the completions during
+# the daily refresh to include changes from tool upgrades.
+_comp_dir=~/.local/share/zsh/completions
+fpath=($_comp_dir $fpath)
+typeset -A _comp_gen=(
+  gh 'gh completion -s zsh'
+  git-town 'git-town completions zsh'
+  just 'just --completions zsh'
+  zellij 'zellij setup --generate-completion zsh'
+  mise 'mise completion zsh'
+  rg 'rg --generate complete-zsh'
+  fd 'fd --gen-completions zsh'
+  bat 'bat --completion zsh'
+  delta 'delta --generate-completion zsh'
+)
 autoload -Uz compinit
 _stale=(~/.zcompdump(N.mh+24))
-if (( $#_stale )); then compinit; touch ~/.zcompdump; else compinit -C; fi
-unset _stale
+if (( $#_stale )) || [[ ! -d $_comp_dir ]]; then
+  mkdir -p $_comp_dir
+  for _cmd in ${(k)_comp_gen}; do
+    (( $+commands[$_cmd] )) && eval "$_comp_gen[$_cmd]" > $_comp_dir/._$_cmd 2>/dev/null &&
+      mv -f $_comp_dir/._$_cmd $_comp_dir/_$_cmd
+  done
+  compinit; touch ~/.zcompdump
+else
+  compinit -C
+fi
+unset _stale _comp_dir _comp_gen _cmd
 
 # Completion ignores case. The cd completion preview shows the directory contents.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -135,6 +175,11 @@ fi
 if (( $+commands[zoxide] )); then
   # --cmd cd: if the argument is not a directory, zoxide searches for a directory.
   eval "$(zoxide init zsh --cmd cd)"
+fi
+
+# Load and unload .envrc files on cd.
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
 fi
 
 # Attach to an existing Zellij session or create one with the work layout.

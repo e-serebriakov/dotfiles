@@ -8,5 +8,4 @@ cask "nikitabobko/tap/aerospace" # This name adds the tap. homebrew-cask does no
 cask "karabiner-elements"
 cask "raycast"
 cask "orbstack"
-cask "secretive"
 cask "font-jetbrains-mono-nerd-font"
