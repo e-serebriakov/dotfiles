@@ -133,7 +133,8 @@ if (( $+commands[starship] )); then
 fi
 
 if (( $+commands[zoxide] )); then
-  eval "$(zoxide init zsh)"
+  # --cmd cd: cd falls back to a zoxide jump when the argument isn't a directory.
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # Attach to an existing Zellij session or create one with the work layout.
