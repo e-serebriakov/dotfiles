@@ -1,15 +1,15 @@
 // Project layout; starts in the shell's current directory.
 // Press Alt+f for a floating pane in the work tab.
+// Press Alt+/ to show keybindings for the current mode.
 // Start with dev <project>.
 
 layout {
     default_tab_template {
-        pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
-        }
         children
-        pane size=2 borderless=true {
-            plugin location="zellij:status-bar"
+        pane size=1 borderless=true {
+            plugin location="zellij:compact-bar" {
+                tooltip "Alt /"
+            }
         }
     }
 

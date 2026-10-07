@@ -18,10 +18,50 @@ config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
 -- Tabs read [01] title, [02] title, ...
+-- Zellij titles look like "backend-3059699869 | editor"; show just "backend".
 wezterm.on("format-tab-title", function(tab)
   local title = tab.tab_title ~= "" and tab.tab_title or tab.active_pane.title
+  local session = title:match("^(%S+) | ")
+  if session then
+    title = session:gsub("%-%d+$", "")
+  end
   return string.format(" [%02d] %s ", tab.tab_index + 1, title)
 end)
+
+-- Cmd+P: pick a zoxide directory and open its Zellij session (dev) in a new tab.
+-- zsh -ic loads .zshrc, which puts mise-installed zoxide on PATH and defines dev.
+config.keys = {
+  {
+    key = "p",
+    mods = "SUPER",
+    action = wezterm.action_callback(function(window, pane)
+      local ok, out = wezterm.run_child_process({ "/bin/zsh", "-ic", "zoxide query -l" })
+      if not ok then
+        return
+      end
+      local choices = {}
+      for dir in out:gmatch("[^\n]+") do
+        table.insert(choices, { id = dir, label = (dir:gsub("^" .. wezterm.home_dir, "~")) })
+      end
+      window:perform_action(
+        wezterm.action.InputSelector({
+          title = "Open project",
+          fuzzy = true,
+          choices = choices,
+          action = wezterm.action_callback(function(win, p, id)
+            if id then
+              win:perform_action(
+                wezterm.action.SpawnCommandInNewTab({ cwd = id, args = { "/bin/zsh", "-ic", "dev" } }),
+                p
+              )
+            end
+          end),
+        }),
+        pane
+      )
+    end),
+  },
+}
 
 -- Use reverse video for the cursor.
 config.force_reverse_video_cursor = true
