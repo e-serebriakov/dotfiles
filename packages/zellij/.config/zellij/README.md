@@ -28,14 +28,11 @@ Use `zellij attach <old-name>` for sessions created before this naming scheme. `
 
 ## Navigation
 
-Zellij starts **locked**. Keys go to Neovim or the shell, except these shortcuts, which work in all modes:
+Zellij uses its default keybindings but starts **locked**. Keys go to Neovim or the shell, except these shortcuts, which work in all modes:
 
 - `Alt+hjkl` — pane/tab navigation
 - `Alt+f` — toggle floating pane, `Alt+n` — new pane
+- `Alt+/` — show keybindings for the current mode (compact-bar tooltip)
 
-For other actions, press `Ctrl+g` to unlock, then select a mode.
-Most actions return to locked mode. Navigation and resizing can remain in their mode.
-
-- `Ctrl+g Ctrl+p` — pane mode (`m` for move mode), `Ctrl+g Ctrl+t` — tab mode, `Ctrl+g Ctrl+n` — resize mode
-- `Ctrl+g Ctrl+s` — scroll/search, `Ctrl+g Ctrl+o` — session mode (`w` switch, `d` detach, `q` quit)
-- `Ctrl+g` again — return to locked mode. `Esc` also exits most modes; search and rename modes have separate behavior.
+Press `Ctrl+g` to unlock into normal mode, then use Zellij's default keys (`Ctrl+p` pane, `Ctrl+t` tab, `Ctrl+o` session, `Ctrl+q` quit, ...).
+Actions return to normal mode, not locked. Press `Esc` or `Ctrl+g` to lock again, or Neovim and the shell won't receive those Ctrl keys.
