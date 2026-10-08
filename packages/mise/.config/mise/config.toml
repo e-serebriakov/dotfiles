@@ -7,6 +7,8 @@ node = "24"
 python = "3.12"
 uv = "latest"
 babashka = "latest"
+go = "1.26" # Builds reple, which has no prebuilt release binaries.
+"go:github.com/j3ka/reple" = "0.1.1"
 
 neovim = "latest"
 helix = "latest"
