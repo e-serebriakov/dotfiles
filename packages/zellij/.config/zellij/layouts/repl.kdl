@@ -1,4 +1,4 @@
-// ponytail: reple shares one FIFO; use a session-aware bridge for concurrent REPLs.
+// Run only one reple session at a time. All sessions share the same input pipe.
 layout {
     pane split_direction="vertical" {
         pane name="Helix" focus=true command="mise" {
