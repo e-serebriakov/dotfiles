@@ -1,10 +1,11 @@
-# Helix REPL
+# REPL workflows
 
-Helix sends selected code through reple to a persistent REPL in another pane.
+Helix and Neovim send selected code through reple to a persistent REPL in another
+pane. Neovim uses Conjure instead for Clojure.
 Results appear there, and definitions persist between evaluations.
 Run only one reple session at a time.
 
-## Babashka in Zellij
+## Helix with Babashka in Zellij
 
 From your project directory, start a session:
 
@@ -46,11 +47,30 @@ Run `:config-reload` to load bindings into an existing Helix instance.
 Close the REPL pane with Zellij's pane controls when finished.
 Restart the REPL after an abnormal termination.
 
+## Neovim
+
+Python, TypeScript, and TSX buffers use `,E` in Visual mode to send selections
+to the same external reple process. Select lines with `V`, or text with `v`.
+The mapping leaves the source and registers unchanged.
+Clojure retains Conjure's existing nREPL mappings.
+
+Start the matching interpreter yourself. The buffer language does not select
+the destination. Restart Neovim after installing reple or updating this mapping.
+
+For a TypeScript project with `tsx` installed, run from its directory:
+
+```sh
+reple spawn 'pnpm exec tsx'
+```
+
+This evaluates TypeScript in Node, without browser state or the DOM.
+The Django command below works with Neovim as well as Helix.
+
 ## Other runtimes
 
 Stop the existing reple session first. Use ordinary terminal panes instead of
-this layout, which starts Babashka automatically. The evaluation binding stays
-`Space t e`.
+this layout, which starts Babashka automatically. Evaluate with `Space t e` in
+Helix or Visual-mode `,E` in Neovim for Python and TypeScript.
 
 ### JVM Clojure
 
@@ -104,8 +124,6 @@ install only the new dependencies with:
 ```sh
 mise install --locked go go:github.com/j3ka/reple
 ```
-
-See the [research notes](helix-repl-research.md) for sources and alternatives.
 
 [compose-exec]: https://docs.docker.com/reference/cli/docker/compose/exec/
 [django-shell]: https://docs.djangoproject.com/en/5.2/ref/django-admin/#shell

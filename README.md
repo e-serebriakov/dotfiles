@@ -67,5 +67,6 @@ See the [theme guide](theme/README.md) for previews, token edits, and regenerati
 
 - [Setup and maintenance](docs/setup.md): SSH, backups, package links, and updates.
 - [Zellij sessions](packages/zellij/.config/zellij/README.md): project sessions and navigation.
-- [Helix REPL](docs/helix-repl.md): Clojure in Zellij and Django in Docker.
+- [Helix development](docs/helix.md): language servers, formatting, and project settings.
+- [REPL workflows](docs/repl.md): Helix and Neovim with Clojure, Python, and TypeScript.
 - [Writing conventions](docs/writing.md): documentation and comment style.
