@@ -1,98 +1,86 @@
-# Try Helix with a REPL
+# Helix REPL
 
-This setup uses standard Helix, reple, and a persistent Babashka REPL in Zellij.
-Babashka runs a subset of Clojure. It does not replace a JVM project runtime.
+Helix sends selected code through reple to a persistent REPL in another pane.
+Results appear there, and definitions persist between evaluations.
+Run only one reple session at a time.
 
-## Start
+## Babashka in Zellij
 
-Open a new terminal in your project directory. Run:
+From your project directory, start a session:
 
 ```sh
 zellij --layout repl
 ```
 
-Inside an existing Zellij session, create a tab instead:
+Inside Zellij, open a tab instead:
 
 ```sh
 zellij action new-tab --layout repl --name repl
 ```
 
-Helix opens `repl-scratch.clj` on the left. Babashka starts on the right.
-The scratch file is created only when you save it.
+Helix opens `repl-scratch.clj` on the left, with Babashka on the right.
+The file is created when saved. Babashka supports a subset of Clojure, not a JVM
+project runtime.
 
-## Evaluate code
-
-Enter these forms in Helix:
+Enter:
 
 ```clojure
 (def answer 41)
 (inc answer)
 ```
 
-Press Escape. Select the first line with `x`. Press `Space t e` to evaluate it.
-Select the second line and press `Space t e` again. The REPL prints `42`.
-The second evaluation uses the definition from the first evaluation.
+Press Escape. Select each line with `x`, then press `Space t e` to evaluate it.
+The second evaluation prints `42`.
 
-The mnemonic is **Tools → Evaluate**. `Space e` retains Helix's file explorer.
-Helix 25.07.1 cannot display a custom group description for `Space t`.
+| Action | Keys |
+| --- | --- |
+| Evaluate selection (Tools → Evaluate) | `Space t e` |
+| Select multiline code | `v`, then movement keys |
+| Expand syntax selection | `Alt+o` |
+| Focus REPL / Helix | `Alt+l` / `Alt+h` |
+| Interrupt evaluation | `Ctrl+c` in the REPL |
 
-Select complete forms with `v` and movement keys for multiline code.
-Use `Alt+o` to expand a syntax selection when useful.
-`Space t e` sends the selection without changing the source or saving the file.
-Run `:config-reload` if Helix was open before these bindings were added.
-
-Use `Alt+l` to focus the REPL and `Alt+h` to return to Helix.
-Press `Ctrl+c` in the REPL to interrupt evaluation.
+Evaluation does not save or modify the source. Select complete forms.
+For Clojure, evaluate the buffer's `ns` form first to set its namespace and aliases.
+Run `:config-reload` to load bindings into an existing Helix instance.
 Close the REPL pane with Zellij's pane controls when finished.
+Restart the REPL after an abnormal termination.
 
-## Limits and other runtimes
+## Other runtimes
 
-Run only one reple session at a time. Its input channel is shared.
-Start the REPL before sending code. Restart it after an abnormal termination.
-Selections run in the REPL's current namespace.
-Evaluate the buffer's `ns` form first when you need its namespace and aliases.
+Stop the existing reple session first. Use ordinary terminal panes instead of
+this layout, which starts Babashka automatically. The evaluation binding stays
+`Space t e`.
 
-For a JVM Clojure project, start its REPL through reple in a terminal pane:
+### JVM Clojure
+
+With Java and the Clojure CLI installed, run:
 
 ```sh
 reple spawn 'clojure -M'
 ```
 
-This requires Java and the Clojure CLI. Add your project's aliases as needed.
-Stop the Babashka reple session before starting this command.
-Helix uses the same `Space t e` binding for either runtime.
+Add your project's aliases as needed.
 
-Results stay in the REPL pane. This setup does not provide an editor inspector
-or automatic namespace synchronization.
+### Django in Docker
 
-## Django inside Docker
-
-This workflow keeps Helix and reple on the host.
-The persistent Django shell runs inside an existing Compose container.
-You do not need reple inside the container.
-
-Stop any existing reple session first.
-Open two terminal panes in your project's Compose directory.
-The `repl` layout starts Babashka automatically, so use ordinary panes here.
-
-In the editor pane, run:
+Open two panes in your project's Compose directory. Run Helix in one:
 
 ```sh
 hx scratch.py
 ```
 
-In the REPL pane, run:
+Start the Django shell in the other:
 
 ```sh
 reple spawn 'docker compose exec cmd python manage.py shell'
 ```
 
-Replace `cmd` with your Compose service name.
-The container must already be running.
-Its working directory must contain `manage.py`.
-Keep the default interactive terminal allocation. Do not add `-T`.
+Replace `cmd` with your service name. The container must be running, with
+`manage.py` in its working directory. Do not add `-T`.
+Helix and reple run on the host. Django runs in the container.
 
-Enter these statements in Helix:
+Select and evaluate these statements in order:
 
 ```python
 from django.contrib.auth import get_user_model
@@ -100,30 +88,24 @@ User = get_user_model()
 User.objects.count()
 ```
 
-Select each statement and press `Space t e`.
-Imports and variables persist between evaluations.
-Results appear in the Django terminal pane.
+Django selects Python, IPython, or bpython based on installed packages.
+Use `shell -i python` to select standard Python explicitly.
+Reple sends raw text. Multiline Python blocks can need a terminating blank line
+or interpreter-specific paste handling.
 
-Django can select Python, IPython, or bpython, depending on installed packages.
-Use `shell -i python` to request the standard Python interpreter explicitly.
-Multiline blocks can require a terminating blank line or interpreter-specific
-paste handling. Reple sends raw text without Python paste preprocessing.
-Test small selections before sending larger blocks.
+The Docker workflow has not been tested against a Django project here.
+See [Compose exec][compose-exec] and [Django shell][django-shell].
 
-This Docker workflow follows the tools' documented behavior.
-It has not been tested against a Django project in this repository.
-See [Compose exec](https://docs.docker.com/reference/cli/docker/compose/exec/)
-and the [Django shell documentation][django-shell].
+## Install on another machine
 
-[django-shell]: https://docs.djangoproject.com/en/5.2/ref/django-admin/#shell
-
-## Installation on another machine
-
-The repository setup installs Go and reple through mise.
-After linking these dotfiles, you can install only the new dependencies:
+Repository setup installs the dependencies. After linking these dotfiles,
+install only the new dependencies with:
 
 ```sh
 mise install --locked go go:github.com/j3ka/reple
 ```
 
 See the [research notes](helix-repl-research.md) for sources and alternatives.
+
+[compose-exec]: https://docs.docker.com/reference/cli/docker/compose/exec/
+[django-shell]: https://docs.djangoproject.com/en/5.2/ref/django-admin/#shell
