@@ -23,26 +23,10 @@ Helix 25.07.1 lacks the pull-diagnostic support required by some language server
 Check compatibility before selecting a server. See
 [Helix's development documentation][pull-diagnostics].
 
-## Daily controls
-
-| Action | Keys or command |
-| --- | --- |
-| Find files / search project | `Space f` / `Space /` |
-| Browse files | `Space e` |
-| Definition / references | `g d` / `g r` |
-| Hover documentation | `Space k` |
-| Rename symbol / code actions | `Space r` / `Space a` |
-| Next / previous diagnostic | `] d` / `[ d` |
-| Buffer / workspace diagnostics | `Space d` / `Space D` |
-| Format buffer | `:format` |
-| Save without formatting | `:write --no-format` |
-| Restart language servers | `:lsp-restart` |
-| Evaluate selection | `Space t e` |
-
 Restart Helix after changing language settings. Run `hx --health tsx` or
 `hx --health python` from the project directory to check tool discovery.
 
-See [REPL workflows](repl.md) for runtime commands and selection examples.
+See [REPL workflows](repl.md) for the custom evaluation binding.
 Use another Zellij pane for tests, Git commands, and development servers.
 
 ## Remaining differences
