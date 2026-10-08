@@ -5,7 +5,7 @@ pane. Neovim uses Conjure instead for Clojure.
 Results appear there, and definitions persist between evaluations.
 Run only one reple session at a time.
 
-## Helix with Babashka in Zellij
+## Helix in Zellij
 
 From your project directory, start a session:
 
@@ -13,17 +13,19 @@ From your project directory, start a session:
 zellij --layout repl
 ```
 
-Inside Zellij, open a tab instead:
+The `work` tab has Helix above a shell on the left and an agent pane on the
+right. Helix opens the current directory with `hx .`.
+Start your project's REPL in the shell below Helix.
+The `feedback` tab contains logs and shell panes, as in the `work` layout.
+
+For example, start Babashka:
 
 ```sh
-zellij action new-tab --layout repl --name repl
+reple spawn 'bb repl'
 ```
 
-Helix opens `repl-scratch.clj` on the left, with Babashka on the right.
-The file is created when saved. Babashka supports a subset of Clojure, not a JVM
-project runtime.
-
-Enter:
+Babashka supports a subset of Clojure, not a JVM project runtime.
+Open a Clojure file in Helix and enter:
 
 ```clojure
 (def answer 41)
@@ -38,7 +40,7 @@ The second evaluation prints `42`.
 | Evaluate selection (Tools → Evaluate) | `Space t e` |
 | Select multiline code | `v`, then movement keys |
 | Expand syntax selection | `Alt+o` |
-| Focus REPL / Helix | `Alt+l` / `Alt+h` |
+| Focus REPL / Helix | `Alt+j` / `Alt+k` |
 | Interrupt evaluation | `Ctrl+c` in the REPL |
 
 Evaluation does not save or modify the source. Select complete forms.
@@ -68,9 +70,9 @@ The Django command below works with Neovim as well as Helix.
 
 ## Other runtimes
 
-Stop the existing reple session first. Use ordinary terminal panes instead of
-this layout, which starts Babashka automatically. Evaluate with `Space t e` in
-Helix or Visual-mode `,E` in Neovim for Python and TypeScript.
+Stop the existing reple session before starting another runtime in the shell
+pane. Evaluate with `Space t e` in Helix or Visual-mode `,E` in Neovim for
+Python and TypeScript.
 
 ### JVM Clojure
 
@@ -84,13 +86,13 @@ Add your project's aliases as needed.
 
 ### Django in Docker
 
-Open two panes in your project's Compose directory. Run Helix in one:
+Start the layout from your project's Compose directory:
 
 ```sh
-hx scratch.py
+zellij --layout repl
 ```
 
-Start the Django shell in the other:
+Open a Python file in Helix. Start the Django shell in the pane below it:
 
 ```sh
 reple spawn 'docker compose exec cmd python manage.py shell'

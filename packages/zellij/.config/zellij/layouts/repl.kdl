@@ -1,14 +1,32 @@
+// This project layout starts in the shell's current directory.
+// Press Alt+f for a floating pane in the work tab.
+// Press Alt+/ to show keybindings for the current mode.
+// Start with zellij --layout repl.
 // Run only one reple session at a time. All sessions share the same input pipe.
+
 layout {
-    pane split_direction="vertical" {
-        pane name="Helix" focus=true command="mise" {
-            args "exec" "--" "hx" "repl-scratch.clj"
-        }
-        pane name="Babashka REPL" command="mise" {
-            args "exec" "--" "reple" "spawn" "bb repl"
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="zellij:compact-bar" {
+                tooltip "Alt /"
+            }
         }
     }
-    pane size=1 borderless=true {
-        plugin location="zellij:compact-bar"
+
+    tab name="work" focus=true {
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" {
+                pane name="editor" focus=true command="hx" args="."
+                pane name="REPL"
+            }
+            pane name="agent"
+        }
+    }
+    tab name="feedback" {
+        pane split_direction="vertical" {
+            pane name="logs"
+            pane name="shell"
+        }
     }
 }
