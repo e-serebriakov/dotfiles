@@ -5,46 +5,23 @@ Keep editor preferences in dotfiles. Select language tools per project through
 Helix merges project language settings with its global configuration.
 See the [language configuration reference][languages].
 
-## Deltia
+## Project setup
 
-Start Helix from the repository:
+Run `hx .` from the project directory. Configure that project's language servers
+and formatters in `.helix/languages.toml`. Keep runtime versions, dependency
+installation commands, and project-specific paths with the project.
 
-```sh
-cd ~/source_code/deltia/backend
-hx .
-```
+Formatting and import organization are separate operations. For Biome projects,
+`biome check --write` applies formatting, import organization, and safe fixes.
+A formatting-only request does not apply all of these actions.
 
-The local `.helix/languages.toml` is ignored by Git. It uses absolute paths to
-this checkout's tools. Update those paths if you move the checkout.
+Helix runs external formatters from the file's directory. Its `%{buffer_name}`
+expansion can be relative to the editor's working directory. Account for this
+when passing filenames to formatter commands.
 
-The frontend uses its installed TypeScript 7 server and Biome. Biome reads
-`frontend/biome.json` for lint rules and formatting. No global TypeScript server
-or formatter is required for these files. Install frontend dependencies before
-starting Helix on another machine.
-
-Python uses `ty` and Ruff from `backend/.venv`. Install or refresh that ignored
-environment from the existing lockfile:
-
-```sh
-cd backend
-uv sync --locked --group dev --no-install-project
-```
-
-No activation is needed for Helix. Its local configuration names these tools
-explicitly. Django dependency navigation uses files in `.venv`. Keep the Django
-REPL in Docker so it uses the application's runtime settings and services.
-
-Helix 25.07.1 does not support the pull diagnostics used by TypeScript 7 and
-`ty`. Hover and Python dependency navigation work, and Biome supplies lint
-diagnostics. Run `just analyze` for TypeScript errors, or
-`backend/.venv/bin/ty check backend` for Python errors, until upgrading Helix.
-Pull-diagnostic support is present in [Helix's development documentation][pull-diagnostics].
-
-JavaScript, TypeScript, JSX, and TSX run `biome check --write` on save or
-`:format`. This formats code, organizes imports, and applies safe fixes.
-The command runs from the file's directory to discover the project configuration.
-JSON and CSS use Biome's language-server formatter. Additional lint actions
-remain available through `Space a`.
+Helix 25.07.1 lacks the pull-diagnostic support required by some language servers.
+Check compatibility before selecting a server. See
+[Helix's development documentation][pull-diagnostics].
 
 ## Daily controls
 
