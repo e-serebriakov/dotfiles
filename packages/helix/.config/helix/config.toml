@@ -20,3 +20,9 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+
+[keys.normal.space.t]
+e = ":pipe-to reple eval"
+
+[keys.select.space.t]
+e = ":pipe-to reple eval"

@@ -1,0 +1,14 @@
+// ponytail: reple shares one FIFO; use a session-aware bridge for concurrent REPLs.
+layout {
+    pane split_direction="vertical" {
+        pane name="Helix" focus=true command="mise" {
+            args "exec" "--" "hx" "repl-scratch.clj"
+        }
+        pane name="Babashka REPL" command="mise" {
+            args "exec" "--" "reple" "spawn" "bb repl"
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+}
