@@ -18,7 +18,7 @@ layout {
         pane split_direction="vertical" {
             pane split_direction="horizontal" {
                 pane name="editor" focus=true command="hx" args="."
-                pane name="REPL"
+                pane name="REPL" size="25%"
             }
             pane name="agent"
         }
