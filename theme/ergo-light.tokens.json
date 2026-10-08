@@ -1,11 +1,11 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "Ergo Light — tool-agnostic design tokens. Layer 1 (primitive ramps) + Layer 2 (semantic roles). Adapters in theme/generate.clj translate semantic tokens into per-tool files; no tool reads this file directly. Ramps built in OKLCH: an eased perceptual L* ladder (steps compress toward the light end so background tints get more resolution), a single locked hue per ramp, and one shared chroma ceiling (~0.045 across the ink steps 300-700) so every accent carries equal weight. Light-end steps 100/200 sit on a three-tier tint scale — whisper ~1.13:1, standard ~1.30:1, strong ~1.55:1 vs paper (a lightness ladder, unchanged by the chroma level) — so state washes read across displays, not just calibrated ones; those wash steps are near-neutral (C≈0.011-0.017, uniform across hues) so they read as barely-tinted paper rather than colour blocks (see primitive.$description for the two-regime chroma model). Cool-monochrome direction: calm neutral paper (one shared bg), soft ink ~8:1, near-grey 'dusty' accents (uniform low chroma, ~4.9:1 at the .600 step), very soft near-neutral background tints. Roles that once separated on hue now lean on the preserved L* ladders.",
+  "$description": "These design tokens apply to all tools. Layer 1 defines primitive color scales. Layer 2 defines semantic roles. The generators in theme/generate.clj convert the semantic tokens to tool configuration files. Tools do not read this file directly.\n\nThe scales use OKLCH and a perceptual L* sequence. Smaller increments at the light end give background tints more resolution. Each scale has one hue and a shared chroma limit of approximately 0.045 for steps 300–700. This limit gives the accents equal chroma.\n\nSteps 100/200 use three background contrast levels: approximately 1.13:1, 1.30:1, and 1.55:1. These ratios compare the tints with the base background. The lightness sequence does not change with the chroma level. The tints distinguish states across displays, including displays without calibration. Their chroma is approximately 0.011–0.017 across hues.\n\nThe design uses one neutral background, dark text at approximately 8:1, and accents with low chroma. Accent step 600 has approximately 4.9:1 contrast. Lightness differences distinguish roles that previously used hue differences. See primitive.$description for the two chroma ranges.",
   "primitive": {
-    "$description": "Layer 1 — raw color ramps, hue + lightness (50 lightest, 900 darkest). Eased in perceptual L* (steps compress toward the light end) with a single locked hue. TWO CHROMA REGIMES by design: light steps (50-200) are near-neutral background tints (C≈0.006-0.017, low enough that state washes read as barely-tinted paper, not colour blocks), then chroma steps up to a muted 'ink' plateau (C≈0.045) across 300-700. Within that plateau the roles split by lightness, not chroma: the light end (300, L≈0.82) is the strong background 'pop' tier — selection, active search, diff word-emph — while the AA-readable foregrounds live at the dark end (600-700, ~4.8-6.1:1 on paper). The L* ladder is SHARED across every ramp: step N has the same lightness — hence the same contrast — in gray as in any hue, so contrast is a property of the step, not the ramp. 300 is NOT a foreground step (~1.5:1); it only shares the plateau's chroma so a strong-tier background carries the same hue weight as an accent. The 200→300 chroma jump (~+0.028) is intentional: backgrounds stay quiet, foregrounds carry the hue, and the seam lands exactly on the wash→pop boundary. (Amber's light end runs a touch warmer in hue than the other tints — see the amber ramp.) Meaningless on their own; semantic tokens give them roles.",
+    "$description": "Layer 1 defines color scales from step 50 (lightest) to step 900 (darkest). Each scale uses a fixed hue and a perceptual L* sequence with smaller increments at the light end.\n\nSteps 50–200 are background tints with chroma approximately 0.006–0.017. Steps 300–700 use chroma approximately 0.045. Lightness, not chroma, distinguishes the roles in this second range. Step 300 has L≈0.82 and emphasizes selections, active searches, and changed words. Steps 600–700 are foreground colors with contrast approximately 4.8–6.1:1 against the base background.\n\nStep N has the same lightness in the gray scale and the hue scales. The shared sequence gives the same contrast for each step. Step 300 has contrast approximately 1.5:1 and is not a foreground color. Its chroma matches the foreground range so emphasized backgrounds and accents have equal chroma.\n\nThe chroma increase from step 200 to step 300 is approximately 0.028. This increase separates background tints from emphasized backgrounds. The amber scale has a warmer hue at the light end than the other tints. See the amber description for that exception. Semantic tokens assign roles to these primitive values.",
     "gray": {
       "$type": "color",
-      "$description": "Neutral grey (hue stripped, C*≈0) — every surface, border, and ink tone. Held neutral (not warm) so no yellow film tints the editor, at lightnesses where all contrasts hold. base (50) is the single shared environment background for nvim, terminal and zellij; a soft off-white (not stark) so it reads calm, not glary.",
+      "$description": "This neutral gray scale has chroma C*≈0. It supplies surfaces, borders, and text colors without a yellow tint. The selected lightness values keep the contrast relationships. Step 50 is the shared off-white background for Neovim, terminals, and Zellij.",
       "50": { "$value": "#F3F3F3" },
       "100": { "$value": "#E6E6E6" },
       "200": { "$value": "#D6D6D6" },
@@ -19,7 +19,7 @@
     },
     "red": {
       "$type": "color",
-      "$description": "Errors, deletions, and the warm mode-accent. Hue locked to ~18° (clean crimson). A dark, low-chroma WARM colour reads as 'brick/brown' regardless of hue (brown is just dark desaturated orange), so 18° is chosen to move the mid-dark steps across a colour-NAMING boundary: the green and blue channels equalise (e.g. 600 #7A6060, G≈B), the orange cast drops out, and the dark steps read as 'wine/maroon' — still named red — not brick. 18° is deliberately the crossover point: far enough to kill the brown cast, not so far it tips into rose/pink (that starts ~15° and below). add-vs-delete holds ΔE≈5.5 under deuteranopia (carried by the preserved lightness offset, not hue). Light steps read as clean soft rose (git-standard deletion tint), dark steps as clean dark red.",
+      "$description": "This scale supplies errors, deletions, and the warm mode accent. The hue is approximately 18° (crimson). Dark colors with low chroma and a warm hue can appear brown. At 18°, the green and blue channels have approximately equal values. For example, step 600 is #7A6060 (G≈B).\n\nThis hue makes the dark steps appear maroon rather than brown. Hues of approximately 15° or less start to appear pink. The light steps appear pale rose, the usual Git deletion color. The dark steps appear dark red.\n\nThe addition and deletion colors have ΔE≈5.5 with a deuteranopia simulation. The lightness difference, not the hue, provides this separation.",
       "50": { "$value": "#F7F2F2" },
       "100": { "$value": "#ECE4E2" },
       "200": { "$value": "#E1D2D2" },
@@ -33,7 +33,7 @@
     },
     "green": {
       "$type": "color",
-      "$description": "Strings, additions, success.",
+      "$description": "Strings, additions, and success states.",
       "50": { "$value": "#F0F4F0" },
       "100": { "$value": "#E1E7E1" },
       "200": { "$value": "#D1DAD1" },
@@ -47,7 +47,7 @@
     },
     "amber": {
       "$type": "color",
-      "$description": "Warm gold ramp — comment washes (light) and warnings (dark). Light steps are pinned to ~74-78° (warm wheat), NOT pure yellow ~90°: a desaturated 90° yellow greys toward dirty olive/khaki, so the light-end tints are rotated warmer to read as clean wheat/cream. The wash steps (100-300) share the other ramps' cool-monochrome tint budget (C≈0.011-0.045) so amber reads as barely-tinted warm paper on the highest-traffic surface (the comment band); the desaturation pulled it down to the same chroma as the neutrals, so amber now stays legibly warm by HUE (~78°) rather than by extra chroma — at this low chroma the 78° rotation is what keeps the band warm-stone rather than olive-grey. The whole ramp runs a single monotonic wheat->gold hue path (~78° light to ~72° gold dark, ~6° total spread); dark steps (400-900) carry the gold end for warning/terminal foregrounds.",
+      "$description": "This scale supplies pale backgrounds for comments and dark foregrounds for warnings. Light steps use hues approximately 74–78° (wheat), rather than pure yellow at approximately 90°. At low saturation, 90° yellow can appear olive or khaki. The warmer hues make the light tints appear wheat or cream.\n\nSteps 100–300 have chroma approximately 0.011–0.045, consistent with the other scales. These values keep the comment background close to neutral. At this chroma level, the approximately 78° hue gives the comment background its warm appearance. A higher chroma value is not necessary.\n\nThe hue changes monotonically from approximately 78° at the light end to approximately 72° at the dark end. The total change is approximately 6°. Steps 400–900 provide gold foregrounds for warnings and terminals.",
       "50": { "$value": "#F6F3EF" },
       "100": { "$value": "#EAE5DE" },
       "200": { "$value": "#DDD6CB" },
@@ -61,7 +61,7 @@
     },
     "blue": {
       "$type": "color",
-      "$description": "Info, links, functions, and calm structural-content surfaces — doc backgrounds and diff.change ('modified'). Its light tiers carry doc.50 (doc/quote ground) and the diff-change pair change.100 (changed line) / changeText.200 (changed word); doc and diffs never co-occur in one buffer.",
+      "$description": "This blue scale supplies information, links, functions, documentation backgrounds, and modified lines (diff.change). The light steps supply doc.50 for documentation and quotations. They also supply change.100 for changed lines and changeText.200 for changed words. Documentation and diffs do not occur in the same buffer in this design.",
       "50": { "$value": "#F0F3F7" },
       "100": { "$value": "#E1E6ED" },
       "200": { "$value": "#CED8E1" },
@@ -75,7 +75,7 @@
     },
     "cyan": {
       "$type": "color",
-      "$description": "Cyan ramp — terminal cyan channel (dark end, .600) and editor search highlights (light end, cyan.300 = all-matches band, cyan.400 = current match). Two non-overlapping regimes on one otherwise-unused hue.",
+      "$description": "This cyan scale supplies the terminal cyan foreground at step 600. It also supplies search backgrounds: cyan.300 for all matches and cyan.400 for the current match. These roles use different lightness ranges of a hue that has no other role.",
       "50": { "$value": "#EFF4F4" },
       "100": { "$value": "#DEE7E9" },
       "200": { "$value": "#CADADC" },
@@ -89,7 +89,7 @@
     },
     "violet": {
       "$type": "color",
-      "$description": "Blue-violet — constants (dark end, .700) and interactive selection (light end, selection.match 100 / selection.primary 300). Two non-overlapping regimes on one hue: a different buffer and a different step, so they never collide.",
+      "$description": "This blue-violet scale supplies constants at step 700 and selection backgrounds at steps 100 and 300. selection.match uses step 100. selection.primary uses step 300. The roles use different buffers and different lightness values.",
       "50": { "$value": "#F3F3F7" },
       "100": { "$value": "#E5E5ED" },
       "200": { "$value": "#D6D5E1" },
@@ -103,7 +103,7 @@
     },
     "plum": {
       "$type": "color",
-      "$description": "Red-violet — terminal magenta channel.",
+      "$description": "This red-violet scale supplies the terminal magenta color.",
       "50": { "$value": "#F4F2F6" },
       "100": { "$value": "#E9E4EA" },
       "200": { "$value": "#DCD3DE" },
@@ -117,103 +117,103 @@
     },
     "alert": {
       "$type": "color",
-      "$description": "OFF-RAMP alarm red — the ONE place the two-regime chroma model is broken on purpose. Every other ink step is pinned to the ~0.045 ceiling so 'every accent carries equal weight'; that uniformity is exactly what lets a single high-chroma element pop pre-attentively (a saturation feature-singleton). alert.fg sits at C≈0.14 — ~3x the ceiling — so an error MARK is the only saturated thing on screen and the eye finds it before it consciously looks. NOT on the eased L* ladder and NOT a ramp (a single named fg, not numeric steps) precisely so nobody mistakes it for a tunable accent: it is the reserved 'demands action' dimension, used by error diagnostics only. #B0454E (L≈0.54) sits on the red ramp's OWN 18° hue — deliberately NOT a foreign 'fire-engine' red — so it reads as the loud end of the theme's red, in-family, while still the most saturated thing present; AA on paper (4.97:1) so the sign glyph and undercurl read. The 3x chroma jump + the undercurl SHAPE make it CVD-robust (chroma magnitude and shape survive red-green deficiency where hue alone would not). Applied to the error MARKS — undercurl (sp), bold sign glyph, and the transient :messages/cmdline error line — foreground, no fill: the saturation IS the singleton, a background block would just read as a clunky box. The PERSISTENT in-buffer diagnostic message/virtual text stays on muted status.error (red.700), so a whole line of message isn't a slab of saturated red. Warnings stay on the muted amber ceiling, one tier down, so the alert axis is ordered: error shouts (at the mark), warning speaks, info/hint whisper.",
+      "$description": "This alert color is the only exception to the two chroma ranges. All other foreground steps have a chroma limit of approximately 0.045. One color with higher chroma can attract attention before the user reads the text.\n\nalert.fg has C≈0.14, approximately three times the shared limit. It is a single named foreground color, not a numbered scale step. It does not use the perceptual L* sequence. Use it only for error marks that need attention.\n\nThe value #B0454E has L≈0.54 and the same 18° hue as the red scale. It has higher saturation than the other red colors. Its contrast against the base background is 4.97:1 (AA). This supports the sign glyph and curved underline.\n\nThe threefold chroma increase and the curved underline provide different signals. Chroma magnitude and shape remain signals for red-green color vision deficiency when hue alone is insufficient. Apply this color to curved underlines (sp), bold sign glyphs, and temporary error lines in :messages or the command line. Use it as a foreground color, not a background.\n\nDiagnostic messages that stay in the buffer use status.error (red.700). This prevents a full message line from using the high-saturation red. Warnings use the amber chroma limit, one level below the error emphasis. Information and hint messages have less emphasis.",
       "fg": { "$value": "#B0454E" }
     }
   },
   "semantic": {
-    "$description": "Layer 2 — roles in the Ergo Light language. Tool-agnostic: these describe meaning (a surface, an error, a string), never a tool. Every value aliases into a primitive ramp, so the whole system re-tunes from Layer 1. Two cross-cutting rules the roles below rely on rather than restate. HUE LANGUAGE: green=add/string, red=delete/error, blue=persistent content/structure (info, links, functions, doc & diff.change grounds), amber=annotation (comment band, TODO markers, warnings); the transient cursor-driven states get their own cool hues off the content hues so they never collide with persistent content — violet=live selection & matching-ref, cyan=search. CVD SEPARATION: where two roles would collapse on the red-green axis under deuteranopia/protanopia, they are offset by LIGHTNESS, not hue (the diff add>change>delete lightness ladder; constant/function/link on stepped violet/blue); where a non-colour cue is always present — the diff +/- gutter glyph, the error undercurl — that cue is the primary signal and the lightness offset is only the colour backstop.",
+    "$description": "Layer 2 assigns meaning to the primitive colors. Roles describe surfaces, errors, and strings rather than individual tools. Each value refers to a primitive color, so changes to Layer 1 affect all roles.\n\nGreen identifies additions and strings. Red identifies deletions and errors. Blue identifies information, links, functions, documentation backgrounds, and backgrounds for changed lines. Amber identifies comments, TODO markers, and warnings. Violet identifies active selections and matching references. Cyan identifies search results.\n\nCursor-controlled states use hues different from the content that stays on the screen. Lightness differences distinguish roles whose red-green hue differences can disappear with deuteranopia or protanopia. This includes the lightness sequence for additions, changes, and deletions. It also includes the different violet and blue steps for constants, functions, and links.\n\nThe +/− symbols in the diff gutter and the curved error underline provide signals without color. Where these shapes are present, they are the primary signals. The lightness difference is an additional signal.",
     "surface": {
       "$type": "color",
-      "base": { "$value": "{primitive.gray.50}", "$description": "shared background for editor, terminal and zellij — soft neutral paper" },
-      "raised": { "$value": "{primitive.gray.100}", "$description": "panels, bars, floats, tab bar" },
-      "code": { "$value": "{primitive.gray.100}", "$description": "inline & fenced code bg" },
-      "cursorline": { "$value": "{primitive.gray.200}", "$description": "current-line highlight — stepped to gray.200 so it is actually visible on paper" },
-      "column": { "$value": "{primitive.gray.100}", "$description": "colorcolumn / cursorcolumn" },
-      "ruler": { "$value": "{primitive.gray.100}", "$description": "ruler background" },
-      "popup": { "$value": "{primitive.gray.100}", "$description": "popup / telescope bg — one step off base so it reads as a layer, not just a border" },
-      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "popup title bar" },
-      "key": { "$value": "{primitive.gray.300}", "$description": "Selected block: active tab, current mode, cursor position. A grey keycap with ink text, calmer than a black fill." }
+      "base": { "$value": "{primitive.gray.50}", "$description": "Shared neutral background for the editor, terminal, and Zellij." },
+      "raised": { "$value": "{primitive.gray.100}", "$description": "Background for panels, bars, floating windows, and the tab bar." },
+      "code": { "$value": "{primitive.gray.100}", "$description": "Background for inline code and fenced code blocks." },
+      "cursorline": { "$value": "{primitive.gray.200}", "$description": "Background for the current line. Step gray.200 distinguishes it from the base background." },
+      "column": { "$value": "{primitive.gray.100}", "$description": "Background for colorcolumn and cursorcolumn." },
+      "ruler": { "$value": "{primitive.gray.100}", "$description": "Ruler background." },
+      "popup": { "$value": "{primitive.gray.100}", "$description": "Background for popup windows and Telescope. One step above the base background distinguishes the window area from its border." },
+      "popupHeader": { "$value": "{primitive.gray.200}", "$description": "Background for popup title bars." },
+      "key": { "$value": "{primitive.gray.300}", "$description": "Background for the active tab, current mode, and cursor position. The gray background has dark text and less contrast than a black background." }
     },
     "border": {
       "$type": "color",
-      "default": { "$value": "{primitive.gray.300}", "$description": "splits, scrollbar, borders" }
+      "default": { "$value": "{primitive.gray.300}", "$description": "Color for split separators, the scrollbar, and borders." }
     },
     "text": {
       "$type": "color",
-      "primary": { "$value": "{primitive.gray.800}", "$description": "body text / default fg — soft neutral dark (~8:1, softened from ~10:1 for the calmer cool-monochrome tuning), calm not harsh" },
-      "secondary": { "$value": "{primitive.gray.700}", "$description": "secondary / status text" },
-      "muted": { "$value": "{primitive.gray.600}", "$description": "hints, line numbers, muted UI (comments use comment.fg)" },
-      "strong": { "$value": "{primitive.gray.900}", "$description": "text on the strongest fills (current search match) — gray.900 keeps AA where text.primary drops to ~3.6:1" }
+      "primary": { "$value": "{primitive.gray.800}", "$description": "Default foreground for body text. The contrast is approximately 8:1 rather than the previous 10:1." },
+      "secondary": { "$value": "{primitive.gray.700}", "$description": "Foreground for secondary text and status text." },
+      "muted": { "$value": "{primitive.gray.600}", "$description": "Foreground for hints, line numbers, and secondary interface text. Comments use comment.fg." },
+      "strong": { "$value": "{primitive.gray.900}", "$description": "Foreground for backgrounds with the most emphasis, such as the current search match. gray.900 meets AA where text.primary has approximately 3.6:1 contrast." }
     },
     "accent": {
       "$type": "color",
-      "string": { "$value": "{primitive.green.600}", "$description": "string literals / git add" },
-      "constant": { "$value": "{primitive.violet.700}", "$description": "constants, numbers, booleans — violet.700, stepped darker than function (blue.600) for CVD lightness separation" },
-      "function": { "$value": "{primitive.blue.600}", "$description": "function names" },
-      "link": { "$value": "{primitive.blue.800}", "$description": "links / urls — blue.800, kept clear of constant (violet.700) under CVD; the two never share a buffer" }
+      "string": { "$value": "{primitive.green.600}", "$description": "Foreground for string literals and Git additions." },
+      "constant": { "$value": "{primitive.violet.700}", "$description": "Foreground for constants, numbers, and booleans. violet.700 is darker than the function color (blue.600). The lightness difference supports users with color vision deficiency." },
+      "function": { "$value": "{primitive.blue.600}", "$description": "Foreground for function names." },
+      "link": { "$value": "{primitive.blue.800}", "$description": "Foreground for links and URLs. blue.800 differs in lightness from the constant color (violet.700) for users with color vision deficiency. These roles do not share a buffer." }
     },
     "status": {
       "$type": "color",
-      "error": { "$value": "{primitive.red.700}", "$description": "errors — darkest red, 2 steps below the warm mode-accent so the two never read alike" },
-      "warning": { "$value": "{primitive.amber.600}", "$description": "warnings" },
-      "info": { "$value": "{primitive.blue.600}", "$description": "info" },
-      "hint": { "$value": "{semantic.text.muted}", "$description": "hints" },
-      "success": { "$value": "{primitive.green.600}", "$description": "success" }
+      "error": { "$value": "{primitive.red.700}", "$description": "Foreground for errors. This is the darkest red, two steps below the warm mode accent, so the colors differ in lightness." },
+      "warning": { "$value": "{primitive.amber.600}", "$description": "Foreground for warnings." },
+      "info": { "$value": "{primitive.blue.600}", "$description": "Foreground for information." },
+      "hint": { "$value": "{semantic.text.muted}", "$description": "Foreground for hints." },
+      "success": { "$value": "{primitive.green.600}", "$description": "Foreground for success states." }
     },
     "alert": {
       "$type": "color",
-      "$description": "The 'demands action' tier — error only, kept separate from status.error so terminal/delta/zellij red stays muted (status.error = red.700) while the editor's error MARK shouts. One lever, error-scoped: the saturated undercurl + bold sign glyph only — foreground, no fill. The diagnostic message/virtual text rides muted status.error, not this, so only the small marks are loud. Warnings stay on amber one tier down. (Chroma-singleton physics: see primitive.alert.)",
-      "fg": { "$value": "{primitive.alert.fg}", "$description": "loud error MARK — undercurl + bold sign glyph only; message/virtual text uses status.error (muted)" }
+      "$description": "This color emphasizes error marks. It is separate from status.error (red.700), which supplies the red foreground for terminals, delta, and Zellij. Apply it only to the curved underline and bold sign glyph. Do not use it as a background.\n\nDiagnostic messages and virtual text use status.error, so only the small marks have high saturation. Warnings use amber with less emphasis. See primitive.alert for the chroma rationale.",
+      "fg": { "$value": "{primitive.alert.fg}", "$description": "Foreground for the curved error underline and bold sign glyph. Diagnostic messages and virtual text use status.error." }
     },
     "signal": {
       "$type": "color",
       "mark": {
         "$value": "{semantic.text.strong}",
-        "$description": "Small armed-state mark (unsaved, recording) on surfaces; >=3:1. Never a fill."
+        "$description": "Small mark for an unsaved buffer or an active macro recording. Its contrast against the background is at least 3:1. Do not use it as a background."
       }
     },
     "selection": {
       "$type": "color",
-      "primary": { "$value": "{primitive.violet.300}", "$description": "active selection — violet.300, strong-tier (~1.5:1). Separates from cursorline (gray.200, ΔE≈6.9) and from diff.change (blue.100, ΔE≈10.5, ≈10.4 under deuteranopia/protanopia — carried by the L* offset, since the low chroma leaves little hue) so a selection inside a changed line reads clearly. Dark text ~5.2:1. Ink-tier chroma (the 0.045 ceiling), not wash chroma — a selection is meant to be seen." },
-      "secondary": { "$value": "{primitive.gray.200}", "$description": "inactive / menu selection" },
-      "match": { "$value": "{primitive.violet.100}", "$description": "matched pair / reference — violet.100, paired with selection.primary; bracket-match and reference highlights track the cursor." }
+      "primary": { "$value": "{primitive.violet.300}", "$description": "The active selection uses violet.300 with contrast approximately 1.5:1 against the base background. Its difference from cursorline (gray.200) is ΔE≈6.9. Its difference from diff.change (blue.100) is ΔE≈10.5, or approximately 10.4 with deuteranopia or protanopia simulations. Low chroma limits the hue difference, so the L* difference provides the separation.\n\nThe selection remains distinguishable in a changed line. Dark text has contrast approximately 5.2:1. Selection chroma is 0.045, the foreground limit, rather than the lower background chroma." },
+      "secondary": { "$value": "{primitive.gray.200}", "$description": "Background for inactive selections and menu selections." },
+      "match": { "$value": "{primitive.violet.100}", "$description": "Background for matching pairs and references. violet.100 relates to selection.primary. Bracket and reference highlights change with the cursor position." }
     },
     "search": {
       "$type": "color",
-      "soft": { "$value": "{primitive.cyan.300}", "$description": "search match bg — cyan.300, strong/'pop' (~1.55:1). Clears the amber comment band (dE~7.8, deut ~6.5). ONE residual: overlaps selection (violet.300) at L~0.82 → dE~2.2 under deuteranopia — low severity (transient-vs-transient; the current match, cyan.400, stays clear of selection at dE~11.3 deut). Dark text ~5.3:1." },
-      "active": { "$value": "{primitive.cyan.400}", "$description": "current search / incsearch — one step above search.soft (cyan.400) so the match under the cursor out-reads the other matches (dE~11.2 from search.soft). Dark text ~3.6:1 — AA-large only; the softer cool-monochrome ink dropped this below AA-normal, acceptable because the current match is transient and cursor-driven." }
+      "soft": { "$value": "{primitive.cyan.300}", "$description": "All search matches use cyan.300 with contrast approximately 1.55:1 against the base background. The difference from the amber comment background is ΔE≈7.8, or approximately 6.5 with a deuteranopia simulation.\n\nOne limitation remains. This color and selection.primary (violet.300) have L≈0.82, with ΔE≈2.2 in a deuteranopia simulation. The design treats this as low severity because the search and selection states are temporary. The current match (cyan.400) remains distinct from the selection with ΔE≈11.3 in that simulation. Dark text has contrast approximately 5.3:1." },
+      "active": { "$value": "{primitive.cyan.400}", "$description": "The current search match uses cyan.400, one step above search.soft. Its difference from search.soft is ΔE≈11.2. This gives the current match more emphasis than the other matches.\n\nDark text has contrast approximately 3.6:1, which meets AA for large text only. The change to lower-contrast text reduced this value below AA for normal text. The design accepts this limitation because the current match is temporary and follows the cursor." }
     },
     "comment": {
       "$type": "color",
-      "fg": { "$value": "{semantic.text.secondary}", "$description": "comment foreground — aliased to text.secondary (same weight); comments are signal, meant to be read" },
-      "bg": { "$value": "{primitive.amber.200}", "$description": "normal comment band — amber.200 (standard-wash tier, ~1.30:1), a near-neutral warm-stone wash (C~0.017), not a gold block. A QUIET band by measurement. The prominence comments get in this theme comes almost entirely from the FOREGROUND weight (comment.fg = text.secondary, ~6:1 — comments read as strong as secondary UI text), not from the fill; the band's job is just to warm the region so the eye groups it, without shouting. Sole owner of amber.200 (diff.change lives on blue), so it never shares a step with another role." },
-      "high": { "$value": "{primitive.amber.300}", "$description": "high-priority comment markers (TODO/FIXME/WARNING/NOTE) — amber.300, one step above the normal comment band (amber.200) so a marker out-reads surrounding comments." }
+      "fg": { "$value": "{semantic.text.secondary}", "$description": "Comment foreground. This aliases text.secondary so comments have the same contrast as secondary text." },
+      "bg": { "$value": "{primitive.amber.200}", "$description": "The comment background uses amber.200 with contrast approximately 1.30:1 against the base background. Its chroma is approximately 0.017, close to neutral. This gives the background a small contrast difference.\n\nThe comment foreground supplies most of the emphasis. comment.fg equals text.secondary, with contrast approximately 6:1. The warm background groups the comment region. No other role uses amber.200. diff.change uses blue." },
+      "high": { "$value": "{primitive.amber.300}", "$description": "Background for TODO, FIXME, WARNING, and NOTE markers. amber.300 is one step above the comment background (amber.200), which distinguishes markers from adjacent comments." }
     },
     "doc": {
       "$type": "color",
-      "fg": { "$value": "{primitive.gray.700}", "$description": "documentation text" },
-      "bg": { "$value": "{primitive.blue.50}", "$description": "documentation background" },
-      "quote": { "$value": "{primitive.blue.50}", "$description": "blockquote background" },
-      "heading": { "$value": "{primitive.gray.800}", "$description": "documentation heading" }
+      "fg": { "$value": "{primitive.gray.700}", "$description": "Documentation foreground." },
+      "bg": { "$value": "{primitive.blue.50}", "$description": "Documentation background." },
+      "quote": { "$value": "{primitive.blue.50}", "$description": "Blockquote background." },
+      "heading": { "$value": "{primitive.gray.800}", "$description": "Documentation heading foreground." }
     },
     "diff": {
       "$type": "color",
-      "add": { "$value": "{primitive.green.200}", "$description": "added lines — standard-tier tint (~1.29:1 on paper). Light wash step while diff.delete sits one tier darker; see diff.delete for why the pair is intentionally asymmetric (CVD)." },
-      "addText": { "$value": "{primitive.green.300}", "$description": "word-level emphasis inside an added line (delta plus-emph / nvim DiffText) — one step above the line tint (strong tier) so the changed word out-reads the line, and lighter than diff.deleteText so add/delete word-patches separate by lightness under CVD." },
-      "change": { "$value": "{primitive.blue.100}", "$description": "changed/modified lines (nvim DiffChange) — blue.100, whisper tier; top of the change>add>delete lightness ladder (add green.200 L≈0.87, delete red.300 L≈0.82; add/change ΔE≈4.8 deut, ≈4.9 normal). Deliberately faint (~1.13:1) for 'neutral modification'; the changed word (changeText, blue.200) carries the visible anchor. Matches VS Code's gutter (add=green / modified=blue / delete=red). Dark text ~7.2:1." },
-      "changeText": { "$value": "{primitive.blue.200}", "$description": "word-level emphasis inside a changed line (nvim DiffText) — blue.200, one step ABOVE the change line (blue.100), mirroring add/addText (line at N, word at N+1). Gives the faint change band a visible anchor exactly on the changed span (~1.30:1 vs paper, dark text ~6.2:1) without making the whole line loud." },
-      "delete": { "$value": "{primitive.red.300}", "$description": "deleted lines — red.300, one tier ABOVE diff.add (L≈0.82 vs add's 0.87). Add is a light wash step, delete an ink step, so they separate in lightness and chroma both: the ΔL≈0.053 offset holds where an equal step (ΔL≈0.012) would collapse under CVD. Deletions read slightly stronger and warmer than additions." },
-      "deleteText": { "$value": "{primitive.red.400}", "$description": "word-level emphasis inside a deleted line (delta minus-emph) — red.400, one step below diff.addText (L≈0.71 vs 0.82, ΔL≈0.111) so a deleted word separates from an added word by lightness. Deeper than the delete line so the word still pops within its own line." },
-      "conflict": { "$value": "{primitive.red.100}", "$description": "conflict markers" }
+      "add": { "$value": "{primitive.green.200}", "$description": "Added lines use a tint with contrast approximately 1.29:1 against the base background. diff.delete is one step darker. See diff.delete for the reason for this difference with color vision deficiency." },
+      "addText": { "$value": "{primitive.green.300}", "$description": "This color emphasizes words in added lines (delta plus-emph and Neovim DiffText). It is one step above the line tint, which distinguishes the word from the line. It is lighter than diff.deleteText. This lightness difference separates added and deleted words for users with color vision deficiency." },
+      "change": { "$value": "{primitive.blue.100}", "$description": "Changed lines (Neovim DiffChange) use blue.100 with contrast approximately 1.13:1 against the base background. The lightness order is change, add, then delete. Add uses green.200 (L≈0.87). Delete uses red.300 (L≈0.82). The difference between add and change is ΔE≈4.9, or approximately 4.8 with a deuteranopia simulation.\n\nThe low contrast represents a modification without an addition or deletion. The changed word uses changeText (blue.200) for more emphasis. This matches the VS Code gutter convention: green for additions, blue for modifications, and red for deletions. Dark text has contrast approximately 7.2:1." },
+      "changeText": { "$value": "{primitive.blue.200}", "$description": "Changed words (Neovim DiffText) use blue.200, one step above changed lines (blue.100). This matches the add/addText relationship: the line uses step N, and the word uses step N+1. The changed word has contrast approximately 1.30:1 against the base background. Dark text has contrast approximately 6.2:1. Only the changed text receives this emphasis." },
+      "delete": { "$value": "{primitive.red.300}", "$description": "Deleted lines use red.300, one step above diff.add. Their lightness is approximately 0.82, compared with approximately 0.87 for added lines. The colors differ in lightness and chroma. The lightness difference is ΔL≈0.053. Equal scale steps have ΔL≈0.012 and can become difficult to distinguish with color vision deficiency.\n\nDeleted lines have more emphasis and a warmer color than added lines." },
+      "deleteText": { "$value": "{primitive.red.400}", "$description": "Deleted words (delta minus-emph) use red.400, one step below diff.addText. Their lightness is approximately 0.71, compared with approximately 0.82 for added words (ΔL≈0.111). This lightness difference separates deleted and added words. The word color is darker than the deleted-line color, so the word remains distinct in its line." },
+      "conflict": { "$value": "{primitive.red.100}", "$description": "Background for conflict markers." }
     },
     "cursor": {
       "$type": "color",
-      "primary": { "$value": "{primitive.gray.900}", "$description": "primary cursor block — kept near-black so the caret stays easy to spot" },
-      "secondary": { "$value": "{primitive.gray.500}", "$description": "secondary cursor" }
+      "primary": { "$value": "{primitive.gray.900}", "$description": "Primary cursor background. Its near-black color distinguishes the cursor from the text background." },
+      "secondary": { "$value": "{primitive.gray.500}", "$description": "Secondary cursor background." }
     },
     "terminal": {
-      "$description": "The ANSI palette is a role a terminal plays, not a tool. Muted on purpose vs the editor accents. The 'white' channels are a hard light-theme constraint, not a loose choice: color 15 (bright white) must stay LIGHTER than color 7 (white) to preserve ANSI ordering, and on light paper 'lighter than the lightest AA-passing grey' is by definition sub-AA — so bright.white CANNOT reach AA as body text without breaking the ordering. gray.500 (3.4:1, AA-large) is therefore the provable optimum for bright.white, and white=gray.600 (4.9:1, AA) is as light as color 7 can go while passing AA. This only bites apps that explicitly paint body text in ANSI 7/15; the terminal's DEFAULT foreground is text.primary (gray.800, ~8.1:1), so ordinary uncoloured output is never affected.",
+      "$description": "The ANSI palette serves terminals rather than a single tool. Its colors have less emphasis than the editor accents. ANSI color 15 (bright white) must be lighter than color 7 (white) to keep the ANSI order. Against a light background, a color lighter than the lightest AA-compliant gray cannot meet AA for body text.\n\nbright.white uses gray.500 with contrast 3.4:1 (AA for large text). The design selects this as the best value with the ANSI order constraint. white uses gray.600 with contrast 4.9:1 (AA). This is the lightest permitted color 7 that meets AA.\n\nThis limitation affects applications that explicitly use ANSI colors 7 or 15 for body text. The default terminal foreground uses text.primary (gray.800), with contrast approximately 8.1:1. Output that uses the default foreground is not affected.",
       "ansi": {
         "$type": "color",
         "black": { "$value": "{primitive.gray.900}" },

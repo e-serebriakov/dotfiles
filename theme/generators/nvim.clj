@@ -3,9 +3,8 @@
    [clojure.string :as str]
    [generators.common :refer [generated-banner]]))
 
-;; A vector of [palette-key semantic-token] pairs — a VECTOR (not a map) so the
-;; output line order is exactly this order. Palette keys must match the ones the
-;; colorscheme requires()s.
+;; Use a vector of [palette-key semantic-token] pairs to keep the output order.
+;; The palette keys must match the keys that the colorscheme reads.
 (def ^:private palette
   [["paper" "surface.base"]
    ["panel" "surface.raised"]

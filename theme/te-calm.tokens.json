@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE calm — Teenage Engineering-inspired variant of Ergo Light: lab-grey paper, saturation scaled to importance ÷ frequency (only the error mark is loud). Same L* ladder and semantic roles as ergo-light.tokens.json, which documents the shared rationale.",
+  "$description": "TE calm is a Teenage Engineering-inspired variant of Ergo Light. It uses gray backgrounds. Saturation depends on importance divided by frequency. Only error marks have high saturation. The L* sequence and semantic roles match ergo-light.tokens.json, which explains the shared design.",
   "primitive": {
     "gray": {
       "50": {
@@ -302,7 +302,7 @@
       },
       "key": {
         "$value": "{primitive.gray.300}",
-        "$description": "Selected block: active tab, current mode, cursor position. A grey keycap with ink text, calmer than a black fill."
+        "$description": "Background for the active tab, current mode, and cursor position. The gray background has dark text and less contrast than a black background."
       }
     },
     "border": {
@@ -369,7 +369,7 @@
       "$type": "color",
       "mark": {
         "$value": "{primitive.alert.fg}",
-        "$description": "Small armed-state mark (unsaved, recording) on surfaces; >=3:1. Never a fill."
+        "$description": "Small mark for an unsaved buffer or an active macro recording. Its contrast against the background is at least 3:1. Do not use it as a background."
       }
     },
     "selection": {

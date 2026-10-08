@@ -26,7 +26,7 @@ return {
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- Disable formatting on save for C and C++; their style conventions vary.
+      -- Disable automatic formatting on save for C and C++. Their style conventions vary.
       -- Edit this table to change the excluded languages.
       local disable_filetypes = { c = true, cpp = true }
       if disable_filetypes[vim.bo[bufnr].filetype] then

@@ -3,15 +3,15 @@
    [clojure.string :as str]
    [generators.common :refer [generated-banner]]))
 
-;; Zellij's component theme spec (0.42+): one block per UI part, so each bar
-;; element gets an explicit colour instead of borrowing a palette slot.
-;; The selected ribbon is a grey keycap (surface.key) with ink text.
-;; Some emphasis slots have specific jobs in the built-in plugins:
+;; Zellij component themes (0.42+) use one block for each interface part.
+;; Each bar element has a specified color rather than a shared palette slot.
+;; The selected ribbon uses the gray surface.key background with dark text.
+;; The built-in plugins assign these functions to emphasis slots:
 ;;   ribbon_unselected 0 = status-bar key letter, 1 = compact-bar alternate tab fill, 3 = bell
-;;   text_unselected   2 = compact-bar NORMAL (armed), 3 = compact-bar LOCKED (resting, so muted)
+;;   text_unselected   2 = compact-bar NORMAL (active), 3 = compact-bar LOCKED (less emphasis)
 ;;   text_selected     0 = compact-bar indicator fill
-;; Don't enable simplified_ui with status-bar: it draws every other hint label
-;; in ribbon_unselected.base on a ribbon_unselected.base fill (zellij 0.44).
+;; Do not enable simplified_ui with status-bar. In Zellij 0.44, alternate hint labels
+;; use ribbon_unselected.base for the foreground and background, which hides the text.
 (def ^:private components
   [["text_unselected"     {:base "text.primary"   :background "surface.base"       :emphasis ["text.strong" "status.info" "signal.mark" "text.muted"]}]
    ["text_selected"       {:base "text.strong"    :background "surface.cursorline" :emphasis ["surface.cursorline" "status.info" "status.success" "signal.mark"]}]
@@ -33,7 +33,7 @@
    "terminal.ansi.magenta" "terminal.ansi.cyan" "status.success" "status.error" "text.secondary"])
 
 (defn- rgb
-  "Zellij component themes take colours as decimal R G B triplets."
+  "Convert the color to a decimal R G B triplet for Zellij component themes."
   [hex]
   (str/join " " (map #(Integer/parseInt (subs hex % (+ % 2)) 16) [1 3 5])))
 

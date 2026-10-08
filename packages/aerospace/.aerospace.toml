@@ -90,7 +90,7 @@ automatically-unhide-macos-hidden-apps = false
     k = ['move up', 'mode main']
     l = ['move right', 'mode main']
 
-    # Move node to workspace
+    # Move the node to a workspace.
     1 = ['move-node-to-workspace 1', 'mode main']
     2 = ['move-node-to-workspace 2', 'mode main']
     3 = ['move-node-to-workspace 3', 'mode main']
@@ -129,8 +129,8 @@ automatically-unhide-macos-hidden-apps = false
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
-    r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    r = ['flatten-workspace-tree', 'mode main'] # Reset the layout.
+    f = ['layout floating tiling', 'mode main'] # Change between the floating and tiling layouts.
     backspace = ['close-all-windows-but-current', 'mode main']
     s = ['layout accordion horizontal vertical', 'mode main']
     t = ['layout tiles horizontal vertical', 'mode main']

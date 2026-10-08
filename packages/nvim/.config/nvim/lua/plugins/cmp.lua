@@ -59,7 +59,7 @@ return {
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
-        -- Accept completion. Expand snippets and add imports if the server supports them.
+        -- Accept the completion. The editor expands snippets and adds imports if the server supports them.
         ['<C-y>'] = cmp.mapping.confirm { select = true },
 
         -- Uncomment to use Enter and Tab for completion.
@@ -82,13 +82,13 @@ return {
           end
         end, { 'i', 's' }),
 
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+        -- For LuaSnip keymaps that select choice nodes or expand snippets, see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
         {
           name = 'lazydev',
-          -- Group 0 skips LuaLS completions, as recommended by lazydev.
+          -- Group 0 skips LuaLS completions. This is the lazydev recommendation.
           group_index = 0,
         },
         { name = 'conjure' },

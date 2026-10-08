@@ -13,7 +13,7 @@ __pycache__/
 .clj-kondo/.cache/
 
 # Generated theme files — build artifacts of theme/generate.clj.
-# Edit theme/*.tokens.json instead; these are regenerated on install.
+# Edit theme/*.tokens.json. Setup regenerates the output files.
 packages/wezterm/.config/wezterm/colors/baked.toml
 packages/zellij/.config/zellij/themes/baked.kdl
 packages/nvim/.config/nvim/lua/colorschemes/baked_palette.lua

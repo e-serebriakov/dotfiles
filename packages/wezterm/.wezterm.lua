@@ -17,8 +17,8 @@ config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
--- Tabs read [01] title, [02] title, ...
--- Zellij titles look like "backend-3059699869 | editor"; show just "backend".
+-- Tabs show [01] title, [02] title, ...
+-- For a Zellij title such as "backend-3059699869 | editor", show only "backend".
 wezterm.on("format-tab-title", function(tab)
   local title = tab.tab_title ~= "" and tab.tab_title or tab.active_pane.title
   local session = title:match("^(%S+) | ")
@@ -28,7 +28,7 @@ wezterm.on("format-tab-title", function(tab)
   return string.format(" [%02d] %s ", tab.tab_index + 1, title)
 end)
 
--- Cmd+P: pick a zoxide directory and open its Zellij session (dev) in a new tab.
+-- Cmd+P opens a directory selector. The selected directory opens in a new tab with its Zellij session (dev).
 -- zsh -ic loads .zshrc, which puts mise-installed zoxide on PATH and defines dev.
 config.keys = {
   {
@@ -65,13 +65,15 @@ config.keys = {
 
 -- Use reverse video for the cursor.
 config.force_reverse_video_cursor = true
+-- Blink interval in ms for blinking cursor styles (zsh insert mode uses a blinking beam).
+config.cursor_blink_rate = 600
 
 config.inactive_pane_hsb = { saturation = 1.0, brightness = 0.92 }
 
 -- Use the Kitty keyboard protocol to send Ctrl+Alt+letter combinations to Zellij.
 config.enable_kitty_keyboard = true
 
--- Send Alt as a modifier instead of macOS special characters.
+-- Send Alt as a modifier. Do not send macOS special characters.
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 

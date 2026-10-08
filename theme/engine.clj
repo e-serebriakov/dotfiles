@@ -14,7 +14,7 @@
       (println "wrote" (str (fs/relativize root path))))))
 
 (def default-theme "ergo-light")
-;; The chosen theme name, remembered so install.sh regenerates the same theme.
+;; Store the selected theme name so install.sh regenerates the same theme.
 (def active-path (fs/file root "theme" ".active"))
 (defn preview-path [theme-name]
   (fs/file root "theme" (str "preview-" theme-name ".svg")))
@@ -23,7 +23,7 @@
   (fs/file root "theme" (str theme-name ".tokens.json")))
 
 (defn theme-names
-  "Every theme that has a tokens file in theme/."
+  "Return all theme names with a tokens file in theme/."
   []
   (sort (map #(str/replace (fs/file-name %) #"\.tokens\.json$" "")
              (fs/glob (fs/file root "theme") "*.tokens.json"))))
@@ -39,9 +39,9 @@
 (def ^:private alias-re #"^\{(.+)\}$")
 
 (defn- resolve-token
-  "Follow {alias} chains from `path` down to a concrete hex. `seen` is the
-  ordered vector of ancestors visited this resolution — membership is the cycle
-  check, order builds the error message."
+  "Resolve the aliases from `path` to a hexadecimal color.
+  The `seen` vector contains the tokens visited during this call, in order.
+  A repeated token identifies a cycle. The token order supplies the error message."
   ([tokens path] (resolve-token tokens path []))
   ([tokens path seen]
    (when (some #{path} seen)

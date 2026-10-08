@@ -6,7 +6,7 @@ return {
     -- Debugger interface
     'rcarriga/nvim-dap-ui',
 
-    -- Required dependency for nvim-dap-ui
+    -- Dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
     -- Mason integration

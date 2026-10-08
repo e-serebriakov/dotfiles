@@ -6,8 +6,8 @@ info() {
 }
 
 install_homebrew() {
-  command -v brew &> /dev/null && { info "✓ homebrew already installed"; return; }
-  info "Installing Homebrew (needs admin)..."
+  command -v brew &> /dev/null && { info "✓ Homebrew is installed"; return; }
+  info "Setup installs Homebrew (administrator access is necessary)."
   # Cache sudo credentials: NONINTERACTIVE skips RETURN and checks sudo with -n.
   # That check fails without cached credentials. Karabiner-Elements can reuse them.
   sudo -v
@@ -15,8 +15,8 @@ install_homebrew() {
     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
-# Store key passphrases in Keychain for automatic use with ~/.ssh/config.d/defaults.conf.
-# Skip keys already in the agent. Request a passphrase when first adding a key.
+# Store key passphrases in Keychain. SSH uses them automatically with ~/.ssh/config.d/defaults.conf.
+# Skip keys that the agent contains. Request a passphrase when the script first adds a key.
 setup_ssh_keychain() {
   command -v ssh-add &> /dev/null || return 0
   local key fp
@@ -24,23 +24,23 @@ setup_ssh_keychain() {
     [ -f "$key" ] || continue
     fp="$(ssh-keygen -lf "$key" | awk '{print $2}')"
     if ssh-add -l 2>/dev/null | grep -q "$fp"; then
-      info "✓ $(basename "$key") already loaded"
+      info "✓ $(basename "$key") is loaded"
     else
-      info "Adding $(basename "$key") to Keychain (may prompt for passphrase)..."
+      info "Setup adds $(basename "$key") to Keychain. It can request a passphrase."
       ssh-add --apple-use-keychain "$key"
     fi
   done
 }
 
 main() {
-  info "🔧 Starting macOS bootstrap"
+  info "🔧 macOS setup starts."
   install_homebrew
-  # Add the Apple Silicon Homebrew location to PATH; the installer does not change it.
+  # Add the Apple Silicon Homebrew location to PATH. The installer does not change it.
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  info "Installing apps from Brewfile (Karabiner-Elements prompts for sudo)..."
+  info "Setup installs applications from Brewfile. Karabiner-Elements requests sudo access."
   brew bundle --no-upgrade --file "$(dirname "$0")/Brewfile"
   setup_ssh_keychain
-  info "✅ macOS setup complete"
+  info "✅ macOS setup is completed."
 }
 
 main "$@"

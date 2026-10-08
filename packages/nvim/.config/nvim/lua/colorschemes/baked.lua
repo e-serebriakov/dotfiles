@@ -1,12 +1,12 @@
 local M = {}
 
 -- Generate the palette from the active theme/*.tokens.json with theme/generate.clj.
--- Edit the tokens, then regenerate. Do not edit generated palette values.
+-- Edit the tokens. Then regenerate the palette. Do not edit generated palette values.
 local ok, colors = pcall(require, 'colorschemes.baked_palette')
 
 function M.setup()
   if not ok then
-    vim.notify('baked: generated palette missing — run `bb -m generate` in the dotfiles repo theme/ dir', vim.log.levels.WARN)
+    vim.notify('baked: the generated palette is missing. Run `bb -m generate` from the theme/ directory in the dotfiles repository.', vim.log.levels.WARN)
     return
   end
   local hi = vim.api.nvim_set_hl
@@ -24,7 +24,7 @@ function M.setup()
   hi(0, 'Normal', { fg = colors.text, bg = colors.paper })
   hi(0, 'NormalFloat', { fg = colors.text, bg = colors.panel })
   hi(0, 'FloatBorder', { fg = colors.divider, bg = colors.panel })
-  -- Unfocused windows sit on the panel grey, so the focused split reads as the lit one.
+  -- Windows without focus use the panel gray. The focused window has a lighter background.
   hi(0, 'NormalNC', { fg = colors.text, bg = colors.panel })
 
   -- Cursor
@@ -36,7 +36,7 @@ function M.setup()
   hi(0, 'CursorLineNr', { fg = colors.text, bold = true })
 
   -- Line numbers
-  -- The gutter uses text_muted so the comment colour only ever means a comment.
+  -- The gutter uses text_muted. Only comments use the comment color.
   hi(0, 'LineNr', { fg = colors.text_muted })
   hi(0, 'LineNrAbove', { fg = colors.text_muted })
   hi(0, 'LineNrBelow', { fg = colors.text_muted })
@@ -46,7 +46,7 @@ function M.setup()
   hi(0, 'StatusLineNC', { fg = colors.text_soft, bg = colors.panel })
   hi(0, 'StatusLineSeparator', { fg = colors.divider, bg = colors.panel })
 
-  -- Bufferline (if using bufferline plugin)
+  -- Bufferline (with the bufferline plugin)
   hi(0, 'BufferLineFill', { fg = colors.text, bg = colors.panel })
   hi(0, 'BufferLineBackground', { fg = colors.text, bg = colors.panel })
   hi(0, 'BufferLineBufferSelected', { fg = colors.text, bg = colors.paper, bold = true })
@@ -120,7 +120,7 @@ function M.setup()
 
   -- Use alert_fg for diagnostic marks and err_fg for text. See the alert.fg tokens.
   hi(0, 'DiagnosticError', { fg = colors.err_fg, undercurl = true, sp = colors.alert_fg })
-  -- Undercurl means error or warning only; info is dashed and hint dotted.
+  -- Errors and warnings use curved underlines. Information uses dashed underlines. Hints use dotted underlines.
   hi(0, 'DiagnosticWarn', { fg = colors.warn_fg, undercurl = true, sp = colors.warn_fg })
   hi(0, 'DiagnosticInfo', { fg = colors.info_fg, underdashed = true })
   hi(0, 'DiagnosticHint', { fg = colors.hint_fg, underdotted = true })
@@ -210,8 +210,8 @@ function M.setup()
   hi(0, 'ModeMsg', { fg = colors.text })
   hi(0, 'MoreMsg', { fg = colors.info_fg })
 
-  -- Mini.statusline (if using mini.nvim)
-  -- Normal mode is the grey keycap; other modes keep mini.statusline's default Diff* links.
+  -- Mini.statusline (with mini.nvim)
+  -- Normal mode uses a gray background. Other modes keep mini.statusline's default Diff* links.
   hi(0, 'MiniStatuslineModeNormal', { fg = colors.text_strong, bg = colors.key_bg })
   hi(0, 'BakedSignal', { fg = colors.signal_mark, bg = colors.panel })
   hi(0, 'MiniStatuslineDevinfo', { fg = colors.text, bg = colors.panel })
@@ -249,7 +249,7 @@ function M.setup()
   hi(0, 'OilSelected', { fg = colors.text, bg = colors.line })
 
   -- Remove comment and TODO backgrounds in diff windows so added and deleted lines keep their colors.
-  -- Use a window-local highlight namespace for vimdiff and diffview; both set 'diff'.
+  -- Use a window-local highlight namespace for vimdiff and diffview. The two tools set 'diff'.
   -- Rebuild the namespace when the palette changes.
   local ns = vim.api.nvim_create_namespace('baked_diff_nobg')
   for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation',
@@ -267,13 +267,13 @@ function M.setup()
       vim.api.nvim_win_set_hl_ns(win, vim.wo[win].diff and ns or 0)
     end,
   })
-  -- Catch windows already in diff mode when the theme (re)loads.
+  -- Apply the highlights to windows in diff mode when the theme loads.
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.wo[win].diff then vim.api.nvim_win_set_hl_ns(win, ns) end
   end
 
   -- nvim_set_hl does not trigger ColorScheme. Send the event to refresh plugin color caches.
-  -- This prevents stale render-markdown code block borders after :BakedReload clears highlights.
+  -- This refreshes the borders around code blocks in render-markdown after :BakedReload clears the highlights.
   vim.api.nvim_exec_autocmds('ColorScheme', { pattern = 'baked', modeline = false })
 end
 

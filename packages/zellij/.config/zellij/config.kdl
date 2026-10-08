@@ -1,5 +1,5 @@
 // Zellij's default keybindings, plus Alt navigation in locked mode.
-// Zellij starts locked (default_mode below); Ctrl+g toggles locked/normal.
+// Zellij starts in locked mode (default_mode below). Ctrl+g changes between locked and normal mode.
 keybinds {
     locked {
         bind "Alt h" { MoveFocusOrTab "Left"; }
@@ -35,13 +35,13 @@ plugins {
 
 theme "baked"
 // Start locked so Ctrl keys reach Neovim or the shell. Ctrl+g unlocks Zellij.
-// Actions return to normal mode, not locked; press Ctrl+g to lock again.
+// Actions return to normal mode. Press Ctrl+g to return to locked mode.
 default_mode "locked"
-// No red frame on the pane under the mouse; the highlight only marks an active mode.
+// Do not show a red border on the pane below the mouse pointer. The highlight identifies an active mode.
 mouse_hover_effects false
 default_shell "zsh"
 default_layout "work"
 show_release_notes false
 
-// Theme "baked" is defined in themes/baked.kdl, generated from
-// the active theme/*.tokens.json (see theme/generate.clj).
+// theme/generate.clj defines theme "baked" in themes/baked.kdl.
+// The generator uses the active theme/*.tokens.json.

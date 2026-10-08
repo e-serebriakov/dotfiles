@@ -12,16 +12,15 @@
   ([] (theme (e/active-theme)))
   ([theme-name] (e/->theme (g/load-theme theme-name))))
 
-;; The heart of the whole migration: every adapter must render its committed
-;; file byte-for-byte. If a token changes and a file isn't regenerated, this
-;; fails and names the drifted file.
+;; Each generator must produce output equal to its file on disk.
+;; If a token changes without a new output file, the test identifies the difference.
 (deftest golden-outputs-match-disk
   (let [t (theme)]
     (doseq [{:keys [render output]} g/adapters]
       (testing output
         (is (= (slurp (str (fs/file e/root output)))
                (render t))
-            (str output " drifted — run `bb -m generate`"))))))
+            (str output " differs from the generated output. Run `bb -m generate`."))))))
 
 (deftest repo-contract-holds
   (doseq [theme-name (e/theme-names)]
@@ -65,21 +64,21 @@
     (is (thrown-with-msg? clojure.lang.ExceptionInfo #"unknown token"
                           (theme "a")))))
 
-;; The committed README image is the one generated artifact that is tracked
-;; rather than gitignored+regenerated, so a stale copy would ship to GitHub.
+;; Git tracks the generated README images.
+;; Compare them with the generator output to prevent outdated images on GitHub.
 (deftest preview-matches-disk
   (doseq [theme-name (e/theme-names)]
     (testing theme-name
       (let [content (preview/generate-preview (theme theme-name))
             path    (e/preview-path theme-name)]
         (is (fs/exists? path)
-            (str (fs/file-name path) " not generated yet — run `bb -m generate`"))
+            (str (fs/file-name path) " is missing. Run `bb -m generate`."))
         (is (= (slurp (str path)) content)
-            (str (fs/file-name path) " drifted — run `bb -m generate`"))
+            (str (fs/file-name path) " differs from the generated output. Run `bb -m generate`."))
         (is (str/includes? content generated-banner))))))
 
-;; Proves preview-ansi consumes the same preview-rows the SVG does: every hex
-;; named in a row must show up as a truecolor (2;r;g;b) run.
+;; The ANSI and SVG previews use the same rows. Each hexadecimal color
+;; in a row must appear in a truecolor sequence (2;r;g;b).
 (deftest preview-ansi-emits-every-row-colour
   (let [t     (theme)
         ansi  (preview/preview-ansi t)
