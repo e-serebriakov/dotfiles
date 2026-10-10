@@ -5,6 +5,7 @@
    [clojure.test :refer [deftest is testing]]
    [engine :as e]
    [generate :as g]
+   [generators.nvim :as nvim]
    [generators.preview :as preview]))
 
 (defn- theme
@@ -83,3 +84,9 @@
     (doseq [hex hexes]
       (let [triple (str/join ";" (into [2] (e/hex->rgb hex)))]
         (is (str/includes? ansi triple) (str hex " missing from ANSI preview"))))))
+
+;; baked.lua removes these backgrounds in diff windows. A new comment-background group must join the list.
+(deftest diff-nobg-covers-comment-backgrounds
+  (is (= #{"Comment" "@comment" "@comment.documentation" "@string.documentation"
+           "@comment.todo" "@comment.note" "@comment.warning" "@comment.error" "Todo"}
+         (set nvim/diff-nobg))))

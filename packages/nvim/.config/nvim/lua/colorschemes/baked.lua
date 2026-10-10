@@ -28,8 +28,7 @@ function M.setup()
   -- Use a window-local highlight namespace for vimdiff and diffview. The two tools set 'diff'.
   -- setup() rebuilds this namespace, so it follows the current highlights.
   local ns = vim.api.nvim_create_namespace('baked_diff_nobg')
-  for _, g in ipairs({ 'Comment', '@comment', '@comment.documentation', '@string.documentation',
-                      '@comment.todo', '@comment.note', '@comment.warning', '@comment.error', 'Todo' }) do
+  for _, g in ipairs(baked.diff_nobg) do
     local h = vim.api.nvim_get_hl(0, { name = g, link = false })
     h.bg, h.ctermbg = nil, nil
     vim.api.nvim_set_hl(ns, g, h)
