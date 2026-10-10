@@ -3,43 +3,43 @@
 # Do not make lockfiles mandatory for all projects. Projects without a lockfile cannot install their tools with that setting.
 
 [tools]
-node = "24"
-python = "3.12"
-uv = "latest"
-babashka = "latest"
-go = "1.26" # Builds reple, which has no prebuilt release binaries.
+node = "24.14.0"
+python = "3.12.13"
+uv = "0.11.15"
+babashka = "1.13.223"
+go = "1.26.8" # Builds reple, which has no prebuilt release binaries.
 "go:github.com/j3ka/reple" = "0.1.1"
 
-neovim = "latest"
-helix = "latest"
+neovim = "0.12.5"
+helix = "25.07.1"
 zellij = "0.44.1" # 0.45.1 breaks stacked panes, which work.kdl relies on
-starship = "latest"
+starship = "1.26.0"
 
-fzf = "latest"
-ripgrep = "latest"
-fd = "latest"
-bat = "latest"
-eza = "latest"
-jq = "latest"
-zoxide = "latest"
+fzf = "0.74.3"
+ripgrep = "15.2.0"
+fd = "10.5.0"
+bat = "0.26.1"
+eza = "0.23.5"
+jq = "1.8.2"
+zoxide = "0.10.0"
 
-gh = "latest"
-git-town = "latest"
-delta = "latest"
+gh = "2.98.0"
+git-town = "24.0.0"
+delta = "0.19.2"
 
-just = "latest"
-lazydocker = "latest"
-direnv = "latest"
-actionlint = "latest"
-shellcheck = "latest"
-k9s = "latest"
-bottom = "latest" # btop has no macOS build
-claude = "latest"
-codex = "latest"
-pi = "latest"
+just = "1.46.0"
+lazydocker = "0.24.4"
+direnv = "2.37.1"
+actionlint = "1.7.12"
+shellcheck = "0.11.0"
+k9s = "0.51.0"
+bottom = "0.14.9" # btop has no macOS build
+claude = "2.1.286"
+codex = "0.154.0"
+pi = "0.86.1"
 
-"github:achristmascarl/rainfrog" = "latest" # no registry entry
+"github:achristmascarl/rainfrog" = "0.4.5" # no registry entry
 
 "npm:ccstatusline" = "2.2.30" # Claude Code statusline
-"npm:markdownlint-cli2" = "latest"
-"npm:@fsouza/prettierd" = "latest" # yaml/html format
+"npm:markdownlint-cli2" = "0.22.1"
+"npm:@fsouza/prettierd" = "0.28.0" # yaml/html format
