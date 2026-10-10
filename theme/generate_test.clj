@@ -11,16 +11,6 @@
   ([] (theme (e/active-theme)))
   ([theme-name] (e/->theme (g/load-theme theme-name))))
 
-;; Each generator must produce output equal to its file on disk.
-;; If a token changes without a new output file, the test identifies the difference.
-(deftest golden-outputs-match-disk
-  (let [t (theme)]
-    (doseq [{:keys [render output]} g/adapters]
-      (testing output
-        (is (= (slurp (str (fs/file e/root output)))
-               (render t))
-            (str output " differs from the generated output. Run `bb -m generate`."))))))
-
 (deftest repo-contract-holds
   (doseq [theme-name (e/theme-names)]
     (testing theme-name

@@ -180,10 +180,10 @@ return {
             on_dir(vim.fs.root(bufnr, { 'biome.json', 'biome.jsonc' }))
           end,
           workspace_required = true,
-          cmd = function(dispatchers)
-            local file = vim.api.nvim_buf_get_name(0)
+          cmd = function(dispatchers, config)
             local exe = 'biome'
-            for dir in vim.fs.parents(file) do
+            -- parents() starts at root_dir, because it receives a path inside root_dir.
+            for dir in vim.fs.parents(vim.fs.joinpath(config.root_dir, 'biome.json')) do
               local cand = dir .. '/node_modules/.bin/biome'
               if vim.fn.executable(cand) == 1 then
                 exe = cand

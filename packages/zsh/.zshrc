@@ -225,7 +225,7 @@ compdef _dev dev
 # If no lockfile exists, /dev/null prevents grep from waiting for standard input.
 # ponytail: the workspace path must equal $PWD. Use cd to open the project root, as the work layout does.
 claude() {
-  local lock=$(grep -ls "\"$PWD\"" ~/.claude/ide/*.lock(N) /dev/null | head -1)
+  local lock=$(grep -lsF "\"$PWD\"" ~/.claude/ide/*.lock(N) /dev/null | head -1)
   [[ -n $lock ]] && local -x ENABLE_IDE_INTEGRATION=true CLAUDE_CODE_SSE_PORT=${${lock:t}:r}
   command claude "$@"
 }
