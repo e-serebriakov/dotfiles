@@ -42,6 +42,8 @@ default_mode "locked"
 mouse_hover_effects false
 // Box every pane, so the focused pane shows a complete accent frame. 0.45 defaults to "titles", which colors only shared edges.
 pane_frame_style "full"
+// Expand the open stacked pane in place, as before 0.45, instead of pinning it below a list of titles.
+stacked_pane_list false
 default_shell "zsh"
 default_layout "work"
 show_release_notes false
