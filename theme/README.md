@@ -25,7 +25,7 @@ Both files define the same semantic tokens. Each file describes its own values, 
 
 | Group | Kind | Use it for |
 | --- | --- | --- |
-| `surface` | background | Editor, bar, popup, and current-line backgrounds; the active-tab keycap |
+| `surface` | background | Editor, bar, popup, and current-line backgrounds; the active-tab keycap; `surface.current` for the current WezTerm and Zellij tab |
 | `border` | foreground | Separators, borders, and indent guides |
 | `text` | foreground | Interface and body text; `text.accent` for interface elements that need a color |
 | `syntax` | foreground | Code only. Interface elements never use these |

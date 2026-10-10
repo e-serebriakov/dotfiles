@@ -86,10 +86,10 @@ install only the new dependencies with:
 mise install --locked go go:github.com/j3ka/reple
 ```
 
-## Optional Zellij layout
+## Zellij layout
 
-From your project directory, run `zellij --layout repl`.
+The default `work` layout (`dev <project>`) has a REPL pane.
 The `work` tab opens `hx .` above a shell on the left, with an agent pane on the right.
 Start your REPL in the shell below Helix.
 Use `Alt+j` / `Alt+k` to focus the REPL / Helix panes.
-The `feedback` tab contains logs and shell panes, as in the `work` layout.
+The `feedback` tab contains logs and shell panes.

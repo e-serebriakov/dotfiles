@@ -312,7 +312,11 @@
       },
       "active": {
         "$value": "{primitive.gray.300}",
-        "$description": "Background for the active tab and the selected Zellij ribbon. mode.normal aliases it. The gray keycap with dark text has less contrast than a black background."
+        "$description": "Background for the active Neovim and Helix tab. mode.normal aliases it. The gray keycap with dark text has less contrast than a black background."
+      },
+      "current": {
+        "$value": "{primitive.blue.200}",
+        "$description": "Background for the current WezTerm and Zellij tab. The pale accent tint with text.accent marks where you are without a heavy block."
       }
     },
     "border": {
@@ -321,6 +325,10 @@
       "default": {
         "$value": "{primitive.gray.300}",
         "$description": "Color for split separators, the scrollbar, and borders."
+      },
+      "subtle": {
+        "$value": "{primitive.gray.200}",
+        "$description": "Color for unfocused Zellij pane frames and titles. Fainter than border.default, so the focused frame in text.accent is the only clear outline."
       }
     },
     "text": {

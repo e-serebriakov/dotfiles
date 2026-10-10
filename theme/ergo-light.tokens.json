@@ -134,12 +134,14 @@
       "ruler": { "$value": "{primitive.gray.100}", "$description": "Background for the line-length ruler: Helix rulers and Neovim colorcolumn." },
       "popup": { "$value": "{primitive.gray.100}", "$description": "Background for popups, menus, floating windows, and Telescope. One step above the base background distinguishes the window area from its border." },
       "popupHeader": { "$value": "{primitive.gray.200}", "$description": "Background for popup title bars." },
-      "active": { "$value": "{primitive.gray.300}", "$description": "Background for the active tab and the selected Zellij ribbon. mode.normal aliases it. The gray background has dark text and less contrast than a black background." }
+      "active": { "$value": "{primitive.gray.300}", "$description": "Background for the active Neovim and Helix tab. mode.normal aliases it. The gray background has dark text and less contrast than a black background." },
+      "current": { "$value": "{primitive.blue.200}", "$description": "Background for the current WezTerm and Zellij tab. The pale accent tint with text.accent marks where you are without a heavy block." }
     },
     "border": {
       "$type": "color",
       "$description": "Lines between areas.",
-      "default": { "$value": "{primitive.gray.300}", "$description": "Color for split separators, the scrollbar, and borders." }
+      "default": { "$value": "{primitive.gray.300}", "$description": "Color for split separators, the scrollbar, and borders." },
+      "subtle": { "$value": "{primitive.gray.200}", "$description": "Color for unfocused Zellij pane frames and titles. Fainter than border.default, so the focused frame in text.accent is the only clear outline." }
     },
     "text": {
       "$type": "color",

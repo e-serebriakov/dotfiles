@@ -146,6 +146,14 @@ alias gtdp='git town diff-parent'
 alias gtl='git town status'
 alias gth='git town hack'
 
+# Zellij aliases. Use dev to start or attach project sessions.
+alias zls='zellij list-sessions'
+alias za='zellij attach'
+alias zks='zellij kill-session'
+alias zkas='zellij kill-all-sessions'
+alias zds='zellij delete-session'
+alias zdas='zellij delete-all-sessions'
+
 # Review PRs in the terminal. Use `pr` for your PRs or `pr 123` for a specified PR.
 pr() {
   local num=${1:-$(gh pr list --author @me --state open --json number,title \

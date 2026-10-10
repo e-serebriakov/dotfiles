@@ -12,7 +12,7 @@ go = "1.26.8" # Builds reple, which has no prebuilt release binaries.
 
 neovim = "0.12.5"
 helix = "25.07.1"
-zellij = "0.44.1" # 0.45.1 breaks stacked panes, which work.kdl relies on
+zellij = "0.45.1"
 starship = "1.26.0"
 
 fzf = "0.74.3"
