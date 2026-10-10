@@ -21,9 +21,9 @@
 [include]
   path = ~/.config/delta/baked.gitconfig
 
-; Push through SSH. Keep HTTPS downloads so lazy.nvim and zsh plugins can clone before SSH setup.
+; Use SSH for all GitHub traffic. On a new machine, set up SSH keys before lazy.nvim and zsh plugins clone.
 [url "git@github.com:"]
-  pushInsteadOf = https://github.com/
+  insteadOf = https://github.com/
 
 [color]
   diff   = auto
