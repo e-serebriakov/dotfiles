@@ -174,7 +174,7 @@
     ["QuickFixLine" {:bg "selection.secondary"}]
     ["qfLineNr" {:fg "text.muted"}]
 
-    ;; Tabline. The active tab is a keycap, as in WezTerm, Zellij, and the Helix bufferline.
+    ;; Tabline. The active tab is a keycap, as in the Helix bufferline.
     ["TabLine" {:fg "text.secondary" :bg "surface.raised"}]
     ["TabLineFill" {:bg "surface.raised"}]
     ["TabLineSel" {:fg "text.strong" :bg "surface.active" :bold true}]

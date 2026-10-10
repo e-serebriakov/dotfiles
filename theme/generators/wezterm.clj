@@ -4,7 +4,7 @@
    [engine :refer [generated-banner]]))
 
 (def ^:private tabs
-  [["active_tab"         {:bg "surface.active"    :fg "text.strong"}]
+  [["active_tab"         {:bg "surface.current"   :fg "text.accent"}]
    ["inactive_tab"       {:bg "surface.raised"    :fg "text.secondary"}]
    ["inactive_tab_hover" {:bg "surface.highlight" :fg "text.primary"}]
    ["new_tab"            {:bg "surface.raised"    :fg "text.secondary"}]
