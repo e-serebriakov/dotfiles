@@ -23,7 +23,7 @@ Tools do not read the tokens directly. Each generator converts semantic tokens t
 
 | Tool | Generator | Generated file |
 | --- | --- | --- |
-| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/baked_palette.lua` |
+| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/baked_highlights.lua` |
 | WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/baked.toml` |
 | Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/baked.kdl` |
 | delta | [`generators/delta.clj`](generators/delta.clj) | `delta/baked.gitconfig` |

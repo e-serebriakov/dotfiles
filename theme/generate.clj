@@ -15,7 +15,7 @@
 (def adapters
   [{:render delta/render :output "packages/git/.config/delta/baked.gitconfig"}
    {:render zellij/render :output "packages/zellij/.config/zellij/themes/baked.kdl"}
-   {:render nvim/render :output "packages/nvim/.config/nvim/lua/colorschemes/baked_palette.lua"}
+   {:render nvim/render :output "packages/nvim/.config/nvim/lua/colorschemes/baked_highlights.lua"}
    {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked.toml"}
    {:render helix/render :output "packages/helix/.config/helix/themes/baked.toml"}])
 
