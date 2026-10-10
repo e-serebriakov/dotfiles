@@ -63,8 +63,6 @@ config.keys = {
   },
 }
 
--- Use reverse video for the cursor.
-config.force_reverse_video_cursor = true
 -- Blink interval in ms for blinking cursor styles (zsh insert mode uses a blinking beam).
 config.cursor_blink_rate = 600
 
