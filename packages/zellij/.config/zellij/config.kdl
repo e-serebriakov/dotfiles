@@ -40,6 +40,8 @@ theme "baked"
 default_mode "locked"
 // Do not show a red border on the pane below the mouse pointer. The highlight identifies an active mode.
 mouse_hover_effects false
+// Box every pane, so the focused pane shows a complete accent frame. 0.45 defaults to "titles", which colors only shared edges.
+pane_frame_style "full"
 default_shell "zsh"
 default_layout "work"
 show_release_notes false
