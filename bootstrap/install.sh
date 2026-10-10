@@ -99,20 +99,16 @@ if [[ -n "$DRY_RUN" ]]; then
   stow -n -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
   stow -n -v -d "$STOW_DIR" -t "$TARGET" claude
 else
-  # Generate theme files before Stow creates links. Git ignores the output files.
-  # Continue if Babashka is unavailable or generation fails.
-  # Read the repository's mise configuration and lockfile before Stow links them.
-  # Install Babashka before Stow creates the links. Install the other tools after Stow creates the links.
+  # Generate the theme files before Stow, so that Stow links them.
+  # The other tools install after Stow links their mise config.
   if ! command -v mise &> /dev/null; then
     echo "⚠ mise is not available. Setup skips theme generation." >&2
   else
     echo "▶ Setup generates theme files from design tokens."
     if ! (
-      export MISE_GLOBAL_CONFIG_FILE="$STOW_DIR/mise/.config/mise/config.toml"
       cd "$DOTFILES_DIR/theme" &&
         mise install --locked babashka &&
-        bb_dir="$(mise where babashka)" &&
-        "$bb_dir/bin/bb" -m generate
+        "$(mise which bb)" -m generate
     ); then
       echo "⚠ Theme generation failed. Setup continues with Stow. Tools use their default colors." >&2
     fi
