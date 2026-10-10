@@ -9,22 +9,22 @@
         paper (theme "surface.base")
         comment-fg (theme "comment.fg")
         comment-bg (theme "comment.bg")
-        todo (theme "comment.high")
+        todo (theme "comment.marker")
         function (theme "accent.function")
         string (theme "accent.string")
         constant (theme "accent.constant")
         link (theme "accent.link")
         selection (theme "selection.primary")
-        search (theme "search.soft")
-        search-active (theme "search.active")
-        alert (theme "alert.fg")
+        search (theme "search.match")
+        search-active (theme "search.current")
+        alert (theme "status.errorMark")
         error (theme "status.error")
         diff-delete (theme "diff.delete")
-        diff-delete-text (theme "diff.deleteText")
+        diff-delete-text (theme "diff.deleteWord")
         diff-add (theme "diff.add")
-        diff-add-text (theme "diff.addText")
+        diff-add-text (theme "diff.addWord")
         diff-change (theme "diff.change")
-        diff-change-text (theme "diff.changeText")]
+        diff-change-text (theme "diff.changeWord")]
     {:paper paper
      :rows [{:gutter "1" :gcol muted :band comment-bg
              :segments [{:text "// Resolve an alias to a hexadecimal color." :fg comment-fg}]}

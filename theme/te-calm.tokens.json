@@ -274,99 +274,134 @@
     }
   },
   "semantic": {
+    "$description": "Layer 2 assigns meaning to the primitive colors. Token names and roles match ergo-light.tokens.json. Values differ where TE calm uses its own hues: blue selection, amber search, cyan comments on a plum background, and the saturated alert red for unsaved and recording marks. ergo-light.tokens.json explains the shared contrast and color vision rationale. The descriptions here state the TE calm values.",
     "surface": {
       "$type": "color",
+      "$description": "Gray backgrounds from the neutral scale.",
       "base": {
-        "$value": "{primitive.gray.50}"
+        "$value": "{primitive.gray.50}",
+        "$description": "Shared neutral background for the editor, terminal, and Zellij."
       },
       "raised": {
-        "$value": "{primitive.gray.100}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for panels, bars, floating windows, and the tab bar."
       },
       "code": {
-        "$value": "{primitive.gray.100}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for inline code and fenced code blocks."
       },
       "cursorline": {
-        "$value": "{primitive.gray.200}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for the current line. Step gray.100 marks the line and keeps strings at approximately 4.2:1 contrast. Step gray.200 would drop them to approximately 3.6:1."
+      },
+      "highlight": {
+        "$value": "{primitive.gray.200}",
+        "$description": "Background for selected list, table, and file entries, tab hover, and Zellij indicator fills. Step gray.200 distinguishes it from the base background."
       },
       "column": {
-        "$value": "{primitive.gray.100}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for colorcolumn and cursorcolumn."
       },
       "ruler": {
-        "$value": "{primitive.gray.100}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Ruler background."
       },
       "popup": {
-        "$value": "{primitive.gray.100}"
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for popup windows and Telescope. One step above the base background distinguishes the window area from its border."
       },
       "popupHeader": {
-        "$value": "{primitive.gray.200}"
+        "$value": "{primitive.gray.200}",
+        "$description": "Background for popup title bars."
       },
-      "key": {
+      "active": {
         "$value": "{primitive.gray.300}",
         "$description": "Background for the active tab, current mode, and cursor position. The gray background has dark text and less contrast than a black background."
       }
     },
     "border": {
       "$type": "color",
+      "$description": "Lines between areas.",
       "default": {
-        "$value": "{primitive.gray.300}"
+        "$value": "{primitive.gray.300}",
+        "$description": "Color for split separators, the scrollbar, and borders."
       }
     },
     "text": {
       "$type": "color",
+      "$description": "Foreground colors for interface and body text.",
       "primary": {
-        "$value": "{primitive.gray.800}"
+        "$value": "{primitive.gray.800}",
+        "$description": "Default foreground for body text."
       },
       "secondary": {
-        "$value": "{primitive.gray.700}"
+        "$value": "{primitive.gray.700}",
+        "$description": "Foreground for secondary text and status text."
       },
       "muted": {
-        "$value": "{primitive.gray.600}"
+        "$value": "{primitive.gray.600}",
+        "$description": "Foreground for hints, line numbers, and secondary interface text."
+      },
+      "accent": {
+        "$value": "{primitive.blue.600}",
+        "$description": "Foreground for interface elements that need a color: the current line number, directories, and key hints. Syntax colors stay in accent.*."
       },
       "strong": {
-        "$value": "{primitive.gray.900}"
+        "$value": "{primitive.gray.900}",
+        "$description": "Foreground for the backgrounds with the most emphasis, such as the current search match and the active tab."
       }
     },
     "accent": {
       "$type": "color",
+      "$description": "Syntax colors. Use them only for code and links, not for interface elements. Interface elements use text.accent and status.*.",
       "string": {
-        "$value": "{primitive.green.600}"
+        "$value": "{primitive.green.600}",
+        "$description": "Foreground for string literals."
       },
       "constant": {
-        "$value": "{primitive.violet.700}"
+        "$value": "{primitive.violet.700}",
+        "$description": "Foreground for constants, numbers, and booleans. violet.700 is darker than the function color (blue.600), so the two differ in lightness."
       },
       "function": {
-        "$value": "{primitive.blue.600}"
+        "$value": "{primitive.blue.600}",
+        "$description": "Foreground for function names."
       },
       "link": {
-        "$value": "{primitive.blue.800}"
+        "$value": "{primitive.blue.800}",
+        "$description": "Foreground for links and URLs."
       }
     },
     "status": {
       "$type": "color",
+      "$description": "Foreground colors for diagnostics and state.",
       "error": {
-        "$value": "{primitive.red.700}"
+        "$value": "{primitive.red.700}",
+        "$description": "Foreground for error messages and diagnostic text."
       },
       "warning": {
-        "$value": "{primitive.amber.600}"
+        "$value": "{primitive.amber.600}",
+        "$description": "Foreground for warnings."
       },
       "info": {
-        "$value": "{primitive.blue.600}"
+        "$value": "{primitive.blue.600}",
+        "$description": "Foreground for information."
       },
       "hint": {
-        "$value": "{semantic.text.muted}"
+        "$value": "{semantic.text.muted}",
+        "$description": "Foreground for hints. It aliases text.muted."
       },
       "success": {
-        "$value": "{primitive.green.600}"
-      }
-    },
-    "alert": {
-      "$type": "color",
-      "fg": {
-        "$value": "{primitive.alert.fg}"
+        "$value": "{primitive.green.600}",
+        "$description": "Foreground for success states and Git additions."
+      },
+      "errorMark": {
+        "$value": "{primitive.alert.fg}",
+        "$description": "Foreground for the curved error underline and bold sign glyph. This is the only high-saturation color. Diagnostic messages use status.error. Do not use it as a background."
       }
     },
     "signal": {
       "$type": "color",
+      "$description": "Small marks that must stand out.",
       "mark": {
         "$value": "{primitive.alert.fg}",
         "$description": "Small mark for an unsaved buffer or an active macro recording. Its contrast against the background is at least 3:1. Do not use it as a background."
@@ -374,138 +409,182 @@
     },
     "selection": {
       "$type": "color",
+      "$description": "Backgrounds for selections and related matches.",
       "primary": {
-        "$value": "{primitive.blue.300}"
+        "$value": "{primitive.blue.300}",
+        "$description": "Background for the active selection. TE calm uses blue.300."
       },
       "secondary": {
-        "$value": "{primitive.gray.200}"
+        "$value": "{primitive.gray.200}",
+        "$description": "Background for inactive selections and menu selections."
       },
       "match": {
-        "$value": "{primitive.violet.100}"
+        "$value": "{primitive.violet.100}",
+        "$description": "Background for matching pairs and references."
       }
     },
     "search": {
       "$type": "color",
-      "soft": {
-        "$value": "{primitive.amber.300}"
+      "$description": "Backgrounds for search matches.",
+      "match": {
+        "$value": "{primitive.amber.300}",
+        "$description": "Background for all search matches. TE calm uses amber.300."
       },
-      "active": {
-        "$value": "{primitive.amber.400}"
+      "current": {
+        "$value": "{primitive.amber.400}",
+        "$description": "Background for the current search match, one step above search.match."
       }
     },
     "comment": {
       "$type": "color",
+      "$description": "Code comments: a cyan foreground on a light plum background.",
       "fg": {
-        "$value": "{primitive.cyan.700}"
+        "$value": "{primitive.cyan.700}",
+        "$description": "Comment foreground. TE calm uses cyan.700."
       },
       "bg": {
-        "$value": "{primitive.plum.100}"
+        "$value": "{primitive.plum.100}",
+        "$description": "Comment background. TE calm uses plum.100."
       },
-      "high": {
-        "$value": "{primitive.plum.200}"
+      "marker": {
+        "$value": "{primitive.plum.200}",
+        "$description": "Background for TODO, FIXME, WARNING, and NOTE markers. plum.200 is one step above the comment background."
       }
     },
     "doc": {
       "$type": "color",
+      "$description": "Documentation comments and Markdown.",
       "fg": {
-        "$value": "{primitive.gray.700}"
+        "$value": "{primitive.gray.700}",
+        "$description": "Documentation foreground."
       },
       "bg": {
-        "$value": "{primitive.blue.50}"
+        "$value": "{semantic.comment.bg}",
+        "$description": "Background for documentation comments and docstrings. It aliases comment.bg for now."
       },
       "quote": {
-        "$value": "{primitive.blue.50}"
+        "$value": "{primitive.blue.50}",
+        "$description": "Background for blockquotes and the Octo editing area."
       },
       "heading": {
-        "$value": "{primitive.gray.800}"
+        "$value": "{primitive.gray.800}",
+        "$description": "Documentation heading foreground."
       }
     },
     "diff": {
       "$type": "color",
+      "$description": "Backgrounds for added, changed, and deleted lines and words. Line tints use step N and changed words use step N+1.",
       "add": {
-        "$value": "{primitive.green.200}"
+        "$value": "{primitive.green.200}",
+        "$description": "Background for added lines."
       },
-      "addText": {
-        "$value": "{primitive.green.300}"
+      "addWord": {
+        "$value": "{primitive.green.300}",
+        "$description": "Background for added words inside added lines, one step above diff.add."
       },
       "change": {
-        "$value": "{primitive.blue.100}"
+        "$value": "{primitive.blue.100}",
+        "$description": "Background for changed lines."
       },
-      "changeText": {
-        "$value": "{primitive.blue.200}"
+      "changeWord": {
+        "$value": "{primitive.blue.200}",
+        "$description": "Background for changed words inside changed lines, one step above diff.change."
       },
       "delete": {
-        "$value": "{primitive.red.300}"
+        "$value": "{primitive.red.300}",
+        "$description": "Background for deleted lines."
       },
-      "deleteText": {
-        "$value": "{primitive.red.400}"
+      "deleteWord": {
+        "$value": "{primitive.red.400}",
+        "$description": "Background for deleted words inside deleted lines, one step above diff.delete."
       },
       "conflict": {
-        "$value": "{primitive.red.100}"
+        "$value": "{primitive.red.100}",
+        "$description": "Background for conflict markers."
       }
     },
     "cursor": {
       "$type": "color",
+      "$description": "Cursor block colors.",
       "primary": {
-        "$value": "{primitive.gray.900}"
+        "$value": "{primitive.gray.900}",
+        "$description": "Primary cursor background. Its near-black color distinguishes the cursor from the text background."
       },
       "secondary": {
-        "$value": "{primitive.gray.500}"
+        "$value": "{primitive.gray.500}",
+        "$description": "Background for additional cursors."
       }
     },
     "terminal": {
+      "$description": "ANSI palette for terminals. bright.white (gray.500) stays lighter than white (gray.600) to keep the ANSI order, so neither suits body text. The default terminal foreground uses text.primary.",
       "ansi": {
         "$type": "color",
         "black": {
-          "$value": "{primitive.gray.900}"
+          "$value": "{primitive.gray.900}",
+          "$description": "ANSI black."
         },
         "red": {
-          "$value": "{primitive.red.700}"
+          "$value": "{primitive.red.700}",
+          "$description": "ANSI red."
         },
         "green": {
-          "$value": "{primitive.green.700}"
+          "$value": "{primitive.green.700}",
+          "$description": "ANSI green."
         },
         "yellow": {
-          "$value": "{primitive.amber.600}"
+          "$value": "{primitive.amber.600}",
+          "$description": "ANSI yellow."
         },
         "blue": {
-          "$value": "{primitive.blue.600}"
+          "$value": "{primitive.blue.600}",
+          "$description": "ANSI blue."
         },
         "magenta": {
-          "$value": "{primitive.plum.600}"
+          "$value": "{primitive.plum.600}",
+          "$description": "ANSI magenta."
         },
         "cyan": {
-          "$value": "{primitive.cyan.700}"
+          "$value": "{primitive.cyan.700}",
+          "$description": "ANSI cyan."
         },
         "white": {
-          "$value": "{primitive.gray.600}"
+          "$value": "{primitive.gray.600}",
+          "$description": "ANSI white."
         }
       },
       "bright": {
         "$type": "color",
         "black": {
-          "$value": "{primitive.gray.700}"
+          "$value": "{primitive.gray.700}",
+          "$description": "ANSI bright black."
         },
         "red": {
-          "$value": "{primitive.red.500}"
+          "$value": "{primitive.red.500}",
+          "$description": "ANSI bright red."
         },
         "green": {
-          "$value": "{primitive.green.600}"
+          "$value": "{primitive.green.600}",
+          "$description": "ANSI bright green."
         },
         "yellow": {
-          "$value": "{primitive.amber.500}"
+          "$value": "{primitive.amber.500}",
+          "$description": "ANSI bright yellow."
         },
         "blue": {
-          "$value": "{primitive.blue.500}"
+          "$value": "{primitive.blue.500}",
+          "$description": "ANSI bright blue."
         },
         "magenta": {
-          "$value": "{primitive.plum.500}"
+          "$value": "{primitive.plum.500}",
+          "$description": "ANSI bright magenta."
         },
         "cyan": {
-          "$value": "{primitive.cyan.500}"
+          "$value": "{primitive.cyan.500}",
+          "$description": "ANSI bright cyan."
         },
         "white": {
-          "$value": "{primitive.gray.500}"
+          "$value": "{primitive.gray.500}",
+          "$description": "ANSI bright white."
         }
       }
     }

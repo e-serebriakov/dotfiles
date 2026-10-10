@@ -2,6 +2,7 @@ theme = "baked"
 
 [editor]
 line-number = "relative"
+cursorline = true
 mouse = false
 auto-format = true
 popup-border = "all"

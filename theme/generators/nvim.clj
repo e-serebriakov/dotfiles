@@ -48,19 +48,19 @@
     ;; Selection
     ["Visual" {:fg "text.primary" :bg "selection.primary"}]
     ["VisualNOS" {:fg "text.primary" :bg "selection.primary"}]
-    ["Search" {:fg "text.primary" :bg "search.soft" :bold true}]
-    ["IncSearch" {:fg "text.strong" :bg "search.active" :bold true}]
-    ["CurSearch" {:fg "text.strong" :bg "search.active" :bold true}]
+    ["Search" {:fg "text.primary" :bg "search.match" :bold true}]
+    ["IncSearch" {:fg "text.strong" :bg "search.current" :bold true}]
+    ["CurSearch" {:fg "text.strong" :bg "search.current" :bold true}]
 
     ;; Syntax highlighting
     ["Comment" {:fg "comment.fg" :bg "comment.bg"}]
     ["String" {:fg "accent.string"}]
-    ;; Use dark text and the comment background for documentation strings and comments.
-    ["@string.documentation" {:fg "doc.fg" :bg "comment.bg"}]
-    ["@comment.documentation" {:fg "doc.fg" :bg "comment.bg"}]]
+    ;; Use dark text and the documentation background for documentation strings and comments.
+    ["@string.documentation" {:fg "doc.fg" :bg "doc.bg"}]
+    ["@comment.documentation" {:fg "doc.fg" :bg "doc.bg"}]]
    ;; Emphasize TODO, FIXME, WARNING, and NOTE with bold text and the attention color.
    (for [g ["@comment.todo" "@comment.note" "@comment.warning" "@comment.error" "Todo"]]
-     [g {:fg "text.primary" :bg "comment.high" :bold true}])
+     [g {:fg "text.primary" :bg "comment.marker" :bold true}])
    [["Constant" {:fg "accent.constant"}]
     ["Number" {:fg "accent.constant"}]
     ["Boolean" {:fg "accent.constant"}]
@@ -100,16 +100,16 @@
     ["markdownItalic" {:italic true}]
     ["markdownStrikethrough" {:strikethrough true}]
 
-    ;; Use alert.fg for diagnostic marks and status.error for text.
+    ;; Use status.errorMark for diagnostic marks and status.error for text.
     ;; Errors and warnings use curved underlines. Information uses dashed underlines. Hints use dotted underlines.
-    ["DiagnosticError" {:fg "status.error" :undercurl true :sp "alert.fg"}]
+    ["DiagnosticError" {:fg "status.error" :undercurl true :sp "status.errorMark"}]
     ["DiagnosticWarn" {:fg "status.warning" :undercurl true :sp "status.warning"}]
     ["DiagnosticInfo" {:fg "status.info" :underdashed true}]
     ["DiagnosticHint" {:fg "status.hint" :underdotted true}]
     ["DiagnosticUnnecessary" {:fg "comment.fg" :italic true}]
     ["DiagnosticDeprecated" {:fg "comment.fg" :underdouble true}]
     ;; Some language servers use DiagnosticUnderline* groups for underlines.
-    ["DiagnosticUnderlineError" {:undercurl true :sp "alert.fg"}]
+    ["DiagnosticUnderlineError" {:undercurl true :sp "status.errorMark"}]
     ["DiagnosticUnderlineWarn" {:undercurl true :sp "status.warning"}]
     ["DiagnosticUnderlineInfo" {:underdashed true :sp "status.info"}]
     ["DiagnosticUnderlineHint" {:underdotted true :sp "status.hint"}]
@@ -119,7 +119,7 @@
     ["DiagnosticVirtualTextInfo" {:fg "status.info"}]
     ["DiagnosticVirtualTextHint" {:fg "status.hint"}]
 
-    ["DiagnosticSignError" {:fg "alert.fg" :bold true}]
+    ["DiagnosticSignError" {:fg "status.errorMark" :bold true}]
     ["DiagnosticSignWarn" {:fg "status.warning" :bold true}]
     ["DiagnosticSignInfo" {:fg "status.info"}]
     ["DiagnosticSignHint" {:fg "status.hint"}]
@@ -128,11 +128,11 @@
     ["DiffAdd" {:fg "text.primary" :bg "diff.add"}]
     ["DiffChange" {:fg "text.primary" :bg "diff.change"}]
     ["DiffDelete" {:fg "text.primary" :bg "diff.delete"}]
-    ["DiffText" {:fg "text.primary" :bg "diff.changeText"}]]
+    ["DiffText" {:fg "text.primary" :bg "diff.changeWord"}]]
    (for [g ["DiffAdded" "DiffRemoved" "DiffFile" "DiffNewFile" "DiffOldFile" "DiffLine"]]
      [g {:fg "text.secondary"}])
    [;; Git signs
-    ["GitSignsAdd" {:fg "accent.string"}]
+    ["GitSignsAdd" {:fg "status.success"}]
     ["GitSignsChange" {:fg "status.warning"}]
     ["GitSignsDelete" {:fg "status.error"}]
 
@@ -175,14 +175,14 @@
     ["Underlined" {:underline true}]
 
     ;; Messages
-    ["ErrorMsg" {:fg "alert.fg" :bold true}]
+    ["ErrorMsg" {:fg "status.error" :bold true}]
     ["WarningMsg" {:fg "status.warning" :bold true}]
     ["ModeMsg" {:fg "text.primary"}]
     ["MoreMsg" {:fg "status.info"}]
 
-    ;; mini.statusline. Normal mode uses surface.key.
+    ;; mini.statusline. Normal mode uses surface.active.
     ;; Other modes keep mini.statusline's default Diff* links.
-    ["MiniStatuslineModeNormal" {:fg "text.strong" :bg "surface.key"}]
+    ["MiniStatuslineModeNormal" {:fg "text.strong" :bg "surface.active"}]
     ["BakedSignal" {:fg "signal.mark" :bg "surface.raised"}]
     ["MiniStatuslineDevinfo" {:fg "text.primary" :bg "surface.raised"}]
     ["MiniStatuslineFileinfo" {:fg "text.primary" :bg "surface.raised"}]
@@ -195,11 +195,11 @@
    (for [g ["TelescopePromptTitle" "TelescopeResultsTitle" "TelescopePreviewTitle"]]
      [g {:fg "text.primary" :bg "surface.popupHeader" :bold true}])
    [["TelescopeSelection" {:fg "text.primary" :bg "selection.secondary" :bold true}]
-    ["TelescopeMatching" {:fg "text.primary" :bg "search.soft" :bold true}]
+    ["TelescopeMatching" {:fg "text.primary" :bg "search.match" :bold true}]
 
     ;; Which-key (darker window background)
     ["WhichKeyFloat" {:bg "selection.match"}]
-    ["WhichKey" {:fg "accent.function" :bg :none}]
+    ["WhichKey" {:fg "text.accent" :bg :none}]
     ["WhichKeyDesc" {:fg "text.primary" :bg :none}]
     ["WhichKeySeparator" {:fg "text.secondary" :bg :none}]
     ["WhichKeyGroup" {:fg "text.primary" :bg :none :bold true}]
@@ -207,18 +207,18 @@
 
     ;; Oil.nvim file explorer
     ["OilEntry" {:fg "text.primary" :bg :none}]
-    ["OilEntryDir" {:fg "accent.function" :bg :none}]
+    ["OilEntryDir" {:fg "text.accent" :bg :none}]
     ["OilEntryFile" {:fg "text.primary" :bg :none}]
-    ["OilDir" {:fg "accent.function" :bg :none}]
+    ["OilDir" {:fg "text.accent" :bg :none}]
     ["OilFile" {:fg "text.primary" :bg :none}]
     ["OilHidden" {:fg "text.primary" :bg :none}]
     ["OilCursorLine" {:bg "surface.cursorline"}]
-    ["OilSelected" {:fg "text.primary" :bg "surface.cursorline"}]
+    ["OilSelected" {:fg "text.primary" :bg "surface.highlight"}]
 
     ;; Plugins
     ["GitBlameVirtualText" {:fg "status.hint" :italic true}]
-    ;; Octo shows editable text on doc.bg. Headings and dates use secondary and hint colors.
-    ["OctoEditable" {:bg "doc.bg"}]
+    ;; Octo shows editable text on doc.quote. Headings and dates use secondary and hint colors.
+    ["OctoEditable" {:bg "doc.quote"}]
     ["OctoTimelineItemHeading" {:fg "text.secondary" :bold true}]
     ["OctoDate" {:fg "status.hint"}]
     ["OctoSymbol" {:fg "status.hint"}]]))
@@ -231,19 +231,19 @@
    ["red" "diff.delete"]
    ["dark_red" "status.error"]
    ["green" "diff.add"]
-   ["dark_green" "accent.string"]
-   ["yellow" "comment.high"]
+   ["dark_green" "status.success"]
+   ["yellow" "comment.marker"]
    ["dark_yellow" "status.warning"]
    ["blue" "accent.link"]
-   ["dark_blue" "accent.function"]
-   ["purple" "accent.constant"]])
+   ["dark_blue" "text.accent"]
+   ["purple" "terminal.ansi.magenta"]])
 
-;; Diff windows remove the backgrounds of comment-colored groups so added and deleted lines keep their colors.
+;; Diff windows remove the backgrounds of comment and documentation groups so added and deleted lines keep their colors.
 ;; @comment links to Comment by default. The diff namespace falls back to the global link, so list it explicitly.
 (def diff-nobg
   (into ["@comment"]
         (for [[group {bg :bg}] highlights
-              :when (and (string? bg) (str/starts-with? bg "comment."))]
+              :when (or (and (string? bg) (str/starts-with? bg "comment.")) (= bg "doc.bg"))]
           group)))
 
 (defn- lua-value [theme v]

@@ -90,3 +90,21 @@
   (is (= #{"Comment" "@comment" "@comment.documentation" "@string.documentation"
            "@comment.todo" "@comment.note" "@comment.warning" "@comment.error" "Todo"}
          (set nvim/diff-nobg))))
+
+;; Each theme explains its own values. A token counts as described when it
+;; or one of its groups below "semantic" has a $description.
+(defn- undescribed [node path described?]
+  (let [described? (or described? (contains? node "$description"))]
+    (if (contains? node "$value")
+      (when-not described? [path])
+      (mapcat (fn [[k v]] (when (map? v) (undescribed v (if path (str path "." k) k) described?)))
+              (remove (fn [[k]] (str/starts-with? k "$")) node)))))
+
+(deftest every-semantic-token-is-described
+  (doseq [theme-name (e/theme-names)]
+    (testing theme-name
+      (is (empty? (undescribed (dissoc (get (g/load-theme theme-name) "semantic") "$description") nil false))))))
+
+(deftest undescribed-tokens-are-caught
+  (is (= ["a.b"] (undescribed {"a" {"b" {"$value" "#fff"}}} nil false)))
+  (is (empty? (undescribed {"a" {"$description" "x" "b" {"$value" "#fff"}}} nil false))))

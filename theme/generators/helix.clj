@@ -20,7 +20,7 @@
    ["ui.cursor.primary.insert" {:fg "surface.base" :bg "cursor.primary"}]
    ["ui.cursor.primary.select" {:fg "surface.base" :bg "cursor.primary"}]
 
-   ["ui.cursorline.primary" {:bg "selection.match"}]
+   ["ui.cursorline.primary" {:bg "surface.cursorline"}]
    ["ui.cursorline.secondary" {:bg "surface.cursorline"}]
    ["ui.cursorcolumn.primary" {:bg "surface.column"}]
    ["ui.cursorcolumn.secondary" {:bg "surface.column"}]
@@ -32,7 +32,7 @@
    ["ui.gutter.selected" {:fg "text.primary" :bg "surface.base" :modifiers [:bold]}]
 
    ["ui.linenr" {:fg "text.muted"}]
-   ["ui.linenr.selected" {:fg "text.primary" :modifiers [:bold]}]
+   ["ui.linenr.selected" {:fg "text.accent" :modifiers [:bold]}]
 
    ["ui.statusline" {:fg "text.primary" :bg "surface.raised"}]
    ["ui.statusline.inactive" {:fg "text.secondary" :bg "surface.raised"}]
@@ -42,7 +42,7 @@
    ["ui.statusline.separator" {:fg "border.default" :bg "surface.raised"}]
 
    ["ui.bufferline" {:fg "text.secondary" :bg "surface.raised"}]
-   ["ui.bufferline.active" {:fg "text.strong" :bg "surface.key" :modifiers [:bold]}]
+   ["ui.bufferline.active" {:fg "text.strong" :bg "surface.active" :modifiers [:bold]}]
    ["ui.bufferline.background" {:fg "text.primary" :bg "surface.raised"}]
 
    ["ui.menu" {:fg "text.primary" :bg "surface.raised"}]
@@ -57,7 +57,7 @@
    ["ui.picker.header.column" {:fg "text.secondary" :bg "surface.base" :modifiers [:bold]}]
    ["ui.picker.header.column.active" {:fg "text.primary" :bg "surface.base" :modifiers [:bold]}]
 
-   ["ui.text" {:fg "text.primary" :bg "surface.base"}]
+   ["ui.text" {:fg "text.primary"}]
    ["ui.text.focus" {:fg "text.primary" :bg "selection.secondary"}]
    ["ui.text.inactive" {:fg "text.secondary" :bg "surface.raised"}]
    ["ui.text.info" {:fg "text.secondary" :bg "surface.base"}]
@@ -71,12 +71,12 @@
    ["ui.virtual.inlay-hint.parameter" {:fg "text.muted" :bg "surface.base" :modifiers [:italic]}]
    ["ui.virtual.inlay-hint.type" {:fg "text.muted" :bg "surface.base"}]
 
-   ["ui.virtual.jump-label" {:fg "text.strong" :bg "search.active" :modifiers [:bold]}]
+   ["ui.virtual.jump-label" {:fg "text.strong" :bg "search.current" :modifiers [:bold]}]
 
    ["ui.selection" {:fg "text.primary" :bg "selection.secondary"}]
    ["ui.selection.primary" {:fg "text.primary" :bg "selection.primary"}]
 
-   ["ui.highlight" {:bg "search.soft" :modifiers [:bold]}]
+   ["ui.highlight" {:bg "search.match" :modifiers [:bold]}]
    ["ui.highlight.frameline" {:fg "text.primary" :bg "surface.raised"}]
 
    ["ui.debug.breakpoint" {:fg "status.warning"}]
@@ -92,7 +92,7 @@
    ["diagnostic.hint" {:fg "status.hint" :underline {:color "status.hint" :style :dotted}}]
    ["diagnostic.info" {:fg "status.info" :underline {:color "status.info" :style :dashed}}]
    ["diagnostic.warning" {:fg "status.warning" :underline {:color "status.warning" :style :curl}}]
-   ["diagnostic.error" {:fg "status.error" :underline {:color "alert.fg" :style :curl}}]
+   ["diagnostic.error" {:fg "status.error" :underline {:color "status.errorMark" :style :curl}}]
    ["diagnostic.unnecessary" {:fg "comment.fg" :modifiers [:dim :italic]}]
    ["diagnostic.deprecated" {:underline {:color "comment.fg" :style :double_line}}]
 
@@ -116,9 +116,9 @@
    ["comment.line" {:fg "comment.fg" :bg "comment.bg"}]
    ["comment.block" {:fg "comment.fg" :bg "comment.bg"}]
 
-   ["comment.documentation" {:fg "doc.fg" :bg "comment.bg"}]
-   ["comment.block.documentation" {:fg "doc.fg" :bg "comment.bg"}]
-   ["comment.line.documentation" {:fg "doc.fg" :bg "comment.bg"}]
+   ["comment.documentation" {:fg "doc.fg" :bg "doc.bg"}]
+   ["comment.block.documentation" {:fg "doc.fg" :bg "doc.bg"}]
+   ["comment.line.documentation" {:fg "doc.fg" :bg "doc.bg"}]
 
    ["comment.unused" {:fg "comment.fg" :modifiers [:dim :italic]}]
 
