@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE calm is a Teenage Engineering-inspired variant of Ergo Light. It uses gray backgrounds. Saturation depends on importance divided by frequency. Only error marks have high saturation. The L* sequence and semantic roles match ergo-light.tokens.json, which explains the shared design.",
+  "$description": "TE calm is a Teenage Engineering-inspired light theme. It uses gray backgrounds. Saturation depends on importance divided by frequency: frequent roles such as function names stay muted, and only error marks and attention marks (unsaved buffer, macro recording, bell) use the saturated alert red. Lightness differences keep roles distinguishable with color vision deficiency.",
   "primitive": {
     "gray": {
       "50": {
@@ -121,7 +121,7 @@
         "$value": "#8E8361"
       },
       "600": {
-        "$value": "#746A49"
+        "$value": "#7C6924"
       },
       "700": {
         "$value": "#665C3B"
@@ -154,7 +154,7 @@
         "$value": "#6283BF"
       },
       "600": {
-        "$value": "#4A69A4"
+        "$value": "#576A8D"
       },
       "700": {
         "$value": "#3C5B94"
@@ -274,7 +274,7 @@
     }
   },
   "semantic": {
-    "$description": "Layer 2 assigns meaning to the primitive colors. Token names and roles match ergo-light.tokens.json. Values differ where TE calm uses its own hues: blue selection, amber search, cyan comments on a plum background, and the saturated alert red for unsaved and recording marks. ergo-light.tokens.json explains the shared contrast and color vision rationale. The descriptions here state the TE calm values.",
+    "$description": "Layer 2 assigns meaning to the primitive colors. Each value refers to a primitive color or to another role. Gray carries the interface. Blue marks information, functions, interface accents, selections, and changed lines. Green marks strings, additions, and success. Red marks errors and deletions. Amber marks warnings and search. Cyan on plum marks comments. Violet marks constants and matching brackets.",
     "surface": {
       "$type": "color",
       "$description": "Gray backgrounds from the neutral scale.",
@@ -284,11 +284,7 @@
       },
       "raised": {
         "$value": "{primitive.gray.100}",
-        "$description": "Background for panels, bars, floating windows, and the tab bar."
-      },
-      "code": {
-        "$value": "{primitive.gray.100}",
-        "$description": "Background for inline code and fenced code blocks."
+        "$description": "Background for bars and panels: the status line, the tab bar, and unfocused windows."
       },
       "cursorline": {
         "$value": "{primitive.gray.100}",
@@ -296,19 +292,19 @@
       },
       "highlight": {
         "$value": "{primitive.gray.200}",
-        "$description": "Background for selected list, table, and file entries, tab hover, and Zellij indicator fills. Step gray.200 distinguishes it from the base background."
+        "$description": "Background for tab hover and Zellij indicator fills. Selected entries use selection.secondary."
       },
       "column": {
         "$value": "{primitive.gray.100}",
-        "$description": "Background for colorcolumn and cursorcolumn."
+        "$description": "Background for cursorcolumn."
       },
       "ruler": {
         "$value": "{primitive.gray.100}",
-        "$description": "Ruler background."
+        "$description": "Background for the line-length ruler: Helix rulers and Neovim colorcolumn."
       },
       "popup": {
         "$value": "{primitive.gray.100}",
-        "$description": "Background for popup windows and Telescope. One step above the base background distinguishes the window area from its border."
+        "$description": "Background for popups, menus, floating windows, and Telescope. One step above the base background distinguishes the window area from its border."
       },
       "popupHeader": {
         "$value": "{primitive.gray.200}",
@@ -316,7 +312,7 @@
       },
       "active": {
         "$value": "{primitive.gray.300}",
-        "$description": "Background for the active tab, current mode, and cursor position. The gray background has dark text and less contrast than a black background."
+        "$description": "Background for the active tab and the selected Zellij ribbon. mode.normal aliases it. The gray keycap with dark text has less contrast than a black background."
       }
     },
     "border": {
@@ -343,17 +339,17 @@
         "$description": "Foreground for hints, line numbers, and secondary interface text."
       },
       "accent": {
-        "$value": "{primitive.blue.600}",
-        "$description": "Foreground for interface elements that need a color: the current line number, directories, and key hints. Syntax colors stay in accent.*."
+        "$value": "{primitive.blue.700}",
+        "$description": "Foreground for interface elements that need a color: the current line number, directories, and key hints. blue.700 is darker and more saturated than syntax.function (blue.600), so interface text does not look like a function name."
       },
       "strong": {
         "$value": "{primitive.gray.900}",
-        "$description": "Foreground for the backgrounds with the most emphasis, such as the current search match and the active tab."
+        "$description": "Foreground for the backgrounds with the most emphasis: the current search match, the active tab, and mode keycaps."
       }
     },
-    "accent": {
+    "syntax": {
       "$type": "color",
-      "$description": "Syntax colors. Use them only for code and links, not for interface elements. Interface elements use text.accent and status.*.",
+      "$description": "Code colors. Interface elements do not use them; they use text.accent and status.*.",
       "string": {
         "$value": "{primitive.green.600}",
         "$description": "Foreground for string literals."
@@ -364,11 +360,11 @@
       },
       "function": {
         "$value": "{primitive.blue.600}",
-        "$description": "Foreground for function names."
+        "$description": "Foreground for function names. Function names are frequent, so blue.600 has low chroma (about 0.06)."
       },
       "link": {
         "$value": "{primitive.blue.800}",
-        "$description": "Foreground for links and URLs."
+        "$description": "Foreground for links and URLs. The underline carries most of the signal."
       }
     },
     "status": {
@@ -380,7 +376,7 @@
       },
       "warning": {
         "$value": "{primitive.amber.600}",
-        "$description": "Foreground for warnings."
+        "$description": "Foreground for warnings. Warnings are rare and important, so amber.600 has more chroma (about 0.09) than the syntax colors."
       },
       "info": {
         "$value": "{primitive.blue.600}",
@@ -404,7 +400,7 @@
       "$description": "Small marks that must stand out.",
       "mark": {
         "$value": "{primitive.alert.fg}",
-        "$description": "Small mark for an unsaved buffer or an active macro recording. Its contrast against the background is at least 3:1. Do not use it as a background."
+        "$description": "Small mark for an unsaved buffer, an active macro recording, or the Zellij bell. It uses the saturated alert red. Do not use it as a background or for anything else."
       }
     },
     "selection": {
@@ -412,15 +408,15 @@
       "$description": "Backgrounds for selections and related matches.",
       "primary": {
         "$value": "{primitive.blue.300}",
-        "$description": "Background for the active selection. TE calm uses blue.300."
+        "$description": "Background for the active selection."
       },
       "secondary": {
         "$value": "{primitive.gray.200}",
-        "$description": "Background for inactive selections and menu selections."
+        "$description": "Background for inactive selections and for the selected entry in menus, pickers, lists, and file explorers."
       },
       "match": {
-        "$value": "{primitive.violet.100}",
-        "$description": "Background for matching pairs and references."
+        "$value": "{primitive.violet.200}",
+        "$description": "Background for matching brackets and LSP references. violet.200 stays visible on the current line (gray.100), where violet.100 would disappear."
       }
     },
     "search": {
@@ -428,11 +424,11 @@
       "$description": "Backgrounds for search matches.",
       "match": {
         "$value": "{primitive.amber.300}",
-        "$description": "Background for all search matches. TE calm uses amber.300."
+        "$description": "Background for all search matches."
       },
       "current": {
         "$value": "{primitive.amber.400}",
-        "$description": "Background for the current search match, one step above search.match."
+        "$description": "Background for the current search match and jump labels, one step above search.match."
       }
     },
     "comment": {
@@ -440,20 +436,20 @@
       "$description": "Code comments: a cyan foreground on a light plum background.",
       "fg": {
         "$value": "{primitive.cyan.700}",
-        "$description": "Comment foreground. TE calm uses cyan.700."
+        "$description": "Comment foreground."
       },
       "bg": {
         "$value": "{primitive.plum.100}",
-        "$description": "Comment background. TE calm uses plum.100."
+        "$description": "Comment background."
       },
-      "marker": {
+      "markerBg": {
         "$value": "{primitive.plum.200}",
         "$description": "Background for TODO, FIXME, WARNING, and NOTE markers. plum.200 is one step above the comment background."
       }
     },
     "doc": {
       "$type": "color",
-      "$description": "Documentation comments and Markdown.",
+      "$description": "Documentation comments and Markdown. Names that end in Bg are backgrounds; the others are foregrounds.",
       "fg": {
         "$value": "{primitive.gray.700}",
         "$description": "Documentation foreground."
@@ -462,9 +458,13 @@
         "$value": "{semantic.comment.bg}",
         "$description": "Background for documentation comments and docstrings. It aliases comment.bg for now."
       },
-      "quote": {
-        "$value": "{primitive.blue.50}",
-        "$description": "Background for blockquotes and the Octo editing area."
+      "quoteBg": {
+        "$value": "{primitive.blue.100}",
+        "$description": "Background for blockquotes and the Octo editing area. blue.100 is visible against the base background, where blue.50 is not."
+      },
+      "codeBg": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for inline code and fenced code blocks."
       },
       "heading": {
         "$value": "{primitive.gray.800}",
@@ -513,6 +513,30 @@
       "secondary": {
         "$value": "{primitive.gray.500}",
         "$description": "Background for additional cursors."
+      }
+    },
+    "mode": {
+      "$type": "color",
+      "$description": "Backgrounds for the mode keycap in the status line. Each mode uses dark text (text.strong) on a light tint, so the keycap shape stays the same and only the tint changes.",
+      "normal": {
+        "$value": "{semantic.surface.active}",
+        "$description": "Normal mode. It aliases surface.active, the gray keycap."
+      },
+      "insert": {
+        "$value": "{primitive.green.300}",
+        "$description": "Insert mode. Green relates to additions."
+      },
+      "select": {
+        "$value": "{semantic.selection.primary}",
+        "$description": "Select mode in Helix and Visual mode in Neovim. It aliases selection.primary, so the keycap matches the selection."
+      },
+      "replace": {
+        "$value": "{primitive.red.300}",
+        "$description": "Replace mode (Neovim). Red relates to deletion, because replace overwrites text."
+      },
+      "command": {
+        "$value": "{primitive.plum.300}",
+        "$description": "Command-line mode (Neovim)."
       }
     },
     "terminal": {

@@ -9,9 +9,10 @@
    "[delta]\n"
    "    syntax-theme = ansi\n"
    "    plus-style = \"syntax " (theme "diff.add") "\"\n"
-   "    plus-emph-style = \"syntax " (theme "diff.addWord") "\"\n"
+   ;; Changed words use plain dark text: ANSI syntax colors drop below 3:1 on the word backgrounds.
+   "    plus-emph-style = \"" (theme "text.strong") " " (theme "diff.addWord") "\"\n"
    "    minus-style = \"syntax " (theme "diff.delete") "\"\n"
-   "    minus-emph-style = \"syntax " (theme "diff.deleteWord") "\"\n"
+   "    minus-emph-style = \"" (theme "text.strong") " " (theme "diff.deleteWord") "\"\n"
    "    hunk-header-style = \"" (theme "text.secondary") "\"\n"
    "    hunk-header-decoration-style = \"" (theme "border.default") " box\"\n"
    "    file-style = \"" (theme "text.primary") "\"\n"

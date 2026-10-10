@@ -3,6 +3,6 @@ return {
   'folke/todo-comments.nvim',
   event = 'VimEnter',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  -- after = '': only the keyword uses the highlight color. The text after it keeps the comment colors.
-  opts = { signs = false, highlight = { after = '' } },
+  -- keyword = '' and after = '': todo-comments draws no colors, so the theme's @comment.todo style applies.
+  opts = { signs = false, highlight = { keyword = '', after = '' } },
 }

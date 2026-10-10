@@ -3,6 +3,7 @@ theme = "baked"
 [editor]
 line-number = "relative"
 cursorline = true
+color-modes = true
 mouse = false
 auto-format = true
 popup-border = "all"

@@ -4,11 +4,11 @@
    [engine :refer [generated-banner]]))
 
 (def ^:private tabs
-  [["active_tab"         {:bg "surface.active"       :fg "text.strong"}]
-   ["inactive_tab"       {:bg "surface.raised"    :fg "text.muted"}]
+  [["active_tab"         {:bg "surface.active"    :fg "text.strong"}]
+   ["inactive_tab"       {:bg "surface.raised"    :fg "text.secondary"}]
    ["inactive_tab_hover" {:bg "surface.highlight" :fg "text.primary"}]
    ["new_tab"            {:bg "surface.raised"    :fg "text.secondary"}]
-   ["new_tab_hover"      {:bg "surface.base"      :fg "status.info"}]])
+   ["new_tab_hover"      {:bg "surface.base"      :fg "text.accent"}]])
 
 (defn- tab [theme {:keys [bg fg]}]
   (str "bg_color = \"" (theme bg) "\"\n"      ; Resolve the token paths here.
@@ -49,6 +49,16 @@
 
    "selection_bg = \"" (theme "selection.primary") "\"\n"
    "selection_fg = \"" (theme "text.primary") "\"\n\n"
+
+   ;; Copy mode and quick select use the search colors, as in the editors.
+   "copy_mode_active_highlight_bg = { Color = \"" (theme "search.current") "\" }\n"
+   "copy_mode_active_highlight_fg = { Color = \"" (theme "text.strong") "\" }\n"
+   "copy_mode_inactive_highlight_bg = { Color = \"" (theme "search.match") "\" }\n"
+   "copy_mode_inactive_highlight_fg = { Color = \"" (theme "text.primary") "\" }\n"
+   "quick_select_label_bg = { Color = \"" (theme "search.current") "\" }\n"
+   "quick_select_label_fg = { Color = \"" (theme "text.strong") "\" }\n"
+   "quick_select_match_bg = { Color = \"" (theme "search.match") "\" }\n"
+   "quick_select_match_fg = { Color = \"" (theme "text.primary") "\" }\n\n"
 
    "scrollbar_thumb = \"" (theme "border.default") "\"\n"
    "split = \"" (theme "border.default") "\"\n\n"

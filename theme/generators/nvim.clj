@@ -10,8 +10,8 @@
   (concat
    [;; UI background
     ["Normal" {:fg "text.primary" :bg "surface.base"}]
-    ["NormalFloat" {:fg "text.primary" :bg "surface.raised"}]
-    ["FloatBorder" {:fg "border.default" :bg "surface.raised"}]
+    ["NormalFloat" {:fg "text.primary" :bg "surface.popup"}]
+    ["FloatBorder" {:fg "border.default" :bg "surface.popup"}]
     ;; Windows without focus use surface.raised. The focused window uses surface.base.
     ["NormalNC" {:fg "text.primary" :bg "surface.raised"}]
 
@@ -21,7 +21,7 @@
     ["CursorIM" {:fg "surface.base" :bg "cursor.primary"}]
     ["CursorLine" {:bg "surface.cursorline"}]
     ["CursorColumn" {:bg "surface.column"}]
-    ["CursorLineNr" {:fg "text.primary" :bold true}]
+    ["CursorLineNr" {:fg "text.accent" :bold true}]
 
     ;; Line numbers. The gutter uses text.muted. Only comments use the comment color.
     ["LineNr" {:fg "text.muted"}]
@@ -33,17 +33,12 @@
     ["StatusLineNC" {:fg "text.secondary" :bg "surface.raised"}]
     ["StatusLineSeparator" {:fg "border.default" :bg "surface.raised"}]
 
-    ;; Bufferline (with the bufferline plugin)
-    ["BufferLineFill" {:fg "text.primary" :bg "surface.raised"}]
-    ["BufferLineBackground" {:fg "text.primary" :bg "surface.raised"}]
-    ["BufferLineBufferSelected" {:fg "text.primary" :bg "surface.base" :bold true}]
-
     ;; Menu and popup
-    ["Pmenu" {:fg "text.primary" :bg "surface.raised"}]
-    ["PmenuSel" {:fg "text.primary" :bg "selection.secondary" :bold true}]
-    ["PmenuSbar" {:bg "surface.raised"}]
+    ["Pmenu" {:fg "text.primary" :bg "surface.popup"}]
+    ["PmenuSel" {:fg "text.strong" :bg "selection.secondary" :bold true}]
+    ["PmenuSbar" {:bg "surface.popup"}]
     ["PmenuThumb" {:bg "text.muted"}]
-    ["WildMenu" {:fg "text.primary" :bg "selection.secondary" :bold true}]
+    ["WildMenu" {:fg "text.strong" :bg "selection.secondary" :bold true}]
 
     ;; Selection
     ["Visual" {:fg "text.primary" :bg "selection.primary"}]
@@ -54,19 +49,19 @@
 
     ;; Syntax highlighting
     ["Comment" {:fg "comment.fg" :bg "comment.bg"}]
-    ["String" {:fg "accent.string"}]
+    ["String" {:fg "syntax.string"}]
     ;; Use dark text and the documentation background for documentation strings and comments.
     ["@string.documentation" {:fg "doc.fg" :bg "doc.bg"}]
     ["@comment.documentation" {:fg "doc.fg" :bg "doc.bg"}]]
    ;; Emphasize TODO, FIXME, WARNING, and NOTE with bold text and the attention color.
    (for [g ["@comment.todo" "@comment.note" "@comment.warning" "@comment.error" "Todo"]]
-     [g {:fg "text.primary" :bg "comment.marker" :bold true}])
-   [["Constant" {:fg "accent.constant"}]
-    ["Number" {:fg "accent.constant"}]
-    ["Boolean" {:fg "accent.constant"}]
-    ["Character" {:fg "accent.constant"}]
-    ["Float" {:fg "accent.constant"}]
-    ["Function" {:fg "accent.function"}]
+     [g {:fg "text.primary" :bg "comment.markerBg" :bold true}])
+   [["Constant" {:fg "syntax.constant"}]
+    ["Number" {:fg "syntax.constant"}]
+    ["Boolean" {:fg "syntax.constant"}]
+    ["Character" {:fg "syntax.constant"}]
+    ["Float" {:fg "syntax.constant"}]
+    ["Function" {:fg "syntax.function"}]
     ["Identifier" {:fg "text.primary"}]
     ["Keyword" {:fg "text.primary"}]
     ["Operator" {:fg "text.primary"}]
@@ -75,14 +70,14 @@
     ["StorageClass" {:fg "text.secondary" :italic true}]
     ["Typedef" {:fg "text.secondary" :bold true}]
     ["Special" {:fg "text.secondary"}]
-    ["SpecialChar" {:fg "accent.constant"}]
+    ["SpecialChar" {:fg "syntax.constant"}]
     ["Tag" {:fg "text.primary"}]
     ["Delimiter" {:fg "text.secondary"}]
     ["Bracket" {:fg "text.secondary"}]
     ["Punctuation" {:fg "text.secondary"}]
     ["Variable" {:fg "text.primary"}]
     ["PreProc" {:fg "text.secondary"}]
-    ["Macro" {:fg "accent.function" :underline true}]
+    ["Macro" {:fg "syntax.function" :underline true}]
     ["Label" {:fg "text.secondary" :underline true}]
     ["Namespace" {:fg "text.secondary"}]
     ["Module" {:fg "text.secondary"}]
@@ -92,23 +87,23 @@
    (for [n (range 1 7)]
      [(str "markdownHeading" n) {:fg "doc.heading" :bold true}])
    [["markdownLinkText" {:fg "text.primary" :bold true}]
-    ["markdownUrl" {:fg "accent.link" :underline true}]
-    ["markdownCode" {:fg "text.primary" :bg "surface.code"}]
-    ["markdownCodeBlock" {:bg "surface.code"}]
-    ["markdownBlockquote" {:fg "doc.fg" :bg "doc.quote"}]
+    ["markdownUrl" {:fg "syntax.link" :underline true}]
+    ["markdownCode" {:fg "text.primary" :bg "doc.codeBg"}]
+    ["markdownCodeBlock" {:bg "doc.codeBg"}]
+    ["markdownBlockquote" {:fg "doc.fg" :bg "doc.quoteBg"}]
     ["markdownBold" {:bold true}]
     ["markdownItalic" {:italic true}]
     ["markdownStrikethrough" {:strikethrough true}]
 
     ;; Use status.errorMark for diagnostic marks and status.error for text.
-    ;; Errors and warnings use curved underlines. Information uses dashed underlines. Hints use dotted underlines.
-    ["DiagnosticError" {:fg "status.error" :undercurl true :sp "status.errorMark"}]
-    ["DiagnosticWarn" {:fg "status.warning" :undercurl true :sp "status.warning"}]
-    ["DiagnosticInfo" {:fg "status.info" :underdashed true}]
-    ["DiagnosticHint" {:fg "status.hint" :underdotted true}]
+    ;; Floats and Trouble link to the base groups, so only DiagnosticUnderline* carry underlines.
+    ["DiagnosticError" {:fg "status.error"}]
+    ["DiagnosticWarn" {:fg "status.warning"}]
+    ["DiagnosticInfo" {:fg "status.info"}]
+    ["DiagnosticHint" {:fg "status.hint"}]
     ["DiagnosticUnnecessary" {:fg "comment.fg" :italic true}]
     ["DiagnosticDeprecated" {:fg "comment.fg" :underdouble true}]
-    ;; Some language servers use DiagnosticUnderline* groups for underlines.
+    ;; Errors and warnings use curved underlines. Information uses dashed underlines. Hints use dotted underlines.
     ["DiagnosticUnderlineError" {:undercurl true :sp "status.errorMark"}]
     ["DiagnosticUnderlineWarn" {:undercurl true :sp "status.warning"}]
     ["DiagnosticUnderlineInfo" {:underdashed true :sp "status.info"}]
@@ -129,11 +124,15 @@
     ["DiffChange" {:fg "text.primary" :bg "diff.change"}]
     ["DiffDelete" {:fg "text.primary" :bg "diff.delete"}]
     ["DiffText" {:fg "text.primary" :bg "diff.changeWord"}]]
-   (for [g ["DiffAdded" "DiffRemoved" "DiffFile" "DiffNewFile" "DiffOldFile" "DiffLine"]]
+   (for [g ["DiffFile" "DiffNewFile" "DiffOldFile" "DiffLine"]]
      [g {:fg "text.secondary"}])
-   [;; Git signs
+   [;; Patch buffers such as fugitive
+    ["DiffAdded" {:fg "status.success"}]
+    ["DiffRemoved" {:fg "status.error"}]
+
+    ;; Git signs
     ["GitSignsAdd" {:fg "status.success"}]
-    ["GitSignsChange" {:fg "status.warning"}]
+    ["GitSignsChange" {:fg "status.info"}]
     ["GitSignsDelete" {:fg "status.error"}]
 
     ;; Gutter
@@ -148,7 +147,7 @@
     ["Whitespace" {:fg "border.default"}]
     ["EndOfBuffer" {:fg "surface.base"}]
 
-    ["ColorColumn" {:bg "surface.column"}]
+    ["ColorColumn" {:bg "surface.ruler"}]
 
     ;; Indent guides
     ["IndentBlanklineChar" {:fg "border.default"}]
@@ -160,15 +159,25 @@
     ["LspInlayHintType" {:fg "text.muted"}]
 
     ["MatchParen" {:fg "text.primary" :bg "selection.match" :bold true}]
+    ;; LSP document highlight. Without these, references fall back to Visual and look selected.
+    ["LspReferenceText" {:bg "selection.match"}]
+    ["LspReferenceRead" {:bg "selection.match"}]
+    ["LspReferenceWrite" {:bg "selection.match" :bold true}]
+
+    ;; Spelling uses dotted underlines so it does not look like an error diagnostic.
+    ["SpellBad" {:underdotted true :sp "status.warning"}]
+    ["SpellCap" {:underdotted true :sp "status.hint"}]
+    ["SpellRare" {:underdotted true :sp "status.hint"}]
+    ["SpellLocal" {:underdotted true :sp "status.hint"}]
 
     ;; Quickfix
     ["QuickFixLine" {:bg "selection.secondary"}]
     ["qfLineNr" {:fg "text.muted"}]
 
-    ;; Tabline
-    ["TabLine" {:fg "text.primary" :bg "surface.raised"}]
+    ;; Tabline. The active tab is a keycap, as in WezTerm, Zellij, and the Helix bufferline.
+    ["TabLine" {:fg "text.secondary" :bg "surface.raised"}]
     ["TabLineFill" {:bg "surface.raised"}]
-    ["TabLineSel" {:fg "text.primary" :bg "surface.base" :bold true}]
+    ["TabLineSel" {:fg "text.strong" :bg "surface.active" :bold true}]
 
     ["Terminal" {:fg "text.primary" :bg "surface.base"}]
     ["Title" {:fg "text.primary" :bold true}]
@@ -180,9 +189,13 @@
     ["ModeMsg" {:fg "text.primary"}]
     ["MoreMsg" {:fg "status.info"}]
 
-    ;; mini.statusline. Normal mode uses surface.active.
-    ;; Other modes keep mini.statusline's default Diff* links.
-    ["MiniStatuslineModeNormal" {:fg "text.strong" :bg "surface.active"}]
+    ;; mini.statusline. Each mode is a keycap with dark text on its mode.* tint, as in Helix.
+    ["MiniStatuslineModeNormal" {:fg "text.strong" :bg "mode.normal" :bold true}]
+    ["MiniStatuslineModeInsert" {:fg "text.strong" :bg "mode.insert" :bold true}]
+    ["MiniStatuslineModeVisual" {:fg "text.strong" :bg "mode.select" :bold true}]
+    ["MiniStatuslineModeReplace" {:fg "text.strong" :bg "mode.replace" :bold true}]
+    ["MiniStatuslineModeCommand" {:fg "text.strong" :bg "mode.command" :bold true}]
+    ["MiniStatuslineModeOther" {:fg "text.strong" :bg "mode.normal" :bold true}]
     ["BakedSignal" {:fg "signal.mark" :bg "surface.raised"}]
     ["MiniStatuslineDevinfo" {:fg "text.primary" :bg "surface.raised"}]
     ["MiniStatuslineFileinfo" {:fg "text.primary" :bg "surface.raised"}]
@@ -194,16 +207,20 @@
    [["TelescopePromptNormal" {:fg "text.primary" :bg "surface.popup"}]]
    (for [g ["TelescopePromptTitle" "TelescopeResultsTitle" "TelescopePreviewTitle"]]
      [g {:fg "text.primary" :bg "surface.popupHeader" :bold true}])
-   [["TelescopeSelection" {:fg "text.primary" :bg "selection.secondary" :bold true}]
+   [["TelescopeSelection" {:fg "text.strong" :bg "selection.secondary" :bold true}]
     ["TelescopeMatching" {:fg "text.primary" :bg "search.match" :bold true}]
 
-    ;; Which-key (darker window background)
-    ["WhichKeyFloat" {:bg "selection.match"}]
+    ;; Which-key
+    ["WhichKeyFloat" {:bg "surface.popup"}]
     ["WhichKey" {:fg "text.accent" :bg :none}]
     ["WhichKeyDesc" {:fg "text.primary" :bg :none}]
     ["WhichKeySeparator" {:fg "text.secondary" :bg :none}]
     ["WhichKeyGroup" {:fg "text.primary" :bg :none :bold true}]
     ["WhichKeyValue" {:fg "text.secondary" :bg :none}]
+
+    ;; Flash. Dim the backdrop text instead of Comment's background, and show labels like Helix jump labels.
+    ["FlashBackdrop" {:fg "text.muted"}]
+    ["FlashLabel" {:fg "text.strong" :bg "search.current" :bold true}]
 
     ;; Oil.nvim file explorer
     ["OilEntry" {:fg "text.primary" :bg :none}]
@@ -213,12 +230,12 @@
     ["OilFile" {:fg "text.primary" :bg :none}]
     ["OilHidden" {:fg "text.primary" :bg :none}]
     ["OilCursorLine" {:bg "surface.cursorline"}]
-    ["OilSelected" {:fg "text.primary" :bg "surface.highlight"}]
+    ["OilSelected" {:fg "text.strong" :bg "selection.secondary"}]
 
     ;; Plugins
     ["GitBlameVirtualText" {:fg "status.hint" :italic true}]
-    ;; Octo shows editable text on doc.quote. Headings and dates use secondary and hint colors.
-    ["OctoEditable" {:bg "doc.quote"}]
+    ;; Octo shows editable text on doc.quoteBg. Headings and dates use secondary and hint colors.
+    ["OctoEditable" {:bg "doc.quoteBg"}]
     ["OctoTimelineItemHeading" {:fg "text.secondary" :bold true}]
     ["OctoDate" {:fg "status.hint"}]
     ["OctoSymbol" {:fg "status.hint"}]]))
@@ -232,9 +249,9 @@
    ["dark_red" "status.error"]
    ["green" "diff.add"]
    ["dark_green" "status.success"]
-   ["yellow" "comment.marker"]
+   ["yellow" "comment.markerBg"]
    ["dark_yellow" "status.warning"]
-   ["blue" "accent.link"]
+   ["blue" "syntax.link"]
    ["dark_blue" "text.accent"]
    ["purple" "terminal.ansi.magenta"]])
 

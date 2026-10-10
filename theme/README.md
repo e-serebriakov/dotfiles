@@ -1,6 +1,6 @@
 # Themes
 
-| Ergo Light (default) | TE calm |
+| Ergo Light | TE calm |
 | --- | --- |
 | ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) |
 | [`ergo-light.tokens.json`](ergo-light.tokens.json): neutral backgrounds and accents with low chroma | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, gray backgrounds, high chroma for error marks |
@@ -17,7 +17,30 @@ A change of active theme does not change these tracked files.
 Each `*.tokens.json` file defines the colors as [design tokens](https://tr.designtokens.org/) in two layers:
 
 - **Primitives:** OKLCH color scales.
-- **Semantic tokens:** named roles that refer to primitives, such as `accent.string`, `diff.add`, and `status.error`.
+- **Semantic tokens:** named roles that refer to primitives, such as `syntax.string`, `diff.add`, and `status.error`.
+
+Both files define the same semantic tokens. Each file describes its own values, so you can read one theme without the other.
+
+### Token groups
+
+| Group | Kind | Use it for |
+| --- | --- | --- |
+| `surface` | background | Editor, bar, popup, and current-line backgrounds; the active-tab keycap |
+| `border` | foreground | Separators, borders, and indent guides |
+| `text` | foreground | Interface and body text; `text.accent` for interface elements that need a color |
+| `syntax` | foreground | Code only. Interface elements never use these |
+| `status` | foreground | Diagnostics, Git signs, and success or failure states |
+| `signal` | foreground | Small attention marks: unsaved buffer, macro recording, bell |
+| `selection` | background | Selections, the selected entry in menus and lists, matching brackets and references |
+| `search` | background | Search matches and jump labels |
+| `comment`, `doc` | mixed | Code comments, documentation, and Markdown |
+| `diff` | background | Added, changed, and deleted lines and words |
+| `cursor` | background | Cursor blocks |
+| `mode` | background | The mode keycap in the status line |
+| `terminal` | foreground | The 16 ANSI colors |
+
+Most groups contain only foregrounds or only backgrounds.
+In the mixed groups, `fg` and `bg` name the main pair, and other backgrounds end in `Bg`, such as `doc.quoteBg`.
 
 Tools do not read the tokens directly. Each generator converts semantic tokens to the format for its tool:
 

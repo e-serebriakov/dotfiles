@@ -7,7 +7,7 @@
 <text x="104.0" y="41.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#2F6571" xml:space="preserve">// Resolve an alias to a hexadecimal color.</text>
 <text x="80.0" y="75.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6A6A6A" xml:space="preserve">2</text>
 <text x="104.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">const paper = </text>
-<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#4A69A4" xml:space="preserve">theme</text>
+<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#576A8D" xml:space="preserve">theme</text>
 <text x="320.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">(</text>
 <text x="332.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#56735B" xml:space="preserve">'surface.base'</text>
 <text x="491.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#494949" xml:space="preserve">)</text>
