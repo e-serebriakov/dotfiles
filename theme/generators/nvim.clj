@@ -10,8 +10,10 @@
   (concat
    [;; UI background
     ["Normal" {:fg "text.primary" :bg "surface.base"}]
-    ["NormalFloat" {:fg "text.primary" :bg "surface.popup"}]
-    ["FloatBorder" {:fg "border.default" :bg "surface.popup"}]
+    ;; Bordered floats are white cards. The window behind a focused float shades to NormalNC gray.
+    ;; Borderless menus (Pmenu, WhichKeyNormal) keep surface.popup, so they stand out on the white editor.
+    ["NormalFloat" {:fg "text.primary" :bg "surface.base"}]
+    ["FloatBorder" {:fg "border.default" :bg "surface.base"}]
     ;; Windows without focus use surface.raised. The focused window uses surface.base.
     ["NormalNC" {:fg "text.primary" :bg "surface.raised"}]
 
@@ -203,15 +205,18 @@
 
    ;; Telescope
    (for [g ["TelescopeBorder" "TelescopePromptBorder" "TelescopeResultsBorder" "TelescopePreviewBorder"]]
-     [g {:fg "border.default" :bg "surface.popup"}])
-   [["TelescopePromptNormal" {:fg "text.primary" :bg "surface.popup"}]]
+     [g {:fg "border.default" :bg "surface.base"}])
+   ;; One white card for the whole picker, like NormalFloat.
+   (for [g ["TelescopeNormal" "TelescopePromptNormal" "TelescopeResultsNormal" "TelescopePreviewNormal"]]
+     [g {:fg "text.primary" :bg "surface.base"}])
    (for [g ["TelescopePromptTitle" "TelescopeResultsTitle" "TelescopePreviewTitle"]]
      [g {:fg "text.primary" :bg "surface.popupHeader" :bold true}])
    [["TelescopeSelection" {:fg "text.strong" :bg "selection.secondary" :bold true}]
     ["TelescopeMatching" {:fg "text.primary" :bg "search.match" :bold true}]
 
     ;; Which-key
-    ["WhichKeyFloat" {:bg "surface.popup"}]
+    ["WhichKeyNormal" {:fg "text.primary" :bg "surface.popup"}]
+    ["WhichKeyBorder" {:fg "border.default" :bg "surface.popup"}]
     ["WhichKey" {:fg "text.accent" :bg :none}]
     ["WhichKeyDesc" {:fg "text.primary" :bg :none}]
     ["WhichKeySeparator" {:fg "text.secondary" :bg :none}]
