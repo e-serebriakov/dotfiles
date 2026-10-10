@@ -1,7 +1,7 @@
 (ns generators.wezterm
   (:require
    [clojure.string :as str]
-   [generators.common :refer [generated-banner]]))
+   [engine :refer [generated-banner]]))
 
 (def ^:private tabs
   [["active_tab"         {:bg "surface.key"       :fg "text.strong"}]

@@ -1,7 +1,7 @@
 (ns generators.nvim
   (:require
    [clojure.string :as str]
-   [generators.common :refer [generated-banner]]))
+   [engine :refer [generated-banner]]))
 
 ;; Use a vector of [palette-key semantic-token] pairs to keep the output order.
 ;; The palette keys must match the keys that the colorscheme reads.

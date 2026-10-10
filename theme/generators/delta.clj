@@ -1,6 +1,6 @@
 (ns generators.delta
   (:require
-   [generators.common :refer [generated-banner]]))
+   [engine :refer [generated-banner]]))
 
 (defn render [theme]
   (str

@@ -8,6 +8,19 @@ end
 
 local prettier = { 'prettierd', 'prettier', stop_after_first = true }
 
+local formatters_by_ft = {
+  json = function(b) return biome_or(b, { 'biome' }, prettier) end,
+  jsonc = function(b) return biome_or(b, { 'biome' }, prettier) end,
+  css = function(b) return biome_or(b, { 'biome' }, prettier) end,
+  html = prettier,
+  yaml = prettier,
+  lua = { 'stylua' },
+  clojure = { 'cljfmt' },
+}
+for _, ft in ipairs { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' } do
+  formatters_by_ft[ft] = function(b) return biome_or(b, { 'biome-check' }, prettier) end
+end
+
 return {
   -- Autoformat
   'stevearc/conform.nvim',
@@ -38,19 +51,6 @@ return {
         }
       end
     end,
-    formatters_by_ft = {
-      javascript = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
-      javascriptreact = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
-      typescript = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
-      typescriptreact = function(b) return biome_or(b, { 'biome-check' }, prettier) end,
-      json = function(b) return biome_or(b, { 'biome' }, prettier) end,
-      jsonc = function(b) return biome_or(b, { 'biome' }, prettier) end,
-      css = function(b) return biome_or(b, { 'biome' }, prettier) end,
-      html = prettier,
-      yaml = prettier,
-      lua = { 'stylua' },
-      clojure = { 'cljfmt' },
-      python = {},
-    },
+    formatters_by_ft = formatters_by_ft,
   },
 }

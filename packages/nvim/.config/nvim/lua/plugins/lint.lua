@@ -8,7 +8,6 @@ return {
     lint.linters_by_ft = {
       markdown = { 'markdownlint-cli2' },
       clojure = { 'clj-kondo' },
-      python = {},
     }
 
     local function is_linter_available(name)

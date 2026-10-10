@@ -91,7 +91,7 @@ fi
 
 # fzf integration (Ctrl+R history, Ctrl+T files, Alt+C cd)
 if command -v fzf >/dev/null 2>&1; then
-  eval "$(fzf --zsh 2>/dev/null)" || { [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; }
+  eval "$(fzf --zsh)"
 fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --border'
