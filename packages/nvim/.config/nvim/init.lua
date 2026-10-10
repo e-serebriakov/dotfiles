@@ -128,10 +128,10 @@ require('lazy').setup({
 -- Load the baked colorscheme after Neovim initializes the plugins.
 require('colorschemes.baked').setup()
 
--- :BakedReload reloads the palette and theme after token generation (theme/generate.clj).
+-- :BakedReload reloads the highlights and theme after token generation (theme/generate.clj).
 -- Clear the Lua module cache so require() reads the updated files.
 vim.api.nvim_create_user_command('BakedReload', function()
-  for _, m in ipairs { 'colorschemes.baked_palette', 'colorschemes.baked' } do
+  for _, m in ipairs { 'colorschemes.baked_highlights', 'colorschemes.baked' } do
     package.loaded[m] = nil
   end
   require('colorschemes.baked').setup()

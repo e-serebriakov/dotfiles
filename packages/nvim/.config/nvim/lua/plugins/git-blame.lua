@@ -7,17 +7,7 @@ return {
     { '<leader>gB', '<cmd>GitBlameOpenCommitURL<cr>', desc = 'Git blame open commit' },
   },
   config = function()
-    local ok, p = pcall(require, 'colorschemes.baked_palette')
-    local function baked_blame_hl()
-      if ok then
-        vim.api.nvim_set_hl(0, 'GitBlameVirtualText', { fg = p.hint_fg, italic = true })
-      else
-        vim.api.nvim_set_hl(0, 'GitBlameVirtualText', { link = 'Comment' })
-      end
-    end
-    baked_blame_hl()
-    vim.api.nvim_create_autocmd('ColorScheme', { callback = baked_blame_hl })
-
+    -- The baked colorscheme sets GitBlameVirtualText.
     require('gitblame').setup {
       enabled = true,
       message_template = '  <author> • <date> • <summary>',
