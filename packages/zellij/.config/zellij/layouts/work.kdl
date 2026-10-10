@@ -2,6 +2,7 @@
 // Press Alt+f for a floating pane in the work tab.
 // Press Alt+/ to show keybindings for the current mode.
 // Start with dev <project>.
+// Run only one reple session at a time. All sessions share the same input pipe.
 
 layout {
     default_tab_template {
@@ -15,7 +16,10 @@ layout {
 
     tab name="work" focus=true {
         pane split_direction="vertical" {
-            pane name="editor" focus=true command="nvim" args="."
+            pane split_direction="horizontal" {
+                pane name="editor" focus=true command="hx" args="."
+                pane name="REPL" size="25%"
+            }
             pane name="agent"
         }
     }
