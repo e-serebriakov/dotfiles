@@ -113,12 +113,12 @@
 
    ;; Syntax
    ["comment" {:fg "comment.fg" :bg "comment.bg"}]
-   ["comment.line" {:fg "comment.fg"}]
-   ["comment.block" {:fg "comment.fg"}]
+   ["comment.line" {:fg "comment.fg" :bg "comment.bg"}]
+   ["comment.block" {:fg "comment.fg" :bg "comment.bg"}]
 
-   ["comment.documentation" {:fg "doc.fg"}]
-   ["comment.block.documentation" {:fg "doc.fg"}]
-   ["comment.line.documentation" {:fg "doc.fg"}]
+   ["comment.documentation" {:fg "doc.fg" :bg "comment.bg"}]
+   ["comment.block.documentation" {:fg "doc.fg" :bg "comment.bg"}]
+   ["comment.line.documentation" {:fg "doc.fg" :bg "comment.bg"}]
 
    ["comment.unused" {:fg "comment.fg" :modifiers [:dim :italic]}]
 
