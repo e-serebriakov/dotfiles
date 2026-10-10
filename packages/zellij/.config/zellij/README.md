@@ -26,6 +26,12 @@ Queries and symbolic links to the same directory share a session.
 The checksum distinguishes directories with the same name.
 Use `zellij attach <old-name>` for sessions created before this naming scheme. `dev` uses the new names.
 
+Shell aliases manage sessions:
+
+- `zls` — list sessions, `za <name>` — attach
+- `zks <name>` / `zkas` — stop one / all running sessions
+- `zds <name>` / `zdas` — delete one / all stopped sessions
+
 ## Navigation
 
 Zellij uses its default keybindings but starts **locked**.
