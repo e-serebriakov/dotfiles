@@ -34,6 +34,7 @@ These shortcuts operate in all modes:
 
 - `Alt+hjkl` — pane/tab navigation
 - `Alt+f` — toggle floating pane, `Alt+n` — new pane
+- `Alt+m` — maximize the focused pane (toggle fullscreen)
 - `Alt+/` — show keybindings for the current mode (compact-bar tooltip)
 
 Press `Ctrl+g` to enter normal mode.

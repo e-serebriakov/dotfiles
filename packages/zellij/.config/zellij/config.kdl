@@ -8,6 +8,7 @@ keybinds {
         bind "Alt k" { MoveFocus "Up"; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Alt n" { NewPane; }
+        bind "Alt m" { ToggleFocusFullscreen; }
     }
     // Esc in normal mode re-locks, so Ctrl keys go back to Neovim and the shell.
     normal {
