@@ -21,19 +21,21 @@ Each `*.tokens.json` file defines the colors as [design tokens](https://tr.desig
 
 Tools do not read the tokens directly. Each generator converts semantic tokens to the format for its tool:
 
-| Tool | Generator | Generated file |
-| --- | --- | --- |
-| Neovim | [`generators/nvim.clj`](generators/nvim.clj) | `colorschemes/baked_highlights.lua` |
-| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) | `colors/baked.toml` |
-| Zellij | [`generators/zellij.clj`](generators/zellij.clj) | `themes/baked.kdl` |
-| delta | [`generators/delta.clj`](generators/delta.clj) | `delta/baked.gitconfig` |
-| Helix | [`generators/helix.clj`](generators/helix.clj) | `themes/baked.toml` |
+| Tool | Generator |
+| --- | --- |
+| Neovim | [`generators/nvim.clj`](generators/nvim.clj) |
+| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) |
+| Zellij | [`generators/zellij.clj`](generators/zellij.clj) |
+| delta | [`generators/delta.clj`](generators/delta.clj) |
+| Helix | [`generators/helix.clj`](generators/helix.clj) |
+
+`adapters` in [`generate.clj`](generate.clj) lists the output path of each generated file.
 
 The generator uses the name `baked` for each output file and its theme name.
 The name does not depend on the active theme.
 Thus, the tool configuration does not change when you change themes.
 
-Git ignores these five files. `install.sh` regenerates them on each run.
+Git ignores the generated files (`packages/**/baked*`). `install.sh` regenerates them on each run.
 The generator also creates one `preview-<name>.svg` for each theme. Git tracks these files so GitHub can display them.
 Do not edit generated files manually.
 
@@ -82,9 +84,8 @@ The error mark uses a curved underline in WezTerm and kitty, and a straight unde
 ## Add a tool
 
 1. Create `generators/<tool>.clj` with a `render` function.
-2. Add the generator to `adapters` in `generate.clj`.
-3. Add its output path to `.gitignore`.
-4. Run the generation and test commands above.
+2. Add the generator and its output path to `adapters` in `generate.clj`. Start the file name with `baked` so Git ignores it.
+3. Run the generation and test commands above.
 
 No changes to `engine.clj` are needed.
 The contract test finds missing token references and tokens that no generator references.
