@@ -238,6 +238,14 @@
    ["dark_blue" "accent.function"]
    ["purple" "accent.constant"]])
 
+;; Diff windows remove the backgrounds of comment-colored groups so added and deleted lines keep their colors.
+;; @comment links to Comment by default. The diff namespace falls back to the global link, so list it explicitly.
+(def diff-nobg
+  (into ["@comment"]
+        (for [[group {bg :bg}] highlights
+              :when (and (string? bg) (str/starts-with? bg "comment."))]
+          group)))
+
 (defn- lua-value [theme v]
   (cond
     (string? v) (str "'" (theme v) "'")
@@ -255,6 +263,7 @@
                     (str/join ", " (for [[k v] attrs] (str (name k) " = " (lua-value theme v))))
                     " } },")))
    "\n  },\n"
+   "  diff_nobg = { " (str/join ", " (for [g diff-nobg] (str "'" g "'"))) " },\n"
    "  octo = {\n"
    (str/join "\n" (for [[k token] octo-colors] (str "    " k " = '" (theme token) "',")))
    "\n  },\n"
