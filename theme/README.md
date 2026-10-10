@@ -54,6 +54,9 @@ Edit a token file.
 Then run these commands from the repository root:
 
 ```sh
+# Install the pinned Babashka version from theme/mise.toml. Do this one time.
+(cd theme && mise install)
+
 # Generate all output files for te-calm. This also selects te-calm.
 (cd theme && bb -m generate --theme te-calm)
 

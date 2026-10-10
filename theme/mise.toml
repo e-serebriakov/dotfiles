@@ -1,0 +1,4 @@
+# Babashka runs the theme generator and its tests. From this directory, run `mise install`.
+# mise.lock records the download checksums. bootstrap/install.sh installs Babashka with --locked.
+[tools]
+babashka = "1.13.223"

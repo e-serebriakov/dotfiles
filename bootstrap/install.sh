@@ -101,18 +101,16 @@ if [[ -n "$DRY_RUN" ]]; then
 else
   # Generate theme files before Stow creates links. Git ignores the output files.
   # Continue if Babashka is unavailable or generation fails.
-  # Read the repository's mise configuration and lockfile before Stow links them.
-  # Install Babashka before Stow creates the links. Install the other tools after Stow creates the links.
+  # theme/mise.toml and theme/mise.lock fix the Babashka version, so generation does not need the Stow links.
+  # Install only Babashka here. Install the other tools after Stow creates the links.
   if ! command -v mise &> /dev/null; then
     echo "⚠ mise is not available. Setup skips theme generation." >&2
   else
     echo "▶ Setup generates theme files from design tokens."
     if ! (
-      export MISE_GLOBAL_CONFIG_FILE="$STOW_DIR/mise/.config/mise/config.toml"
       cd "$DOTFILES_DIR/theme" &&
         mise install --locked babashka &&
-        bb_dir="$(mise where babashka)" &&
-        "$bb_dir/bin/bb" -m generate
+        "$(mise which bb)" -m generate
     ); then
       echo "⚠ Theme generation failed. Setup continues with Stow. Tools use their default colors." >&2
     fi

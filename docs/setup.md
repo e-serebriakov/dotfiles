@@ -120,6 +120,14 @@ To update all tools, do not specify a tool name.
 The updates stay in the configured version ranges.
 Do the tool tests. Review the lockfile. Commit the lockfile.
 
+The theme generator pins its own Babashka version in `theme/mise.toml`.
+To update it, change the version in that file. Then update the lockfile:
+
+```sh
+(cd theme && mise lock)
+git diff -- theme/mise.lock
+```
+
 To update a zsh plugin:
 
 1. Find its upstream commit. For example:
