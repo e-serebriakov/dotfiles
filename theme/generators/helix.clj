@@ -1,7 +1,7 @@
 (ns generators.helix
   (:require
    [clojure.string :as str]
-   [generators.common :refer [generated-banner]]))
+   [engine :refer [generated-banner]]))
 
 ;; This fixed scope map uses Helix palette names from the [palette] section below.
 ;; Token values do not change this block.

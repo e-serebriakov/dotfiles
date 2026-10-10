@@ -1,7 +1,7 @@
 (ns generators.zellij
   (:require
    [clojure.string :as str]
-   [generators.common :refer [generated-banner]]))
+   [engine :refer [generated-banner hex->rgb]]))
 
 ;; Zellij component themes (0.42+) use one block for each interface part.
 ;; Each bar element has a specified color rather than a shared palette slot.
@@ -35,7 +35,7 @@
 (defn- rgb
   "Convert the color to a decimal R G B triplet for Zellij component themes."
   [hex]
-  (str/join " " (map #(Integer/parseInt (subs hex % (+ % 2)) 16) [1 3 5])))
+  (str/join " " (hex->rgb hex)))
 
 (defn- block [theme [name {:keys [base background emphasis]}]]
   (str "        " name " {\n"

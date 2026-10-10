@@ -1,6 +1,6 @@
 (ns generators.preview
   (:require
-   [generators.common :refer [generated-banner]]
+   [engine :refer [generated-banner hex->rgb]]
    [clojure.string :as str]))
 
 (defn preview-rows [theme]
@@ -161,12 +161,7 @@
 (def ^:private separator "  ")
 
 (defn- rgb [hex layer]
-  (let [h (subs hex 1)]
-    (format "%d;2;%d;%d;%d"
-            layer
-            (Integer/parseInt (subs h 0 2) 16)
-            (Integer/parseInt (subs h 2 4) 16)
-            (Integer/parseInt (subs h 4 6) 16))))
+  (str/join ";" (into [layer 2] (hex->rgb hex))))
 
 (defn- run [text {:keys [fg bg underline curl]}]
   (let [codes (cond-> []

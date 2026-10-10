@@ -4,7 +4,6 @@ return {
   dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
-  ---@type render.md.UserConfig
   opts = {
     heading = {
       icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },

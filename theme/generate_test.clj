@@ -5,22 +5,11 @@
    [clojure.test :refer [deftest is testing]]
    [engine :as e]
    [generate :as g]
-   [generators.common :refer [generated-banner]]
    [generators.preview :as preview]))
 
 (defn- theme
   ([] (theme (e/active-theme)))
   ([theme-name] (e/->theme (g/load-theme theme-name))))
-
-;; Each generator must produce output equal to its file on disk.
-;; If a token changes without a new output file, the test identifies the difference.
-(deftest golden-outputs-match-disk
-  (let [t (theme)]
-    (doseq [{:keys [render output]} g/adapters]
-      (testing output
-        (is (= (slurp (str (fs/file e/root output)))
-               (render t))
-            (str output " differs from the generated output. Run `bb -m generate`."))))))
 
 (deftest repo-contract-holds
   (doseq [theme-name (e/theme-names)]
@@ -75,7 +64,7 @@
             (str (fs/file-name path) " is missing. Run `bb -m generate`."))
         (is (= (slurp (str path)) content)
             (str (fs/file-name path) " differs from the generated output. Run `bb -m generate`."))
-        (is (str/includes? content generated-banner))))))
+        (is (str/includes? content e/generated-banner))))))
 
 ;; The ANSI and SVG previews use the same rows. Each hexadecimal color
 ;; in a row must appear in a truecolor sequence (2;r;g;b).
@@ -92,8 +81,5 @@
     (is (str/starts-with? ansi "\u001b[") "expected an opening SGR escape")
     (is (seq hexes))
     (doseq [hex hexes]
-      (let [h (subs hex 1)
-            triple (str "2;" (Integer/parseInt (subs h 0 2) 16)
-                        ";" (Integer/parseInt (subs h 2 4) 16)
-                        ";" (Integer/parseInt (subs h 4 6) 16))]
+      (let [triple (str/join ";" (into [2] (e/hex->rgb hex)))]
         (is (str/includes? ansi triple) (str hex " missing from ANSI preview"))))))

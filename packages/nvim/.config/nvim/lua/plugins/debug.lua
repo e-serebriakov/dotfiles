@@ -15,19 +15,6 @@ return {
 
     -- Language-specific adapters
     'mfussenegger/nvim-dap-python',
-    {
-      'microsoft/vscode-js-debug',
-      build = 'npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out',
-    },
-    {
-      'mxsdev/nvim-dap-vscode-js',
-      config = function()
-        require('dap-vscode-js').setup {
-          debugger_path = vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug',
-          adapters = { 'pwa-node', 'pwa-chrome' },
-        }
-      end,
-    },
   },
   keys = {
     {
@@ -132,10 +119,18 @@ return {
       },
     }
 
-    -- Python
-    require('dap-python').setup 'python'
+    -- Python: use the debugpy that Mason installs, not the python on PATH.
+    require('dap-python').setup 'debugpy-adapter'
 
-    -- JavaScript / TypeScript
+    -- JavaScript / TypeScript: Mason installs js-debug-adapter but defines no adapter for it.
+    for _, type in ipairs { 'pwa-node', 'pwa-chrome' } do
+      dap.adapters[type] = {
+        type = 'server',
+        host = 'localhost',
+        port = '${port}',
+        executable = { command = 'js-debug-adapter', args = { '${port}' } },
+      }
+    end
     for _, language in ipairs { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' } do
       dap.configurations[language] = {
         {
