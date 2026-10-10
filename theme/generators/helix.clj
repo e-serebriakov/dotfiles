@@ -41,8 +41,8 @@
    ["ui.statusline.select" {:fg "text.primary" :bg "surface.raised" :modifiers [:bold]}]
    ["ui.statusline.separator" {:fg "border.default" :bg "surface.raised"}]
 
-   ["ui.bufferline" {:fg "text.primary" :bg "surface.raised"}]
-   ["ui.bufferline.active" {:fg "text.primary" :bg "surface.base" :modifiers [:bold]}]
+   ["ui.bufferline" {:fg "text.secondary" :bg "surface.raised"}]
+   ["ui.bufferline.active" {:fg "text.strong" :bg "surface.key" :modifiers [:bold]}]
    ["ui.bufferline.background" {:fg "text.primary" :bg "surface.raised"}]
 
    ["ui.menu" {:fg "text.primary" :bg "surface.raised"}]
