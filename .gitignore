@@ -16,7 +16,7 @@ __pycache__/
 # Edit theme/*.tokens.json. Setup regenerates the output files.
 packages/wezterm/.config/wezterm/colors/baked.toml
 packages/zellij/.config/zellij/themes/baked.kdl
-packages/nvim/.config/nvim/lua/colorschemes/baked_palette.lua
+packages/nvim/.config/nvim/lua/colorschemes/baked_highlights.lua
 packages/git/.config/delta/baked.gitconfig
 packages/helix/.config/helix/themes/baked.toml
 # The theme chosen with `bb -m generate --theme <name>`.
