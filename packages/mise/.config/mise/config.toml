@@ -45,3 +45,10 @@ pi = "0.86.1"
 "npm:ccstatusline" = "2.2.30" # Claude Code statusline
 "npm:markdownlint-cli2" = "0.22.1"
 "npm:@fsouza/prettierd" = "0.28.0" # yaml/html format
+
+# Language servers for Helix in any project. Neovim installs its own through Mason.
+marksman = "2026-02-08"
+taplo = "0.10.0"
+"npm:bash-language-server" = "5.8.1"
+"npm:yaml-language-server" = "1.25.0"
+"npm:vscode-langservers-extracted" = "4.10.0" # json, css, html
