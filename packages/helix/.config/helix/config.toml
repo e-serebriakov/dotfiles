@@ -8,6 +8,17 @@ mouse = false
 auto-format = true
 popup-border = "all"
 bufferline = "multiple"
+end-of-line-diagnostics = "hint"
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[editor.lsp]
+display-inlay-hints = true
+
+# Zellij must send focus events to the pane. Otherwise focus-lost never fires.
+[editor.auto-save]
+focus-lost = true
 
 [editor.statusline]
 separator = "│"
@@ -23,8 +34,14 @@ select = "underline"
 [editor.file-picker]
 hidden = false
 
+# Space t r reloads buffers after the agent pane edits files. Helix does not reload them automatically.
 [keys.normal.space.t]
 e = ":pipe-to reple eval"
+r = ":reload-all"
+
+[keys.normal.space.g]
+b = ":sh git blame -L %{cursor_line},+1 -- %{buffer_name}"
+g = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- lazygit"
 
 [keys.select.space.t]
 e = ":pipe-to reple eval"

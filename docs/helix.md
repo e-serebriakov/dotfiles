@@ -26,6 +26,20 @@ Check compatibility before selecting a server. See
 Restart Helix after changing language settings. Run `hx --health tsx` or
 `hx --health python` from the project directory to check tool discovery.
 
+mise installs the language servers for Markdown, TOML, Bash, YAML, JSON, CSS,
+and HTML for all projects. prettierd formats YAML and HTML.
+
+## Custom keys
+
+| Action | Keys |
+| --- | --- |
+| Reload all buffers from disk | `Space t r` |
+| Show Git blame for the current line | `Space g b` |
+| Open lazygit in a floating Zellij pane | `Space g g` |
+
+Helix does not reload files that the agent pane changes. Press `Space t r`
+after the agent edits files. Helix saves modified buffers when its pane loses focus.
+
 See [REPL workflows](repl.md) for the custom evaluation binding.
 Use another Zellij pane for tests, Git commands, and development servers.
 
