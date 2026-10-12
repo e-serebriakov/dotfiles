@@ -16,6 +16,15 @@ formatter = { command = "prettierd", args = ["%{buffer_name}"] }
 name = "yaml"
 formatter = { command = "prettierd", args = ["%{buffer_name}"] }
 
+# markdownlint-cli2 --format reads config only from its working directory, which Helix sets to the file's directory.
+# Pass the global config explicitly. A project with its own rules overrides the formatter in .helix/languages.toml.
 [[language]]
 name = "markdown"
 soft-wrap.enable = true
+auto-format = true
+formatter = { command = "sh", args = ["-c", "markdownlint-cli2 --format --config \"$HOME/.markdownlint-cli2.jsonc\""] }
+
+# Style comes from the project's .editorconfig. --filename lets shfmt find it when it reads stdin.
+[[language]]
+name = "bash"
+formatter = { command = "shfmt", args = ["--filename", "%{buffer_name}"] }

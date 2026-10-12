@@ -31,6 +31,9 @@ insert = "bar"
 normal = "block"
 select = "underline"
 
+[editor.indent-guides]
+render = true
+
 [editor.file-picker]
 hidden = false
 
@@ -39,8 +42,8 @@ hidden = false
 e = ":pipe-to reple eval"
 r = ":reload-all"
 l = ["extend_to_line_bounds", ":pipe-to reple eval"]
-# Copies @file:line for pasting into the agent pane. Helix has no IDE integration.
-y = ":sh printf '@%%s:%%s' %{buffer_name} %{cursor_line} | pbcopy"
+# Copies @file:start-end of the selection for pasting into the agent pane. Helix has no IDE integration.
+y = ":sh printf '@%%s:%%s-%%s' %{buffer_name} %{selection_line_start} %{selection_line_end} | pbcopy"
 
 [keys.normal.space.v]
 b = ":sh git blame -L %{cursor_line},+1 -- %{buffer_name}"

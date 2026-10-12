@@ -27,14 +27,20 @@ Restart Helix after changing language settings. Run `hx --health tsx` or
 `hx --health python` from the project directory to check tool discovery.
 
 mise installs the language servers for Markdown, TOML, Bash, YAML, JSON, CSS,
-and HTML for all projects. prettierd formats YAML and HTML.
+and HTML for all projects. prettierd formats YAML and HTML. shfmt formats shell
+scripts with the style from the project's `.editorconfig`. markdownlint-cli2
+fixes Markdown on save with the global `~/.markdownlint-cli2.jsonc` rules.
+
+Helix finds tools on the `PATH` of the shell that starts it. Pin project tools in
+the `mise.toml` of the directory where you run `hx .`. A `mise.toml` in a
+subdirectory does not apply. This repository pins clojure-lsp in its root `mise.toml`.
 
 ## Custom keys
 
 | Action | Keys |
 | --- | --- |
 | Reload all buffers from disk | `Space t r` |
-| Copy `@file:line` for the agent pane | `Space t y` |
+| Copy `@file:start-end` of the selection for the agent pane | `Space t y` |
 | Show Git blame for the current line | `Space v b` |
 | Revert the Git change under the cursor | `Space v r` |
 | Open gitu in a floating Zellij pane | `Space v g` |
