@@ -4,6 +4,6 @@ typeset -U path PATH
 path=("$HOME/.local/bin" /opt/homebrew/bin $path)
 export PATH
 
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=hx
+export VISUAL=hx
 export COLORTERM=truecolor

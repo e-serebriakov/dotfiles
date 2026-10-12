@@ -15,7 +15,7 @@ setopt interactive_comments
 [[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 [[ -e $HISTFILE ]] || : >| $HISTFILE
 
-# zsh selects Vi mode from EDITOR=nvim. Set it explicitly here.
+# zsh selects Vi mode only when EDITOR contains "vi", and EDITOR is hx. Set it explicitly here.
 # Set Vi mode before you load plugins and Starship. Their bindings and widget wrappers then extend Vi mode.
 bindkey -v
 KEYTIMEOUT=1                                  # Esc switches modes without the 0.4s wait
