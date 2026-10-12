@@ -7,12 +7,13 @@ keybinds {
         bind "Alt j" { MoveFocus "Down"; }
         bind "Alt k" { MoveFocus "Up"; }
         bind "Alt f" { ToggleFloatingPanes; }
-        bind "Alt n" { NewPane; }
         bind "Alt m" { ToggleFocusFullscreen; }
     }
     // Esc in normal mode re-locks, so Ctrl keys go back to the editor and the shell.
+    // Ctrl+g n opens a pane. Locked mode leaves Alt+n to Helix, which uses it to select the next syntax node.
     normal {
         bind "Esc" { SwitchToMode "Locked"; }
+        bind "n" { NewPane; SwitchToMode "Locked"; }
     }
 }
 

@@ -34,7 +34,9 @@ and HTML for all projects. prettierd formats YAML and HTML.
 | Action | Keys |
 | --- | --- |
 | Reload all buffers from disk | `Space t r` |
+| Copy `@file:line` for the agent pane | `Space t y` |
 | Show Git blame for the current line | `Space v b` |
+| Revert the Git change under the cursor | `Space v r` |
 | Open gitu in a floating Zellij pane | `Space v g` |
 | Open lazygit in a floating Zellij pane | `Space v l` |
 

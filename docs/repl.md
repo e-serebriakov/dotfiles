@@ -28,12 +28,13 @@ Open a Clojure file in Helix and enter:
 (inc answer)
 ```
 
-Press Escape. Select each line with `x`, then press `Space t e` to evaluate it.
+Press Escape. On each line, press `Space t l` to evaluate it.
 The second evaluation prints `42`.
 
 | Action | Keys |
 | --- | --- |
 | Evaluate selection (Tools → Evaluate) | `Space t e` |
+| Evaluate the current line | `Space t l` |
 | Select multiline code | `v`, then movement keys |
 | Expand syntax selection | `Alt+o` |
 | Interrupt evaluation | `Ctrl+c` in the REPL |

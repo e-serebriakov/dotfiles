@@ -38,9 +38,13 @@ hidden = false
 [keys.normal.space.t]
 e = ":pipe-to reple eval"
 r = ":reload-all"
+l = ["extend_to_line_bounds", ":pipe-to reple eval"]
+# Copies @file:line for pasting into the agent pane. Helix has no IDE integration.
+y = ":sh printf '@%%s:%%s' %{buffer_name} %{cursor_line} | pbcopy"
 
 [keys.normal.space.v]
 b = ":sh git blame -L %{cursor_line},+1 -- %{buffer_name}"
+r = ":reset-diff-change"
 g = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- gitu"
 l = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- lazygit"
 
