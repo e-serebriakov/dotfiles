@@ -1,0 +1,4 @@
+# Repository tools. Helix starts at the root, so it finds clojure-lsp here; theme/ inherits babashka.
+[tools]
+babashka = "1.13.223"
+"github:clojure-lsp/clojure-lsp" = "2026.07.06-14.34.19" # no registry entry

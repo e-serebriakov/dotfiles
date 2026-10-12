@@ -120,11 +120,11 @@ To update all tools, do not specify a tool name.
 The updates stay in the configured version ranges.
 Do the tool tests. Review the lockfile. Commit the lockfile.
 
-The theme pins Babashka in `theme/mise.toml`. To update it, change the version there. Then run:
+The repository's `mise.toml` pins Babashka for the theme and clojure-lsp for Helix. To update them, change the versions there. Then run:
 
 ```sh
-(cd theme && mise lock)
-git diff -- theme/mise.lock
+mise lock
+git diff -- mise.lock
 ```
 
 To update a zsh plugin:

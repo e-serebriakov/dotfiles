@@ -39,7 +39,8 @@ In locked mode, keys go to the editor or the shell.
 These shortcuts operate in all modes:
 
 - `Alt+hjkl` — pane/tab navigation
-- `Alt+f` — toggle floating pane, `Alt+n` — new pane
+- `Alt+f` — toggle floating pane
+- `Ctrl+g n` — new pane. Helix receives `Alt+n` to select the next syntax node.
 - `Alt+m` — maximize the focused pane (toggle fullscreen)
 - `Alt+/` — show keybindings for the current mode (compact-bar tooltip)
 

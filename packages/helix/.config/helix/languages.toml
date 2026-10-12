@@ -1,56 +1,30 @@
-[language-server.clojure-lsp]
-command = "clojure-lsp"
+# Global settings only. Select project servers, such as TypeScript or Tailwind, in the project's .helix/languages.toml.
 
-[language-server.svelte]
-command = "svelteserver"
-args = ["--stdio"]
-
-[language-server.tailwindcss]
-command = "tailwindcss-language-server"
-args = ["--stdio"]
-
-[language-server.typescript-language-server]
-command = "typescript-language-server"
-args = ["--stdio"]
-
+# Helix's defaults omit .bb files and bb.edn roots.
 [[language]]
 name = "clojure"
 file-types = ["clj", "cljs", "cljc", "edn", "bb"]
 roots = ["deps.edn", "project.clj", "bb.edn"]
-language-servers = ["clojure-lsp"]
 auto-format = true
 
-[[language]]
-name = "svelte"
-file-types = ["svelte"]
-language-servers = ["svelte"]
-
-[[language]]
-name = "typescript"
-language-servers = ["typescript-language-server"]
-
-[[language]]
-name = "tsx"
-language-servers = ["typescript-language-server", "tailwindcss"]
-
-[[language]]
-name = "javascript"
-language-servers = ["typescript-language-server"]
-
-[[language]]
-name = "jsx"
-language-servers = ["typescript-language-server", "tailwindcss"]
-
+# prettierd uses the file name only to select a parser. A relative path is sufficient.
 [[language]]
 name = "html"
-language-servers = ["tailwindcss"]
 formatter = { command = "prettierd", args = ["%{buffer_name}"] }
 
-# prettierd uses the file name only to select a parser. A relative path is sufficient.
 [[language]]
 name = "yaml"
 formatter = { command = "prettierd", args = ["%{buffer_name}"] }
 
+# markdownlint-cli2 --format reads config only from its working directory, which Helix sets to the file's directory.
+# Pass the global config explicitly. A project with its own rules overrides the formatter in .helix/languages.toml.
 [[language]]
 name = "markdown"
 soft-wrap.enable = true
+auto-format = true
+formatter = { command = "sh", args = ["-c", "markdownlint-cli2 --format --config \"$HOME/.markdownlint-cli2.jsonc\""] }
+
+# Style comes from the project's .editorconfig. --filename lets shfmt find it when it reads stdin.
+[[language]]
+name = "bash"
+formatter = { command = "shfmt", args = ["--filename", "%{buffer_name}"] }

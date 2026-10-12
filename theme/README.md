@@ -80,7 +80,7 @@ Then run these commands from the repository root:
 
 ```sh
 # Install Babashka. Do this one time.
-(cd theme && mise install)
+mise install
 
 # Generate all output files for te-calm. This also selects te-calm.
 (cd theme && bb -m generate --theme te-calm)

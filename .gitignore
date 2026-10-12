@@ -10,7 +10,8 @@ nvim.log
 __pycache__/
 
 .nrepl-port
-.clj-kondo/.cache/
+**/.clj-kondo/.cache/
+**/.clj-kondo/imports/
 
 # Generated theme files — build artifacts of theme/generate.clj.
 # Edit theme/*.tokens.json. Setup regenerates the output files.
