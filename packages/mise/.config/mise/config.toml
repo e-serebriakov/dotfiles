@@ -26,6 +26,8 @@ zoxide = "0.10.0"
 gh = "2.98.0"
 git-town = "24.0.0"
 delta = "0.19.2"
+lazygit = "0.66.0"
+gitu = "0.43.0"
 
 just = "1.46.0"
 lazydocker = "0.24.4"
