@@ -34,9 +34,9 @@ and HTML for all projects. prettierd formats YAML and HTML.
 | Action | Keys |
 | --- | --- |
 | Reload all buffers from disk | `Space t r` |
-| Show Git blame for the current line | `Space g b` |
-| Open gitu in a floating Zellij pane | `Space g g` |
-| Open lazygit in a floating Zellij pane | `Space g l` |
+| Show Git blame for the current line | `Space v b` |
+| Open gitu in a floating Zellij pane | `Space v g` |
+| Open lazygit in a floating Zellij pane | `Space v l` |
 
 Helix does not reload files that the agent pane changes. Press `Space t r`
 after the agent edits files. Helix saves modified buffers when its pane loses focus.
