@@ -24,7 +24,7 @@ bindkey -M viins '^H' backward-delete-char
 bindkey -M viins '^A' beginning-of-line       # Emacs line start/end. Ctrl+E also accepts autosuggestions.
 bindkey -M viins '^E' end-of-line
 autoload -Uz edit-command-line && zle -N edit-command-line
-bindkey -M vicmd 'v' edit-command-line        # Esc v: edit the command in Neovim
+bindkey -M vicmd 'v' edit-command-line        # Esc v: edit the command in $EDITOR (Helix)
 
 # Block cursor in normal mode, blinking beam in insert mode.
 zle-keymap-select() { [[ $KEYMAP == vicmd ]] && printf '\e[2 q' || printf '\e[5 q'; }
@@ -229,7 +229,7 @@ _dev() {
 }
 compdef _dev dev
 
-# Connect Claude Code to this project's Neovim IDE server without /ide.
+# Connect Claude Code to this project's Neovim IDE server without /ide. Helix has no IDE server.
 # claudecode.nvim writes ~/.claude/ide/<port>.lock. This file contains its workspaceFolders.
 # If no lockfile exists, /dev/null prevents grep from waiting for standard input.
 # ponytail: the workspace path must equal $PWD. Use cd to open the project root, as the work layout does.

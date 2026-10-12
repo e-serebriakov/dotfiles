@@ -10,7 +10,7 @@ keybinds {
         bind "Alt n" { NewPane; }
         bind "Alt m" { ToggleFocusFullscreen; }
     }
-    // Esc in normal mode re-locks, so Ctrl keys go back to Neovim and the shell.
+    // Esc in normal mode re-locks, so Ctrl keys go back to the editor and the shell.
     normal {
         bind "Esc" { SwitchToMode "Locked"; }
     }
@@ -35,7 +35,7 @@ plugins {
 }
 
 theme "baked"
-// Start locked so Ctrl keys reach Neovim or the shell. Ctrl+g unlocks Zellij.
+// Start locked so Ctrl keys reach the editor or the shell. Ctrl+g unlocks Zellij.
 // Actions return to normal mode. Press Ctrl+g to return to locked mode.
 default_mode "locked"
 // Do not show a red border on the pane below the mouse pointer. The highlight identifies an active mode.
