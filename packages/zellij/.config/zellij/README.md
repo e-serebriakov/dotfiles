@@ -35,7 +35,7 @@ Shell aliases manage sessions:
 ## Navigation
 
 Zellij uses its default keybindings but starts **locked**.
-In locked mode, keys go to Neovim or the shell.
+In locked mode, keys go to the editor or the shell.
 These shortcuts operate in all modes:
 
 - `Alt+hjkl` — pane/tab navigation
@@ -53,4 +53,4 @@ Use the default Zellij keys:
 
 Actions return to normal mode.
 Press `Esc` or `Ctrl+g` to return to locked mode.
-In normal mode, Zellij receives these Ctrl keys before Neovim or the shell.
+In normal mode, Zellij receives these Ctrl keys before the editor or the shell.

@@ -44,4 +44,13 @@ language-servers = ["typescript-language-server", "tailwindcss"]
 [[language]]
 name = "html"
 language-servers = ["tailwindcss"]
+formatter = { command = "prettierd", args = ["%{buffer_name}"] }
 
+# prettierd uses the file name only to select a parser. A relative path is sufficient.
+[[language]]
+name = "yaml"
+formatter = { command = "prettierd", args = ["%{buffer_name}"] }
+
+[[language]]
+name = "markdown"
+soft-wrap.enable = true
