@@ -17,14 +17,12 @@ config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 
--- Tabs show [01] title, [02] title, ...
--- For a Zellij title such as "backend-3059699869 | editor", show only "backend".
+-- Tabs show [01] dir, [02] dir, ... The directory comes from the foreground process (the Zellij client in dev tabs).
 wezterm.on("format-tab-title", function(tab)
-  local title = tab.tab_title ~= "" and tab.tab_title or tab.active_pane.title
-  local session = title:match("^(%S+) | ")
-  if session then
-    title = session:gsub("%-%d+$", "")
-  end
+  local cwd = tab.active_pane.current_working_dir
+  local title = tab.tab_title ~= "" and tab.tab_title
+    or (cwd and cwd.file_path:gsub("/$", ""):match("[^/]*$"))
+    or tab.active_pane.title
   return string.format(" [%02d] %s ", tab.tab_index + 1, title)
 end)
 

@@ -219,7 +219,8 @@ dev() {
   project="${project//[^a-zA-Z0-9_-]/-}"
   project="${project[1,13]}-${checksum%% *}"
 
-  zellij attach "$project" 2>/dev/null || (cd "$dir" && zellij -s "$project" -n work)
+  # Run Zellij from the project directory in both cases. The WezTerm tab title shows the name of this directory.
+  (cd "$dir" && { zellij attach "$project" 2>/dev/null || zellij -s "$project" -n work; })
 }
 _dev() {
   local -a dirs
