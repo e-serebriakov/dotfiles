@@ -46,7 +46,7 @@ l = ["extend_to_line_bounds", ":pipe-to reple eval"]
 y = ":sh printf '@%%s:%%s-%%s' %{buffer_name} %{selection_line_start} %{selection_line_end} | pbcopy"
 
 [keys.normal.space.v]
-b = ":sh git blame -L %{cursor_line},+1 -- %{buffer_name}"
+b = ":sh git blame --date=relative -L %{cursor_line},+1 -- %{buffer_name}"
 r = ":reset-diff-change"
 g = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- gitu"
 l = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- lazygit"
