@@ -503,6 +503,14 @@ backend = "npm:ccstatusline"
 version = "0.22.1"
 backend = "npm:markdownlint-cli2"
 
+[[tools."npm:typescript"]]
+version = "7.0.2"
+backend = "npm:typescript"
+
+[[tools."npm:typescript-language-server"]]
+version = "6.0.2"
+backend = "npm:typescript-language-server"
+
 [[tools."npm:vscode-langservers-extracted"]]
 version = "4.10.0"
 backend = "npm:vscode-langservers-extracted"
