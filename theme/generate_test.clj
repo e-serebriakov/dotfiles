@@ -85,6 +85,11 @@
       (let [triple (str/join ";" (into [2] (e/hex->rgb hex)))]
         (is (str/includes? ansi triple) (str hex " missing from ANSI preview"))))))
 
+;; A row without a background shows the terminal's own color, which breaks a dark preview in a light terminal.
+(deftest preview-ansi-paints-every-row-background
+  (doseq [line (str/split-lines (preview/preview-ansi (theme)))]
+    (is (re-find #"^\u001b\[[^m]*48;2;" line) (str "row without a background: " (pr-str line)))))
+
 ;; baked.lua removes these backgrounds in diff windows. A new comment-background group must join the list.
 (deftest diff-nobg-covers-comment-backgrounds
   (is (= #{"Comment" "@comment" "@comment.documentation" "@string.documentation"

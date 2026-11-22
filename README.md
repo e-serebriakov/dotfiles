@@ -53,7 +53,7 @@ Use the source files for the current package and version lists:
 
 ## Theme
 
-The themes are `ergo-light` (default) and `te-calm`.
+The themes are `ergo-light` (default), `te-calm`, and `te-dark`.
 From the repository root, select a theme:
 
 ```sh

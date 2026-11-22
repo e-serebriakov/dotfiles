@@ -9,6 +9,7 @@
    [generators.helix :as helix]
    [generators.nvim :as nvim]
    [generators.preview :as preview]
+   [generators.rex :as rex]
    [generators.wezterm :as wezterm]
    [generators.zellij :as zellij]))
 
@@ -17,7 +18,8 @@
    {:render zellij/render :output "packages/zellij/.config/zellij/themes/baked.kdl"}
    {:render nvim/render :output "packages/nvim/.config/nvim/lua/colorschemes/baked_highlights.lua"}
    {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked.toml"}
-   {:render helix/render :output "packages/helix/.config/helix/themes/baked.toml"}])
+   {:render helix/render :output "packages/helix/.config/helix/themes/baked.toml"}
+   {:render rex/render :output "packages/rex/.config/rex/themes/baked"}])
 
 (defn check [tokens adapters]
   (let [defined (e/defined-tokens tokens)
