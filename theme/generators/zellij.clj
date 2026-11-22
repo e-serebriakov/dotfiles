@@ -45,11 +45,11 @@
        (str/join (map-indexed (fn [i e] (str "            emphasis_" i " " (rgb (theme e)) "\n")) emphasis))
        "        }\n"))
 
-(defn render [theme]
+(defn render [theme theme-name]
   (str
    "// " generated-banner "\n"
    "themes {\n"
-   "    baked {\n"
+   "    " theme-name " {\n"
    (str/join (map #(block theme %) components))
    "        multiplayer_user_colors {\n"
    (str/join (map-indexed (fn [i p] (str "            player_" (inc i) " " (rgb (theme p)) "\n")) players))

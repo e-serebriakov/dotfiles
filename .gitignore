@@ -16,7 +16,6 @@ __pycache__/
 # Generated theme files — build artifacts of theme/generate.clj.
 # Edit theme/*.tokens.json. Setup regenerates the output files.
 packages/**/baked*
-# The nvim colorscheme loader is hand-written.
+# The nvim colorscheme loader and its :colorscheme entry point are hand-written.
 !packages/nvim/.config/nvim/lua/colorschemes/baked.lua
-# The theme chosen with `bb -m generate --theme <name>`.
-theme/.active
+!packages/nvim/.config/nvim/colors/baked.lua

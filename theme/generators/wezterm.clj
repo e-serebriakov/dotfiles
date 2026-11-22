@@ -32,11 +32,11 @@
                       (partition 4 colors)))    ; 8 colors -> two rows of 4
        "\n]"))
 
-(defn render [theme]
+(defn render [theme theme-name]
   (str
    "# " generated-banner "\n"
    "[metadata]" "\n"
-   "name = \"baked\"" "\n"
+   "name = \"" theme-name "\"" "\n"
    "wezterm_version = \"*\"" "\n\n"
 
    "[colors]" "\n"
