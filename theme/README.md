@@ -1,9 +1,9 @@
 # Themes
 
-| Ergo Light | TE calm |
-| --- | --- |
-| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) |
-| [`ergo-light.tokens.json`](ergo-light.tokens.json): neutral backgrounds and accents with low chroma | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, gray backgrounds, high chroma for error marks |
+| Ergo Light | TE calm | TE dark |
+| --- | --- | --- |
+| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) | ![TE dark preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-dark.svg) |
+| [`ergo-light.tokens.json`](ergo-light.tokens.json): neutral backgrounds and accents with low chroma | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, gray backgrounds, high chroma for error marks | [`te-dark.tokens.json`](te-dark.tokens.json): dark twin of TE calm, off-black backgrounds, the same roles and saturation order |
 
 Only one theme is active at a time. Switch with `bb -m generate --theme <name>`.
 The generator stores the selected theme in `theme/.active`.
@@ -19,7 +19,7 @@ Each `*.tokens.json` file defines the colors as [design tokens](https://tr.desig
 - **Primitives:** OKLCH color scales.
 - **Semantic tokens:** named roles that refer to primitives, such as `syntax.string`, `diff.add`, and `status.error`.
 
-Both files define the same semantic tokens. Each file describes its own values, so you can read one theme without the other.
+All theme files define the same semantic tokens. Each file describes its own values, so you can read one theme without the other.
 
 ### Token groups
 
