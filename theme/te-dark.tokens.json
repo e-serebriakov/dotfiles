@@ -481,14 +481,10 @@
     },
     "diff": {
       "$type": "color",
-      "$description": "Backgrounds for added, changed, and deleted lines and words. Line tints use step N and changed words use step N+1.",
+      "$description": "Backgrounds for added, changed, and deleted lines, and for changed words. Line tints use step N and changed words use step N+1.",
       "add": {
         "$value": "{primitive.green.200}",
         "$description": "Background for added lines."
-      },
-      "addWord": {
-        "$value": "{primitive.green.300}",
-        "$description": "Background for added words inside added lines, one step above diff.add."
       },
       "change": {
         "$value": "{primitive.blue.100}",
@@ -501,10 +497,6 @@
       "delete": {
         "$value": "{primitive.red.300}",
         "$description": "Background for deleted lines."
-      },
-      "deleteWord": {
-        "$value": "{primitive.red.400}",
-        "$description": "Background for deleted words inside deleted lines, one step above diff.delete."
       },
       "conflict": {
         "$value": "{primitive.red.100}",

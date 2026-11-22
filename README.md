@@ -31,7 +31,7 @@ Before you clone through SSH, configure [GitHub SSH access](docs/setup.md#ssh-ac
 5. Open a new shell.
 
 Setup installs platform packages, mise tools, and pinned zsh plugins.
-It generates the active theme and creates the Stow symbolic links.
+It generates the light and dark themes and creates the Stow symbolic links.
 Conflicting files move to `~/.dotfiles-backup/<timestamp>/`.
 Local changes to managed zsh plugins stop setup.
 See [setup details](docs/setup.md) for SSH defaults, backup behavior, and error recovery.
@@ -53,14 +53,8 @@ Use the source files for the current package and version lists:
 
 ## Theme
 
-The themes are `ergo-light` (default), `te-calm`, and `te-dark`.
-From the repository root, select a theme:
-
-```sh
-(cd theme && bb -m generate --theme te-calm)
-```
-
-Reload the tools to apply the colors.
+The tools follow the system light/dark mode: `te-calm` is the light theme and `te-dark` the dark theme.
+Setup generates both. In Rex, import the two theme files once (see the theme guide).
 See the [theme guide](theme/README.md) for previews, token edits, and regeneration.
 
 ## Guides

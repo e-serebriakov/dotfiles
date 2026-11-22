@@ -1,10 +1,11 @@
 local M = {}
 
--- theme/generators/nvim.clj generates the highlights from the active theme/*.tokens.json.
+-- theme/generators/nvim.clj generates baked_light.lua and baked_dark.lua from theme/*.tokens.json.
 -- Edit the tokens or the generator. Do not edit the generated highlights.
-local ok, baked = pcall(require, 'colorschemes.baked_highlights')
-
+-- setup() loads the file that matches 'background'. Neovim sets 'background' from the terminal's
+-- light/dark mode, and reloads the colorscheme through colors/baked.lua when the mode changes.
 function M.setup()
+  local ok, baked = pcall(require, 'colorschemes.baked_' .. vim.o.background)
   if not ok then
     vim.notify('baked: the generated highlights are missing. Run `bb -m generate` from the theme/ directory in the dotfiles repository.', vim.log.levels.WARN)
     return
@@ -18,7 +19,6 @@ function M.setup()
   end
 
   vim.g.colors_name = 'baked'
-  vim.o.background = 'light'
 
   for _, h in ipairs(baked.highlights) do
     hi(0, h[1], h[2])

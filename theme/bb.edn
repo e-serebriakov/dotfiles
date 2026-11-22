@@ -1,5 +1,5 @@
 ;; Babashka uses this directory as a classpath root through `:paths ["."]`.
-;; engine.clj supplies namespace engine. generators/delta.clj supplies generators.delta.
+;; engine.clj supplies namespace engine. generators/helix.clj supplies generators.helix.
 ;; From this directory, run tasks with `bb <task>`.
 {:paths ["."]
  :tasks
