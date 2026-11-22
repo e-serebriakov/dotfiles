@@ -53,11 +53,11 @@ Use the source files for the current package and version lists:
 
 ## Theme
 
-The themes are `ergo-light` (default), `te-calm`, and `te-dark`.
+The themes are `te-calm` (default) and `te-dark`.
 From the repository root, select a theme:
 
 ```sh
-(cd theme && bb -m generate --theme te-calm)
+(cd theme && bb -m generate --theme te-dark)
 ```
 
 Reload the tools to apply the colors.

@@ -21,7 +21,7 @@
       (spit path content)
       (println "wrote" (str (fs/relativize root path))))))
 
-(def default-theme "ergo-light")
+(def default-theme "te-calm")
 ;; Store the selected theme name so install.sh regenerates the same theme.
 (def active-path (fs/file root "theme" ".active"))
 (defn preview-path [theme-name]

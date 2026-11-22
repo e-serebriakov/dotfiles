@@ -1,9 +1,9 @@
 # Themes
 
-| Ergo Light | TE calm | TE dark |
-| --- | --- | --- |
-| ![Ergo Light preview: comments, syntax, selection, search matches, error mark, and diff](preview-ergo-light.svg) | ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) | ![TE dark preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-dark.svg) |
-| [`ergo-light.tokens.json`](ergo-light.tokens.json): neutral backgrounds and accents with low chroma | [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, gray backgrounds, high chroma for error marks | [`te-dark.tokens.json`](te-dark.tokens.json): dark twin of TE calm, off-black backgrounds, the same roles and saturation order |
+| TE calm | TE dark |
+| --- | --- |
+| ![TE calm preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-calm.svg) | ![TE dark preview: comments, syntax, selection, search matches, error mark, and diff](preview-te-dark.svg) |
+| [`te-calm.tokens.json`](te-calm.tokens.json): Teenage Engineering-inspired, gray backgrounds, high chroma for error marks | [`te-dark.tokens.json`](te-dark.tokens.json): dark twin of TE calm, off-black backgrounds, the same roles and saturation order |
 
 Only one theme is active at a time. Switch with `bb -m generate --theme <name>`.
 The generator stores the selected theme in `theme/.active`.
