@@ -13,11 +13,17 @@
    [generators.zellij :as zellij]))
 
 (def adapters
-  [{:render zellij/render :output "packages/zellij/.config/zellij/themes/baked.kdl"}
-   {:render nvim/render :output "packages/nvim/.config/nvim/lua/colorschemes/baked_highlights.lua"}
-   {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked.toml"}
-   {:render helix/render :output "packages/helix/.config/helix/themes/baked.toml"}
-   {:render rex/render :output "packages/rex/.config/rex/themes/baked"}])
+  ;; Each tool gets a light and a dark file. %s in :output is "light" or "dark".
+  ;; :render receives the theme and the tool's theme name, baked-light or baked-dark.
+  [{:render zellij/render :output "packages/zellij/.config/zellij/themes/baked-%s.kdl"}
+   {:render (fn [theme _] (nvim/render theme)) :output "packages/nvim/.config/nvim/lua/colorschemes/baked_%s.lua"}
+   {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked-%s.toml"}
+   ;; follow-appearance.sh links baked.toml to the variant that matches the system.
+   {:render (fn [theme _] (helix/render theme)) :output "packages/helix/.config/helix/themes/baked-%s.toml"}
+   {:render (fn [theme _] (rex/render theme)) :output "packages/rex/.config/rex/themes/baked-%s"}])
+
+;; The tools pick the file that matches the system light/dark mode.
+(def appearance-themes {"light" "te-calm" "dark" "te-dark"})
 
 (defn check [tokens adapters]
   (let [defined (e/defined-tokens tokens)
@@ -34,27 +40,30 @@
     (json/parse-string (slurp (str path)))))
 
 (defn -main [& args]
-  (let [chosen     (second (drop-while #(not= "--theme" %) args))
-        theme-name (or chosen (e/active-theme))
-        tokens     (load-theme theme-name)
-        theme      (e/->theme tokens)]
-    (if (some #{"--preview"} args)                    ; Show the theme. Do not write files.
-      (do (print (preview/preview-ansi theme)) (flush))
-      (let [{:keys [missing unused]} (check tokens adapters)]
-        (when (seq missing)                           ; Stop before generation if a token reference has no definition.
-          (throw (ex-info (str "theme generation stopped — undefined tokens: "
-                               (str/join ", " (sort missing)))
-                          {:type :theme-error})))
-        (println "theme:" theme-name)
-        (doseq [{:keys [render output]} adapters]
-          (e/write-if-changed (fs/file e/root output) (render theme)))
-        (when chosen (spit (str e/active-path) (str chosen "\n")))
+  (let [chosen (second (drop-while #(not= "--theme" %) args))]
+    (if (some #{"--preview"} args)                    ; Show a theme. Do not write files.
+      (do (print (preview/preview-ansi (e/->theme (load-theme (or chosen (appearance-themes "light"))))))
+          (flush))
+      (do
+        ;; Check both themes before writing, so a broken theme does not leave a half-updated pair.
+        (doseq [theme-name (vals appearance-themes)
+                :let [{:keys [missing unused]} (check (load-theme theme-name) adapters)]]
+          (when (seq missing)                         ; Stop before generation if a token reference has no definition.
+            (throw (ex-info (str "theme generation stopped — undefined tokens in " theme-name ": "
+                                 (str/join ", " (sort missing)))
+                            {:type :theme-error})))
+          (when (seq unused)                          ; Report tokens that no generator references. They do not prevent generation.
+            (println "warning: no generator references these semantic tokens in" theme-name ":"
+                     (str/join ", " (sort unused)))))
+        (doseq [[mode theme-name] appearance-themes
+                :let [tokens (load-theme theme-name)]]
+          (println (str mode ": " theme-name))
+          (doseq [{:keys [render output]} adapters]
+            (e/write-if-changed (fs/file e/root (format output mode))
+                                (render (e/->theme tokens) (str "baked-" mode)))))
         ;; Keep the preview separate from the tool generators. It references more tokens
         ;; than the tools. Its references can hide tokens that no tool generator uses.
-        ;; Generate a README image for each theme. A change of active theme
-        ;; does not change these tracked files.
+        ;; Generate a README image for each theme.
         (doseq [n (e/theme-names)]
           (e/write-if-changed (e/preview-path n)
-                              (preview/generate-preview (e/->theme (load-theme n)))))
-        (when (seq unused)                            ; Report tokens that no generator references. They do not prevent generation.
-          (println "warning: no generator references these semantic tokens:" (str/join ", " (sort unused))))))))
+                              (preview/generate-preview (e/->theme (load-theme n)))))))))

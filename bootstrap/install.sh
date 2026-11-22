@@ -156,6 +156,33 @@ else
     echo "  Setup creates ~/.ssh/allowed_signers."
     echo "$(git config --global user.email) $(cat "$HOME/.ssh/sign.pub")" > "$HOME/.ssh/allowed_signers"
   fi
+
+  # Link the Helix theme for the current light/dark mode. On macOS, launchd runs the script again
+  # when the global preferences change, which includes a change of appearance.
+  sh "$HOME/.config/helix/follow-appearance.sh"
+  if [[ "$PLATFORM" == "darwin" ]]; then
+    echo "▶ Setup loads the launchd agent that switches the Helix theme with macOS appearance."
+    AGENT="$HOME/Library/LaunchAgents/dotfiles.helix-appearance.plist"
+    mkdir -p "$(dirname "$AGENT")"
+    # launchd does not expand ~ or $HOME, so write absolute paths. Stow cannot link this file.
+    cat > "$AGENT" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>dotfiles.helix-appearance</string>
+  <key>ProgramArguments</key>
+  <array><string>/bin/sh</string><string>$HOME/.config/helix/follow-appearance.sh</string></array>
+  <key>WatchPaths</key>
+  <array><string>$HOME/Library/Preferences/.GlobalPreferences.plist</string></array>
+  <key>RunAtLoad</key><true/>
+</dict>
+</plist>
+PLIST
+    launchctl bootout "gui/$(id -u)/dotfiles.helix-appearance" 2>/dev/null || true
+    launchctl bootstrap "gui/$(id -u)" "$AGENT" ||
+      echo "⚠ The Helix appearance agent did not load. Log in and run setup again." >&2
+  fi
 fi
 
 # Install tools declared in packages/mise/.config/mise/config.toml
