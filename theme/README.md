@@ -51,6 +51,7 @@ Tools do not read the tokens directly. Each generator converts semantic tokens t
 | Zellij | [`generators/zellij.clj`](generators/zellij.clj) |
 | delta | [`generators/delta.clj`](generators/delta.clj) |
 | Helix | [`generators/helix.clj`](generators/helix.clj) |
+| Rex | [`generators/rex.clj`](generators/rex.clj) |
 
 `adapters` in [`generate.clj`](generate.clj) lists the output path of each generated file.
 
@@ -97,6 +98,7 @@ mise install
 ```
 
 Reload each tool to apply the new colors. In Neovim, run `:BakedReload`.
+In Rex, import `~/.config/rex/themes/baked` in Settings > Theme > Import.
 
 The terminal preview and the `preview-<name>.svg` images use the same sample definition.
 Use `--preview` through SSH or in a Neovim `:terminal` window.
