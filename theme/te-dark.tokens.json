@@ -1,0 +1,624 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "TE dark is a Teenage Engineering-inspired dark theme, the night twin of TE calm. It mirrors TE calm's scales in OKLCH: step 50 is the off-black base and step 900 the brightest text, so the semantic roles keep their meaning. Hue and saturation order stay the same: frequent roles stay muted, and only error and attention marks use the saturated alert red.",
+  "primitive": {
+    "gray": {
+      "50": {
+        "$value": "#191919"
+      },
+      "100": {
+        "$value": "#252525"
+      },
+      "200": {
+        "$value": "#313131"
+      },
+      "300": {
+        "$value": "#424242"
+      },
+      "400": {
+        "$value": "#5B5B5B"
+      },
+      "500": {
+        "$value": "#777777"
+      },
+      "600": {
+        "$value": "#929292"
+      },
+      "700": {
+        "$value": "#AEAEAE"
+      },
+      "800": {
+        "$value": "#C7C7C7"
+      },
+      "900": {
+        "$value": "#E1E1E1"
+      },
+      "$type": "color"
+    },
+    "red": {
+      "50": {
+        "$value": "#201A19"
+      },
+      "100": {
+        "$value": "#302624"
+      },
+      "200": {
+        "$value": "#3C2F2C"
+      },
+      "300": {
+        "$value": "#562E26"
+      },
+      "400": {
+        "$value": "#6D433B"
+      },
+      "500": {
+        "$value": "#B16657"
+      },
+      "600": {
+        "$value": "#D28474"
+      },
+      "700": {
+        "$value": "#E79B8B"
+      },
+      "800": {
+        "$value": "#F1B7AB"
+      },
+      "900": {
+        "$value": "#F7D5CE"
+      },
+      "$type": "color"
+    },
+    "green": {
+      "50": {
+        "$value": "#191D19"
+      },
+      "100": {
+        "$value": "#252B26"
+      },
+      "200": {
+        "$value": "#2D352E"
+      },
+      "300": {
+        "$value": "#2E4A34"
+      },
+      "400": {
+        "$value": "#3C5841"
+      },
+      "500": {
+        "$value": "#689270"
+      },
+      "600": {
+        "$value": "#86B18D"
+      },
+      "700": {
+        "$value": "#9DC7A4"
+      },
+      "800": {
+        "$value": "#BBDBC0"
+      },
+      "900": {
+        "$value": "#DCEDDE"
+      },
+      "$type": "color"
+    },
+    "amber": {
+      "50": {
+        "$value": "#1F1B15"
+      },
+      "100": {
+        "$value": "#2E281D"
+      },
+      "200": {
+        "$value": "#3A3123"
+      },
+      "300": {
+        "$value": "#4E3602"
+      },
+      "400": {
+        "$value": "#694900"
+      },
+      "500": {
+        "$value": "#AC9A65"
+      },
+      "600": {
+        "$value": "#CBBA83"
+      },
+      "700": {
+        "$value": "#E0D19C"
+      },
+      "800": {
+        "$value": "#F3E8C1"
+      },
+      "900": {
+        "$value": "#FCF5DF"
+      },
+      "$type": "color"
+    },
+    "blue": {
+      "50": {
+        "$value": "#191C22"
+      },
+      "100": {
+        "$value": "#232933"
+      },
+      "200": {
+        "$value": "#2B3341"
+      },
+      "300": {
+        "$value": "#2A416D"
+      },
+      "400": {
+        "$value": "#374F7C"
+      },
+      "500": {
+        "$value": "#667BA0"
+      },
+      "600": {
+        "$value": "#8499BF"
+      },
+      "700": {
+        "$value": "#9AAFD4"
+      },
+      "800": {
+        "$value": "#B5C5E1"
+      },
+      "900": {
+        "$value": "#D2DBEC"
+      },
+      "$type": "color"
+    },
+    "cyan": {
+      "50": {
+        "$value": "#161D1F"
+      },
+      "100": {
+        "$value": "#1D2C2F"
+      },
+      "200": {
+        "$value": "#23373B"
+      },
+      "300": {
+        "$value": "#004B59"
+      },
+      "400": {
+        "$value": "#035A69"
+      },
+      "500": {
+        "$value": "#5A9AAA"
+      },
+      "600": {
+        "$value": "#79BACA"
+      },
+      "700": {
+        "$value": "#92D0DF"
+      },
+      "800": {
+        "$value": "#B7E4EF"
+      },
+      "900": {
+        "$value": "#DEF7FE"
+      },
+      "$type": "color"
+    },
+    "violet": {
+      "50": {
+        "$value": "#1C1B1F"
+      },
+      "100": {
+        "$value": "#29282F"
+      },
+      "200": {
+        "$value": "#32323B"
+      },
+      "300": {
+        "$value": "#423E5B"
+      },
+      "400": {
+        "$value": "#4F4B6A"
+      },
+      "500": {
+        "$value": "#857EB3"
+      },
+      "600": {
+        "$value": "#A49CD4"
+      },
+      "700": {
+        "$value": "#B9B3E9"
+      },
+      "800": {
+        "$value": "#D0CBF4"
+      },
+      "900": {
+        "$value": "#E7E5FC"
+      },
+      "$type": "color"
+    },
+    "plum": {
+      "50": {
+        "$value": "#201921"
+      },
+      "100": {
+        "$value": "#302432"
+      },
+      "200": {
+        "$value": "#3C2C40"
+      },
+      "300": {
+        "$value": "#5D2869"
+      },
+      "400": {
+        "$value": "#6B3678"
+      },
+      "500": {
+        "$value": "#96769D"
+      },
+      "600": {
+        "$value": "#B594BD"
+      },
+      "700": {
+        "$value": "#CBAAD2"
+      },
+      "800": {
+        "$value": "#DDC4E2"
+      },
+      "900": {
+        "$value": "#EDDFF0"
+      },
+      "$type": "color"
+    },
+    "alert": {
+      "$type": "color",
+      "fg": {
+        "$value": "#FC4547"
+      }
+    }
+  },
+  "semantic": {
+    "$description": "Layer 2 assigns meaning to the primitive colors. Each value refers to a primitive color or to another role. Gray carries the interface. Blue marks information, functions, interface accents, selections, and changed lines. Green marks strings, additions, and success. Red marks errors and deletions. Amber marks warnings and search. Cyan on plum marks comments. Violet marks constants and matching brackets.",
+    "surface": {
+      "$type": "color",
+      "$description": "Gray backgrounds from the neutral scale.",
+      "base": {
+        "$value": "{primitive.gray.50}",
+        "$description": "Shared neutral background for the editor, terminal, and Zellij."
+      },
+      "raised": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for bars and panels: the status line, the tab bar, and unfocused windows."
+      },
+      "cursorline": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for the current line. One step above the base marks the line without washing out strings."
+      },
+      "highlight": {
+        "$value": "{primitive.gray.200}",
+        "$description": "Background for tab hover and Zellij indicator fills. Selected entries use selection.secondary."
+      },
+      "column": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for cursorcolumn."
+      },
+      "ruler": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for the line-length ruler: Helix rulers and Neovim colorcolumn."
+      },
+      "popup": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for popups, menus, floating windows, and Telescope. One step above the base background distinguishes the window area from its border."
+      },
+      "popupHeader": {
+        "$value": "{primitive.gray.200}",
+        "$description": "Background for popup title bars."
+      },
+      "active": {
+        "$value": "{primitive.gray.300}",
+        "$description": "Background for the active Neovim and Helix tab. mode.normal aliases it. The gray keycap with light text is calmer than a white block."
+      },
+      "current": {
+        "$value": "{primitive.blue.200}",
+        "$description": "Background for the current WezTerm and Zellij tab. The dark accent tint with text.accent marks where you are without a heavy block."
+      }
+    },
+    "border": {
+      "$type": "color",
+      "$description": "Lines between areas.",
+      "default": {
+        "$value": "{primitive.gray.300}",
+        "$description": "Color for split separators, the scrollbar, and borders."
+      },
+      "subtle": {
+        "$value": "{primitive.gray.200}",
+        "$description": "Color for unfocused Zellij pane frames and titles. Fainter than border.default, so the focused frame in text.accent is the only clear outline."
+      }
+    },
+    "text": {
+      "$type": "color",
+      "$description": "Foreground colors for interface and body text.",
+      "primary": {
+        "$value": "{primitive.gray.800}",
+        "$description": "Default foreground for body text."
+      },
+      "secondary": {
+        "$value": "{primitive.gray.700}",
+        "$description": "Foreground for secondary text and status text."
+      },
+      "muted": {
+        "$value": "{primitive.gray.600}",
+        "$description": "Foreground for hints, line numbers, and secondary interface text."
+      },
+      "accent": {
+        "$value": "{primitive.blue.700}",
+        "$description": "Foreground for interface elements that need a color: the current line number, directories, and key hints. blue.700 is lighter and more saturated than syntax.function (blue.600), so interface text does not look like a function name."
+      },
+      "strong": {
+        "$value": "{primitive.gray.900}",
+        "$description": "Foreground for the backgrounds with the most emphasis: the current search match, the active tab, and mode keycaps."
+      }
+    },
+    "syntax": {
+      "$type": "color",
+      "$description": "Code colors. Interface elements do not use them; they use text.accent and status.*.",
+      "string": {
+        "$value": "{primitive.green.600}",
+        "$description": "Foreground for string literals."
+      },
+      "constant": {
+        "$value": "{primitive.violet.700}",
+        "$description": "Foreground for constants, numbers, and booleans. violet.700 is lighter than the function color (blue.600), so the two differ in lightness."
+      },
+      "function": {
+        "$value": "{primitive.blue.600}",
+        "$description": "Foreground for function names. Function names are frequent, so blue.600 has low chroma (about 0.06)."
+      },
+      "link": {
+        "$value": "{primitive.blue.800}",
+        "$description": "Foreground for links and URLs. The underline carries most of the signal."
+      }
+    },
+    "status": {
+      "$type": "color",
+      "$description": "Foreground colors for diagnostics and state.",
+      "error": {
+        "$value": "{primitive.red.700}",
+        "$description": "Foreground for error messages and diagnostic text."
+      },
+      "warning": {
+        "$value": "{primitive.amber.500}",
+        "$description": "Foreground for warnings. amber.500 is darker than status.error (red.700), so the two differ in lightness as well as hue."
+      },
+      "info": {
+        "$value": "{primitive.blue.600}",
+        "$description": "Foreground for information."
+      },
+      "hint": {
+        "$value": "{semantic.text.muted}",
+        "$description": "Foreground for hints. It aliases text.muted."
+      },
+      "success": {
+        "$value": "{primitive.green.600}",
+        "$description": "Foreground for success states and Git additions."
+      },
+      "errorMark": {
+        "$value": "{primitive.alert.fg}",
+        "$description": "Foreground for the curved error underline and bold sign glyph. This is the only high-saturation color. Diagnostic messages use status.error. Do not use it as a background."
+      }
+    },
+    "signal": {
+      "$type": "color",
+      "$description": "Small marks that must stand out.",
+      "mark": {
+        "$value": "{primitive.alert.fg}",
+        "$description": "Small mark for an unsaved buffer, an active macro recording, or the Zellij bell. It uses the saturated alert red. Do not use it as a background or for anything else."
+      }
+    },
+    "selection": {
+      "$type": "color",
+      "$description": "Backgrounds for selections and related matches.",
+      "primary": {
+        "$value": "{primitive.blue.300}",
+        "$description": "Background for the active selection."
+      },
+      "secondary": {
+        "$value": "{primitive.gray.300}",
+        "$description": "Background for inactive selections and for the selected entry in menus, pickers, lists, and file explorers. gray.300 is two steps above the popup, so the entry stays visible on near-black."
+      },
+      "match": {
+        "$value": "{primitive.violet.200}",
+        "$description": "Background for matching brackets and LSP references. violet.200 stays visible on the current line (gray.100), where violet.100 would disappear."
+      }
+    },
+    "search": {
+      "$type": "color",
+      "$description": "Backgrounds for search matches.",
+      "match": {
+        "$value": "{primitive.amber.300}",
+        "$description": "Background for all search matches. The amber background steps are warmed toward orange, because dark yellow looks olive."
+      },
+      "current": {
+        "$value": "{primitive.amber.400}",
+        "$description": "Background for the current search match and jump labels, one step above search.match with more chroma."
+      }
+    },
+    "comment": {
+      "$type": "color",
+      "$description": "Code comments: a cyan foreground on a dark plum background.",
+      "fg": {
+        "$value": "{primitive.cyan.700}",
+        "$description": "Comment foreground."
+      },
+      "bg": {
+        "$value": "{primitive.plum.100}",
+        "$description": "Comment background."
+      },
+      "markerBg": {
+        "$value": "{primitive.plum.200}",
+        "$description": "Background for TODO, FIXME, WARNING, and NOTE markers. plum.200 is one step above the comment background."
+      }
+    },
+    "doc": {
+      "$type": "color",
+      "$description": "Documentation comments and Markdown. Names that end in Bg are backgrounds; the others are foregrounds.",
+      "fg": {
+        "$value": "{primitive.gray.700}",
+        "$description": "Documentation foreground."
+      },
+      "bg": {
+        "$value": "{semantic.comment.bg}",
+        "$description": "Background for documentation comments and docstrings. It aliases comment.bg for now."
+      },
+      "quoteBg": {
+        "$value": "{primitive.blue.100}",
+        "$description": "Background for blockquotes and the Octo editing area. blue.100 is visible against the base background, where blue.50 is not."
+      },
+      "codeBg": {
+        "$value": "{primitive.gray.100}",
+        "$description": "Background for inline code and fenced code blocks."
+      },
+      "heading": {
+        "$value": "{primitive.gray.800}",
+        "$description": "Documentation heading foreground."
+      }
+    },
+    "diff": {
+      "$type": "color",
+      "$description": "Backgrounds for added, changed, and deleted lines and words. Line tints use step N and changed words use step N+1.",
+      "add": {
+        "$value": "{primitive.green.200}",
+        "$description": "Background for added lines."
+      },
+      "addWord": {
+        "$value": "{primitive.green.300}",
+        "$description": "Background for added words inside added lines, one step above diff.add."
+      },
+      "change": {
+        "$value": "{primitive.blue.100}",
+        "$description": "Background for changed lines."
+      },
+      "changeWord": {
+        "$value": "{primitive.blue.200}",
+        "$description": "Background for changed words inside changed lines, one step above diff.change."
+      },
+      "delete": {
+        "$value": "{primitive.red.300}",
+        "$description": "Background for deleted lines."
+      },
+      "deleteWord": {
+        "$value": "{primitive.red.400}",
+        "$description": "Background for deleted words inside deleted lines, one step above diff.delete."
+      },
+      "conflict": {
+        "$value": "{primitive.red.100}",
+        "$description": "Background for conflict markers."
+      }
+    },
+    "cursor": {
+      "$type": "color",
+      "$description": "Cursor block colors.",
+      "primary": {
+        "$value": "{primitive.gray.900}",
+        "$description": "Primary cursor background. Its near-white color distinguishes the cursor from the text background."
+      },
+      "secondary": {
+        "$value": "{primitive.gray.500}",
+        "$description": "Background for additional cursors."
+      }
+    },
+    "mode": {
+      "$type": "color",
+      "$description": "Backgrounds for the mode keycap in the status line. Each mode uses light text (text.strong) on a dark tint, so the keycap shape stays the same and only the tint changes.",
+      "normal": {
+        "$value": "{semantic.surface.active}",
+        "$description": "Normal mode. It aliases surface.active, the gray keycap."
+      },
+      "insert": {
+        "$value": "{primitive.green.300}",
+        "$description": "Insert mode. Green relates to additions."
+      },
+      "select": {
+        "$value": "{semantic.selection.primary}",
+        "$description": "Select mode in Helix and Visual mode in Neovim. It aliases selection.primary, so the keycap matches the selection."
+      },
+      "replace": {
+        "$value": "{primitive.red.300}",
+        "$description": "Replace mode (Neovim). Red relates to deletion, because replace overwrites text."
+      },
+      "command": {
+        "$value": "{primitive.plum.300}",
+        "$description": "Command-line mode (Neovim)."
+      }
+    },
+    "terminal": {
+      "$description": "ANSI palette for terminals. black (gray.300) stays visible on the base, and bright.white (gray.900) stays lighter than white (gray.700) to keep the ANSI order. The default terminal foreground uses text.primary.",
+      "ansi": {
+        "$type": "color",
+        "black": {
+          "$value": "{primitive.gray.300}",
+          "$description": "ANSI black."
+        },
+        "red": {
+          "$value": "{primitive.red.600}",
+          "$description": "ANSI red."
+        },
+        "green": {
+          "$value": "{primitive.green.600}",
+          "$description": "ANSI green."
+        },
+        "yellow": {
+          "$value": "{primitive.amber.600}",
+          "$description": "ANSI yellow."
+        },
+        "blue": {
+          "$value": "{primitive.blue.600}",
+          "$description": "ANSI blue."
+        },
+        "magenta": {
+          "$value": "{primitive.plum.600}",
+          "$description": "ANSI magenta."
+        },
+        "cyan": {
+          "$value": "{primitive.cyan.600}",
+          "$description": "ANSI cyan."
+        },
+        "white": {
+          "$value": "{primitive.gray.700}",
+          "$description": "ANSI white."
+        }
+      },
+      "bright": {
+        "$type": "color",
+        "black": {
+          "$value": "{primitive.gray.500}",
+          "$description": "ANSI bright black."
+        },
+        "red": {
+          "$value": "{primitive.red.700}",
+          "$description": "ANSI bright red."
+        },
+        "green": {
+          "$value": "{primitive.green.700}",
+          "$description": "ANSI bright green."
+        },
+        "yellow": {
+          "$value": "{primitive.amber.700}",
+          "$description": "ANSI bright yellow."
+        },
+        "blue": {
+          "$value": "{primitive.blue.700}",
+          "$description": "ANSI bright blue."
+        },
+        "magenta": {
+          "$value": "{primitive.plum.700}",
+          "$description": "ANSI bright magenta."
+        },
+        "cyan": {
+          "$value": "{primitive.cyan.700}",
+          "$description": "ANSI bright cyan."
+        },
+        "white": {
+          "$value": "{primitive.gray.900}",
+          "$description": "ANSI bright white."
+        }
+      }
+    }
+  }
+}
