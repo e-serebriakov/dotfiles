@@ -168,7 +168,7 @@
       "info": { "$value": "{primitive.blue.600}", "$description": "Foreground for information." },
       "hint": { "$value": "{semantic.text.muted}", "$description": "Foreground for hints." },
       "success": { "$value": "{primitive.green.600}", "$description": "Foreground for success states." },
-      "errorMark": { "$value": "{primitive.alert.fg}", "$description": "This color emphasizes error marks. It is separate from status.error (red.700), which supplies error text in the editors, delta, and Zellij. Apply it only to the curved underline and bold sign glyph. Do not use it as a background.\n\nDiagnostic messages and virtual text use status.error, so only the small marks have high saturation. Warnings use amber with less emphasis. See primitive.alert for the chroma rationale." }
+      "errorMark": { "$value": "{primitive.alert.fg}", "$description": "This color emphasizes error marks. It is separate from status.error (red.700), which supplies error text in the editors and Zellij. Apply it only to the curved underline and bold sign glyph. Do not use it as a background.\n\nDiagnostic messages and virtual text use status.error, so only the small marks have high saturation. Warnings use amber with less emphasis. See primitive.alert for the chroma rationale." }
     },
     "signal": {
       "$type": "color",
@@ -209,13 +209,11 @@
     },
     "diff": {
       "$type": "color",
-      "$description": "Backgrounds for added, changed, and deleted lines and words. Line tints use step N and changed words use step N+1.",
+      "$description": "Backgrounds for added, changed, and deleted lines, and for changed words. Line tints use step N and changed words use step N+1.",
       "add": { "$value": "{primitive.green.200}", "$description": "Added lines use a tint with contrast approximately 1.29:1 against the base background. diff.delete is one step darker. See diff.delete for the reason for this difference with color vision deficiency." },
-      "addWord": { "$value": "{primitive.green.300}", "$description": "This color emphasizes words in added lines (delta plus-emph and Neovim DiffText). It is one step above the line tint, which distinguishes the word from the line. It is lighter than diff.deleteWord. This lightness difference separates added and deleted words for users with color vision deficiency." },
       "change": { "$value": "{primitive.blue.100}", "$description": "Changed lines (Neovim DiffChange) use blue.100 with contrast approximately 1.13:1 against the base background. The lightness order is change, add, then delete. Add uses green.200 (L≈0.87). Delete uses red.300 (L≈0.82). The difference between add and change is ΔE≈4.9, or approximately 4.8 with a deuteranopia simulation.\n\nThe low contrast represents a modification without an addition or deletion. The changed word uses changeWord (blue.200) for more emphasis. This matches the VS Code gutter convention: green for additions, blue for modifications, and red for deletions. Dark text has contrast approximately 7.2:1." },
-      "changeWord": { "$value": "{primitive.blue.200}", "$description": "Changed words (Neovim DiffText) use blue.200, one step above changed lines (blue.100). This matches the add/addWord relationship: the line uses step N, and the word uses step N+1. The changed word has contrast approximately 1.30:1 against the base background. Dark text has contrast approximately 6.2:1. Only the changed text receives this emphasis." },
+      "changeWord": { "$value": "{primitive.blue.200}", "$description": "Changed words (Neovim DiffText) use blue.200, one step above changed lines (blue.100). The line uses step N, and the word uses step N+1. The changed word has contrast approximately 1.30:1 against the base background. Dark text has contrast approximately 6.2:1. Only the changed text receives this emphasis." },
       "delete": { "$value": "{primitive.red.300}", "$description": "Deleted lines use red.300, one step above diff.add. Their lightness is approximately 0.82, compared with approximately 0.87 for added lines. The colors differ in lightness and chroma. The lightness difference is ΔL≈0.053. Equal scale steps have ΔL≈0.012 and can become difficult to distinguish with color vision deficiency.\n\nDeleted lines have more emphasis and a warmer color than added lines." },
-      "deleteWord": { "$value": "{primitive.red.400}", "$description": "Deleted words (delta minus-emph) use red.400, one step below diff.addWord. Their lightness is approximately 0.71, compared with approximately 0.82 for added words (ΔL≈0.111). This lightness difference separates deleted and added words. The word color is darker than the deleted-line color, so the word remains distinct in its line." },
       "conflict": { "$value": "{primitive.red.100}", "$description": "Background for conflict markers." }
     },
     "cursor": {

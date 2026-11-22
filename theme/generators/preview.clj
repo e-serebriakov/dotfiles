@@ -20,9 +20,7 @@
         alert (theme "status.errorMark")
         error (theme "status.error")
         diff-delete (theme "diff.delete")
-        diff-delete-text (theme "diff.deleteWord")
         diff-add (theme "diff.add")
-        diff-add-text (theme "diff.addWord")
         diff-change (theme "diff.change")
         diff-change-text (theme "diff.changeWord")]
     {:paper paper
@@ -47,11 +45,9 @@
              :segments [{:text "foo()" :fg ink :curl alert} {:text "   " :fg ink}
                         {:text "■ " :fg alert} {:text "undefined name 'foo'" :fg error}]}
             {:gutter "-" :gcol muted :band diff-delete :gap true
-             :segments [{:text "  const c = " :fg ink}
-                        {:text "0.061" :fg ink :hl diff-delete-text}]}
+             :segments [{:text "  const c = 0.061" :fg ink}]}
             {:gutter "+" :gcol muted :band diff-add
-             :segments [{:text "  const c = " :fg ink}
-                        {:text "0.035" :fg ink :hl diff-add-text}]}
+             :segments [{:text "  const c = 0.035" :fg ink}]}
             {:gutter "~" :gcol muted :band diff-change
              :segments [{:text "  modified " :fg ink} {:text "word" :fg ink :hl diff-change-text}
                         {:text " here" :fg ink}]}]}))

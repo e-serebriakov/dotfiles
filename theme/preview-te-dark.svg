@@ -39,14 +39,10 @@
 <text x="218.0" y="279.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#E79B8B" xml:space="preserve">undefined name 'foo'</text>
 <rect x="0" y="310.0" width="780" height="34" fill="#562E26"/>
 <text x="80.0" y="333.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">-</text>
-<text x="104.0" y="333.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  const c = </text>
-<rect x="238.8" y="315.0" width="61.0" height="24" rx="3" fill="#6D433B"/>
-<text x="240.8" y="333.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">0.061</text>
+<text x="104.0" y="333.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  const c = 0.061</text>
 <rect x="0" y="344.0" width="780" height="34" fill="#2D352E"/>
 <text x="80.0" y="367.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">+</text>
-<text x="104.0" y="367.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  const c = </text>
-<rect x="238.8" y="349.0" width="61.0" height="24" rx="3" fill="#2E4A34"/>
-<text x="240.8" y="367.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">0.035</text>
+<text x="104.0" y="367.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  const c = 0.035</text>
 <rect x="0" y="378.0" width="780" height="34" fill="#232933"/>
 <text x="80.0" y="401.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">~</text>
 <text x="104.0" y="401.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  modified </text>

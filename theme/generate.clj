@@ -5,7 +5,6 @@
    [clojure.set :as set]
    [clojure.string :as str]
    [engine :as e]
-   [generators.delta :as delta]
    [generators.helix :as helix]
    [generators.nvim :as nvim]
    [generators.preview :as preview]
@@ -14,8 +13,7 @@
    [generators.zellij :as zellij]))
 
 (def adapters
-  [{:render delta/render :output "packages/git/.config/delta/baked.gitconfig"}
-   {:render zellij/render :output "packages/zellij/.config/zellij/themes/baked.kdl"}
+  [{:render zellij/render :output "packages/zellij/.config/zellij/themes/baked.kdl"}
    {:render nvim/render :output "packages/nvim/.config/nvim/lua/colorschemes/baked_highlights.lua"}
    {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked.toml"}
    {:render helix/render :output "packages/helix/.config/helix/themes/baked.toml"}

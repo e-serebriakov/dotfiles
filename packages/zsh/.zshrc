@@ -52,7 +52,6 @@ typeset -A _comp_gen=(
   rg 'rg --generate complete-zsh'
   fd 'fd --gen-completions zsh'
   bat 'bat --completion zsh'
-  delta 'delta --generate-completion zsh'
 )
 autoload -Uz compinit
 _stale=(~/.zcompdump(N.mh+24))
@@ -159,7 +158,7 @@ pr() {
   local num=${1:-$(gh pr list --author @me --state open --json number,title \
     | jq -r '.[] | "\(.number)\t\(.title)"' | fzf --prompt="PR> " | cut -f1)}
   [[ -z "$num" ]] && return 1
-  gh pr view "$num" && gh pr diff "$num" | delta
+  gh pr view "$num" && gh pr diff "$num"
 }
 
 # On Linux, use a shared agent socket if no existing agent socket is available.

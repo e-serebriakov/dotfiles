@@ -49,7 +49,6 @@ Tools do not read the tokens directly. Each generator converts semantic tokens t
 | Neovim | [`generators/nvim.clj`](generators/nvim.clj) |
 | WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) |
 | Zellij | [`generators/zellij.clj`](generators/zellij.clj) |
-| delta | [`generators/delta.clj`](generators/delta.clj) |
 | Helix | [`generators/helix.clj`](generators/helix.clj) |
 | Rex | [`generators/rex.clj`](generators/rex.clj) |
 
