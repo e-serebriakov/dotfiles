@@ -203,6 +203,7 @@
         lines (mapcat (fn [row]
                         (cond-> []
                           (:gap row) (conj (run (apply str (repeat width \space)) {:bg paper}))
-                          true       (conj (render-line width row))))
+                          ;; Paint plain rows with the theme background. The terminal background can differ.
+                          true       (conj (render-line width (update row :band #(or % paper))))))
                       rows)]
     (str (str/join "\n" lines) "\n")))
