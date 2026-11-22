@@ -7,20 +7,20 @@
 <text x="104.0" y="41.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#92D0DF" xml:space="preserve">// Resolve an alias to a hexadecimal color.</text>
 <text x="80.0" y="75.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">2</text>
 <text x="104.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">const paper = </text>
-<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#8499BF" xml:space="preserve">theme</text>
+<text x="263.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#B8BCC1" xml:space="preserve">theme</text>
 <text x="320.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">(</text>
-<text x="332.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#86B18D" xml:space="preserve">'surface.base'</text>
+<text x="332.0" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#A5B8A8" xml:space="preserve">'surface.base'</text>
 <text x="491.6" y="75.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">)</text>
 <text x="80.0" y="109.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">3</text>
 <text x="104.0" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">const CEIL = </text>
-<text x="252.2" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#B9B3E9" xml:space="preserve">0.035</text>
+<text x="252.2" y="109.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#D2D1D8" xml:space="preserve">0.035</text>
 <rect x="0" y="120.0" width="780" height="34" fill="#3C2C40"/>
 <text x="80.0" y="143.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">4</text>
 <text x="104.0" y="143.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#92D0DF" xml:space="preserve">// TODO: measure contrast against the background</text>
 <text x="80.0" y="177.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">5</text>
 <text x="104.0" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">see </text>
-<text x="149.6" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#B5C5E1" xml:space="preserve">https://oklch.com</text>
-<line x1="149.6" y1="180.0" x2="343.4" y2="180.0" stroke="#B5C5E1" stroke-width="1.4"/>
+<text x="149.6" y="177.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C2C4CA" xml:space="preserve">https://oklch.com</text>
+<line x1="149.6" y1="180.0" x2="343.4" y2="180.0" stroke="#C2C4CA" stroke-width="1.4"/>
 <rect x="0" y="188.0" width="780" height="34" fill="#2A416D"/>
 <text x="80.0" y="211.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#929292" xml:space="preserve">6</text>
 <text x="104.0" y="211.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#C7C7C7" xml:space="preserve">  selected line — active selection</text>
