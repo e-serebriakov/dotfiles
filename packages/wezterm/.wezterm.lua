@@ -9,7 +9,10 @@ config.font_size = 14
 config.window_decorations = "RESIZE"
 config.window_padding = { left = 6, right = 6, top = 4, bottom = 4 }
 
-config.color_scheme = "baked"
+-- Follow the macOS light/dark mode. WezTerm reloads this file when the appearance changes.
+-- wezterm.gui is missing in the mux server, which has no appearance.
+local dark = wezterm.gui and wezterm.gui.get_appearance():find("Dark")
+config.color_scheme = dark and "baked-dark" or "baked-light"
 
 -- Tab bar
 config.use_fancy_tab_bar = false

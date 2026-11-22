@@ -15,7 +15,8 @@ return {
   },
   config = function()
     -- The baked colorscheme sets the Octo* highlight groups.
-    local ok, baked = pcall(require, 'colorschemes.baked_highlights')
+    -- shortcut: octo reads these colors once, so they keep the mode Neovim started in. Restart Neovim after a mode change.
+    local ok, baked = pcall(require, 'colorschemes.baked_' .. vim.o.background)
 
     local opts = { picker = 'telescope', enable_builtin = true }
     if ok then

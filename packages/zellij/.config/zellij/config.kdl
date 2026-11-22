@@ -35,7 +35,10 @@ plugins {
     }
 }
 
-theme "baked"
+// Follow the terminal's light/dark mode. Zellij falls back to theme when the terminal does not report one.
+theme "baked-light"
+theme_light "baked-light"
+theme_dark "baked-dark"
 // Start locked so Ctrl keys reach the editor or the shell. Ctrl+g unlocks Zellij.
 // Actions return to normal mode. Press Ctrl+g to return to locked mode.
 default_mode "locked"
@@ -49,5 +52,4 @@ default_shell "zsh"
 default_layout "work"
 show_release_notes false
 
-// theme/generate.clj defines theme "baked" in themes/baked.kdl.
-// The generator uses the active theme/*.tokens.json.
+// theme/generate.clj defines themes "baked-light" and "baked-dark" in themes/baked-light.kdl and themes/baked-dark.kdl.

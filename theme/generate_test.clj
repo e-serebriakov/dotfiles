@@ -9,7 +9,7 @@
    [generators.preview :as preview]))
 
 (defn- theme
-  ([] (theme (e/active-theme)))
+  ([] (theme (g/appearance-themes "light")))
   ([theme-name] (e/->theme (g/load-theme theme-name))))
 
 (deftest repo-contract-holds
@@ -25,13 +25,13 @@
 
 (deftest missing-tokens-are-caught
   (let [tokens {"semantic" {"surface" {"base" {"$value" "#fff"}}}}
-        adapters [{:render (fn [theme] (str (theme "surface.base") (theme "surface.nope")))}]
+        adapters [{:render (fn [theme _] (str (theme "surface.base") (theme "surface.nope")))}]
         {:keys [missing]} (g/check tokens adapters)]
     (is (contains? missing "surface.nope"))))
 
 (deftest unused-tokens-are-caught
   (let [tokens {"semantic" {"surface" {"base" {"$value" "#fff"} "unused" {"$value" "#000"}}}}
-        adapters [{:render (fn [theme] (theme "surface.base"))}]
+        adapters [{:render (fn [theme _] (theme "surface.base"))}]
         {:keys [unused]} (g/check tokens adapters)]
     (is (contains? unused "surface.unused"))))
 
