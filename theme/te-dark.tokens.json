@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "TE dark is a Teenage Engineering-inspired dark theme, the night twin of TE calm. It mirrors TE calm's scales in OKLCH: step 50 is the off-black base and step 900 the brightest text, so the semantic roles keep their meaning. Hue and saturation order stay the same: frequent roles stay muted, and only error and attention marks use the saturated alert red.",
+  "$description": "TE dark is a Teenage Engineering-inspired dark theme, the night twin of TE calm. TE calm is the reference. Each value must meet these targets. Tint and dE values are CAM16-UCS on the TE dark base, and the tint thresholds come from side-by-side reading tests. (1) Readable: body text is about 10:1 on the base, and each code role is at least 8:1. (2) Frequent code looks like text: functions, variables, symbols, punctuation, constants, and links are tinted text. Links keep their underline: tint at most about 6, the distance from a neutral gray of the same lightness. (3) One hue in code: strings, and the keywords that share their color, are the only code role with a visible hue: tint about 11 to 15. Below 7 the hue disappears; above 17 the code looks like fireworks. (4) Important things stand out: comments, search matches, selections, and diagnostics are visible at a glance. Their backgrounds are at least about 5 dE from the base, and search and selection at least about 15. (5) One loud color: only error and attention marks use the saturated alert red. (6) Twin of TE calm: each role keeps TE calm's hue and its rank of visibility. (7) Color vision deficiency: error and warning, added and deleted lines, and search and selection differ in lightness, at least about 7 dE with deuteranopia. Judge changes in dark mode after about 5 minutes, side by side on several files, and with a blur test.",
   "primitive": {
     "gray": {
       "50": {
@@ -34,6 +34,22 @@
         "$value": "#E1E1E1"
       },
       "$type": "color"
+    },
+    "ink": {
+      "$type": "color",
+      "$description": "Tinted text for code, measured in CAM16-UCS on the base. cool, blue, and violet are near-neutral (tint about 5), so frequent code reads as text. green is the only visible code hue (tint about 13). The other scales still supply the ANSI and status colors.",
+      "cool": {
+        "$value": "#B8BCC1"
+      },
+      "green": {
+        "$value": "#A5B8A8"
+      },
+      "violet": {
+        "$value": "#D2D1D8"
+      },
+      "blue": {
+        "$value": "#C2C4CA"
+      }
     },
     "red": {
       "50": {
@@ -359,20 +375,20 @@
       "$type": "color",
       "$description": "Code colors. Interface elements do not use them; they use text.accent and status.*.",
       "string": {
-        "$value": "{primitive.green.600}",
-        "$description": "Foreground for string literals."
+        "$value": "{primitive.ink.green}",
+        "$description": "Foreground for string literals and the keywords that share their color. ink.green is the only visible hue in code, slightly darker than body text."
       },
       "constant": {
-        "$value": "{primitive.violet.700}",
-        "$description": "Foreground for constants, numbers, and booleans. violet.700 is lighter than the function color (blue.600), so the two differ in lightness."
+        "$value": "{primitive.ink.violet}",
+        "$description": "Foreground for constants, numbers, and booleans. ink.violet is near-neutral and lighter than body text, so constants differ from functions in lightness, not hue."
       },
       "function": {
-        "$value": "{primitive.blue.600}",
-        "$description": "Foreground for function names. Function names are frequent, so blue.600 has low chroma (about 0.06)."
+        "$value": "{primitive.ink.cool}",
+        "$description": "Foreground for function names. Function names are the most frequent code role, so ink.cool is near-neutral: it reads as text with a cool tint."
       },
       "link": {
-        "$value": "{primitive.blue.800}",
-        "$description": "Foreground for links and URLs. The underline carries most of the signal."
+        "$value": "{primitive.ink.blue}",
+        "$description": "Foreground for links and URLs. ink.blue is near-neutral, like the link color in TE calm. The underline carries the signal."
       }
     },
     "status": {
