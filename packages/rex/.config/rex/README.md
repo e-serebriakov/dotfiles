@@ -60,7 +60,8 @@ Keys go to the program in the pane by default.
 
 Press `Ctrl+g` to enter the `unlocked` mode.
 In this mode, press `n` to split the focused pane.
-Press `g` or `l` to open gitu or lazygit in a floating pane, in the directory of the focused pane.
+Press `g` to open gitu in a floating pane, in the directory of the focused pane.
+Press `h`, `j`, `k`, or `l` to move the border of the focused pane, and `=` to make the panes equal.
 The floating pane closes when you quit the program.
 Press `Esc` or `Ctrl+g` to leave the mode.
 

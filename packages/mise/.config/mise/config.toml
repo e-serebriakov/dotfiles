@@ -22,7 +22,6 @@ zoxide = "0.10.0"
 
 gh = "2.98.0"
 git-town = "24.0.0"
-lazygit = "0.66.0"
 gitu = { version = "0.43.0", os = ["macos", "linux/x64"] } # no linux-arm64 release
 
 just = "1.46.0"
