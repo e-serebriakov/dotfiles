@@ -131,7 +131,7 @@ else
   # Do not use stow --adopt followed by git checkout -- packages/.
   BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
   for pkg in "${PKGS[@]}"; do
-    while IFS= read -r -d '' src; do
+    find "$STOW_DIR/$pkg" -type f -print0 | while IFS= read -r -d '' src; do
       rel="${src#"$STOW_DIR/$pkg/"}"
       [[ "$pkg" != "claude" && "$rel" == .claude/* ]] && continue
       tgt="$TARGET/$rel"
@@ -145,7 +145,7 @@ else
         mkdir -p "$BACKUP/$(dirname "$rel")"
         mv "$tgt" "$BACKUP/$rel"
       fi
-    done < <(find "$STOW_DIR/$pkg" -type f -print0)
+    done
   done
   [[ -d "$BACKUP" ]] && echo "  (setup moved conflicting files to $BACKUP)"
   stow -R -v --ignore='(^|/)\.claude($|/)' -d "$STOW_DIR" -t "$TARGET" "${NON_CLAUDE_PKGS[@]}"
