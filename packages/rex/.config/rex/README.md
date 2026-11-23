@@ -34,6 +34,18 @@ Otherwise, it creates a session with the name of the directory and two tabs:
 Run `cd` to enter a project directory once. This adds the directory to zoxide.
 Two directories with the same name share a session.
 
+## Pane names
+
+The editor keys find their target pane by its name in the current session:
+
+- `Space t e` and `Space t l` in Helix, and `,E` in Neovim, send code to the `REPL` pane.
+- `Space t a` in Helix sends a file reference to the `agent` pane.
+
+`dev` gives the panes these names. Names ignore case.
+To use another pane, rename it with Rename Pane in the command palette.
+If no pane or more than one pane has the name, nothing is sent.
+Helix then shows "Shell command failed: status 3", and Neovim shows the Rex error.
+
 ## Keys
 
 Keys go to the program in the pane by default.
