@@ -53,6 +53,8 @@ Keys go to the program in the pane by default.
 - `Alt+h`, `Alt+j`, `Alt+k`, `Alt+l`: focus the pane to the left, below, above, or to the right.
 - `Alt+m`: zoom the focused pane.
 - `Alt+f`: show or hide the floating panes of the tab. If the tab has no floating pane, open one.
+- `Alt+Shift+f`: open one more floating pane.
+- `Alt+Tab`: raise and focus the next floating pane of the tab. A hidden pane is shown.
 - `Cmd+P`: go to a session, tab, or pane.
 - `Shift+Cmd+P`: open the command palette.
 
