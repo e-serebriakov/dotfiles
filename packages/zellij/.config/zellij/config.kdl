@@ -35,7 +35,8 @@ plugins {
     }
 }
 
-// Follow the terminal's light/dark mode. Zellij falls back to theme when the terminal does not report one.
+// Follow the terminal's light/dark mode. Zellij uses theme_dark until the terminal reports one.
+// WezTerm does not report, so dev (.zshrc) and follow-appearance.sh (helix) set the mode. Both have a TODO to drop that.
 theme "baked-light"
 theme_light "baked-light"
 theme_dark "baked-dark"

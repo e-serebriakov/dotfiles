@@ -218,8 +218,14 @@ dev() {
   project="${project//[^a-zA-Z0-9_-]/-}"
   project="${project[1,13]}-${checksum%% *}"
 
+  # WezTerm does not report its light/dark mode, so pin new and resurrected sessions to the macOS mode.
+  # follow-appearance.sh switches running sessions. TODO: drop the hue there too once WezTerm ships mode 2031.
+  local hue=light
+  defaults read -g AppleInterfaceStyle 2>/dev/null | grep -q Dark && hue=dark
+
   # Run Zellij from the project directory in both cases. The WezTerm tab title shows the name of this directory.
-  (cd "$dir" && { zellij attach "$project" 2>/dev/null || zellij -s "$project" -n work; })
+  (cd "$dir" && { zellij attach "$project" options --explicit-theme-hue "$hue" 2>/dev/null ||
+    zellij -s "$project" -n work options --explicit-theme-hue "$hue"; })
 }
 _dev() {
   local -a dirs

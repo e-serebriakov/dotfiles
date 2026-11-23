@@ -12,7 +12,7 @@ The generator writes a `baked-light` and a `baked-dark` file for each tool. Each
 | Tool | How it switches |
 | --- | --- |
 | Rex | Settings > Theme has a light and a dark slot. Import `~/.config/rex/themes/baked-light` and `baked-dark` once, and assign them. |
-| Zellij | `theme_light` and `theme_dark` in `config.kdl`. Zellij asks the terminal for its mode. |
+| Zellij | `theme_light` and `theme_dark` in `config.kdl`. Zellij asks the terminal for its mode, but WezTerm does not answer yet ([wezterm#6454](https://github.com/wezterm/wezterm/issues/6454)), so Zellij stays dark. Until it does, `dev` pins new sessions to the macOS mode and `follow-appearance.sh` switches running sessions. |
 | WezTerm | `.wezterm.lua` reads the macOS appearance. WezTerm reloads the file when the appearance changes. |
 | Neovim | Neovim sets `background` from the terminal. [`colors/baked.lua`](../packages/nvim/.config/nvim/colors/baked.lua) reloads the highlights for the new value. |
 | Helix | [`follow-appearance.sh`](../packages/helix/.config/helix/follow-appearance.sh) links `baked.toml` to the matching file and makes open Helix windows reload. `install.sh` runs the script once. On macOS, it also loads a launchd agent that runs the script when the system preferences change. |
