@@ -43,8 +43,8 @@ subdirectory does not apply. This repository pins clojure-lsp in its root `mise.
 | Type `@file:start-end` of the selection into the agent pane and focus it | `Space t a` |
 | Show Git blame for the current line | `Space v b` |
 | Revert the Git change under the cursor | `Space v r` |
-| Open gitu in a floating Rex pane | `Space v g` |
-| Open lazygit in a floating Rex pane | `Space v l` |
+
+To open gitu or lazygit in a floating pane, press `Ctrl+g g` or `Ctrl+g l`. See the [Rex guide](../packages/rex/.config/rex/README.md#keys).
 
 Helix does not reload files that the agent pane changes. Press `Space t r`
 after the agent edits files. Helix saves modified buffers when its pane loses focus.

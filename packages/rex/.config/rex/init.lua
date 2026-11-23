@@ -143,6 +143,27 @@ rex.action{
   end,
 }
 
+-- Run a command in a floating pane over the whole tab, in the directory of the pane that asked.
+-- The pane closes when the command exits.
+-- The app can't queue an action from this file, so the popup keys bind it directly and it leaves the mode itself.
+-- The shells report no directory to Rex, so take the cwd of the pane's foreground process.
+-- interactive reads ~/.zshrc, where mise puts the tools on PATH.
+rex.action{
+  name  = "popup",
+  title = "Run a Command in a Floating Pane",
+  args  = { cmd = "string" },
+  run   = function(ctx, args)
+    local proc = ctx.block_id and rex.block.call("com.superlogical.terminal", "process", { block_id = ctx.block_id })
+    local _, err = rex.session.new_layer{
+      bounds = { 0.03, 0.03, 0.94, 0.94 }, focus = true,
+      layout = { block = { flavor = shell,
+        options = { command = { args.cmd }, cwd = proc and proc.foreground and proc.foreground.cwd, interactive = true } } },
+    }
+    if err ~= nil then error(err, 0) end
+    if ctx.origin == "key" then rex.client.queue("client.mode.exit_all") end
+  end,
+}
+
 -- Cmd+P is Go to Anything in Rex, so the project picker uses Cmd+O.
 rex.bind("cmd+o", "dev")
 
@@ -160,3 +181,5 @@ rex.bind("ctrl+g", "client.mode.enter", { name = "unlocked" })
 rex.bind("unlocked/ctrl+g", "client.mode.exit")
 rex.bind("unlocked/esc", "client.mode.exit")
 rex.bind("unlocked/n", "then_normal", { action = "pane.split.auto" })
+rex.bind("unlocked/g", "popup", { cmd = "gitu" })
+rex.bind("unlocked/l", "popup", { cmd = "lazygit" })
