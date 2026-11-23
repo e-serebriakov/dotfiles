@@ -3,8 +3,6 @@
    [clojure.string :as str]
    [babashka.fs :as fs]))
 
-(+ 2 23)  
-
 (def root (-> *file* fs/absolutize fs/parent fs/parent))
 
 (def generated-banner
