@@ -47,3 +47,10 @@ Keys go to the program in the pane by default.
 Press `Ctrl+g` to enter the `unlocked` mode.
 In this mode, press `n` to split the focused pane.
 Press `Esc` or `Ctrl+g` to leave the mode.
+
+## Agent status
+
+Claude Code hooks run [`status.sh`](status.sh), which reports the state of Claude Code to Rex.
+Rex shows the state on the tab and in the session list: working, blocked on a permission prompt, or done.
+Configure the indicators, notifications, and sounds in Settings > Notifications > Program Activity.
+Restart a running Claude Code session to load the hooks.
