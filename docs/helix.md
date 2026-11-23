@@ -40,7 +40,7 @@ subdirectory does not apply. This repository pins clojure-lsp in its root `mise.
 | Action | Keys |
 | --- | --- |
 | Reload all buffers from disk | `Space t r` |
-| Copy `@file:start-end` of the selection for the agent pane | `Space t y` |
+| Type `@file:start-end` of the selection into the agent pane and focus it | `Space t a` |
 | Show Git blame for the current line | `Space v b` |
 | Revert the Git change under the cursor | `Space v r` |
 | Open gitu in a floating Rex pane | `Space v g` |

@@ -8,9 +8,10 @@ local dir = vim.fn.tempname()
 vim.fn.mkdir(dir, 'p')
 local old_path = vim.env.PATH
 vim.env.PATH = dir .. ':' .. old_path
-vim.env.REPLE_TEST_OUTPUT = dir .. '/selection'
-vim.fn.writefile({ '#!/bin/sh', 'cat > "$REPLE_TEST_OUTPUT"' }, dir .. '/reple')
-vim.fn.setfperm(dir .. '/reple', 'rwx------')
+vim.env.REPL_TEST_OUTPUT = dir .. '/selection'
+-- A fake rex writes its arguments, then the text it receives.
+vim.fn.writefile({ '#!/bin/sh', '{ echo "$*"; cat; } > "$REPL_TEST_OUTPUT"' }, dir .. '/rex')
+vim.fn.setfperm(dir .. '/rex', 'rwx------')
 
 local function buffer(ft, lines)
   vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(true, false))
@@ -19,13 +20,13 @@ local function buffer(ft, lines)
 end
 
 local function send(keys, expected)
-  vim.fn.delete(vim.env.REPLE_TEST_OUTPUT)
+  vim.fn.delete(vim.env.REPL_TEST_OUTPUT)
   local before = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   vim.fn.setreg('"', 'keep this register')
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>' .. keys .. ',E', true, false, true), 'xt', false)
-  assert(vim.wait(2000, function() return vim.fn.filereadable(vim.env.REPLE_TEST_OUTPUT) == 1 end))
+  assert(vim.wait(2000, function() return vim.fn.filereadable(vim.env.REPL_TEST_OUTPUT) == 1 end))
   assert(vim.wait(2000, function()
-    return table.concat(vim.fn.readfile(vim.env.REPLE_TEST_OUTPUT, 'b'), '\n') == expected
+    return table.concat(vim.fn.readfile(vim.env.REPL_TEST_OUTPUT, 'b'), '\n') == expected
   end), 'Selection differs from expected text')
   assert(vim.deep_equal(before, vim.api.nvim_buf_get_lines(0, 0, -1, false)))
   assert(vim.fn.getreg '"' == 'keep this register')
@@ -33,9 +34,9 @@ end
 
 local ok, err = pcall(function()
   buffer('python', { 'x = "héllo $HOME"', 'print(x)' })
-  send('ggVj', 'x = "héllo $HOME"\nprint(x)\n')
+  send('ggVj', 'send -b REPL\nx = "héllo $HOME"\nprint(x)\n')
   buffer('typescript', { 'abc def' })
-  send('gg02lv2h', 'abc\n')
+  send('gg02lv2h', 'send -b REPL\nabc\n')
   vim.bo.filetype = 'clojure'
   assert(vim.fn.maparg(',E', 'x') == '', 'REPL mapping leaked after filetype change')
   buffer('clojure', { '(inc 1)' })

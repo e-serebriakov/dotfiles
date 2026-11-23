@@ -34,6 +34,18 @@ Otherwise, it creates a session with the name of the directory and two tabs:
 Run `cd` to enter a project directory once. This adds the directory to zoxide.
 Two directories with the same name share a session.
 
+## Pane names
+
+The editor keys find their target pane by its name in the current session:
+
+- `Space t e` and `Space t l` in Helix, and `,E` in Neovim, send code to the `REPL` pane.
+- `Space t a` in Helix sends a file reference to the `agent` pane.
+
+`dev` gives the panes these names. Names ignore case.
+To use another pane, rename it with Rename Pane in the command palette.
+If no pane or more than one pane has the name, nothing is sent.
+Helix then shows "Shell command failed: status 3", and Neovim shows the Rex error.
+
 ## Keys
 
 Keys go to the program in the pane by default.
@@ -47,3 +59,24 @@ Keys go to the program in the pane by default.
 Press `Ctrl+g` to enter the `unlocked` mode.
 In this mode, press `n` to split the focused pane.
 Press `Esc` or `Ctrl+g` to leave the mode.
+
+## Linux machines
+
+Rex has no Linux client. On Ubuntu, `./bootstrap/install.sh` installs the Rex server and starts it at boot.
+Add the machine to Rex for Mac once, with its SSH address:
+
+```sh
+rex hosts add devbox ssh://you@devbox.example.com
+```
+
+Open a session there with `rex -S devbox new`, or with New Session on Host… in the command palette.
+Sessions on the machine keep running when the Mac disconnects.
+The server on the machine reads its own `init.lua`, so `dev` also works in a shell there.
+To reach a development server on the machine, run `rex -S devbox forward open <pane>`.
+
+## Agent status
+
+Claude Code hooks run [`status.sh`](status.sh), which reports the state of Claude Code to Rex.
+Rex shows the state on the tab and in the session list: working, blocked on a permission prompt, or done.
+Configure the indicators, notifications, and sounds in Settings > Notifications > Program Activity.
+Restart a running Claude Code session to load the hooks.
