@@ -38,11 +38,15 @@ render = true
 hidden = false
 
 # Space t r reloads buffers after the agent pane edits files. Helix does not reload them automatically.
+# Space t e and Space t l type the code into the REPL pane of this Rex session. rex send reads REX_SESSION.
+# awk 1 ends the text with a line end, so the REPL evaluates it.
 [keys.normal.space.t]
-e = ":pipe-to reple eval"
+e = ":pipe-to awk 1 | rex send -b REPL"
 r = ":reload-all"
-l = ["extend_to_line_bounds", ":pipe-to reple eval"]
-# Copies @file:start-end of the selection for pasting into the agent pane. Helix has no IDE integration.
+l = ["extend_to_line_bounds", ":pipe-to awk 1 | rex send -b REPL"]
+# Space t a types @file:start-end of the selection into the agent pane and focuses it. Space t y copies it instead.
+# Helix has no IDE integration.
+a = ":sh printf '@%%s:%%s-%%s ' %{buffer_name} %{selection_line_start} %{selection_line_end} | rex send -b agent && rex focus agent"
 y = ":sh printf '@%%s:%%s-%%s' %{buffer_name} %{selection_line_start} %{selection_line_end} | pbcopy"
 
 [keys.normal.space.v]
@@ -52,4 +56,4 @@ g = ":sh ~/.config/helix/popup.sh gitu"
 l = ":sh ~/.config/helix/popup.sh lazygit"
 
 [keys.select.space.t]
-e = ":pipe-to reple eval"
+e = ":pipe-to awk 1 | rex send -b REPL"

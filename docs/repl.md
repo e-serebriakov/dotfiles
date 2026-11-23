@@ -1,23 +1,28 @@
 # REPL workflows
 
-Helix and Neovim send selected code through reple to a persistent REPL in another
-terminal. Neovim uses Conjure instead for Clojure.
+Helix and Neovim type selected code into the `REPL` pane of the current Rex session.
+Neovim uses Conjure instead for Clojure.
 Results appear there, and definitions persist between evaluations.
-Run only one reple session at a time.
+Each project session has its own REPL.
+
+## Rex layout
+
+The `work` tab of a `dev` session ([Rex guide](../packages/rex/.config/rex/README.md)) opens `hx .` above a shell on the left,
+with an agent pane on the right.
+The shell below Helix is the `REPL` pane. Start your REPL there.
+Use `Alt+j` / `Alt+k` to focus the REPL / Helix panes.
+The `feedback` tab contains logs and shell panes.
+
+The editor finds the pane by its `REPL` label.
+In a session without a `REPL` pane, the editor shows an error.
 
 ## Helix
 
-From your project directory, start Helix:
+Open a project with `dev`.
+In the `REPL` pane, start your project's REPL. For example, start Babashka:
 
 ```sh
-hx .
-```
-
-In another terminal, open the same directory and start your project's REPL.
-For example, start Babashka:
-
-```sh
-reple spawn 'bb repl'
+bb repl
 ```
 
 Babashka supports a subset of Clojure, not a JVM project runtime.
@@ -42,54 +47,37 @@ The second evaluation prints `42`.
 Evaluation does not save or modify the source. Select complete forms.
 For Clojure, evaluate the buffer's `ns` form first to set its namespace and aliases.
 Run `:config-reload` to load bindings into an existing Helix instance.
-Restart the REPL after an abnormal termination.
 
 ## Neovim
 
 Python, TypeScript, and TSX buffers use `,E` in Visual mode to send selections
-to the same external reple process. Select lines with `V`, or text with `v`.
+to the `REPL` pane. Select lines with `V`, or text with `v`.
 The mapping leaves the source and registers unchanged.
 Clojure retains Conjure's existing nREPL mappings.
 
 Start the matching interpreter yourself. The buffer language does not select
-the destination. Restart Neovim after installing reple or updating this mapping.
+the destination. Restart Neovim after updating this mapping.
 
-For a TypeScript project with `tsx` installed, run from its directory:
+For a TypeScript project with `tsx` installed, run in the `REPL` pane:
 
 ```sh
-reple spawn 'pnpm exec tsx'
+pnpm exec tsx
 ```
 
 This evaluates TypeScript in Node, without browser state or the DOM.
 
 ## Other runtimes
 
-Stop the existing reple session before starting another runtime.
+To change the runtime, stop the REPL in the `REPL` pane and start another one.
 Evaluate with `Space t e` in Helix or Visual-mode `,E` in Neovim for
 Python and TypeScript.
 
 ### JVM Clojure
 
-With Java and the Clojure CLI installed, run:
+With Java and the Clojure CLI installed, run in the `REPL` pane:
 
 ```sh
-reple spawn 'clojure -M'
+clojure -M
 ```
 
 Add your project's aliases as needed.
-
-## Install on another machine
-
-Repository setup installs the dependencies. After linking these dotfiles,
-install only the new dependencies with:
-
-```sh
-mise install --locked go go:github.com/j3ka/reple
-```
-
-## Rex layout
-
-The `work` tab of a `dev` session ([Rex guide](../packages/rex/.config/rex/README.md)) opens `hx .` above a shell on the left, with an agent pane on the right.
-Start your REPL in the shell below Helix.
-Use `Alt+j` / `Alt+k` to focus the REPL / Helix panes.
-The `feedback` tab contains logs and shell panes.
