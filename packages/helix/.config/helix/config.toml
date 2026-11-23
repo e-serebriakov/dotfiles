@@ -49,8 +49,10 @@ l = ["extend_to_line_bounds", ":pipe-to awk 1 | rex send -b REPL 2>/dev/null"]
 # Helix has no IDE integration.
 a = ":sh printf '@%%s:%%s-%%s ' %{buffer_name} %{selection_line_start} %{selection_line_end} | rex send -b agent 2>/dev/null && rex focus agent"
 
+# Space v b shows the commit of the cursor line: hash, author, date, and subject. It blames the file on disk.
+# An uncommitted line has the all-zero hash, which git log can't show.
 [keys.normal.space.v]
-b = ":sh git blame --date=relative -L %{cursor_line},+1 -- %{buffer_name}"
+b = ":sh c=$(git blame --porcelain -L %{cursor_line},+1 -- %{buffer_name} | head -1 | cut -d' ' -f1); case $c in 0000*) echo 'Not committed yet' ;; *) git log -1 --format='%%h · %%an, %%ar%%n%%s' $c ;; esac"
 r = ":reset-diff-change"
 
 [keys.select.space.t]
