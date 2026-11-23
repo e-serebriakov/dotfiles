@@ -6,7 +6,7 @@ gui:
     # Reverse video keeps each cell readable with all palette colors.
     selectedLineBgColor:
       - reverse
-    # Use a dark border for the focused panel, as in Zellij and Neovim.
+    # Use a dark border for the focused panel, as in Neovim.
     activeBorderColor:
       - black
       - bold

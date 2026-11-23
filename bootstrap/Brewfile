@@ -3,7 +3,7 @@
 
 brew "stow" # Perl is necessary. Stow has no release binary or mise registry entry.
 
-cask "wezterm"
+# Rex, the terminal, is in beta and has no cask. Install it from https://www.superlogical.com/rex/docs/installation.
 cask "nikitabobko/tap/aerospace" # This name adds the tap. homebrew-cask does not contain this application.
 cask "karabiner-elements"
 cask "raycast"
