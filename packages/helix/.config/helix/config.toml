@@ -45,10 +45,9 @@ hidden = false
 e = ":pipe-to awk 1 | rex send -b REPL 2>/dev/null"
 r = ":reload-all"
 l = ["extend_to_line_bounds", ":pipe-to awk 1 | rex send -b REPL 2>/dev/null"]
-# Space t a types @file:start-end of the selection into the agent pane and focuses it. Space t y copies it instead.
+# Space t a types @file:start-end of the selection into the agent pane and focuses it.
 # Helix has no IDE integration.
 a = ":sh printf '@%%s:%%s-%%s ' %{buffer_name} %{selection_line_start} %{selection_line_end} | rex send -b agent 2>/dev/null && rex focus agent"
-y = ":sh printf '@%%s:%%s-%%s' %{buffer_name} %{selection_line_start} %{selection_line_end} | pbcopy"
 
 [keys.normal.space.v]
 b = ":sh git blame --date=relative -L %{cursor_line},+1 -- %{buffer_name}"
