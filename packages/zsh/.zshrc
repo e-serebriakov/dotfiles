@@ -47,7 +47,7 @@ typeset -A _comp_gen=(
   gh 'gh completion -s zsh'
   git-town 'git-town completions zsh'
   just 'just --completions zsh'
-  zellij 'zellij setup --generate-completion zsh'
+  rex 'rex completion zsh'
   mise 'mise completion zsh'
   rg 'rg --generate complete-zsh'
   fd 'fd --gen-completions zsh'
@@ -145,14 +145,6 @@ alias gtdp='git town diff-parent'
 alias gtl='git town status'
 alias gth='git town hack'
 
-# Zellij aliases. Use dev to start or attach project sessions.
-alias zls='zellij list-sessions'
-alias za='zellij attach'
-alias zks='zellij kill-session'
-alias zkas='zellij kill-all-sessions'
-alias zds='zellij delete-session'
-alias zdas='zellij delete-all-sessions'
-
 # Review PRs in the terminal. Use `pr` for your PRs or `pr 123` for a specified PR.
 pr() {
   local num=${1:-$(gh pr list --author @me --state open --json number,title \
@@ -189,17 +181,12 @@ if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
 
-# Attach to an existing Zellij session or create one with the work layout.
+# Open a project's Rex session, or create it with the work layout. The dev action in rex/init.lua builds it.
 # Usage: dev              (use the current directory)
 #        dev <path>       (use a specified directory)
 #        dev <project>    (find the directory with zoxide)
 dev() {
-  if [[ -n "${ZELLIJ:-}" ]]; then
-    echo "dev: a Zellij session is active. Use Ctrl+g Ctrl+o w to open the session manager." >&2
-    return 1
-  fi
-
-  local project dir checksum
+  local dir sid
 
   if [[ -d "${1:-.}" ]]; then
     dir="${1:-.}"
@@ -211,21 +198,9 @@ dev() {
   fi
   dir="$(cd -- "$dir" && pwd -P)" || return 1
 
-  # Limit the name to 24 ASCII bytes to obey the macOS limit for UNIX socket paths.
-  # ponytail: the path checksum has 32 bits. Use a longer digest if session names collide.
-  checksum="$(printf '%s' "$dir" | cksum)"
-  project="${dir:t}"
-  project="${project//[^a-zA-Z0-9_-]/-}"
-  project="${project[1,13]}-${checksum%% *}"
-
-  # WezTerm does not report its light/dark mode, so pin new and resurrected sessions to the macOS mode.
-  # follow-appearance.sh switches running sessions. TODO: drop the hue there too once WezTerm ships mode 2031.
-  local hue=light
-  defaults read -g AppleInterfaceStyle 2>/dev/null | grep -q Dark && hue=dark
-
-  # Run Zellij from the project directory in both cases. The WezTerm tab title shows the name of this directory.
-  (cd "$dir" && { zellij attach "$project" options --explicit-theme-hue "$hue" 2>/dev/null ||
-    zellij -s "$project" -n work options --explicit-theme-hue "$hue"; })
+  # rex do runs the action without an app, so select the session in the Rex app here.
+  sid="$(rex do dev dir="$dir" | jq -er .session_id)" || return 1
+  rex do session.select session_id="$sid"
 }
 _dev() {
   local -a dirs

@@ -8,16 +8,12 @@
    [generators.helix :as helix]
    [generators.nvim :as nvim]
    [generators.preview :as preview]
-   [generators.rex :as rex]
-   [generators.wezterm :as wezterm]
-   [generators.zellij :as zellij]))
+   [generators.rex :as rex]))
 
 (def adapters
   ;; Each tool gets a light and a dark file. %s in :output is "light" or "dark".
   ;; :render receives the theme and the tool's theme name, baked-light or baked-dark.
-  [{:render zellij/render :output "packages/zellij/.config/zellij/themes/baked-%s.kdl"}
-   {:render (fn [theme _] (nvim/render theme)) :output "packages/nvim/.config/nvim/lua/colorschemes/baked_%s.lua"}
-   {:render wezterm/render :output "packages/wezterm/.config/wezterm/colors/baked-%s.toml"}
+  [{:render (fn [theme _] (nvim/render theme)) :output "packages/nvim/.config/nvim/lua/colorschemes/baked_%s.lua"}
    ;; follow-appearance.sh links baked.toml to the variant that matches the system.
    {:render (fn [theme _] (helix/render theme)) :output "packages/helix/.config/helix/themes/baked-%s.toml"}
    {:render (fn [theme _] (rex/render theme)) :output "packages/rex/.config/rex/themes/baked-%s"}])

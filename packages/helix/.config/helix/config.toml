@@ -16,7 +16,7 @@ cursor-line = "warning"
 [editor.lsp]
 display-inlay-hints = true
 
-# Zellij must send focus events to the pane. Otherwise focus-lost never fires.
+# Rex must send focus events to the pane. Otherwise focus-lost never fires.
 [editor.auto-save]
 focus-lost = true
 

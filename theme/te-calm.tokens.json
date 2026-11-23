@@ -280,7 +280,7 @@
       "$description": "Gray backgrounds from the neutral scale.",
       "base": {
         "$value": "{primitive.gray.50}",
-        "$description": "Shared neutral background for the editor, terminal, and Zellij."
+        "$description": "Shared neutral background for the editor and the terminal."
       },
       "raised": {
         "$value": "{primitive.gray.100}",
@@ -289,10 +289,6 @@
       "cursorline": {
         "$value": "{primitive.gray.100}",
         "$description": "Background for the current line. Step gray.100 marks the line and keeps strings at approximately 4.2:1 contrast. Step gray.200 would drop them to approximately 3.6:1."
-      },
-      "highlight": {
-        "$value": "{primitive.gray.200}",
-        "$description": "Background for tab hover and Zellij indicator fills. Selected entries use selection.secondary."
       },
       "column": {
         "$value": "{primitive.gray.100}",
@@ -313,10 +309,6 @@
       "active": {
         "$value": "{primitive.gray.300}",
         "$description": "Background for the active Neovim and Helix tab. mode.normal aliases it. The gray keycap with dark text has less contrast than a black background."
-      },
-      "current": {
-        "$value": "{primitive.blue.200}",
-        "$description": "Background for the current WezTerm and Zellij tab. The pale accent tint with text.accent marks where you are without a heavy block."
       }
     },
     "border": {
@@ -325,10 +317,6 @@
       "default": {
         "$value": "{primitive.gray.300}",
         "$description": "Color for split separators, the scrollbar, and borders."
-      },
-      "subtle": {
-        "$value": "{primitive.gray.200}",
-        "$description": "Color for unfocused Zellij pane frames and titles. Fainter than border.default, so the focused frame in text.accent is the only clear outline."
       }
     },
     "text": {
@@ -408,7 +396,7 @@
       "$description": "Small marks that must stand out.",
       "mark": {
         "$value": "{primitive.alert.fg}",
-        "$description": "Small mark for an unsaved buffer, an active macro recording, or the Zellij bell. It uses the saturated alert red. Do not use it as a background or for anything else."
+        "$description": "Small mark for an unsaved buffer or an active macro recording. It uses the saturated alert red. Do not use it as a background or for anything else."
       }
     },
     "selection": {

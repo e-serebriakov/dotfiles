@@ -146,7 +146,7 @@ automatically-unhide-macos-hidden-apps = false
     shift-down = ['volume set 0', 'mode main']
 
 [[on-window-detected]]
-    if.app-id = 'com.github.wez.wezterm'
+    if.app-id = 'com.superlogical.rex'
     run = 'move-node-to-workspace T' # T: Terminal
 
 [[on-window-detected]]

@@ -12,8 +12,6 @@ The generator writes a `baked-light` and a `baked-dark` file for each tool. Each
 | Tool | How it switches |
 | --- | --- |
 | Rex | Settings > Theme has a light and a dark slot. Import `~/.config/rex/themes/baked-light` and `baked-dark` once, and assign them. |
-| Zellij | `theme_light` and `theme_dark` in `config.kdl`. Zellij asks the terminal for its mode, but WezTerm does not answer yet ([wezterm#6454](https://github.com/wezterm/wezterm/issues/6454)), so Zellij stays dark. Until it does, `dev` pins new sessions to the macOS mode and `follow-appearance.sh` switches running sessions. |
-| WezTerm | `.wezterm.lua` reads the macOS appearance. WezTerm reloads the file when the appearance changes. |
 | Neovim | Neovim sets `background` from the terminal. [`colors/baked.lua`](../packages/nvim/.config/nvim/colors/baked.lua) reloads the highlights for the new value. |
 | Helix | [`follow-appearance.sh`](../packages/helix/.config/helix/follow-appearance.sh) links `baked.toml` to the matching file and makes open Helix windows reload. `install.sh` runs the script once. On macOS, it also loads a launchd agent that runs the script when the system preferences change. |
 
@@ -30,12 +28,12 @@ All theme files define the same semantic tokens. Each file describes its own val
 
 | Group | Kind | Use it for |
 | --- | --- | --- |
-| `surface` | background | Editor, bar, popup, and current-line backgrounds; the active-tab keycap; `surface.current` for the current WezTerm and Zellij tab |
+| `surface` | background | Editor, bar, popup, and current-line backgrounds; the active-tab keycap |
 | `border` | foreground | Separators, borders, and indent guides |
 | `text` | foreground | Interface and body text; `text.accent` for interface elements that need a color |
 | `syntax` | foreground | Code only. Interface elements never use these |
 | `status` | foreground | Diagnostics, Git signs, and success or failure states |
-| `signal` | foreground | Small attention marks: unsaved buffer, macro recording, bell |
+| `signal` | foreground | Small attention marks: unsaved buffer, macro recording |
 | `selection` | background | Selections, the selected entry in menus and lists, matching brackets and references |
 | `search` | background | Search matches and jump labels |
 | `comment`, `doc` | mixed | Code comments, documentation, and Markdown |
@@ -52,8 +50,6 @@ Tools do not read the tokens directly. Each generator converts semantic tokens t
 | Tool | Generator |
 | --- | --- |
 | Neovim | [`generators/nvim.clj`](generators/nvim.clj) |
-| WezTerm | [`generators/wezterm.clj`](generators/wezterm.clj) |
-| Zellij | [`generators/zellij.clj`](generators/zellij.clj) |
 | Helix | [`generators/helix.clj`](generators/helix.clj) |
 | Rex | [`generators/rex.clj`](generators/rex.clj) |
 
@@ -104,8 +100,8 @@ In Rex, import `~/.config/rex/themes/baked-light` and `baked-dark` again in Sett
 The terminal preview and the `preview-<name>.svg` images use the same sample definition.
 Use `--preview` through SSH or in a Neovim `:terminal` window.
 Examine the changes before you reload the tools.
-Use a terminal with 24-bit color support, such as WezTerm, kitty, or a recent tmux version.
-The error mark uses a curved underline in WezTerm and kitty, and a straight underline elsewhere.
+Use a terminal with 24-bit color support, such as Rex, kitty, or a recent tmux version.
+The error mark uses a curved underline in terminals that support it, such as kitty, and a straight underline elsewhere.
 
 ## Add a tool
 

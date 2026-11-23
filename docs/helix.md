@@ -43,14 +43,14 @@ subdirectory does not apply. This repository pins clojure-lsp in its root `mise.
 | Copy `@file:start-end` of the selection for the agent pane | `Space t y` |
 | Show Git blame for the current line | `Space v b` |
 | Revert the Git change under the cursor | `Space v r` |
-| Open gitu in a floating Zellij pane | `Space v g` |
-| Open lazygit in a floating Zellij pane | `Space v l` |
+| Open gitu in a floating Rex pane | `Space v g` |
+| Open lazygit in a floating Rex pane | `Space v l` |
 
 Helix does not reload files that the agent pane changes. Press `Space t r`
 after the agent edits files. Helix saves modified buffers when its pane loses focus.
 
 See [REPL workflows](repl.md) for the custom evaluation binding.
-Use another Zellij pane for tests, Git commands, and development servers.
+Use another Rex pane for tests, Git commands, and development servers.
 
 [languages]: https://docs.helix-editor.com/languages.html
 

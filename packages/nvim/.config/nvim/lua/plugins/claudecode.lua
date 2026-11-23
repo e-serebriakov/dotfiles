@@ -1,6 +1,6 @@
 return {
   'coder/claudecode.nvim',
-  -- Claude runs in the Zellij agent pane. See zellij/layouts/work.kdl.
+  -- Claude runs in the agent pane of the Rex work layout. See the dev action in rex/init.lua.
   -- This plugin provides the WebSocket/MCP server for selection context and native diffs.
   -- The claude() wrapper in .zshrc needs the server lockfile to connect automatically.
   event = 'VeryLazy',
