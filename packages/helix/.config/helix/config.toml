@@ -48,8 +48,8 @@ y = ":sh printf '@%%s:%%s-%%s' %{buffer_name} %{selection_line_start} %{selectio
 [keys.normal.space.v]
 b = ":sh git blame --date=relative -L %{cursor_line},+1 -- %{buffer_name}"
 r = ":reset-diff-change"
-g = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- gitu"
-l = ":sh zellij run --floating --close-on-exit -x 3%% -y 3%% --width 94%% --height 94%% -- lazygit"
+g = ":sh ~/.config/helix/popup.sh gitu"
+l = ":sh ~/.config/helix/popup.sh lazygit"
 
 [keys.select.space.t]
 e = ":pipe-to reple eval"
