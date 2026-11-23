@@ -73,21 +73,30 @@ rex.action{
   end,
 }
 
+-- Return the floating layers of the current tab and the tab's focused block.
+local function floating_layers()
+  local view, err = rex.session.view{}
+  if err ~= nil then error(err, 0) end
+  local floating = {}
+  for _, w in ipairs(view.windows) do
+    if w.window_id == view.active_window_id then
+      for i = 2, #w.layers do -- layers[1] is the tiled layout
+        floating[#floating + 1] = w.layers[i]
+      end
+      return floating, w.focused_block_id
+    end
+  end
+  return floating
+end
+
 -- Show or hide the floating panes of the current tab, or open one if the tab has none.
 rex.action{
   name  = "toggle_floating",
   title = "Toggle Floating Panes",
   run   = function(ctx)
-    local view, err = rex.session.view{}
-    if err ~= nil then error(err, 0) end
-    local floating, shown = {}, false
-    for _, w in ipairs(view.windows) do
-      if w.window_id == view.active_window_id then
-        for i = 2, #w.layers do -- layers[1] is the tiled layout
-          floating[#floating + 1] = w.layers[i]
-          shown = shown or w.layers[i].state ~= "minimized"
-        end
-      end
+    local floating, shown = floating_layers(), false
+    for _, layer in ipairs(floating) do
+      shown = shown or layer.state ~= "minimized"
     end
     if #floating == 0 then
       rex.client.queue("pane.new_floating")
@@ -113,6 +122,27 @@ rex.action{
   end,
 }
 
+-- Raise and focus the next floating pane of the current tab, and show it if it is hidden.
+-- New floating panes open on top of each other, so pane.focus with a direction cannot reach them.
+rex.action{
+  name  = "next_floating",
+  title = "Focus Next Floating Pane",
+  run   = function(ctx)
+    local floating, focused = floating_layers()
+    if #floating == 0 then return end
+    local current = 0
+    for i, layer in ipairs(floating) do
+      for _, b in ipairs(layer.blocks) do
+        if b.block_id == focused then current = i end
+      end
+    end
+    local _, err = rex.session.set_layer_state{
+      layer_id = floating[current % #floating + 1].layer_id, state = "normal", focus = true,
+    }
+    if err ~= nil then error(err, 0) end
+  end,
+}
+
 -- Cmd+P is Go to Anything in Rex, so the project picker uses Cmd+O.
 rex.bind("cmd+o", "dev")
 
@@ -122,6 +152,8 @@ rex.bind("alt+j", "pane.focus", { direction = "down" })
 rex.bind("alt+k", "pane.focus", { direction = "up" })
 rex.bind("alt+m", "pane.zoom")
 rex.bind("alt+f", "toggle_floating")
+rex.bind("alt+shift+f", "pane.new_floating")
+rex.bind("alt+tab", "next_floating")
 
 rex.mode("unlocked", { exclusive = true })
 rex.bind("ctrl+g", "client.mode.enter", { name = "unlocked" })
