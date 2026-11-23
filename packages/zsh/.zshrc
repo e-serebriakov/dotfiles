@@ -218,3 +218,21 @@ claude() {
   [[ -n $lock ]] && local -x ENABLE_IDE_INTEGRATION=true CLAUDE_CODE_SSE_PORT=${${lock:t}:r}
   command claude "$@"
 }
+
+# Report a command that runs for 10 seconds or more to Rex as done or error.
+# Rex shows the state on the tab and in the session list, as it does for Claude Code.
+# Rex marks only work you have not seen. When you quit an editor, you look at its pane, so it shows nothing.
+# Ctrl+C (status 130) reports nothing. zsh gives each precmd hook the status of the command.
+if [[ -n $REX_SESSION ]]; then
+  autoload -Uz add-zsh-hook
+  _rex_status_preexec() { _rex_start=$SECONDS }
+  _rex_status_precmd() {
+    local code=$? start=$_rex_start state=done
+    unset _rex_start
+    [[ -n $start ]] && (( SECONDS - start >= 10 && code != 130 )) || return 0
+    (( code )) && state=error
+    printf '\e]7501;state=%s:app=zsh\e\\' $state
+  }
+  add-zsh-hook preexec _rex_status_preexec
+  add-zsh-hook precmd _rex_status_precmd
+fi
