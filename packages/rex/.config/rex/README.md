@@ -40,6 +40,7 @@ The editor keys find their target pane by its name in the current session:
 
 - `Space t e` and `Space t l` in Helix, and `,E` in Neovim, send code to the `REPL` pane.
 - `Space t a` in Helix sends a file reference to the `agent` pane.
+- Claude Code reads the `logs` pane and evaluates code in the `REPL` pane. The global `CLAUDE.md` tells it how.
 
 `dev` gives the panes these names. Names ignore case.
 To use another pane, rename it with Rename Pane in the command palette.

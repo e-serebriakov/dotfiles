@@ -31,6 +31,17 @@ This user uses **Git Town** (`git town` CLI) to manage **stacked branches**.
 - **Branch names**: use the existing pattern in the repository.
   Use `git town config` to examine the branch relationships.
 
+## Rex panes
+
+In a Rex session that `dev` creates, the `REPL` pane runs the project's REPL.
+The `logs` pane can show the output of the running program.
+To read runtime errors, run `rex capture -b logs --trim | tail -n 100`.
+If the pane runs lazydocker, the capture shows only its visible screen.
+Then read the logs with `docker compose logs --tail 100` or `docker logs --tail 100 CONTAINER`.
+To evaluate code, pipe it to `rex send -b REPL`. End the code with a line break so that the REPL evaluates it.
+Capture the `REPL` pane before you send code, and make sure that it shows a prompt.
+The user watches these panes. Do not stop or restart their programs unless the user asks.
+
 ## Constraints
 
 - Get permission before you add new pip or npm dependencies.
