@@ -41,7 +41,8 @@ subdirectory does not apply. This repository pins clojure-lsp in its root `mise.
 | --- | --- |
 | Reload all buffers from disk | `Space t r` |
 | Type `@file:start-end` of the selection into the agent pane and focus it | `Space t a` |
-| Show Git blame for the current line | `Space v b` |
+| Show the commit of the current line: hash, author, date, and subject | `Space v b` |
+| Show every commit that changed the selected lines, with diffs, in a floating Rex pane | `Space v h` |
 | Revert the Git change under the cursor | `Space v r` |
 
 To open gitu or lazygit in a floating pane, press `Ctrl+g g` or `Ctrl+g l`. See the [Rex guide](../packages/rex/.config/rex/README.md#keys).
