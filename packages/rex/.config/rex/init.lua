@@ -143,8 +143,8 @@ rex.action{
   end,
 }
 
--- Run a command in a floating pane over the whole tab, in the directory of the pane that asked.
--- The pane closes when the command exits.
+-- Run a shell command line in a floating pane over the whole tab, in the directory of the pane that asked.
+-- The pane closes when the command exits. Helix calls this with rex do for Space v h.
 -- The app can't queue an action from this file, so the popup keys bind it directly and it leaves the mode itself.
 -- The shells report no directory to Rex, so take the cwd of the pane's foreground process.
 -- interactive reads ~/.zshrc, where mise puts the tools on PATH.
@@ -157,7 +157,7 @@ rex.action{
     local _, err = rex.session.new_layer{
       bounds = { 0.03, 0.03, 0.94, 0.94 }, focus = true,
       layout = { block = { flavor = shell,
-        options = { command = { args.cmd }, cwd = proc and proc.foreground and proc.foreground.cwd, interactive = true } } },
+        options = { command = { "/bin/sh", "-c", args.cmd }, cwd = proc and proc.foreground and proc.foreground.cwd, interactive = true } } },
     }
     if err ~= nil then error(err, 0) end
     if ctx.origin == "key" then rex.client.queue("client.mode.exit_all") end
