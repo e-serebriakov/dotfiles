@@ -154,3 +154,7 @@ automatically-unhide-macos-hidden-apps = false
 [[on-window-detected]]
     if.app-id = 'md.obsidian'
     run = 'move-node-to-workspace O' # O: Obsidian
+
+[[on-window-detected]]
+    if.app-id = 'app.zen-browser.zen'
+    run = 'move-node-to-workspace B' # B: Browser
