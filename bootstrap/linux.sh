@@ -7,7 +7,8 @@ info() { echo -e "\033[1;32m[ubuntu]\033[0m $*"; }
 # from packages/mise/.config/mise/config.toml.
 info "🔧 Setup installs the necessary apt packages."
 sudo apt update -y
-# The Claude Code sandbox needs bubblewrap and socat. Without them, Claude Code does not start (sandbox.failIfUnavailable).
+# Claude Code's Linux sandbox uses bubblewrap (filesystem isolation) and socat (network proxy relay).
+# settings.json sets sandbox.failIfUnavailable, so Claude Code refuses to start without them.
 sudo apt install -y git stow curl unzip build-essential zsh bubblewrap socat
 sudo chsh -s "$(command -v zsh)" "$USER"
 
