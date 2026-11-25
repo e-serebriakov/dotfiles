@@ -221,8 +221,8 @@ claude() {
 
 # Claude Code loads mods only from the folders listed here, separated by colons.
 # The mermaid mod draws mermaid code blocks in replies as text diagrams.
-# Only in Rex: show-image draws PNGs in the conversation, and rex-status shows the state of Claude Code on the tab.
-export CLAUDE_CODE_PLUGIN_DIRS=~/.claude/mods/mermaid${REX_SESSION:+:~/.claude/mods/show-image:~/.claude/mods/rex-status}
+# Only in Rex: show-image draws PNGs in the conversation.
+export CLAUDE_CODE_PLUGIN_DIRS=~/.claude/mods/mermaid${REX_SESSION:+:~/.claude/mods/show-image}
 
 # Report a command that runs for 10 seconds or more to Rex as done or error.
 # Rex shows the state on the tab and in the session list, as it does for Claude Code.

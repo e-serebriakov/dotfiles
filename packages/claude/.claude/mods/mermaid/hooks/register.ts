@@ -15,23 +15,19 @@ export const register: Register = on => {
 
     // The reply is indented under its bullet.
     const width = e.viewport ? String(e.viewport.columns - 4) : 'auto'
+    const keyOf = (source: string) => `${width}\n${source}`
     const draw = async (source: string) => {
-      const key = `${width}\n${source}`
-      if (!drawings.has(key)) {
-        const ran = await $.process
-          .run(['mermaid-ascii', '-p', '0', '-y', '2', '--max-width', width, '-f', '-'], { stdin: source, timeoutMs: 5000 })
-          .catch(() => undefined)
-        drawings.set(key, ran?.exitCode === 0 && ran.stdout.trim() ? ran.stdout.trimEnd() : null)
-      }
-      return drawings.get(key)
+      if (drawings.has(keyOf(source))) return
+      const ran = await $.process
+        .run(['mermaid-ascii', '-p', '0', '-y', '2', '--max-width', width, '-f', '-'], { stdin: source, timeoutMs: 5000 })
+        .catch(() => undefined)
+      drawings.set(keyOf(source), ran?.exitCode === 0 && ran.stdout.trim() ? ran.stdout.trimEnd() : null)
     }
 
-    const sources = [...text.matchAll(BLOCK)].map(match => match[1] ?? '')
-    const drawn = await Promise.all(sources.map(draw))
-    let index = 0
+    await Promise.all([...text.matchAll(BLOCK)].map(match => draw(match[1] ?? '')))
     // A diagram that mermaid-ascii cannot draw keeps its source, so the error is visible.
-    const replaced = text.replace(BLOCK, block => {
-      const drawing = drawn[index++]
+    const replaced = text.replace(BLOCK, (block, source: string) => {
+      const drawing = drawings.get(keyOf(source))
       return drawing ? '```text\n' + drawing + '\n```' : block
     })
     return next({ ...e, props: { ...e.props, text: replaced } })
