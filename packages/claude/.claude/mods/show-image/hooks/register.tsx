@@ -1,13 +1,26 @@
 import type { Register } from 'claude-code'
 
-const TOOL = 'mcp__show-image__show_image'
-const PNG_MAGIC = 'iVBORw0KGgo' // base64 of the PNG signature
+const NAME = 'show_image'
+// Claude Code names the tool of a mod mcp__<mod>__<tool>.
+const TOOL = `mcp__show-image__${NAME}`
 
-// The width and height are big-endian at bytes 16 and 20 of the IHDR chunk.
-const sizeOf = (bytes: Uint8Array) => {
+type Size = { width: number; height: number }
+
+// The width and height of a PNG, or undefined when the bytes are not a PNG.
+// A PNG starts with an 8-byte signature, iVBORw0KGgo in base64. Then the IHDR chunk has the width and height,
+// big-endian at bytes 16 and 20.
+const pngSizeOf = (base64: string): Size | undefined => {
+  if (!base64.startsWith('iVBORw0KGgo')) return undefined
+  const bytes = Uint8Array.fromBase64(base64)
+  if (bytes.length < 24) return undefined
   const view = new DataView(bytes.buffer, bytes.byteOffset)
-  return { width: view.getUint32(16), height: view.getUint32(20) }
+  const size = { width: view.getUint32(16), height: view.getUint32(20) }
+  return size.width && size.height ? size : undefined
 }
+
+// The size of each PNG by modification time and path. A tool row draws again and again,
+// so the cache reads each version of a file once.
+const sizes = new Map<string, Promise<Size | undefined>>()
 
 // The path of a PNG that a Read call opens, or undefined.
 const pngReadOf = (tool: string, input: unknown) => {
@@ -18,7 +31,7 @@ const pngReadOf = (tool: string, input: unknown) => {
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.tool.register({
-      name: 'show_image',
+      name: NAME,
       description:
         'Show a PNG file to the user, drawn inline in the conversation. ' +
         'Use it when the user asks to see an image, or a chart or screenshot explains more than text. ' +
@@ -38,7 +51,7 @@ export const register: Register = on => {
     if (!path.startsWith('/')) return { deny: `${path} is not an absolute path.` }
     const file = await $.fs.read(path, { as: 'bytes' }).catch(() => undefined)
     if (!file) return { deny: `Cannot read ${path}. It must exist and be at most 4 MiB.` }
-    if (!file.base64.startsWith(PNG_MAGIC)) return { deny: `${path} is not a PNG file.` }
+    if (!pngSizeOf(file.base64)) return { deny: `${path} is not a PNG file.` }
     return { result: `Shown ${path} to the user.` }
   })
 
@@ -56,10 +69,21 @@ export const register: Register = on => {
     // Only the terminal has Image. Other surfaces draw the usual tool row.
     if (!path || e.surface !== 'terminal' || e.props.isErrored || e.props.isRunning) return next(e)
 
-    const file = await $.fs.read(path, { as: 'bytes' }).catch(() => undefined)
     const stat = await $.fs.stat(path).catch(() => undefined)
-    if (!file || !stat) return next(e)
-    const { width, height } = sizeOf(Uint8Array.fromBase64(file.base64))
+    if (!stat) return next(e)
+    const key = `${stat.mtimeMs}\n${path}`
+    let pending = sizes.get(key)
+    if (!pending) {
+      pending = $.fs.read(path, { as: 'bytes' }).then(
+        file => pngSizeOf(file.base64),
+        () => undefined,
+      )
+      sizes.set(key, pending)
+    }
+    // A file named .png that is not a PNG, such as a renamed JPEG, draws the usual tool row.
+    const size = await pending
+    if (!size) return next(e)
+    const { width, height } = size
 
     // ponytail: assumes cells about 10 px wide and twice as tall. Not upscaled past that.
     const columns = Math.max(1, Math.min((e.viewport?.columns ?? 80) - 4, 100, Math.ceil(width / 10)))
