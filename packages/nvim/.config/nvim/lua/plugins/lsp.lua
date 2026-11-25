@@ -47,25 +47,22 @@ return {
           -- Jump to the definition. Press <C-t> to return.
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          -- Neovim maps grn (rename), gra (code action), grr, gri, grt, and gO by default. See :help lsp-defaults.
+          -- These maps keep the default keys and show the results in Telescope instead of the quickfix list.
+          -- A buffer map on gr alone would make each gr* key wait for timeoutlen.
+          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
           -- Find the implementation of a declared type or interface.
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
           -- Find the type definition, not the variable definition.
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype definition')
 
           -- Search document symbols, such as variables, functions, and types.
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
 
           -- Search symbols across the workspace.
           map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-          -- Rename the symbol, including other files if the server supports this.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-          -- Run a code action at the cursor, such as a suggested correction.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
           -- Find the declaration. For example, find the declaration in a C header rather than its definition.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')

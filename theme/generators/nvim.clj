@@ -238,7 +238,7 @@
     ["OilSelected" {:fg "text.strong" :bg "selection.secondary"}]
 
     ;; Plugins
-    ["GitBlameVirtualText" {:fg "status.hint" :italic true}]
+    ["GitSignsCurrentLineBlame" {:fg "status.hint" :italic true}]
     ;; Octo shows editable text on doc.quoteBg. Headings and dates use secondary and hint colors.
     ["OctoEditable" {:bg "doc.quoteBg"}]
     ["OctoTimelineItemHeading" {:fg "text.secondary" :bold true}]

@@ -10,6 +10,10 @@ return {
       untracked    = { text = '┆' },
     },
     attach_to_untracked = true,
+    -- Show author, relative date, and subject after the cursor line. The baked colorscheme sets GitSignsCurrentLineBlame.
+    current_line_blame = true,
+    current_line_blame_formatter = '  <author> • <author_time:%R> • <summary>',
+    current_line_blame_formatter_nc = '  Not committed yet',
     on_attach = function(bufnr)
       local gs = require 'gitsigns'
 
@@ -39,8 +43,8 @@ return {
       -- Hunk actions
       map('n', '<leader>hp', gs.preview_hunk, { desc = 'Preview hunk' })
       map('n', '<leader>hs', gs.stage_hunk, { desc = 'Stage hunk' })
-      map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
       map('n', '<leader>hb', gs.blame_line, { desc = 'Blame line' })
+      map('n', '<leader>gb', gs.toggle_current_line_blame, { desc = 'Git blame toggle' })
     end,
   },
 }
