@@ -1,0 +1,1 @@
+{ "name": "rex-status", "version": "0.1.0", "description": "Reports Claude Code state (working, blocked, done) to the Rex tab" }
