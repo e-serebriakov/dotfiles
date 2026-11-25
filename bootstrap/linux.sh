@@ -7,7 +7,8 @@ info() { echo -e "\033[1;32m[ubuntu]\033[0m $*"; }
 # from packages/mise/.config/mise/config.toml.
 info "🔧 Setup installs the necessary apt packages."
 sudo apt update -y
-sudo apt install -y git stow curl unzip build-essential zsh
+# The Claude Code sandbox needs bubblewrap and socat. Without them, Claude Code does not start (sandbox.failIfUnavailable).
+sudo apt install -y git stow curl unzip build-essential zsh bubblewrap socat
 sudo chsh -s "$(command -v zsh)" "$USER"
 
 # Rex has no Linux client. Rex for Mac connects to this server over SSH.
