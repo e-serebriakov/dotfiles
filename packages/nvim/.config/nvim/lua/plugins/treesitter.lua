@@ -12,6 +12,7 @@ return {
       'bash',
       'c',
       'clojure',
+      'comment', -- TODO, FIXME, and NOTE: the theme styles @comment.todo and its siblings
       'css',
       'diff',
       'html',
