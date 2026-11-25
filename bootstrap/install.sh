@@ -130,6 +130,12 @@ else
   # Back up conflicting files. Keep uncommitted package changes.
   # Do not use stow --adopt followed by git checkout -- packages/.
   BACKUP="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+  # Karabiner does not reload a karabiner.json that is a link. Move the directory so Stow links the whole directory.
+  if [[ -d "$TARGET/.config/karabiner" && ! -L "$TARGET/.config/karabiner" ]]; then
+    echo "  Setup makes a backup of .config/karabiner."
+    mkdir -p "$BACKUP/.config"
+    mv "$TARGET/.config/karabiner" "$BACKUP/.config/karabiner"
+  fi
   for pkg in "${PKGS[@]}"; do
     find "$STOW_DIR/$pkg" -type f -print0 | while IFS= read -r -d '' src; do
       rel="${src#"$STOW_DIR/$pkg/"}"
