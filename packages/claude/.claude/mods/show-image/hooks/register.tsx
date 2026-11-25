@@ -9,6 +9,12 @@ const sizeOf = (bytes: Uint8Array) => {
   return { width: view.getUint32(16), height: view.getUint32(20) }
 }
 
+// The path of a PNG that a Read call opens, or undefined.
+const pngReadOf = (tool: string, input: unknown) => {
+  const path = (input as { file_path?: string }).file_path
+  return tool === 'Read' && path?.toLowerCase().endsWith('.png') ? path : undefined
+}
+
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.tool.register({
@@ -36,10 +42,19 @@ export const register: Register = on => {
     return { result: `Shown ${path} to the user.` }
   })
 
-  on('ui.render', { component: 'ToolUse', props: { tool: TOOL } }, async ($, e, next) => {
-    const { path } = e.props.input as { path: string }
+  // A run of reads folds into one line, such as "Read 3 files". Unfold it when it holds a PNG, so its row draws.
+  on('ui.render', { component: 'ToolGroup' }, ($, e, next) =>
+    e.props.calls.some(call => pngReadOf(call.tool, call.input))
+      ? next({ ...e, props: { ...e.props, isExpanded: true } })
+      : next(e),
+  )
+
+  // The show_image row, and the row of a PNG that Claude reads, so the user sees what Claude sees.
+  on('ui.render', { component: 'ToolUse' }, async ($, e, next) => {
+    const isShown = e.props.tool === TOOL
+    const path = isShown ? (e.props.input as { path: string }).path : pngReadOf(e.props.tool, e.props.input)
     // Only the terminal has Image. Other surfaces draw the usual tool row.
-    if (e.surface !== 'terminal' || e.props.isErrored || e.props.isRunning) return next(e)
+    if (!path || e.surface !== 'terminal' || e.props.isErrored || e.props.isRunning) return next(e)
 
     const file = await $.fs.read(path, { as: 'bytes' }).catch(() => undefined)
     const stat = await $.fs.stat(path).catch(() => undefined)
@@ -53,7 +68,7 @@ export const register: Register = on => {
     const { Box, Text, Image } = $.ui.resolve(e)
     return (
       <Box flexDirection="column">
-        <Text dimColor>Image: {path}</Text>
+        <Text dimColor>{isShown ? 'Image' : 'Read'}: {path}</Text>
         {/* The terminal reads the file. The modification time makes it read the file again after Claude rewrites it. */}
         <Image
           source={{ file: path, format: 'png', generation: Math.floor(stat.mtimeMs) }}
