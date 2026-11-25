@@ -77,7 +77,7 @@ else
     install_zsh_plugin "$name" "$url" "$revision"
   done <<'PLUGINS'
 fzf-tab https://github.com/Aloxaf/fzf-tab 24105b15714bfec37989ed5c5b6e60f572253019
-zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting 2fc57d63067c18b1100ecdbf684fa5baf49459d1
+zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting e6683f20e5c38d3e5447f45845d04ddda75d0f23
 zsh-history-substring-search https://github.com/zsh-users/zsh-history-substring-search 14c8d2e0ffaee98f2df9850b19944f32546fdea5
 zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions 85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5
 PLUGINS

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },
@@ -32,6 +33,12 @@
       "Read(**/.container_data/**)",
       "Read(**/*.pem)",
       "Read(**/*.key)"
+    ],
+    "ask": [
+      "Bash(git town ship)",
+      "Bash(git town ship *)",
+      "Bash(gh pr merge)",
+      "Bash(gh pr merge *)"
     ],
     "defaultMode": "auto"
   },
@@ -90,7 +97,9 @@
     }
   },
   "sandbox": {
-    "enabled": true
+    "enabled": true,
+    "failIfUnavailable": true,
+    "excludedCommands": ["mise outdated", "mise outdated *"]
   },
   "modelSettings": {
     "claude-opus-5-5": {

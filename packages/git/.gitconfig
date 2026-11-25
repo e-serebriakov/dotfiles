@@ -2,21 +2,20 @@
   name = Evgenii Serebriakov
   email = 14977072+e-serebriakov@users.noreply.github.com
   signingkey = ~/.ssh/sign.pub
-    
+
 [core]
   autocrlf = input
+  untrackedCache = true
 
 ; Use SSH for all GitHub traffic. On a new machine, set up SSH keys before lazy.nvim and zsh plugins clone.
 [url "git@github.com:"]
   insteadOf = https://github.com/
 
-[color]
-  diff   = auto
-  status = auto
-  branch = auto
-
 [branch]
   sort = -committerdate
+
+[column]
+  ui = auto
 
 [init]
   defaultBranch = main
@@ -26,11 +25,13 @@
 
 [commit]
   gpgsign = true
+  verbose = true
 
 [push]
   autosetupremote = true
   default = current
   followtags = true
+  useForceIfIncludes = true
 
 [pull]
   rebase = true
@@ -41,6 +42,7 @@
 
 [fetch]
   prune = true
+  pruneTags = true
 
 [merge]
   conflictStyle = zdiff3
@@ -52,12 +54,18 @@
   algorithm = histogram
   colorMoved = true
   indentHeuristic = true
+  renames = copies
 
 [help]
-  autocorrect = 5
+  autocorrect = prompt
 
 [gpg "ssh"]
   allowedSignersFile = ~/.ssh/allowed_signers
 
 [tag]
   gpgSign = true
+  sort = version:refname
+
+; Add the stack lineage to each proposal that git town propose creates.
+[git-town]
+  proposal-breadcrumb = stacks

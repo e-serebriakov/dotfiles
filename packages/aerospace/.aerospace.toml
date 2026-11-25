@@ -4,6 +4,9 @@ after-startup-command = []
 
 start-at-login = true
 
+# Reload the config when the file is saved. After you enable this, reload once by hand.
+auto-reload-config = true
+
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
@@ -130,7 +133,7 @@ automatically-unhide-macos-hidden-apps = false
 # Service mode
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-    esc = ['reload-config', 'mode main']
+    esc = 'mode main'
     r = ['flatten-workspace-tree', 'mode main'] # Reset the layout.
     f = ['layout floating tiling', 'mode main'] # Change between the floating and tiling layouts.
     backspace = ['close-all-windows-but-current', 'mode main']

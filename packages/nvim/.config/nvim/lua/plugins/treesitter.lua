@@ -1,12 +1,14 @@
 -- Highlight, edit, and navigate code
+-- The main branch only installs parsers and queries. Neovim starts highlighting, so the FileType autocmd enables it.
+-- See :help nvim-treesitter.
 return {
   'nvim-treesitter/nvim-treesitter',
   branch = 'main',
+  lazy = false, -- The main branch does not support lazy loading.
   build = ':TSUpdate',
-  -- The main branch does not use nvim-treesitter.configs.
-  -- See :help nvim-treesitter.
-  opts = {
-    ensure_installed = {
+  config = function()
+    -- install() runs in the background and skips installed parsers.
+    require('nvim-treesitter').install {
       'bash',
       'c',
       'clojure',
@@ -27,12 +29,16 @@ return {
       'vim',
       'vimdoc',
       'yaml',
-    },
-    -- Install missing language parsers automatically.
-    auto_install = true,
-    highlight = {
-      enable = true,
-    },
-    indent = { enable = true },
-  },
+    }
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),
+      callback = function(args)
+        -- start() fails for a filetype without a parser. That buffer keeps the regex syntax.
+        if pcall(vim.treesitter.start, args.buf) then
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
+      end,
+    })
+  end,
 }
