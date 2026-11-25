@@ -97,6 +97,7 @@ export FZF_DEFAULT_OPTS='--height 40% --border'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 {}'"
+export FZF_CTRL_R_OPTS='--wrap=word'  # Show long history commands in full
 
 # CLI aliases
 alias cat='bat --paging=never'
