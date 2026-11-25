@@ -94,7 +94,6 @@ return {
 
     require('mason-nvim-dap').setup {
       automatic_installation = true,
-      handlers = {},
       ensure_installed = {
         'python',
         'js',

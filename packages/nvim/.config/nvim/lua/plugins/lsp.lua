@@ -20,9 +20,6 @@ return {
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-      -- Show language server status.
-      { 'j-hui/fidget.nvim', opts = {} },
-
       -- Add nvim-cmp completion capabilities.
       'hrsh7th/cmp-nvim-lsp',
 

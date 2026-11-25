@@ -4,7 +4,6 @@ vim.g.maplocalleader = ','
 
 require 'repl'
 
-vim.g.have_nerd_font = true
 vim.o.termguicolors = true
 
 vim.opt.number = true
@@ -107,21 +106,6 @@ require('lazy').setup({
 }, {
   ui = {
     border = 'single',
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
   },
 })
 
