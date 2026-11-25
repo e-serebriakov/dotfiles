@@ -219,6 +219,16 @@ claude() {
   command claude "$@"
 }
 
+# Claude Code loads mods only from the folders listed here, separated by colons.
+# The mermaid mod draws mermaid code blocks in replies as text diagrams.
+export CLAUDE_CODE_PLUGIN_DIRS=~/.claude/mods/mermaid
+if [[ -n $REX_SESSION ]]; then
+  # The show-image mod gives Claude a tool that draws a PNG in the conversation.
+  # Rex draws kitty graphics with Unicode placeholders, but Claude Code does not detect it.
+  CLAUDE_CODE_PLUGIN_DIRS+=:~/.claude/mods/show-image
+  export CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1
+fi
+
 # Report a command that runs for 10 seconds or more to Rex as done or error.
 # Rex shows the state on the tab and in the session list, as it does for Claude Code.
 # Rex marks only work you have not seen. When you quit an editor, you look at its pane, so it shows nothing.

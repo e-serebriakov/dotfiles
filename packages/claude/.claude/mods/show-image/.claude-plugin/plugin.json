@@ -1,0 +1,1 @@
+{ "name": "show-image", "version": "0.1.0", "description": "Gives Claude a show_image tool that draws a PNG inline in the conversation" }

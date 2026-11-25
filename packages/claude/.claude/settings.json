@@ -51,7 +51,7 @@
       { "hooks": [{ "type": "command", "command": "sh ~/.config/rex/status.sh working", "timeout": 5 }] }
     ],
     "PostToolUse": [
-      { "hooks": [{ "type": "command", "command": "sh ~/.config/rex/status.sh working", "timeout": 5 }] }
+      { "hooks": [{ "type": "command", "command": "sh ~/.config/rex/status.sh working", "timeout": 5, "async": true }] }
     ],
     "Notification": [
       {
@@ -68,7 +68,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "ccstatusline"
+    "command": "sh ~/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "impeccable@impeccable": true,

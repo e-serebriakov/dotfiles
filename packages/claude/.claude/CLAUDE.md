@@ -31,6 +31,11 @@ This user uses **Git Town** (`git town` CLI) to manage **stacked branches**.
 - **Branch names**: use the existing pattern in the repository.
   Use `git town config` to examine the branch relationships.
 
+## Diagrams
+
+When the user asks for a flowchart or a sequence diagram, or one explains something better than text, put Mermaid in a `mermaid` code block in your reply.
+The terminal draws it as a text diagram with mermaid-ascii, which supports only `graph`/`flowchart` and `sequenceDiagram`.
+
 ## Constraints
 
 - Get permission before you add new pip or npm dependencies.

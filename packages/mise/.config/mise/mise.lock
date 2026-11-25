@@ -400,6 +400,25 @@ checksum = "sha256:6a801c17b5ac0dba69787c5282b3b3bd416e66c96253fae098d311c6bbd18
 url = "https://github.com/artempyanykh/marksman/releases/download/2026-02-08/marksman-macos"
 url_api = "https://api.github.com/repos/artempyanykh/marksman/releases/assets/352747961"
 
+[[tools.mermaid-ascii]]
+version = "1.6.2"
+backend = "aqua:AlexanderGrooff/mermaid-ascii"
+
+[tools.mermaid-ascii."platforms.linux-arm64"]
+checksum = "sha256:121bc3594f08cf41be2d0c9ec31b4103d81b21852290e2817b5c536f66a59446"
+url = "https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.2/mermaid-ascii_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/AlexanderGrooff/mermaid-ascii/releases/assets/760474769"
+
+[tools.mermaid-ascii."platforms.linux-x64"]
+checksum = "sha256:e85222d5cedb39cfc346af02a0b68d2c90663e47d6512cc042fa7eb866bf2a30"
+url = "https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.2/mermaid-ascii_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/AlexanderGrooff/mermaid-ascii/releases/assets/760474789"
+
+[tools.mermaid-ascii."platforms.macos-arm64"]
+checksum = "sha256:ee46ce2f41f83ef59830c541c23b99a7937cea278b7502218d079b973fd2ac1b"
+url = "https://github.com/AlexanderGrooff/mermaid-ascii/releases/download/1.6.2/mermaid-ascii_Darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/AlexanderGrooff/mermaid-ascii/releases/assets/760474714"
+
 [[tools.neovim]]
 version = "0.12.5"
 backend = "vfox:mise-plugins/vfox-neovim"
@@ -436,10 +455,6 @@ backend = "npm:@fsouza/prettierd"
 [[tools."npm:bash-language-server"]]
 version = "5.8.1"
 backend = "npm:bash-language-server"
-
-[[tools."npm:ccstatusline"]]
-version = "2.2.30"
-backend = "npm:ccstatusline"
 
 [[tools."npm:markdownlint-cli2"]]
 version = "0.22.1"
