@@ -9,6 +9,10 @@ auto-format = true
 popup-border = "all"
 bufferline = "multiple"
 end-of-line-diagnostics = "hint"
+# Yank to the system clipboard, as Neovim does with clipboard=unnamedplus.
+default-yank-register = "+"
+trim-trailing-whitespace = true
+trim-final-newlines = true
 
 [editor.inline-diagnostics]
 cursor-line = "warning"
@@ -65,3 +69,4 @@ h = ":sh rex do popup cmd='LESS=R git log -L %{selection_line_start},%{selection
 
 [keys.select.space.t]
 e = ":pipe-to awk 1 | rex send -b REPL 2>/dev/null"
+a = ":sh printf '@%%s:%%s-%%s ' %{buffer_name} %{selection_line_start} %{selection_line_end} | rex send -b agent 2>/dev/null && rex focus agent"
