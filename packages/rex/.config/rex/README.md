@@ -81,10 +81,11 @@ To reach a development server on the machine, run `rex -S devbox forward open <p
 
 ## Agent status
 
-Claude Code hooks run [`status.sh`](status.sh), which reports the state of Claude Code to Rex.
+The [rex-status mod](../../../claude/.claude/mods/rex-status) runs [`status.sh`](status.sh), which reports the state of Claude Code to Rex.
+It runs the script only when the state changes.
 Rex shows the state on the tab and in the session list: working, blocked on a permission prompt, or done.
 Configure the indicators, notifications, and sounds in Settings > Notifications > Program Activity.
-Restart a running Claude Code session to load the hooks.
+`.zshrc` loads the mod in Rex. Start Claude Code from a new shell to load it.
 
 zsh reports shell commands that run for 10 seconds or more in the same way: done or error.
 Rex marks only work you have not seen, so to quit an editor in the pane you look at shows nothing. See the end of `.zshrc`.
@@ -95,7 +96,5 @@ Claude Code in Rex shows PNG images in the conversation with the `show_image` to
 `.zshrc` loads the mod and sets `CLAUDE_CODE_FORCE_TERMINAL_IMAGES`, because Claude Code does not detect that Rex draws kitty graphics.
 Restart Claude Code after you change the mod.
 
-The global `CLAUDE.md` tells agents to draw Mermaid flowcharts and sequence diagrams as text with mermaid-ascii.
-
-Press `Cmd+Y` to preview the files and links on the screen of the focused pane in Quick Look.
-It does not work while a full-screen program runs, such as Claude Code with `"tui": "fullscreen"`.
+The global `CLAUDE.md` tells agents to write Mermaid flowcharts and sequence diagrams in `mermaid` code blocks.
+The [mermaid mod](../../../claude/.claude/mods/mermaid) draws them as text with mermaid-ascii, in any terminal.
