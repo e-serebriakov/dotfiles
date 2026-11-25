@@ -224,6 +224,10 @@ claude() {
 # Rex marks only work you have not seen. When you quit an editor, you look at its pane, so it shows nothing.
 # Ctrl+C (status 130) reports nothing. zsh gives each precmd hook the status of the command.
 if [[ -n $REX_SESSION ]]; then
+  # Rex draws kitty graphics with Unicode placeholders, but Claude Code does not detect it.
+  # The show-image mod gives Claude a tool that draws a PNG in the conversation.
+  export CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1
+  export CLAUDE_CODE_PLUGIN_DIRS=~/.claude/mods/show-image
   autoload -Uz add-zsh-hook
   _rex_status_preexec() { _rex_start=$SECONDS }
   _rex_status_precmd() {

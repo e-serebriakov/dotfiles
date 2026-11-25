@@ -1,0 +1,5 @@
+{
+  "extends": "./.claude-plugin/types/tsconfig.json",
+  // Uint8Array.fromBase64 is in the mod runtime but not in es2023.
+  "compilerOptions": { "lib": ["esnext"] }
+}

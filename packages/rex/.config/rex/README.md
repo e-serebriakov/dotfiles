@@ -88,3 +88,14 @@ Restart a running Claude Code session to load the hooks.
 
 zsh reports shell commands that run for 10 seconds or more in the same way: done or error.
 Rex marks only work you have not seen, so to quit an editor in the pane you look at shows nothing. See the end of `.zshrc`.
+
+## Images and diagrams
+
+Claude Code in Rex shows PNG images in the conversation with the `show_image` tool of the [show-image mod](../../../claude/.claude/mods/show-image).
+`.zshrc` loads the mod and sets `CLAUDE_CODE_FORCE_TERMINAL_IMAGES`, because Claude Code does not detect that Rex draws kitty graphics.
+Restart Claude Code after you change the mod.
+
+The global `CLAUDE.md` tells agents to draw Mermaid flowcharts and sequence diagrams as text with mermaid-ascii.
+
+Press `Cmd+Y` to preview the files and links on the screen of the focused pane in Quick Look.
+It does not work while a full-screen program runs, such as Claude Code with `"tui": "fullscreen"`.
