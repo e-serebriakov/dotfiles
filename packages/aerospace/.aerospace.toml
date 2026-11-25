@@ -7,9 +7,6 @@ start-at-login = true
 # Reload the config when the file is saved. After you enable this, reload once by hand.
 auto-reload-config = true
 
-# Keep the workspaces that on-window-detected uses, even when they have no windows.
-persistent-workspaces = ['B', 'O', 'T']
-
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
