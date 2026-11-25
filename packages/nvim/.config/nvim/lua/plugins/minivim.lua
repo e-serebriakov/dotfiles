@@ -16,6 +16,10 @@ return {
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
 
+    -- File icons for oil, telescope, octo, and render-markdown. The mock stands in for nvim-web-devicons.
+    require('mini.icons').setup()
+    MiniIcons.mock_nvim_web_devicons()
+
     -- Status line: plain text, no icons.
     local statusline = require 'mini.statusline'
     statusline.setup { use_icons = false }
@@ -37,10 +41,13 @@ return {
     })
 
     -- Pad LINE:COLUMN with zeros so the status line does not move when the cursor moves.
+    -- Put language server progress before it (Neovim has it built in, so no fidget.nvim).
     ---@diagnostic disable-next-line: duplicate-set-field
     statusline.section_location = function()
-      return '%03l:%02v'
+      local lsp = vim.lsp.status()
+      return (lsp ~= '' and lsp .. ' ' or '') .. '%03l:%02v'
     end
+    vim.api.nvim_create_autocmd('LspProgress', { command = 'redrawstatus' })
 
     -- More options: https://github.com/echasnovski/mini.nvim
   end,
