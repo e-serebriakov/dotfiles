@@ -2,6 +2,7 @@
 # Homebrew installs macOS applications, the font, and Stow.
 
 brew "stow" # Perl is necessary. Stow has no release binary or mise registry entry.
+brew "git" # Apple git lags upstream by several releases. mise has no git build. .zshenv puts Homebrew first on PATH.
 
 # Rex, the terminal, is in beta and has no cask. Install it from https://www.superlogical.com/rex/docs/installation.
 cask "nikitabobko/tap/aerospace" # This name adds the tap. homebrew-cask does not contain this application.
