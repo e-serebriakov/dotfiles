@@ -15,7 +15,8 @@
       },
       {
         "id": "5",
-        "type": "git-branch",
+        "type": "custom-command",
+        "commandPath": "sh ~/.config/ccstatusline/git-stack.sh",
         "color": "magenta"
       },
       {
