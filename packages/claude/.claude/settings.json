@@ -68,7 +68,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "ccstatusline"
+    "command": "sh ~/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "impeccable@impeccable": true,

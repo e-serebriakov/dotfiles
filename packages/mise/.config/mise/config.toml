@@ -39,7 +39,6 @@ pi = "0.86.1"
 
 "github:achristmascarl/rainfrog" = "0.4.5" # no registry entry
 
-"npm:ccstatusline" = "2.2.30" # Claude Code statusline
 "npm:markdownlint-cli2" = "0.22.1"
 "npm:@fsouza/prettierd" = "0.28.0" # yaml/html format
 

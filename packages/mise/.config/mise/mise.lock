@@ -456,10 +456,6 @@ backend = "npm:@fsouza/prettierd"
 version = "5.8.1"
 backend = "npm:bash-language-server"
 
-[[tools."npm:ccstatusline"]]
-version = "2.2.30"
-backend = "npm:ccstatusline"
-
 [[tools."npm:markdownlint-cli2"]]
 version = "0.22.1"
 backend = "npm:markdownlint-cli2"

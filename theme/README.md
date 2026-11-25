@@ -63,7 +63,7 @@ Git ignores the generated files (`packages/**/baked*`). `install.sh` regenerates
 The generator also creates one `preview-<name>.svg` for each theme. Git tracks these files so GitHub can display them.
 Do not edit generated files manually.
 
-ccstatusline, Starship, and Git output use named ANSI colors from the terminal palette.
+The Claude Code status line, Starship, and Git output use named ANSI colors from the terminal palette.
 They use the terminal colors and do not need separate generated files.
 
 ### Source files
