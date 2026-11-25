@@ -2,13 +2,9 @@
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.local/share/history/histfile
-setopt appendhistory
-setopt inc_append_history
-setopt hist_ignore_all_dups   
-setopt share_history 
+setopt hist_ignore_all_dups
+setopt share_history
 setopt extended_history
-setopt hist_expire_dups_first
-setopt hist_save_no_dups
 setopt hist_ignore_space
 setopt interactive_comments
 
