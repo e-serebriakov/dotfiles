@@ -52,6 +52,13 @@ l = ["extend_to_line_bounds", ":pipe-to awk 1 | rex send -b REPL 2>/dev/null"]
 # Space t a types @file:start-end of the selection into the agent pane and focuses it.
 # Helix has no IDE integration.
 a = ":sh printf '@%%s:%%s-%%s ' %{buffer_name} %{selection_line_start} %{selection_line_end} | rex send -b agent 2>/dev/null && rex focus agent"
+# Space t b runs the current .bru request in a popup. bru must run from the collection root, so go up to bruno.json.
+# It uses the local or localhost environment when the collection has one. The popup closes when its command exits, so less keeps the output.
+# On a machine without sudo for /etc/hosts, ~/.local/share/node/localhost-dns.cjs lets Node resolve *.localhost hosts.
+# The file isn't in the dotfiles. The binding loads it only when it exists.
+# bru prints only a summary, so the response of each request comes from its JSON report, followed by the summary.
+# grep drops the "failed to copy trust settings" lines that bru prints for each system certificate it can't read.
+b = ":sh rex do popup cmd='f=$(realpath \"%{buffer_name}\"); cd \"${f%%/*}\"; until [ -f bruno.json ] || [ $PWD = / ]; do cd ..; done; for e in local localhost; do [ -f environments/$e.bru ] && set -- --env $e && break; done; p=$HOME/.local/share/node/localhost-dns.cjs; [ -f $p ] && export NODE_OPTIONS=\"--require $p\"; r=$(mktemp); FORCE_COLOR=1 bru run \"$f\" \"$@\" --reporter-json $r > $r.log 2>&1; { jq -C \".[0].results[] | {request: (.request.method + \\\" \\\" + .request.url), status: .response.status, data: .response.data}\" $r; grep -v \"trust settings\" $r.log; } | less -R'"
 
 # Space v b shows the commit of the cursor line: hash, author, date, and subject. It blames the file on disk.
 # An uncommitted line has the all-zero hash, which git log can't show.
