@@ -42,6 +42,7 @@ pi = "1.6.0"
 
 "npm:markdownlint-cli2" = "0.24.2"
 "npm:@fsouza/prettierd" = "0.29.0" # yaml/html format
+"npm:@usebruno/cli" = "4.4.0" # bru: runs Bruno API collections
 
 # Language servers for Helix in any project. Neovim installs its own through Mason.
 marksman = "2026-02-08"
